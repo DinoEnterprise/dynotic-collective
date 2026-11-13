@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | Dynotic Distribution</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{ box-sizing:border-box; font-family:'Outfit',sans-serif; margin:0; padding:0; }
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(180deg,#e5e7eb,#d1d5db);
+  padding:15px;
+}
+
+/* CARD */
+.container{
+  width:100%;
+  max-width:420px;
+  background:#fff;
+  border-radius:26px;
+  padding:32px 26px;
+  text-align:center;
+  border:1px solid rgba(0,0,0,0.05);
+  box-shadow:0 10px 30px rgba(0,0,0,0.12),0 30px 60px rgba(0,0,0,0.08);
+  animation:enter .6s ease;
+}
+.container:hover{transform:translateY(-3px);transition:.3s;}
+@keyframes enter{
+  from{opacity:0;transform:translateY(40px)}
+  to{opacity:1;transform:none}
+}
+
+/* LOGO */
+.logo{width:70px;margin-bottom:16px;}
+h2{margin-bottom:20px;font-size:22px;font-weight:700;color:#222;}
+
+/* INPUT */
+.field{position:relative;margin-bottom:15px;width:100%;}
+input{
+  width:100%;
+  padding:14px 44px 14px 16px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  font-size:15px;
+  outline:none;
+  transition:.2s;
+}
+input:focus{
+  border:1px solid #111;
+  box-shadow:0 0 0 3px rgba(0,0,0,0.08);
+}
+
+/* TOGGLE PASSWORD */
+.toggle{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  font-size:18px;
+  user-select:none;
+  padding:4px;
+  border-radius:6px;
+  transition:.2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.toggle:active,.toggle:focus{outline:2px solid #111;}
+
+/* BUTTON */
+button{
+  letter-spacing:.3px;
+  width:100%;
+  padding:15px;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:700;
+  color:#fff;
+  background:#000;
+  border:1px solid #000;
+  cursor:pointer;
+  transition:.2s;
+}
+button:hover{background:#111;}
+button:focus,button:active{outline:2px solid #000;}
+button:active{transform:scale(.96);}
+button:disabled{opacity:.6;cursor:not-allowed;}
+
+/* NOTIFICATION */
+#notification{
+  display:none;
+  text-align:left;
+  padding:14px 15px;
+  border-radius:13px;
+  margin-top:16px;
+  gap:11px;
+  align-items:flex-start;
+  animation:noticeIn .25s ease;
+}
+@keyframes noticeIn{
+  from{opacity:0;transform:translateY(-6px);}
+  to{opacity:1;transform:translateY(0);}
+}
+#notification.show{display:flex;}
+
+.notice-icon{
+  width:25px;
+  height:25px;
+  min-width:25px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  font-weight:700;
+}
+.notice-content{flex:1;}
+.notice-title{
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:3px;
+}
+.notice-message{
+  font-size:13px;
+  line-height:1.5;
+}
+
+/* WARNING */
+#notification.warning{
+  background:#fff8e8;
+  border:1px solid #f3dfad;
+  color:#805b16;
+}
+#notification.warning .notice-icon{
+  background:#f8e7bd;
+  color:#946515;
+}
+
+/* DANGER */
+#notification.danger{
+  background:#fff0f0;
+  border:1px solid #f3cccc;
+  color:#a52d2d;
+}
+#notification.danger .notice-icon{
+  background:#f8dada;
+  color:#c03939;
+}
+
+/* INFO */
+#notification.info{
+  background:#eef6ff;
+  border:1px solid #cfe2fa;
+  color:#285b91;
+}
+#notification.info .notice-icon{
+  background:#d8eaff;
+  color:#2866a8;
+}
+
+/* ERROR */
+#error{
+  margin-top:10px;
+  font-size:14px;
+  color:#e53e3e;
+  min-height:20px;
+}
+
+/* LOADER */
+.loader{
+  position:fixed;
+  inset:0;
+  background:rgba(255,255,255,.9);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:16px;
+  color:#111;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+}
+.loader.active{opacity:1;pointer-events:auto;}
+
+/* ANIMATION EXIT */
+.fade-out{animation:exit .5s ease forwards;}
+@keyframes exit{to{opacity:0;transform:scale(.95);}}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="card">
+  <img src="/assets/dynotic-distribution.png" class="logo" alt="Dynotic Distribution">
+  <h2>Login Dynotic</h2>
+
+  <div class="field">
+    <input id="email" type="email" placeholder="Email" autocomplete="email">
+  </div>
+
+  <div class="field">
+    <input id="pass" type="password" placeholder="Password" autocomplete="current-password">
+    <div class="toggle" id="eye" tabindex="0" onclick="togglePass()">𖠂</div>
+  </div>
+
+  <div style="text-align:right;margin-bottom:15px;">
+    <a href="../forgot-password" style="font-size:14px;color:#555;text-decoration:underline;">
+      Forgot password?
+    </a>
+  </div>
+
+  <button id="loginBtn" onclick="login()">Login</button>
+
+  <div id="error"></div>
+
+  <div id="notification">
+    <div class="notice-icon" id="noticeIcon">!</div>
+    <div class="notice-content">
+      <div class="notice-title" id="noticeTitle"></div>
+      <div class="notice-message" id="noticeMessage"></div>
+    </div>
+  </div>
+</div>
+
+<div class="loader" id="loader">Dynotic Distribution…</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+// INITIALIZE FIREBASE
+firebase.initializeApp({
+  apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain: "dynopay-2513c.firebaseapp.com",
+  databaseURL: "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+});
+
+const auth = firebase.auth();
+const db = firebase.database();
+
+let loginInProgress = false;
+let checkingSession = false;
+
+const errorEl = document.getElementById("error");
+const emailInput = document.getElementById("email");
+const passInput = document.getElementById("pass");
+const btn = document.getElementById("loginBtn");
+const notification = document.getElementById("notification");
+
+// CLEAR NOTIFICATION
+function clearMessages(){
+  errorEl.textContent = "";
+  notification.className = "";
+  notification.style.display = "none";
+}
+
+// SHOW NOTIFICATION
+function showNotification(type,title,message,icon){
+  errorEl.textContent = "";
+
+  notification.className = "show " + type;
+  notification.style.display = "flex";
+
+  document.getElementById("noticeIcon").textContent = icon;
+  document.getElementById("noticeTitle").textContent = title;
+  document.getElementById("noticeMessage").textContent = message;
+}
+
+// INPUT LISTENER
+emailInput.addEventListener("input",clearMessages);
+passInput.addEventListener("input",clearMessages);
+
+// TOGGLE PASSWORD
+function togglePass(){
+  if(passInput.type === "password"){
+    passInput.type = "text";
+    document.getElementById("eye").textContent = "⌒";
+  }else{
+    passInput.type = "password";
+    document.getElementById("eye").textContent = "𖠂";
+  }
+}
+
+// RESET BUTTON
+function resetButton(){
+  btn.disabled = false;
+  btn.textContent = "Login";
+  loginInProgress = false;
+}
+
+// VALIDATE ACCOUNT
+async function validateAccount(user){
+
+  // CHECK DATABASE STATUS FIRST
+  const snapshot = await db.ref("users/" + user.uid).once("value");
+  const data = snapshot.val();
+
+  if(!data){
+    await auth.signOut();
+
+    showNotification(
+      "danger",
+      "Data Akun Tidak Ditemukan",
+      "Data akun kamu tidak ditemukan. Silakan hubungi admin untuk mendapatkan bantuan.",
+      "!"
+    );
+
+    return false;
+  }
+
+  // WAITING FOR ADMIN ACTIVATION
+  if(data.status === "unverified"){
+    await auth.signOut();
+
+    showNotification(
+      "warning",
+      "Menunggu Aktivasi",
+      "Akun kamu belum aktif. Silakan menunggu konfirmasi aktivasi dari admin sebelum masuk ke dashboard.",
+      "⌛"
+    );
+
+    return false;
+  }
+
+  // DISABLED ACCOUNT
+  if(data.status !== "active"){
+    await auth.signOut();
+
+    showNotification(
+      "danger",
+      "Akun Dinonaktifkan",
+      "Akun kamu sedang dinonaktifkan. Silakan hubungi admin jika membutuhkan bantuan.",
+      "!"
+    );
+
+    return false;
+  }
+
+  // ACTIVE ACCOUNT
+  return true;
+}
+
+// LOGIN
+async function login(){
+
+  if(loginInProgress || btn.disabled) return;
+
+  clearMessages();
+
+  const email = emailInput.value.trim();
+  const pass = passInput.value.trim();
+
+  if(!email || !pass){
+    errorEl.textContent = "Email dan password wajib diisi.";
+    return;
+  }
+
+  loginInProgress = true;
+  btn.disabled = true;
+  btn.textContent = "Signing in...";
+
+  try{
+
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
+    const credential = await auth.signInWithEmailAndPassword(email,pass);
+    const user = credential.user;
+
+    const isValid = await validateAccount(user);
+
+    if(!isValid){
+      resetButton();
+      return;
+    }
+
+    await db.ref("users/" + user.uid + "/lastLogin").set(Date.now());
+
+    document.getElementById("loader").classList.add("active");
+    document.getElementById("card").classList.add("fade-out");
+
+    setTimeout(()=>{
+      window.location.replace("dasboard");
+    },600);
+
+  }catch(error){
+
+    switch(error.code){
+
+      case "auth/user-not-found":
+        errorEl.textContent = "Email tidak ditemukan.";
+        break;
+
+      case "auth/wrong-password":
+        errorEl.textContent = "Password yang kamu masukkan salah.";
+        break;
+
+      case "auth/invalid-email":
+        errorEl.textContent = "Format email tidak valid.";
+        break;
+
+      case "auth/invalid-credential":
+        errorEl.textContent = "Email atau password salah.";
+        break;
+
+      case "auth/too-many-requests":
+        errorEl.textContent = "Terlalu banyak percobaan. Silakan coba lagi nanti.";
+        break;
+
+      default:
+        errorEl.textContent = "Terjadi kesalahan. Silakan coba kembali.";
+    }
+
+    resetButton();
+  }
+}
+
+// ENTER KEY
+document.addEventListener("keydown",e=>{
+  if(e.key === "Enter") login();
+});
+
+// AUTO REDIRECT - VALIDATE EXISTING SESSION
+auth.onAuthStateChanged(async user=>{
+
+  if(!user || loginInProgress || checkingSession) return;
+
+  checkingSession = true;
+
+  try{
+
+    const isValid = await validateAccount(user);
+
+    if(isValid){
+      window.location.replace("../home");
+    }
+
+  }catch(error){
+    console.error("Session validation error:",error);
+    await auth.signOut();
+  }finally{
+    checkingSession = false;
+  }
+
+});
+</script>
+
+</body>
+</html>
