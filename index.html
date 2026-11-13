@@ -1,488 +1,2114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dynotic Collective | Music Distribution Platform for Artists</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&display=swap" rel="stylesheet">
-    <!-- Default favicon -->
-<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Android / Chrome -->
-<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-android.png">
-
-<!-- iPhone / iPad -->
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon-iphone.png">
-
-<!-- PWA icon besar -->
-<link rel="icon" type="image/png" sizes="512x512" href="/assets/icon-512.png">
-
-<!-- Web App Manifest -->
-<link rel="manifest" href="/assets/site.webmanifest">
-
-<link rel="mask-icon" href="/assets/favicon.png" color="#ff9f2a">
+<title>Dynotic Collective | Independent Music Community</title>
+<meta name="description" content="A community built to support independent artists through music distribution, catalog management, and collaboration.">
+<meta name="theme-color" content="#f1f2f7">
 
 <link rel="canonical" href="https://dynotic.web.id/">
+<link rel="icon" href="/assets/favicon.ico">
 
-<!-- Shortcut -->
-<link rel="shortcut icon" href="https://dynotic.web.id/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- Theme warna browser -->
-<meta name="theme-color" content="#4F46E5">
+<script src="https://unpkg.com/lucide@latest"></script>
 
-<meta name="description" content="Dynotic Collective is a free music distribution platform for independent artists. Upload your music to Spotify, Apple Music, TikTok and 150+ stores worldwide.">
-
-<meta name="keywords" content="
-Dynotic collective, Dynotic Music, Dynotic Distribution,
-music distribution platform, free music distribution,
-upload music to spotify free, digital music distributor,
-independent artist platform, music aggregator,
-distribute music worldwide, spotify apple music tiktok distribution,
-royalty tracking, youtube content id music
-">
-<meta property="og:title" content="Dynotic Collective | Music Distribution Platform">
-<meta property="og:description" content="Upload music to Spotify, Apple Music, TikTok and 150+ stores worldwide.">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://dynotic.web.id/assets/icon-512.png">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Dynotic Collective">
-<meta name="twitter:description" content="Music distribution platform for independent artists.">
-<meta name="twitter:image" content="https://dynotic.web.id/assets/icon-512.png">
-
-<meta property="og:url" content="https://dynotic.web.id/">
-
-<meta name="author" content="Dynotic">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Dynotic Collective",
-  "url": "https://dynotic.web.id",
-  "logo": "https://dynotic.web.id/assets/icon-512.png"
-}
-</script>
-
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-:root {
-  --accent: #6366F1;
-  --accent-soft: rgba(99,102,241,0.15);
-
-  --bg: #000000;
-  --surface: #0a0a0a;
-  --border: rgba(255,255,255,0.08);
-  --text-main: #ffffff;
-  --text-dim: #71717a;
+<style>
+:root{
+  --bg:#f1f2f7;
+  --white:#fff;
+  --ink:#17181c;
+  --muted:#858891;
+  --border:#e8e8ed;
+  --soft:#f8f8fa;
+  --accent:#7772a8;
+  --max:1120px;
 }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-
-        body {
-scroll-snap-type: y mandatory;
-    overflow-y: scroll;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            line-height: 1.6;
-        }
-        body::before {
-  content: "";
-  position: fixed;
-  top: -20%;
-  left: -20%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(99,102,241,0.05), transparent 70%);
-  filter: blur(100px);
-  z-index: -1;
-}
-       section {
-  scroll-margin-top: 80px;
-    min-height: 100vh;
-    scroll-snap-align: start;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 120px 6% 60px;
-}
-html {
-    scroll-behavior: smooth;
-}
-.container {
-  max-width: 1100px;
-  margin: auto;
-  width: 100%;
-  padding: 0 20px;
-}
-        
-/* ANIMATION BASE */
-.fade-up {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s ease;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Outfit",sans-serif;
+  -webkit-tap-highlight-color:transparent;
 }
 
-.fade-up.show {
-  opacity: 1;
-  transform: translateY(0);
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:100px;
 }
 
-/* HERO ANIMATION */
-.hero h1 {
-  animation: fadeHero 1s ease forwards;
+body{
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100vh;
+  padding-top:76px;
+  overflow-x:hidden;
+  line-height:1.6;
 }
 
-.hero p {
-  opacity: 0;
-  animation: fadeHero 1s ease forwards;
-  animation-delay: 0.3s;
+body.menu-open{
+  overflow:hidden;
 }
 
-.cta-group {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
+a{
+  color:inherit;
+  text-decoration:none;
 }
 
+button{
+  font:inherit;
+}
 
-@keyframes fadeHero {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+.container{
+  width:calc(100% - 80px);
+  max-width:var(--max);
+  margin:0 auto;
+}
+
+/* HEADER */
+
+header{
+  height:76px;
+  padding:0 max(40px, calc((100% - 1120px) / 2));
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+  background:rgba(255,255,255,.96);
+  border-bottom:1px solid var(--border);
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+  transition:box-shadow .25s ease, background .25s ease;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+
+header.scrolled{
+  box-shadow:0 5px 20px rgba(0,0,0,.05);
+  background:rgba(255,255,255,.98);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  flex-shrink:0;
+}
+
+.brand img{
+  display:block;
+  width:auto;
+  height:37px;
+  max-width:210px;
+  object-fit:contain;
+}
+
+.desktop-nav{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:27px;
+  margin-left:auto;
+}
+
+.desktop-nav a{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:12px;
+  font-weight:600;
+  color:#686b75;
+  transition:color .2s ease;
+  position:relative;
+}
+
+.desktop-nav a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-7px;
+  width:0;
+  height:2px;
+  border-radius:5px;
+  background:var(--accent);
+  transition:width .25s ease;
+}
+
+.desktop-nav a:hover{
+  color:var(--ink);
+}
+
+.desktop-nav a:hover::after{
+  width:100%;
+}
+
+.header-action{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  flex-shrink:0;
+}
+
+.menu-toggle{
+  width:42px;
+  height:42px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:#fff;
+  color:var(--ink);
+  cursor:pointer;
+}
+
+.menu-toggle svg{
+  width:19px;
+  height:19px;
+}
+
+.mobile-menu{
+  display:none;
+}
+
+/* BUTTONS */
+
+.btn{
+  min-height:42px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:0 18px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--soft);
+  color:var(--ink);
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  transition:
+    transform .22s ease,
+    background .22s ease,
+    box-shadow .22s ease,
+    border-color .22s ease;
+}
+
+.btn svg{
+  width:15px;
+  height:15px;
+  flex-shrink:0;
+}
+
+.btn:hover{
+  transform:translateY(-3px);
+}
+
+.btn:active{
+  transform:scale(.97);
+}
+
+.btn-primary{
+  background:#111;
+  border-color:#111;
+  color:#fff;
+}
+
+.btn-primary:hover{
+  background:#292929;
+  box-shadow:0 7px 20px rgba(0,0,0,.13);
+}
+
+.btn-outline{
+  background:#fff;
+}
+
+.btn-outline:hover{
+  border-color:#c9c8d4;
+  background:#f8f8fb;
+}
+
+/* GENERAL */
+
+.card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:25px;
+  margin-top:22px;
+}
+
+.section-label{
+  font-size:10px;
+  font-weight:700;
+  color:var(--muted);
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  margin-bottom:9px;
+}
+
+.section-title{
+  font-size:19px;
+  font-weight:700;
+  line-height:1.35;
+}
+
+.section-description{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.8;
+  margin-top:8px;
+}
+
+/* HERO */
+
+.hero-card{
+  min-height:510px;
+  padding:75px 85px 55px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  text-align:left;
+  overflow:hidden;
+  position:relative;
+  isolation:isolate;
+  border-radius:25px;
+}
+
+.hero-card::before{
+  content:"";
+  position:absolute;
+  width:700px;
+  height:700px;
+  border-radius:50%;
+  background:radial-gradient(
+    circle,
+    rgba(119,114,168,.17),
+    rgba(119,114,168,.04) 40%,
+    transparent 70%
+  );
+  top:-270px;
+  right:-100px;
+  z-index:-1;
+  pointer-events:none;
+}
+
+.hero-icon{
+  width:58px;
+  height:58px;
+  margin:0 0 23px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:17px;
+  background:#111;
+  color:#fff;
+  animation:float 3.5s ease-in-out infinite;
+}
+
+.hero-icon svg{
+  width:27px;
+  height:27px;
+}
+
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 13px;
+  border:1px solid var(--border);
+  background:var(--soft);
+  border-radius:30px;
+  color:#555963;
+  font-size:11px;
+  font-weight:600;
+  margin-bottom:23px;
+}
+
+.hero-badge svg{
+  width:13px;
+  height:13px;
+  color:var(--accent);
+}
+
+.hero-title{
+  max-width:780px;
+  font-size:clamp(58px,6vw,78px);
+  line-height:1.04;
+  letter-spacing:-3.5px;
+  font-weight:800;
+}
+
+.hero-title span{
+  color:var(--accent);
+}
+
+.hero-description{
+  max-width:510px;
+  margin:20px 0 0;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.9;
+}
+
+.hero-actions{
+  display:flex;
+  justify-content:flex-start;
+  flex-wrap:wrap;
+  gap:11px;
+  margin-top:30px;
+}
+
+.hero-actions .btn{
+  min-height:46px;
+  padding:0 22px;
+}
+
+.hero-note{
+  font-size:11px;
+  color:#999ca4;
+  margin-top:17px;
+}
+
+.hero-wave{
+  position:absolute;
+  right:85px;
+  bottom:75px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:7px;
+  height:100px;
+  opacity:.8;
+}
+
+.hero-wave span{
+  display:block;
+  width:5px;
+  height:var(--h);
+  background:var(--accent);
+  border-radius:8px;
+  transform-origin:center;
+  animation:wave 1s ease-in-out infinite;
+}
+
+.hero-wave span:nth-child(2n){animation-delay:.15s}
+.hero-wave span:nth-child(3n){animation-delay:.3s}
+.hero-wave span:nth-child(4n){animation-delay:.45s}
+
+/* PLATFORMS */
+
+.platform-card{
+  text-align:center;
+  padding:35px 30px;
+}
+
+.platform-list{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:13px;
+  margin-top:20px;
+}
+
+.platform-list span{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:115px;
+  min-height:42px;
+  padding:0 17px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--soft);
+  color:#555963;
+  font-size:12px;
+  font-weight:600;
+  transition:all .2s ease;
+}
+
+.platform-list span:hover{
+  background:#eeedf5;
+  transform:translateY(-3px);
+  border-color:#dedce9;
+}
+
+/* SECTION HEADING */
+
+.section-heading{
+  margin:65px 2px 22px;
+}
+
+.section-heading h2{
+  font-size:27px;
+  font-weight:700;
+  letter-spacing:-.8px;
+}
+
+.section-heading p{
+  color:var(--muted);
+  font-size:14px;
+  margin-top:5px;
+  line-height:1.7;
+}
+
+/* FEATURES */
+
+.feature-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:20px;
+}
+
+.feature-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:19px;
+  padding:27px;
+  min-width:0;
+  min-height:220px;
+  position:relative;
+  overflow:hidden;
+  transition:
+    transform .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease;
+}
+
+.feature-card::after{
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  right:-65px;
+  bottom:-65px;
+  border-radius:50%;
+  background:rgba(119,114,168,.055);
+  transition:transform .4s ease;
+  pointer-events:none;
+}
+
+.feature-card:hover{
+  transform:translateY(-5px);
+  border-color:#d8d8e0;
+  box-shadow:0 12px 25px rgba(0,0,0,.05);
+}
+
+.feature-card:hover::after{
+  transform:scale(2);
+}
+
+.feature-icon{
+  width:47px;
+  height:47px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  background:#f1f2f7;
+  color:#333;
+  margin-bottom:22px;
+  transition:all .25s ease;
+}
+
+.feature-icon svg{
+  width:20px;
+  height:20px;
+}
+
+.feature-card:hover .feature-icon{
+  background:#e9e8f1;
+  transform:scale(1.08);
+}
+
+.feature-card h3{
+  font-size:16px;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.feature-card p{
+  max-width:290px;
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.8;
+}
+
+/* ABOUT */
+
+.about-card{
+  padding:48px;
+  margin-top:22px;
+}
+
+.about-layout{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:65px;
+  align-items:center;
+}
+
+.about-tag{
+  font-size:10px;
+  font-weight:700;
+  color:var(--accent);
+  letter-spacing:1.5px;
+  margin-bottom:12px;
+}
+
+.about-title{
+  font-size:43px;
+  font-weight:800;
+  letter-spacing:-1.8px;
+  line-height:1.13;
+}
+
+.about-description{
+  max-width:470px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.9;
+  margin-top:15px;
+}
+
+.about-points{
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+
+.about-point{
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:18px;
+  background:var(--soft);
+  border:1px solid #f0f0f3;
+  border-radius:15px;
+  transition:all .22s ease;
+}
+
+.about-point:hover{
+  transform:translateX(4px);
+  background:#f2f2f7;
+}
+
+.about-point-icon{
+  width:32px;
+  height:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:9px;
+  color:#555;
+  flex-shrink:0;
+}
+
+.about-point-icon svg{
+  width:15px;
+  height:15px;
+}
+
+.about-point h3{
+  font-size:14px;
+  font-weight:700;
+}
+
+.about-point p{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.7;
+  margin-top:3px;
+}
+
+/* ACCESS */
+
+.access-card{
+  text-align:center;
+  padding:65px 30px;
+  position:relative;
+  overflow:hidden;
+  border-radius:24px;
+}
+
+.access-icon{
+  width:54px;
+  height:54px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 17px;
+  background:#111;
+  color:#fff;
+  border-radius:16px;
+  animation:float 3.5s ease-in-out infinite;
+}
+
+.access-icon svg{
+  width:23px;
+  height:23px;
+}
+
+.access-card h2{
+  font-size:37px;
+  font-weight:800;
+  letter-spacing:-1.5px;
+}
+
+.access-card p{
+  max-width:490px;
+  margin:12px auto 23px;
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.9;
+}
+
+.access-card .btn{
+  min-height:46px;
+  padding:0 24px;
+}
+
+/* CONTACT */
+
+.contact-section{
+  margin-top:65px;
+}
+
+.contact-card{
+  padding:42px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+  align-items:center;
+}
+
+.contact-title{
+  font-size:35px;
+  font-weight:800;
+  line-height:1.15;
+  letter-spacing:-1.2px;
+}
+
+.contact-description{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.9;
+  margin-top:13px;
+  max-width:430px;
+}
+
+.contact-actions{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.contact-link{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  width:100%;
+  padding:17px;
+  background:var(--soft);
+  border:1px solid var(--border);
+  border-radius:14px;
+  transition:all .25s ease;
+}
+
+.contact-link:hover{
+  background:#fff;
+  border-color:#d4d2e1;
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,.04);
+}
+
+.contact-link-icon{
+  width:42px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  flex-shrink:0;
+}
+
+.contact-link-icon svg{
+  width:19px;
+  height:19px;
+}
+
+.contact-link-text{
+  min-width:0;
+  flex:1;
+}
+
+.contact-link-text strong{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+}
+
+.contact-link-text span{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-top:2px;
+  overflow-wrap:anywhere;
+}
+
+.contact-link-arrow{
+  color:#999ca4;
+  flex-shrink:0;
+}
+
+.contact-link-arrow svg{
+  width:17px;
+  height:17px;
+}
+
+/* FOOTER */
+
+footer{
+  margin-top:65px;
+  padding:48px 0 28px;
+  border-top:1px solid var(--border);
+  background:rgba(255,255,255,.45);
+}
+
+.footer-top{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr 1fr;
+  gap:40px;
+}
+
+.footer-brand img{
+  height:39px;
+  width:auto;
+  max-width:210px;
+  object-fit:contain;
+  display:block;
+}
+
+.footer-description{
+  max-width:290px;
+  margin-top:13px;
+  font-size:12px;
+  line-height:1.9;
+  color:var(--muted);
+}
+
+.footer-column h3{
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:15px;
+}
+
+.footer-links{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:11px;
+}
+
+.footer-links a{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  color:#777a83;
+  transition:all .2s ease;
+}
+
+.footer-links a:hover{
+  color:var(--accent);
+  transform:translateX(3px);
+}
+
+.footer-links a svg{
+  width:14px;
+  height:14px;
+}
+
+.footer-bottom{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:40px;
+  padding-top:18px;
+  border-top:1px solid var(--border);
+  color:#999ca4;
+  font-size:11px;
+}
+
+/* PAGE INTRO ANIMATIONS */
+
+.intro{
+  opacity:0;
+  transform:translateY(28px);
+  animation:introUp 1s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+.intro-1{animation-delay:.08s}
+.intro-2{animation-delay:.2s}
+.intro-3{animation-delay:.32s}
+.intro-4{animation-delay:.44s}
+.intro-5{animation-delay:.56s}
+
+@keyframes introUp{
+  from{opacity:0;transform:translateY(28px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-5px)}
+}
+
+@keyframes wave{
+  0%,100%{transform:scaleY(.65);opacity:.65}
+  50%{transform:scaleY(1.15);opacity:1}
+}
+
+/* SCROLL REVEAL */
+
+.reveal{
+  opacity:0;
+  transform:translateY(35px);
+  transition:
+    opacity .85s cubic-bezier(.16,1,.3,1),
+    transform .85s cubic-bezier(.16,1,.3,1);
+}
+
+.reveal.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.feature-card.reveal:nth-child(2){transition-delay:.10s}
+.feature-card.reveal:nth-child(3){transition-delay:.20s}
+.feature-card.reveal:nth-child(4){transition-delay:.08s}
+.feature-card.reveal:nth-child(5){transition-delay:.16s}
+.feature-card.reveal:nth-child(6){transition-delay:.24s}
+
+/* TABLET */
+
+@media(max-width:1050px){
+  .container{
+    width:calc(100% - 50px);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  header{
+    padding:0 25px;
+  }
+
+  .desktop-nav{
+    gap:17px;
+  }
+
+  .desktop-nav a{
+    font-size:11px;
+  }
+
+  .hero-card{
+    padding-left:45px;
+    padding-right:45px;
+  }
+
+  .hero-title{
+    font-size:58px;
+  }
+
+  .hero-wave{
+    right:40px;
+  }
+
+  .about-layout{
+    gap:30px;
+  }
+
+  .about-title{
+    font-size:34px;
+  }
+
+  .footer-top{
+    gap:25px;
   }
 }
 
-/* BUTTON GLOW */
-.btn-primary {
-  box-shadow: 0 20px 40px rgba(99,102,241,0.05);
+/* SMALL TABLET */
+
+@media(max-width:800px){
+  body{
+    padding-top:70px;
+  }
+
+  .container{
+    width:calc(100% - 40px);
+  }
+
+  header{
+    height:70px;
+    padding:0 20px;
+  }
+
+  .brand img{
+    height:34px;
+    max-width:190px;
+  }
+
+  .desktop-nav{
+    display:none;
+  }
+
+  .header-action{
+    margin-left:auto;
+  }
+
+  .menu-toggle{
+    display:flex;
+  }
+
+  .mobile-menu{
+    display:flex;
+    flex-direction:column;
+    position:fixed;
+    top:70px;
+    left:0;
+    width:100%;
+    padding:12px 20px 22px;
+    background:#fff;
+    border-bottom:1px solid var(--border);
+    box-shadow:0 12px 22px rgba(0,0,0,.06);
+    gap:4px;
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(-10px);
+    transition:all .25s ease;
+    z-index:999;
+  }
+
+  .mobile-menu.open{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+  }
+
+  .mobile-menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-height:44px;
+    padding:0 12px;
+    border-radius:10px;
+    color:#555963;
+    font-size:13px;
+    font-weight:600;
+    transition:background .2s ease;
+  }
+
+  .mobile-menu a:hover{
+    background:var(--soft);
+    color:var(--ink);
+  }
+
+  .mobile-menu a svg{
+    width:17px;
+    height:17px;
+    color:var(--accent);
+  }
+
+  .mobile-menu .mobile-request{
+    justify-content:center;
+    margin-top:8px;
+    background:#111;
+    color:#fff;
+  }
+
+  .mobile-menu .mobile-request svg{
+    color:#fff;
+  }
+
+  .feature-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+  }
+
+  .feature-card{
+    min-height:190px;
+    padding:22px;
+  }
+
+  .about-layout{
+    grid-template-columns:1fr;
+    gap:24px;
+  }
+
+  .about-title{
+    font-size:34px;
+  }
+
+  .about-card{
+    padding:32px;
+  }
+
+  .hero-card{
+    min-height:450px;
+  }
+
+  .hero-wave{
+    right:35px;
+    bottom:45px;
+    opacity:.55;
+  }
+
+  .contact-card{
+    grid-template-columns:1fr;
+    gap:25px;
+    padding:30px;
+  }
+
+  .footer-top{
+    grid-template-columns:1.4fr 1fr 1fr;
+  }
+
+  .footer-brand-column{
+    grid-column:1/-1;
+  }
 }
 
-.btn-primary:hover {
-  box-shadow: 0 20px 40px rgba(99,102,241,0.05);
+/* MOBILE */
+
+@media(max-width:520px){
+  body{
+    padding-top:64px;
+  }
+
+  header{
+    height:64px;
+    padding:0 15px;
+  }
+
+  .container{
+    width:calc(100% - 24px);
+  }
+
+  .brand img{
+    height:30px;
+    max-width:170px;
+  }
+
+  .header-action .btn{
+    min-height:38px;
+    padding:0 13px;
+    font-size:11px;
+  }
+
+  .menu-toggle{
+    width:38px;
+    height:38px;
+  }
+
+  .mobile-menu{
+    top:64px;
+    padding:10px 15px 18px;
+  }
+
+  .card{
+    padding:18px;
+    border-radius:17px;
+    margin-top:14px;
+  }
+
+  .hero-card{
+    min-height:auto;
+    padding:35px 16px 28px;
+    align-items:center;
+    text-align:center;
+  }
+
+  .hero-card::before{
+    width:450px;
+    height:450px;
+    top:-300px;
+    right:auto;
+    left:50%;
+    transform:translateX(-50%);
+  }
+
+  .hero-icon{
+    width:54px;
+    height:54px;
+    margin:0 auto 18px;
+  }
+
+  .hero-badge{
+    margin-bottom:19px;
+  }
+
+  .hero-title{
+    font-size:36px;
+    letter-spacing:-1.6px;
+  }
+
+  .hero-description{
+    font-size:12px;
+    margin:15px auto 0;
+  }
+
+  .hero-actions{
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    margin-top:23px;
+  }
+
+  .hero-actions .btn{
+    flex:1;
+    padding:0 10px;
+    min-height:42px;
+    font-size:11px;
+  }
+
+  .hero-note{
+    font-size:10px;
+    margin-top:15px;
+  }
+
+  .hero-wave{
+    position:relative;
+    right:auto;
+    bottom:auto;
+    height:30px;
+    margin-top:20px;
+    gap:4px;
+    opacity:.8;
+  }
+
+  .hero-wave span{
+    width:3px;
+  }
+
+  .platform-card{
+    padding:20px 14px;
+  }
+
+  .platform-list{
+    gap:8px;
+    margin-top:15px;
+  }
+
+  .platform-list span{
+    min-width:auto;
+    min-height:33px;
+    padding:0 11px;
+    font-size:10px;
+  }
+
+  .section-heading{
+    margin:30px 2px 16px;
+  }
+
+  .section-heading h2{
+    font-size:19px;
+    letter-spacing:-.4px;
+  }
+
+  .section-heading p{
+    font-size:12px;
+  }
+
+  .feature-grid{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+
+  .feature-card{
+    min-height:auto;
+    padding:17px;
+    border-radius:15px;
+  }
+
+  .feature-icon{
+    width:39px;
+    height:39px;
+    margin-bottom:13px;
+    border-radius:11px;
+  }
+
+  .feature-icon svg{
+    width:18px;
+    height:18px;
+  }
+
+  .feature-card h3{
+    font-size:13px;
+    margin-bottom:5px;
+  }
+
+  .feature-card p{
+    font-size:11px;
+    line-height:1.7;
+  }
+
+  .about-card{
+    padding:20px;
+  }
+
+  .about-layout{
+    gap:22px;
+  }
+
+  .about-title{
+    font-size:27px;
+    letter-spacing:-1px;
+  }
+
+  .about-description{
+    font-size:12px;
+  }
+
+  .about-point{
+    padding:13px;
+    gap:10px;
+  }
+
+  .about-point h3{
+    font-size:12px;
+  }
+
+  .about-point p{
+    font-size:10px;
+  }
+
+  .access-card{
+    padding:30px 17px;
+  }
+
+  .access-icon{
+    width:48px;
+    height:48px;
+  }
+
+  .access-card h2{
+    font-size:24px;
+    letter-spacing:-.7px;
+  }
+
+  .access-card p{
+    font-size:12px;
+  }
+
+  .contact-section{
+    margin-top:35px;
+  }
+
+  .contact-card{
+    padding:22px 18px;
+    gap:20px;
+  }
+
+  .contact-title{
+    font-size:27px;
+    letter-spacing:-.8px;
+  }
+
+  .contact-description{
+    font-size:12px;
+  }
+
+  .contact-link{
+    padding:13px;
+    gap:11px;
+  }
+
+  .contact-link-icon{
+    width:38px;
+    height:38px;
+  }
+
+  .contact-link-text strong{
+    font-size:12px;
+  }
+
+  .contact-link-text span{
+    font-size:10px;
+  }
+
+  footer{
+    margin-top:35px;
+    padding:30px 0 25px;
+  }
+
+  .footer-top{
+    grid-template-columns:1fr 1fr;
+    gap:27px 18px;
+  }
+
+  .footer-brand-column{
+    grid-column:1/-1;
+  }
+
+  .footer-brand img{
+    height:34px;
+  }
+
+  .footer-description{
+    font-size:11px;
+  }
+
+  .footer-column h3{
+    font-size:11px;
+    margin-bottom:12px;
+  }
+
+  .footer-links{
+    gap:10px;
+  }
+
+  .footer-links a{
+    font-size:11px;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+    gap:5px;
+    margin-top:23px;
+  }
 }
 
-/* CARD HOVER EFFECT */
-.feature-card:hover {
-  transform: translateY(-8px) scale(1.02);
-border-color: var(--accent);
-box-shadow: 0 0 20px rgba(99,102,241,0.08);  
+/* REDUCED MOTION */
+
+@media(prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    animation:none!important;
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+
+  .intro,
+  .reveal{
+    opacity:1!important;
+    transform:none!important;
+  }
 }
-.feature-card {
-    background: linear-gradient(145deg, #0a0a0a, #050505);
-    padding: 40px;
-    border-radius: 20px;
-    border: 1px solid rgba(99,102,241,0.2);
-    transition: 0.3s;
-}
-.feature-card i {
-  color: var(--accent);
-  filter: drop-shadow(0 0 6px rgba(99,102,241,0.15));
-}
-        /* --- UI Elements --- */
-        .btn {
-            padding: 14px 28px;
-            border-radius: 8px;
-            font-weight: 700;
-            text-decoration: none;
-            display: inline-block;
-            transition: 0.3s;
-            font-size: 0.95rem;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-primary { background: var(--accent); color: white; }
-        
-        .btn-outline { border: 1px solid var(--border); color: white; margin-left: 10px; }
-        .btn:hover { transform: translateY(-2px); opacity: 0.9; }
-
-        /* --- Navigation --- */
-        nav {
-            position: fixed; top: 0; width: 100%; padding: 20px 6%;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
-        }
-
-        .logo { font-weight: 800; font-size: 1.2rem; letter-spacing: -1px; }
-
-        /* --- Hero --- */
-.hero {
-    padding: 0 6%;
-    text-align: center;
-    background: radial-gradient(
-  circle at 50% 20%,
-  rgba(99,102,241,0.25) 0%,
-  rgba(99,102,241,0.08) 40%,
-  #000 70%
-);
-}
-
-        .hero h1 { font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 800; letter-spacing: -3px; line-height: 1; margin-bottom: 25px; }
-        .hero p { color: var(--text-dim); max-width: 700px; margin: 0 auto 40px; font-size: 1.2rem; }
-
-        /* --- Trusted By / Platforms --- */
-       
-
-        .platforms-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 30px;
-            opacity: 0.6;
-            filter: grayscale(1);
-        }
-
-        .platform-item { font-weight: 800; font-size: 1.2rem; }
-
-        /* --- Why Choose Section --- */
-.platforms,
-.why-choose {
-  padding: 0;
-}
-        .section-title { text-align: center; margin-bottom: 80px; }
-        .section-title h2 { font-size: 3rem; font-weight: 800; letter-spacing: -2px; }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .feature-card {
-            background: var(--surface);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            transition: 0.3s;
-        }
-
-        .feature-card:hover { border-color: var(--accent); }
-        .feature-card i { color: var(--accent); margin-bottom: 20px; display: block; }
-        .feature-card h3 { font-size: 1.5rem; margin-bottom: 15px; }
-        .feature-card p { color: var(--text-dim); }
-
-        /* --- Simple Plan Section --- */
-        .plan-box {
-            background: linear-gradient(145deg, #111, #000);
-            max-width: 600px; margin: 80px auto;
-            padding: 60px; border-radius: 30px; border: 1px solid var(--accent);
-            text-align: center;
-        }
-
-        /* --- Footer --- */
-        footer {
-  min-height: 100vh;
-  scroll-snap-align: start;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 120px 6%;
-  border-top: 1px solid var(--border);
-}
-
-@media (max-width: 768px) {
-    nav {
-        padding: 12px 16px;
-    }
-
-    .logo {
-        font-size: 1rem;
-    }
-
-    .nav-auth .btn {
-        padding: 8px 14px !important;
-        font-size: 0.75rem !important;
-    }
-
-    .hero {
-        padding: 0;
-    }
-
-    .hero h1 {
-        font-size: 2.4rem;
-        line-height: 1.2;
-    }
-
-    .hero p {
-        font-size: 1rem;
-    }
-
-    .btn {
-        width: 100%;
-        text-align: center;
-    }
-
-    .btn-outline {
-        margin: 10px 0 0;
-    }
-
-    .features-grid {
-        gap: 14px;
-    }
-
-
-
-    .plan-box {
-        padding: 25px 18px;
-        margin: 40px 0;
-    }
-}
-    </style>
+</style>
 </head>
+
 <body>
 
-    <nav>
-        <div class="logo">Dynotic Collective</div>
-        <div class="nav-auth">
-           <a href="/login" class="btn btn-outline" style="padding: 10px 20px; font-size: 0.8rem;">Login</a>
-        </div>
-    </nav>
+<!-- HEADER -->
 
-    <section class="hero">
-        <div class="container">
-        <h1>Sell Your Music <br>Worldwide.</h1>
-        <p>Upload your music to Spotify, Apple Music, TikTok, and 150+ digital stores. Keep control of your career with Dynotic Collective.</p>
-        <div class="cta-group">
-<a href="/register" class="btn btn-primary">Request Access</a>
-<a href="#pricing" class="btn btn-outline">How Access Works</a>
-        </div>
-        <p style="margin-top: 20px; font-size: 0.85rem; color: var(--text-dim);">No credit card required to sign up.</p>
-      </div>
-</section>
+<header id="navbar">
 
-   <section class="platforms fade-up">
-       <div class="container">
-        <p style="text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; color: var(--text-dim);">Trusted by major platforms</p>
-        <div class="platforms-grid">
-            <div class="platform-item">Spotify</div>
-            <div class="platform-item">Apple Music</div>
-            <div class="platform-item">TikTok</div>
-            <div class="platform-item">YouTube Music</div>
-            <div class="platform-item">Amazon Music</div>
-        </div>
-        </div>
-    </section>
+  <a href="/" class="brand">
+    <img
+      src="/assets/dynotic-distribution.png"
+      alt="Dynotic Distribution"
+    >
+  </a>
 
-<section class="why-choose fade-up" id="features">
-  <div class="container">
+  <nav class="desktop-nav" aria-label="Main navigation">
+    <a href="/">Home</a>
+    <a href="#platforms">Platforms</a>
+    <a href="#features">Features</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
 
-    <div class="section-title">
-      <p style="color: var(--accent); font-weight: 700;">WHY CHOOSE Dynotic Collective?</p>
-      <h2>Everything you need to succeed.</h2>
-    </div>
+  <div class="header-action">
+    <a href="/login" class="btn btn-outline">Login</a>
 
-    <div class="features-grid">
-
-      <div class="feature-card fade-up">
-        <i data-lucide="percent" size="32"></i>
-        <h3>80% Royalties</h3>
-        <p>We believe in fair partnership. We only take a small commission to maintain the infrastructure while you keep the majority.</p>
-      </div>
-
-      <div class="feature-card fade-up">
-        <i data-lucide="users" size="32"></i>
-        <h3>Unlimited Artist</h3>
-        <p>Manage multiple artist profiles under one dashboard. Perfect for collective and independent labels.</p>
-      </div>
-
-      <div class="feature-card fade-up">
-        <i data-lucide="infinity" size="32"></i>
-        <h3>Unlimited Release</h3>
-        <p>Upload as many singles, EPs, or albums as you want. There are no monthly or yearly limits.</p>
-      </div>
-
-      <div class="feature-card fade-up">
-        <i data-lucide="zap" size="32"></i>
-        <h3>Fast Support</h3>
-        <p>Our dedicated team is ready to help you with technical issues and distribution questions in record time.</p>
-      </div>
-
-      <div class="feature-card fade-up">
-        <i data-lucide="youtube" size="32"></i>
-        <h3>YouTube Content ID</h3>
-        <p>Protect and monetize your music on YouTube. We collect royalties whenever your tracks are used in videos.</p>
-      </div>
-
-      <div class="feature-card fade-up">
-        <i data-lucide="globe" size="32"></i>
-        <h3>Global Distribution</h3>
-        <p>Your music in over 150+ digital stores and streaming services across the globe.</p>
-      </div>
-
-    </div> <!-- END features-grid -->
-
-  </div> <!-- END container -->
-</section>
-
-
-<section class="plans fade-up" id="pricing">
-  <div class="container">
-    
-    <div class="section-title">
-      <p style="color: var(--accent); font-weight: 700;">PRICING</p>
-      <h2>Simple & Exclusive Access</h2>
-    </div>
-
-    <div class="plan-box">
-      <h2 style="margin-bottom: 10px;">Dynotic Access</h2>
-
-<a href="/register" style="text-decoration: none; color: inherit;">
-  <div style="font-size: 2.5rem; font-weight: 800; margin-bottom: 20px; cursor: pointer;">
-    Invite Only
+    <button
+      class="menu-toggle"
+      id="menuToggle"
+      type="button"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="mobileMenu"
+    >
+      <i data-lucide="menu"></i>
+    </button>
   </div>
-</a>
 
-      <p style="color: var(--text-dim); margin-bottom: 30px;">
-        Access dynotic Collective through invitation. Built for serious artists and labels.
-      </p>
+</header>
 
-      <a href="/register" class="btn btn-primary" style="width: 100%;">
+<!-- MOBILE NAVIGATION -->
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
+
+  <a href="/">
+    <i data-lucide="house"></i>
+    Home
+  </a>
+
+  <a href="#platforms">
+    <i data-lucide="radio-tower"></i>
+    Platforms
+  </a>
+
+  <a href="#features">
+    <i data-lucide="layers"></i>
+    Features
+  </a>
+
+  <a href="#about">
+    <i data-lucide="info"></i>
+    About Dynotic
+  </a>
+
+  <a href="#contact">
+    <i data-lucide="mail"></i>
+    Contact
+  </a>
+
+  <a href="/login">
+    <i data-lucide="log-in"></i>
+    Login to Artist Portal
+  </a>
+
+  <a href="/register" class="mobile-request">
+    Request Access
+    <i data-lucide="arrow-up-right"></i>
+  </a>
+
+</nav>
+
+<main class="container">
+
+  <!-- HERO -->
+
+  <section class="card hero-card">
+
+    <div class="hero-icon intro intro-1">
+      <i data-lucide="audio-lines"></i>
+    </div>
+
+    <div class="hero-badge intro intro-2">
+      <i data-lucide="sparkles"></i>
+      Independent Music Community
+    </div>
+
+    <h1 class="hero-title intro intro-3">
+      Your Music.<br>
+      Your Journey.<br>
+      <span>Our Community.</span>
+    </h1>
+
+    <p class="hero-description intro intro-4">
+      A place where independent artists can grow, share their work,
+      and build their musical journey together.
+      Simple, honest, and independent.
+    </p>
+
+    <div class="hero-actions intro intro-5">
+
+      <a href="/register" class="btn btn-primary">
         Request Access
+        <i data-lucide="arrow-up-right"></i>
       </a>
+
+      <a href="#about" class="btn btn-outline">
+        Discover Dynotic
+        <i data-lucide="arrow-down"></i>
+      </a>
+
+    </div>
+
+    <p class="hero-note intro intro-5">
+      Exclusive access for invited artists and community members.
+    </p>
+
+    <div class="hero-wave" aria-hidden="true">
+      <span style="--h:10px"></span>
+      <span style="--h:17px"></span>
+      <span style="--h:13px"></span>
+      <span style="--h:23px"></span>
+      <span style="--h:11px"></span>
+      <span style="--h:19px"></span>
+      <span style="--h:14px"></span>
+      <span style="--h:25px"></span>
+      <span style="--h:12px"></span>
+      <span style="--h:19px"></span>
+      <span style="--h:14px"></span>
+      <span style="--h:22px"></span>
+      <span style="--h:10px"></span>
+      <span style="--h:17px"></span>
+      <span style="--h:12px"></span>
+    </div>
+
+  </section>
+
+  <!-- PLATFORMS -->
+
+  <section class="card platform-card reveal" id="platforms">
+
+    <p class="section-label">Digital Music Platforms</p>
+
+    <h2 class="section-title">
+      Music distribution across platforms
+    </h2>
+
+    <p class="section-description">
+      Helping independent music reach listeners around the world.
+    </p>
+
+    <div class="platform-list">
+      <span>Spotify</span>
+      <span>Apple Music</span>
+      <span>YouTube Music</span>
+      <span>TikTok</span>
+      <span>Amazon Music</span>
+    </div>
+
+  </section>
+
+  <!-- FEATURES -->
+
+  <div class="section-heading reveal" id="features">
+
+    <h2>More than just music distribution.</h2>
+
+    <p>
+      A supportive environment where artists and their creative
+      journeys matter.
+    </p>
+
+  </div>
+
+  <section class="feature-grid">
+
+    <article class="feature-card reveal">
+      <div class="feature-icon">
+        <i data-lucide="music-2"></i>
+      </div>
+
+      <h3>Music Distribution</h3>
+
+      <p>
+        Helping artists deliver their music to digital streaming
+        platforms and reach listeners around the world.
+      </p>
+    </article>
+
+    <article class="feature-card reveal">
+      <div class="feature-icon">
+        <i data-lucide="users"></i>
+      </div>
+
+      <h3>Artist Community</h3>
+
+      <p>
+        A collaborative environment where independent artists
+        can connect, share experiences, and support one another.
+      </p>
+    </article>
+
+    <article class="feature-card reveal">
+      <div class="feature-icon">
+        <i data-lucide="folder-open"></i>
+      </div>
+
+      <h3>Catalog Management</h3>
+
+      <p>
+        Organized catalog management to help artists maintain
+        and manage their distributed music.
+      </p>
+    </article>
+
+    <article class="feature-card reveal">
+      <div class="feature-icon">
+        <i data-lucide="life-buoy"></i>
+      </div>
+
+      <h3>Artist Support</h3>
+
+      <p>
+        Assistance with distribution questions, release issues,
+        and other technical matters.
+      </p>
+    </article>
+
+    <article class="feature-card reveal">
+      <div class="feature-icon">
+        <i data-lucide="chart-no-axes-column-increasing"></i>
+      </div>
+
+      <h3>Royalty Information</h3>
+
+      <p>
+        Access to available royalty reports and revenue
+        information related to distributed releases.
+      </p>
+    </article>
+
+    <article class="feature-card reveal">
+      <div class="feature-icon">
+        <i data-lucide="handshake"></i>
+      </div>
+
+      <h3>Independent Spirit</h3>
+
+      <p>
+        Supporting independent creativity through a community
+        built on collaboration and mutual respect.
+      </p>
+    </article>
+
+  </section>
+
+  <!-- ABOUT -->
+
+  <section class="card about-card reveal" id="about">
+
+    <div class="about-layout">
+
+      <div>
+
+        <p class="about-tag">ABOUT DYNOTIC</p>
+
+        <h2 class="about-title">
+          Built around artists.<br>
+          Driven by music.
+        </h2>
+
+        <p class="about-description">
+          Dynotic Collective is an independent music community
+          focused on supporting artists and their musical projects.
+
+          <br><br>
+
+          We believe that music should be a journey built through
+          creativity, collaboration, and trust — not just numbers.
+        </p>
+
+      </div>
+
+      <div class="about-points">
+
+        <div class="about-point">
+
+          <div class="about-point-icon">
+            <i data-lucide="check"></i>
+          </div>
+
+          <div>
+            <h3>Artist-centered</h3>
+
+            <p>
+              Putting artists and their creative journey at the
+              heart of our community.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="about-point">
+
+          <div class="about-point-icon">
+            <i data-lucide="check"></i>
+          </div>
+
+          <div>
+            <h3>Simple & transparent</h3>
+
+            <p>
+              Clear communication and a straightforward approach
+              to working together.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="about-point">
+
+          <div class="about-point-icon">
+            <i data-lucide="check"></i>
+          </div>
+
+          <div>
+            <h3>Independent by nature</h3>
+
+            <p>
+              A community that values independent creativity
+              and collaboration.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- ACCESS -->
+
+  <section class="card access-card reveal" id="access">
+
+    <div class="access-icon">
+      <i data-lucide="key-round"></i>
+    </div>
+
+    <p class="section-label">Membership</p>
+
+    <h2>Access by Invitation.</h2>
+
+    <p>
+      Dynotic Collective operates through an invitation-based
+      community. Access is intended for selected artists and
+      existing community members.
+    </p>
+
+    <a href="/register" class="btn btn-primary">
+      Request Access
+      <i data-lucide="arrow-up-right"></i>
+    </a>
+
+  </section>
+
+  <!-- CONTACT -->
+
+  <section class="contact-section reveal" id="contact">
+
+    <div class="card contact-card">
+
+      <div>
+
+        <p class="section-label">GET IN TOUCH</p>
+
+        <h2 class="contact-title">
+          Let's stay<br>
+          connected.
+        </h2>
+
+        <p class="contact-description">
+          Have questions about Dynotic Collective, music distribution,
+          or your existing catalog? Our team is here to help.
+          Reach out through our official contact channels.
+        </p>
+
+      </div>
+
+      <div class="contact-actions">
+
+        <a
+          href="mailto:support@dynotic.web.id"
+          class="contact-link"
+        >
+
+          <div class="contact-link-icon">
+            <i data-lucide="mail"></i>
+          </div>
+
+          <div class="contact-link-text">
+            <strong>Email Support</strong>
+            <span>support@dynotic.web.id</span>
+          </div>
+
+          <div class="contact-link-arrow">
+            <i data-lucide="arrow-up-right"></i>
+          </div>
+
+        </a>
+
+        <a
+          href="https://instagram.com/help.nazwa"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-link"
+        >
+
+          <div class="contact-link-icon">
+            <i data-lucide="instagram"></i>
+          </div>
+
+          <div class="contact-link-text">
+            <strong>Instagram</strong>
+            <span>@help.nazwa · Visit our profile</span>
+          </div>
+
+          <div class="contact-link-arrow">
+            <i data-lucide="arrow-up-right"></i>
+          </div>
+
+        </a>
+
+        <a
+          href="https://dynotic.web.id/login"
+          class="contact-link"
+        >
+
+          <div class="contact-link-icon">
+            <i data-lucide="layout-dashboard"></i>
+          </div>
+
+          <div class="contact-link-text">
+            <strong>Artist Portal</strong>
+            <span>Access your artist dashboard</span>
+          </div>
+
+          <div class="contact-link-arrow">
+            <i data-lucide="arrow-up-right"></i>
+          </div>
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-top">
+
+      <div class="footer-brand-column">
+
+        <a href="/" class="brand footer-brand">
+          <img
+            src="/assets/dynotic-distribution.png"
+            alt="Dynotic Distribution"
+          >
+        </a>
+
+        <p class="footer-description">
+          An independent music community supporting artists
+          and their creative journeys through collaboration,
+          creativity, and mutual respect.
+        </p>
+
+      </div>
+
+      <div class="footer-column">
+
+        <h3>Explore</h3>
+
+        <div class="footer-links">
+          <a href="/">
+            <i data-lucide="house"></i>
+            Home
+          </a>
+
+          <a href="#platforms">
+            <i data-lucide="radio-tower"></i>
+            Platforms
+          </a>
+
+          <a href="#features">
+            <i data-lucide="layers"></i>
+            Features
+          </a>
+
+          <a href="#about">
+            <i data-lucide="info"></i>
+            About Dynotic
+          </a>
+        </div>
+
+      </div>
+
+      <div class="footer-column">
+
+        <h3>Artist Portal</h3>
+
+        <div class="footer-links">
+          <a href="/login">
+            <i data-lucide="log-in"></i>
+            Login
+          </a>
+
+          <a href="/register">
+            <i data-lucide="user-plus"></i>
+            Request Access
+          </a>
+
+          <a href="#access">
+            <i data-lucide="key-round"></i>
+            Membership
+          </a>
+        </div>
+
+      </div>
+
+      <div class="footer-column">
+
+        <h3>Contact</h3>
+
+        <div class="footer-links">
+          <a href="#contact">
+            <i data-lucide="message-circle"></i>
+            Contact Us
+          </a>
+
+          <a href="mailto:support@dynotic.web.id">
+            <i data-lucide="mail"></i>
+            Email Support
+          </a>
+
+          <a
+            href="https://instagram.com/help.nazwa"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i data-lucide="instagram"></i>
+            Instagram
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+
+      <p>© 2026 Dynotic Collective. All rights reserved.</p>
+
+      <p>Simple. Honest. Independent.</p>
+
     </div>
 
   </div>
-</section>
 
-    <footer>
-        <div class="logo">Dynotic Collective</div>
-        <p style="margin: 20px 0; color: var(--text-dim);">© 2026 Dynotic. Simple, Honest, Independent.</p>
-        <div style="display: flex; justify-content: center; gap: 30px; color: var(--text-dim);">
-            <i data-lucide="instagram" size="20"></i>
-            <i data-lucide="twitter" size="20"></i>
-            <i data-lucide="youtube" size="20"></i>
-        </div>
-    </footer>
+</footer>
 
-    <script>
-        lucide.createIcons();
-    </script>
 <script>
-const elements = document.querySelectorAll(".fade-up");
+document.addEventListener("DOMContentLoaded", () => {
 
-elements.forEach((el, i) => {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        setTimeout(() => {
-          entry.target.classList.add("show");
-        }, i * 120);
+  // Initialize Lucide icons
+  if (window.lucide) {
+    lucide.createIcons();
+  }
 
-        observer.unobserve(entry.target);
-        
-      }
-    });
+  // Navbar scroll effect
+  const navbar = document.getElementById("navbar");
+
+  const updateNavbar = () => {
+    navbar.classList.toggle("scrolled", window.scrollY > 10);
+  };
+
+  updateNavbar();
+
+  window.addEventListener("scroll", updateNavbar, {
+    passive:true
   });
-  observer.observe(el);
+
+  // Mobile navigation
+  const menuToggle = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  const closeMenu = () => {
+    mobileMenu.classList.remove("open");
+    document.body.classList.remove("menu-open");
+
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.setAttribute("aria-label", "Open navigation menu");
+
+    menuToggle.innerHTML = '<i data-lucide="menu"></i>';
+
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  };
+
+  const openMenu = () => {
+    mobileMenu.classList.add("open");
+    document.body.classList.add("menu-open");
+
+    menuToggle.setAttribute("aria-expanded", "true");
+    menuToggle.setAttribute("aria-label", "Close navigation menu");
+
+    menuToggle.innerHTML = '<i data-lucide="x"></i>';
+
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  };
+
+  menuToggle.addEventListener("click", () => {
+    const isOpen = mobileMenu.classList.contains("open");
+
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  // Close mobile menu after clicking a link
+  mobileMenu.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  // Close menu with Escape key
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      closeMenu();
+    }
+  });
+
+  // Scroll reveal animation
+  const revealElements = document.querySelectorAll(".reveal");
+
+  if ("IntersectionObserver" in window) {
+
+    const observer = new IntersectionObserver((entries) => {
+
+      entries.forEach(entry => {
+
+        if (entry.isIntersecting) {
+
+          entry.target.classList.add("show");
+
+          observer.unobserve(entry.target);
+
+        }
+
+      });
+
+    }, {
+      threshold:0.08,
+      rootMargin:"0px 0px -30px 0px"
+    });
+
+    revealElements.forEach(element => {
+      observer.observe(element);
+    });
+
+  } else {
+
+    revealElements.forEach(element => {
+      element.classList.add("show");
+    });
+
+  }
+
 });
 </script>
+
 </body>
 </html>
