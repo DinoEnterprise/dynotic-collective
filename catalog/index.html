@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Song Catalog | Dynotic Distribution</title>
+<title>Licensed Songs | Dynotic Distribution</title>
 
 <link rel="icon" type="image/png" href="../assets/favicon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
@@ -44,6 +45,41 @@ header img{height:32px;width:auto;object-fit:contain}
 .song-performer{font-size:11px;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}
 .song-id{display:inline-flex;align-items:center;gap:5px;margin-top:8px;border:1px solid #e5e7eb;background:#f8f8fa;color:#333;border-radius:8px;padding:5px 8px;font-size:10px;font-weight:700;max-width:100%;overflow-wrap:anywhere}
 .song-id i{font-size:9px}
+
+/* YouTube Preview */
+.youtube-preview{
+  display:block;
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  overflow:hidden;
+  border-radius:12px;
+  margin-top:12px;
+  background:#f1f2f7;
+  text-decoration:none;
+}
+.youtube-preview img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.youtube-play{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:42px;
+  background:rgba(0,0,0,.12);
+  transition:.2s;
+}
+.youtube-preview:active .youtube-play{
+  background:rgba(0,0,0,.3);
+  transform:scale(.97);
+}
+
 .song-meta{display:grid;grid-template-columns:1fr 1fr;gap:9px 12px;border-top:1px solid #f0f0f3;margin-top:12px;padding-top:11px}
 .meta-item{min-width:0}
 .meta-label{font-size:10px;color:#999ca4;margin-bottom:3px}
@@ -90,8 +126,8 @@ header img{height:32px;width:auto;object-fit:contain}
   <section class="card">
     <div class="catalog-heading">
       <div>
-        <div class="heading-title">Song Catalog</div>
-        <div class="heading-desc">Cari katalog lagu dan ajukan permohonan cover dengan mudah.</div>
+        <div class="heading-title">Licensed Songs</div>
+        <div class="heading-desc">Cari Explore songs authorized by our publishing partners for cover and remix requests.</div>
       </div>
       <div class="catalog-icon"><i class="fa-solid fa-music"></i></div>
     </div>
@@ -165,6 +201,7 @@ const pageInfo = document.getElementById("pageInfo");
 
 const sources = [
   "mahar-pustaka.json",
+  "dynotic-collective",
   "18musik.json",
   "nadaku-musik.json",
   "royal-publikasi.json",
@@ -196,6 +233,40 @@ function normalizeLink(value) {
     if (url.protocol === "https:" || url.protocol === "http:") return url.href;
   } catch (_) {}
   return "-";
+}
+
+function getYouTubeThumbnail(value) {
+  const url = normalizeLink(value);
+  if (url === "-") return null;
+
+  try {
+    const parsed = new URL(url);
+    let videoId = "";
+
+    if (parsed.hostname === "youtu.be" || parsed.hostname.endsWith(".youtu.be")) {
+      videoId = parsed.pathname.split("/").filter(Boolean)[0] || "";
+    } else if (
+      parsed.hostname === "youtube.com" ||
+      parsed.hostname.endsWith(".youtube.com") ||
+      parsed.hostname === "youtube-nocookie.com" ||
+      parsed.hostname.endsWith(".youtube-nocookie.com")
+    ) {
+      videoId = parsed.searchParams.get("v") || "";
+
+      if (!videoId) {
+        const parts = parsed.pathname.split("/").filter(Boolean);
+        if (["embed", "shorts", "live"].includes(parts[0])) {
+          videoId = parts[1] || "";
+        }
+      }
+    }
+
+    if (!/^[a-zA-Z0-9_-]{11}$/.test(videoId)) return null;
+
+    return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+  } catch (_) {
+    return null;
+  }
 }
 
 async function loadData() {
@@ -271,6 +342,28 @@ function renderTransactions() {
     card.className = "song-card";
     card.style.animationDelay = `${Math.min(index * 0.015, 0.3)}s`;
 
+    const thumbnail = getYouTubeThumbnail(song.youtube);
+
+    const preview = thumbnail
+      ? `
+        <a class="youtube-preview"
+           href="${escapeHTML(song.youtube)}"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Tonton ${escapeHTML(song.title)} di YouTube">
+          <img
+            src="${escapeHTML(thumbnail)}"
+            alt="Preview ${escapeHTML(song.title)}"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+            onerror="this.parentElement.style.display='none'">
+          <span class="youtube-play">
+            <i class="fa-brands fa-youtube"></i>
+          </span>
+        </a>
+      `
+      : "";
+
     const link = song.youtube !== "-"
       ? `<a class="action-btn" href="${escapeHTML(song.youtube)}" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-arrow-up-right-from-square"></i> Referensi</a>`
       : "";
@@ -284,6 +377,9 @@ function renderTransactions() {
           <div class="song-id"><i class="fa-solid fa-hashtag"></i> ${escapeHTML(song.songId)}</div>
         </div>
       </div>
+
+      ${preview}
+
       <div class="song-meta">
         <div class="meta-item"><div class="meta-label">Composer</div><div class="meta-value">${escapeHTML(song.composer)}</div></div>
         <div class="meta-item"><div class="meta-label">Publisher</div><div class="meta-value">${escapeHTML(song.publisher)}</div></div>
@@ -325,6 +421,7 @@ function submitRequest() {
 
 searchInput.addEventListener("input", applyFilters);
 publisherFilter.addEventListener("change", applyFilters);
+
 prevBtn.addEventListener("click", () => {
   if (currentPage > 1) {
     currentPage--;
@@ -332,6 +429,7 @@ prevBtn.addEventListener("click", () => {
     document.querySelector(".card:nth-of-type(2)")?.scrollIntoView({behavior:"smooth", block:"start"});
   }
 });
+
 nextBtn.addEventListener("click", () => {
   const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
   if (currentPage < totalPages) {
@@ -340,9 +438,11 @@ nextBtn.addEventListener("click", () => {
     document.querySelector(".card:nth-of-type(2)")?.scrollIntoView({behavior:"smooth", block:"start"});
   }
 });
+
 document.getElementById("modal").addEventListener("click", event => {
   if (event.target.id === "modal") closeModal();
 });
+
 document.addEventListener("keydown", event => {
   if (event.key === "Escape") closeModal();
 });
