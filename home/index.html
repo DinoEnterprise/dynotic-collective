@@ -22,11 +22,11 @@
 <meta name="twitter:description" content="Artist dashboard for managing releases and earnings.">
 <meta name="twitter:image" content="https://dynotic.web.id/assets/icon-512.png">
 
-<meta name="theme-color" content="#667eea">
+<meta name="theme-color" content="#ffffff">
 <meta name="robots" content="noindex, nofollow">
 
 <link
-  href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap"
+  href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap"
   rel="stylesheet"
 >
 
@@ -49,11 +49,14 @@ body{
   min-height:100vh;
   color:#17181c;
   padding-top:64px;
-  padding-bottom:90px;
+  padding-bottom:105px;
   -webkit-tap-highlight-color:transparent;
   user-select:none;
 }
 
+button{
+  font-family:inherit;
+}
 
 /* ================= HEADER ================= */
 
@@ -71,20 +74,25 @@ header{
   z-index:1000;
 }
 
-header img{
+.header-logo{
   height:32px;
   width:auto;
   object-fit:contain;
 }
 
+.header-actions{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
 /* ================= NOTIFICATION ================= */
 
 .notif-btn{
-  margin-left:auto;
   width:38px;
   height:38px;
-  border-radius:11px;
+  border-radius:12px;
   background:#f1f2f7;
   display:flex;
   align-items:center;
@@ -94,8 +102,9 @@ header img{
   transition:.15s;
 }
 
-.notif-btn:active{
-  transform:scale(.94);
+.notif-btn:active,
+.profile-btn:active{
+  transform:scale(.93);
 }
 
 .notif-btn i{
@@ -119,6 +128,126 @@ header img{
   justify-content:center;
 }
 
+/* ================= PROFILE ================= */
+
+.profile-btn{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.15s;
+  border:2px solid #f1f2f7;
+  overflow:hidden;
+}
+
+.profile-btn i{
+  font-size:15px;
+}
+
+.profile-popup{
+  position:fixed;
+  top:58px;
+  right:14px;
+  width:260px;
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:16px;
+  box-shadow:0 10px 35px rgba(0,0,0,.12);
+  padding:15px;
+  z-index:1500;
+  display:none;
+  animation:popupIn .18s ease;
+}
+
+.profile-popup.show{
+  display:block;
+}
+
+.profile-info{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding-bottom:13px;
+}
+
+.profile-avatar{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+.profile-avatar i{
+  font-size:17px;
+}
+
+.profile-details{
+  min-width:0;
+}
+
+.profile-name{
+  font-size:13px;
+  font-weight:700;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.profile-email{
+  font-size:11px;
+  color:#858891;
+  margin-top:3px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.profile-divider{
+  height:1px;
+  background:#eeeeF2;
+  margin:2px 0 9px;
+}
+
+.profile-option{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 9px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.profile-option:hover{
+  background:#f5f5f8;
+}
+
+.profile-option i{
+  width:18px;
+  text-align:center;
+  color:#777b84;
+  font-size:14px;
+}
+
+.profile-option.logout{
+  color:#e04444;
+}
+
+.profile-option.logout i{
+  color:#e04444;
+}
 
 /* ================= MAIN ================= */
 
@@ -128,7 +257,6 @@ header img{
   margin:0 auto;
 }
 
-
 /* ================= WALLET ================= */
 
 .card{
@@ -137,7 +265,7 @@ header img{
   border-radius:18px;
   padding:18px;
   margin-top:20px;
-  animation:pageIn .45s ease both;
+  animation:pageIn .4s ease both;
 }
 
 .wallet-card{
@@ -145,6 +273,12 @@ header img{
   align-items:center;
   justify-content:space-between;
   gap:15px;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.wallet-card:active{
+  transform:scale(.99);
 }
 
 .wallet-content{
@@ -155,7 +289,7 @@ header img{
   font-size:12px;
   font-weight:500;
   color:#777b84;
-  margin-bottom:4px;
+  margin-bottom:5px;
 }
 
 .balance-title{
@@ -194,17 +328,11 @@ header img{
   align-items:center;
   gap:6px;
   cursor:pointer;
-  transition:.15s;
-}
-
-.detail-btn:active{
-  transform:scale(.94);
 }
 
 .detail-btn i{
   font-size:11px;
 }
-
 
 /* ================= SECTION ================= */
 
@@ -215,12 +343,7 @@ header img{
   margin:24px 3px 10px;
 }
 
-
 /* ================= TOOLS ================= */
-
-.tools-card{
-  margin-top:0;
-}
 
 .tools-grid{
   display:grid;
@@ -238,15 +361,7 @@ header img{
   gap:11px;
   cursor:pointer;
   transition:.18s ease;
-  animation:pageIn .45s ease both;
-}
-
-.tool-item:nth-child(1){
-  animation-delay:.08s;
-}
-
-.tool-item:nth-child(2){
-  animation-delay:.16s;
+  animation:pageIn .4s ease both;
 }
 
 .tool-item:active{
@@ -279,11 +394,10 @@ header img{
   font-size:10px;
   color:#858891;
   margin-top:3px;
-  line-height:1.3;
+  line-height:1.4;
 }
 
-
-/* ================= MESSAGE POPUP ================= */
+/* ================= NOTIFICATION POPUP ================= */
 
 .message-popup{
   position:fixed;
@@ -293,6 +407,7 @@ header img{
   align-items:center;
   justify-content:center;
   z-index:2000;
+  padding:20px;
 }
 
 .message-popup.show{
@@ -300,12 +415,13 @@ header img{
 }
 
 .message-card{
-  width:calc(100% - 40px);
+  width:100%;
   max-width:340px;
   background:#fff;
   border-radius:17px;
   padding:18px;
   box-shadow:0 12px 35px rgba(0,0,0,.15);
+  animation:popupIn .2s ease;
 }
 
 .message-title{
@@ -317,7 +433,9 @@ header img{
 .message-text{
   font-size:13px;
   color:#555;
-  line-height:1.5;
+  line-height:1.6;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
 }
 
 .message-actions{
@@ -327,10 +445,8 @@ header img{
   margin-top:15px;
 }
 
-.view-btn{
-  width:auto;
-  background:#111;
-  color:#fff;
+.view-btn,
+.close-btn{
   border:none;
   padding:9px 14px;
   border-radius:10px;
@@ -339,21 +455,20 @@ header img{
   cursor:pointer;
 }
 
-.close-btn{
-  width:auto;
-  background:#f1f2f7;
-  color:#333;
-  border:none;
-  padding:9px 12px;
-  border-radius:10px;
-  cursor:pointer;
+.view-btn{
+  background:#111;
+  color:#fff;
 }
 
+.close-btn{
+  background:#f1f2f7;
+  color:#333;
+}
 
-/* ================= BOTTOM NAV ================= */
+/* ================= BOTTOM NAVIGATION ================= */
 
 .bottom-nav{
-  height:72px;
+  height:76px;
   background:#fff;
   border-top:1px solid #e6e6eb;
   position:fixed;
@@ -364,61 +479,102 @@ header img{
   justify-content:space-around;
   align-items:center;
   z-index:1000;
+  padding:0 5px;
+  padding-bottom:env(safe-area-inset-bottom);
 }
 
 .nav-item{
-  width:33.33%;
+  flex:1;
+  min-width:0;
   text-align:center;
-  font-size:11px;
+  font-size:10px;
+  font-weight:500;
   color:#999ca4;
-  padding:7px 14px;
-  border-radius:12px;
+  padding:9px 2px;
   cursor:pointer;
   transition:.15s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
 }
 
 .nav-item i{
-  display:block;
   font-size:18px;
-  margin-bottom:4px;
 }
 
 .nav-item:active{
-  transform:scale(.94);
+  transform:scale(.92);
 }
 
 .nav-item.active{
   color:#17181c;
-  font-weight:600;
+  font-weight:700;
 }
 
-.nav-item.active::after{
-  content:"";
-  display:block;
-  width:28px;
-  height:3px;
-  border-radius:999px;
-  background:#111;
-  margin:5px auto 0;
+/* ================= CREATE BUTTON ================= */
+
+.create-nav{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  cursor:pointer;
+  color:#999ca4;
+  font-size:10px;
+  font-weight:500;
 }
 
+.create-circle{
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  margin-top:-27px;
+  border:4px solid #f1f2f7;
+  box-sizing:content-box;
+  transition:.15s;
+}
 
-/* ================= ANIMATION ================= */
+.create-nav:active .create-circle{
+  transform:scale(.91);
+}
+
+.create-label{
+  margin-top:0;
+}
+
+/* ================= ANIMATIONS ================= */
 
 @keyframes pageIn{
-
   from{
     opacity:0;
     transform:translateY(12px);
   }
-
   to{
     opacity:1;
     transform:translateY(0);
   }
-
 }
 
+@keyframes popupIn{
+  from{
+    opacity:0;
+    transform:translateY(-7px) scale(.98);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
 
 /* ================= MOBILE ================= */
 
@@ -442,13 +598,17 @@ header img{
 
 }
 
-
 /* ================= DESKTOP ================= */
 
 @media(min-width:700px){
 
   .container{
     width:100%;
+  }
+
+  .bottom-nav{
+    padding-left:max(5px,calc((100% - 650px)/2));
+    padding-right:max(5px,calc((100% - 650px)/2));
   }
 
 }
@@ -459,31 +619,110 @@ header img{
 
 <body>
 
-
 <!-- ================= HEADER ================= -->
 
 <header>
 
-  <img src="../assets/dynotic-distribution.png">
-
-  <div
-    id="notifBtn"
-    class="notif-btn"
-    onclick="openMessages()"
+  <img
+    src="../assets/dynotic-distribution.png"
+    class="header-logo"
+    alt="Dynotic Distribution"
   >
 
-    <i class="fa-regular fa-bell"></i>
+  <div class="header-actions">
 
-    <span
-      id="notifBadge"
-      class="notif-badge"
+    <!-- NOTIFICATION -->
+
+    <div
+      id="notifBtn"
+      class="notif-btn"
+      onclick="openMessages()"
     >
-      0
-    </span>
+
+      <i class="fa-regular fa-bell"></i>
+
+      <span
+        id="notifBadge"
+        class="notif-badge"
+      >0</span>
+
+    </div>
+
+    <!-- PROFILE -->
+
+    <div
+      class="profile-btn"
+      onclick="toggleProfile()"
+      id="profileBtn"
+    >
+
+      <i class="fa-regular fa-user"></i>
+
+    </div>
 
   </div>
 
 </header>
+
+
+<!-- ================= PROFILE POPUP ================= -->
+
+<div
+  class="profile-popup"
+  id="profilePopup"
+>
+
+  <div class="profile-info">
+
+    <div class="profile-avatar">
+      <i class="fa-regular fa-user"></i>
+    </div>
+
+    <div class="profile-details">
+
+      <div
+        class="profile-name"
+        id="profileName"
+      >
+        Artist
+      </div>
+
+      <div
+        class="profile-email"
+        id="profileEmail"
+      >
+        -
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="profile-divider"></div>
+
+  <div
+    class="profile-option"
+    onclick="goAccount()"
+  >
+
+    <i class="fa-solid fa-gear"></i>
+
+    <span>Account Settings</span>
+
+  </div>
+
+  <div
+    class="profile-option logout"
+    onclick="logout()"
+  >
+
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+    <span>Logout</span>
+
+  </div>
+
+</div>
 
 
 <!-- ================= MESSAGE POPUP ================= -->
@@ -532,7 +771,6 @@ header img{
 
 <main class="container">
 
-
   <!-- WALLET -->
 
   <div
@@ -557,8 +795,13 @@ header img{
         id="saldo"
         class="card-value"
       >
-        <span style="font-size:.6em;opacity:.7">Rp</span>
+
+        <span style="font-size:.6em;opacity:.7">
+          Rp
+        </span>
+
         <span>0</span>
+
       </div>
 
       <div class="wallet-desc">
@@ -566,7 +809,6 @@ header img{
       </div>
 
     </div>
-
 
     <div class="detail-btn">
 
@@ -585,9 +827,7 @@ header img{
     Tools
   </div>
 
-
   <section class="tools-grid">
-
 
     <!-- OAC -->
 
@@ -640,20 +880,18 @@ header img{
 
     </div>
 
-
   </section>
 
-
   <div style="height:80px"></div>
-
 
 </main>
 
 
-<!-- ================= BOTTOM NAV ================= -->
+<!-- ================= BOTTOM NAVIGATION ================= -->
 
 <nav class="bottom-nav">
 
+  <!-- HOME -->
 
   <div
     class="nav-item active"
@@ -662,34 +900,71 @@ header img{
 
     <i class="fa-solid fa-house"></i>
 
-    Home
+    <span>Home</span>
 
   </div>
 
+
+  <!-- CATALOG -->
 
   <div
     class="nav-item"
-    onclick="goReleases()"
+    onclick="goCatalog()"
   >
 
-    <i class="fa-solid fa-music"></i>
+    <i class="fa-solid fa-compact-disc"></i>
 
-    Releases
+    <span>Catalog</span>
 
   </div>
 
+
+  <!-- CREATE NEW RELEASE -->
+
+  <div
+    class="create-nav"
+    onclick="goCreateRelease()"
+  >
+
+    <div class="create-circle">
+
+      <i class="fa-solid fa-plus"></i>
+
+    </div>
+
+    <span class="create-label">
+      Create
+    </span>
+
+  </div>
+
+
+  <!-- TRANSACTION -->
 
   <div
     class="nav-item"
-    onclick="accountClick()"
+    onclick="goTransaction()"
   >
 
-    <i class="fa-regular fa-user"></i>
+    <i class="fa-solid fa-receipt"></i>
 
-    Account
+    <span>Transaction</span>
 
   </div>
 
+
+  <!-- ANALYTICS -->
+
+  <div
+    class="nav-item"
+    onclick="goAnalytics()"
+  >
+
+    <i class="fa-solid fa-chart-line"></i>
+
+    <span>Analytics</span>
+
+  </div>
 
 </nav>
 
@@ -702,6 +977,32 @@ header img{
 
 
 <script>
+
+/* ================= ROUTES ================= */
+
+const ROUTES = {
+
+  home: "../dashboard",
+
+  catalog: "../catalog",
+
+  create: "../releases/create",
+
+  transaction: "../transaction",
+
+  analytics: "../analytics",
+
+  account: "../account",
+
+  income: "../income",
+
+  oac: "../oac",
+
+  artwork: "../artwork-generate",
+
+  login: "../login"
+
+};
 
 
 /* ================= FIREBASE CONFIG ================= */
@@ -724,6 +1025,8 @@ const db = firebase.database();
 
 let targetSaldo = 0;
 
+let currentUser = null;
+
 
 /* ================= AUTH ================= */
 
@@ -731,15 +1034,27 @@ firebase.auth().onAuthStateChanged(user => {
 
   if(!user){
 
-    location.href="../login";
+    location.href = ROUTES.login;
 
     return;
 
   }
 
+  currentUser = user;
+
+  // PROFILE EMAIL
+
+  document.getElementById(
+    "profileEmail"
+  ).textContent = user.email || "-";
+
+
+  // LOAD NOTIFICATIONS
 
   loadMessages(user.uid);
 
+
+  // LOAD ARTIST DATA
 
   db.ref("users/" + user.uid)
     .once("value")
@@ -751,19 +1066,35 @@ firebase.auth().onAuthStateChanged(user => {
 
       targetSaldo = Number(d.saldo || 0);
 
+      const nama = d.nama || "Artist";
+
+
       document.getElementById(
         "namaArtis"
-      ).textContent =
-        "Hi, " + (d.nama || "Artist");
+      ).textContent = "Hi, " + nama;
+
+
+      document.getElementById(
+        "profileName"
+      ).textContent = nama;
+
 
       animateSaldo();
+
+    })
+    .catch(error => {
+
+      console.error(
+        "Gagal memuat data artist:",
+        error
+      );
 
     });
 
 });
 
 
-/* ================= SALDO ================= */
+/* ================= SALDO ANIMATION ================= */
 
 function animateSaldo(){
 
@@ -772,6 +1103,9 @@ function animateSaldo(){
   const step =
     Math.ceil(targetSaldo / 15) || 1;
 
+  const saldoElement =
+    document.getElementById("saldo");
+
   const i = setInterval(() => {
 
     if(angka < targetSaldo){
@@ -779,12 +1113,12 @@ function animateSaldo(){
       angka += step;
 
       if(angka > targetSaldo){
+
         angka = targetSaldo;
+
       }
 
-      document.getElementById(
-        "saldo"
-      ).innerHTML = `
+      saldoElement.innerHTML = `
 
         <span style="font-size:.6em;opacity:.7">
           Rp
@@ -807,7 +1141,61 @@ function animateSaldo(){
 }
 
 
-/* ================= NAVIGATION ================= */
+/* ================= PROFILE POPUP ================= */
+
+function toggleProfile(){
+
+  const popup =
+    document.getElementById("profilePopup");
+
+  popup.classList.toggle("show");
+
+}
+
+
+function closeProfile(){
+
+  document
+    .getElementById("profilePopup")
+    .classList.remove("show");
+
+}
+
+
+// CLOSE PROFILE WHEN CLICKING OUTSIDE
+
+document.addEventListener("click", function(e){
+
+  const popup =
+    document.getElementById("profilePopup");
+
+  const button =
+    document.getElementById("profileBtn");
+
+  if(
+    !popup.contains(e.target) &&
+    !button.contains(e.target)
+  ){
+
+    closeProfile();
+
+  }
+
+});
+
+
+/* ================= ACCOUNT ================= */
+
+function goAccount(){
+
+  closeProfile();
+
+  location.href = ROUTES.account;
+
+}
+
+
+/* ================= LOGOUT ================= */
 
 function logout(){
 
@@ -815,53 +1203,77 @@ function logout(){
     .signOut()
     .then(() => {
 
-      location.href="../login";
+      location.href = ROUTES.login;
+
+    })
+    .catch(error => {
+
+      console.error(
+        "Logout gagal:",
+        error
+      );
 
     });
 
 }
 
 
-function goReleases(){
-
-  location.href="../releases";
-
-}
-
-
-function accountClick(){
-
-  location.href="../account";
-
-}
-
+/* ================= NAVIGATION ================= */
 
 function homeClick(){
 
-  console.log(
-    "Dashboard active — tidak reload"
-  );
+  closeProfile();
+
+  // Already on Home.
+
+}
+
+
+function goCatalog(){
+
+  location.href = ROUTES.catalog;
+
+}
+
+
+function goCreateRelease(){
+
+  location.href = ROUTES.create;
+
+}
+
+
+function goTransaction(){
+
+  location.href = ROUTES.transaction;
+
+}
+
+
+function goAnalytics(){
+
+  location.href = ROUTES.analytics;
 
 }
 
 
 function goRekapan(){
 
-  location.href="../income";
+  location.href = ROUTES.income;
 
 }
 
 
 function goOAC(){
 
-  location.href="../oac";
+  location.href = ROUTES.oac;
 
 }
 
 
 function goArtwork(){
 
-  location.href="../artwork-generate";
+  location.href = ROUTES.artwork;
 
 }
 
@@ -887,8 +1299,11 @@ function loadMessages(uid){
         if(!m.read){
 
           messagesQueue.push({
+
             ...m,
+
             key:i.key
+
           });
 
         }
@@ -897,33 +1312,43 @@ function loadMessages(uid){
 
 
       const badge =
-        document.getElementById(
-          "notifBadge"
-        );
+        document.getElementById("notifBadge");
 
 
       if(messagesQueue.length > 0){
 
-        badge.style.display="flex";
+        badge.style.display = "flex";
 
         badge.textContent =
           messagesQueue.length;
 
       }else{
 
-        badge.style.display="none";
+        badge.style.display = "none";
 
       }
+
+    }, error => {
+
+      console.error(
+        "Gagal memuat notifikasi:",
+        error
+      );
 
     });
 
 }
 
 
+/* ================= OPEN MESSAGES ================= */
+
 function openMessages(){
 
-  if(messagesQueue.length === 0)
+  if(messagesQueue.length === 0){
+
     return;
+
+  }
 
   currentMsgIndex = 0;
 
@@ -932,16 +1357,17 @@ function openMessages(){
 }
 
 
+/* ================= SHOW MESSAGE ================= */
+
 function showCurrentMessage(){
 
   if(
-    currentMsgIndex >=
-    messagesQueue.length
+    currentMsgIndex >= messagesQueue.length
   ){
 
     document
       .getElementById("messagePopup")
-      .style.display="none";
+      .classList.remove("show");
 
     return;
 
@@ -964,24 +1390,14 @@ function showCurrentMessage(){
     m.body || "-";
 
 
-  const popup =
-    document.getElementById(
-      "messagePopup"
-    );
-
-
-  popup.style.display="flex";
-
-
-  fadeInElement(
-    document.querySelector(
-      ".message-card"
-    ),
-    250
-  );
+  document
+    .getElementById("messagePopup")
+    .classList.add("show");
 
 }
 
+
+/* ================= CLOSE MESSAGE ================= */
 
 function closeMessage(){
 
@@ -992,10 +1408,7 @@ function closeMessage(){
     messagesQueue[currentMsgIndex];
 
 
-  if(
-    user &&
-    m
-  ){
+  if(user && m){
 
     db.ref(
       "messages_inbox/" +
@@ -1015,91 +1428,28 @@ function closeMessage(){
 }
 
 
+/* ================= VIEW MESSAGE ================= */
+
 function viewMessage(){
-
-  const m =
-    messagesQueue[currentMsgIndex];
-
-  const user =
-    firebase.auth().currentUser;
-
-
-  if(
-    user &&
-    m
-  ){
-
-    db.ref(
-      "messages_inbox/" +
-      user.uid +
-      "/" +
-      m.key +
-      "/read"
-    ).set(true);
-
-  }
-
 
   closeMessage();
 
 }
 
 
-/* ================= ANIMATION ================= */
+/* ================= CLOSE POPUP OUTSIDE ================= */
 
-function fadeInElement(
-  el,
-  duration=350
-){
+document.getElementById(
+  "messagePopup"
+).addEventListener("click", function(e){
 
-  if(!el) return;
+  if(e.target === this){
 
-  el.style.opacity=0;
-
-  el.style.transform=
-    "translateY(12px)";
-
-  const start =
-    performance.now();
-
-
-  function animate(now){
-
-    const elapsed =
-      now - start;
-
-    const progress =
-      Math.min(
-        elapsed / duration,
-        1
-      );
-
-
-    el.style.opacity =
-      progress;
-
-    el.style.transform =
-      `translateY(${
-        12 * (1-progress)
-      }px)`;
-
-
-    if(progress < 1){
-
-      requestAnimationFrame(
-        animate
-      );
-
-    }
+    this.classList.remove("show");
 
   }
 
-
-  requestAnimationFrame(
-    animate
-  );
-
-}
+});
 
 
 /* ================= PAGE ANIMATION ================= */
@@ -1109,13 +1459,15 @@ window.addEventListener(
   () => {
 
     document
-      .querySelectorAll(
-        ".card,.tool-item"
-      )
+      .querySelectorAll(".card,.tool-item")
       .forEach((c,idx) => {
 
         setTimeout(
-          () => fadeInElement(c),
+          () => {
+
+            c.style.opacity = "1";
+
+          },
           idx * 100
         );
 
@@ -1127,4 +1479,4 @@ window.addEventListener(
 </script>
 
 </body>
-  </html>
+</html>
