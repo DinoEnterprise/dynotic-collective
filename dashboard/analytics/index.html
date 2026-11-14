@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -16,14 +15,12 @@
 <meta name="robots" content="noindex, nofollow">
 
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
 <style>
-
 *{
   margin:0;
   padding:0;
@@ -43,6 +40,7 @@ body{
 
 button{
   font-family:inherit;
+  cursor:pointer;
 }
 
 /* HEADER */
@@ -52,6 +50,7 @@ header{
   padding:0 18px;
   display:flex;
   align-items:center;
+  justify-content:space-between;
   background:#fff;
   border-bottom:1px solid #e8e8ed;
   position:fixed;
@@ -65,6 +64,144 @@ header{
   height:32px;
   width:auto;
   object-fit:contain;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.header-button{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:12px;
+  background:transparent;
+  color:#33353b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:17px;
+  position:relative;
+  transition:.15s;
+}
+
+.header-button:active{
+  background:#f1f2f7;
+  transform:scale(.94);
+}
+
+.notification-dot{
+  position:absolute;
+  top:7px;
+  right:7px;
+  width:7px;
+  height:7px;
+  background:#e34d4d;
+  border:1.5px solid #fff;
+  border-radius:50%;
+  display:none;
+}
+
+.header-button.has-notification .notification-dot{
+  display:block;
+}
+
+/* HEADER POPUPS */
+
+.header-popup{
+  position:absolute;
+  top:55px;
+  right:18px;
+  width:260px;
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:15px;
+  box-shadow:0 10px 35px rgba(0,0,0,.10);
+  padding:14px;
+  display:none;
+  animation:popupIn .18s ease;
+  z-index:1100;
+}
+
+.header-popup.show{
+  display:block;
+}
+
+.popup-title{
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:12px;
+}
+
+.popup-empty{
+  padding:20px 8px;
+  text-align:center;
+  color:#999ca4;
+  font-size:12px;
+}
+
+.popup-empty i{
+  font-size:22px;
+  margin-bottom:9px;
+  display:block;
+}
+
+.profile-info{
+  padding:4px 2px 13px;
+  border-bottom:1px solid #eeeeF2;
+  margin-bottom:8px;
+  overflow:hidden;
+}
+
+.profile-name{
+  font-size:13px;
+  font-weight:700;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.profile-email{
+  font-size:11px;
+  color:#92959e;
+  margin-top:3px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.profile-menu-item{
+  width:100%;
+  padding:11px 9px;
+  border:0;
+  background:transparent;
+  border-radius:9px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#33353b;
+  font-size:12px;
+  text-align:left;
+}
+
+.profile-menu-item i{
+  width:17px;
+  color:#858891;
+  font-size:13px;
+}
+
+.profile-menu-item:active{
+  background:#f1f2f7;
+}
+
+.profile-menu-item.logout{
+  color:#dc5555;
+}
+
+.profile-menu-item.logout i{
+  color:#dc5555;
 }
 
 /* CONTAINER */
@@ -94,7 +231,7 @@ header{
   margin-top:3px;
 }
 
-/* PREVIEW CONTAINER */
+/* PREVIEW */
 
 .preview-container{
   position:relative;
@@ -106,8 +243,6 @@ header{
   animation:pageIn .5s ease both;
 }
 
-/* BACKGROUND DASHBOARD */
-
 .dashboard-preview{
   padding:19px;
   filter:blur(5px);
@@ -115,8 +250,6 @@ header{
   transform:scale(1.015);
   pointer-events:none;
 }
-
-/* PREVIEW HEADER */
 
 .preview-header{
   display:flex;
@@ -275,7 +408,7 @@ header{
   border-radius:99px;
 }
 
-/* COMING SOON OVERLAY */
+/* COMING SOON */
 
 .coming-overlay{
   position:absolute;
@@ -473,7 +606,6 @@ header{
 /* DESKTOP */
 
 @media(min-width:700px){
-
   .container{
     width:100%;
   }
@@ -482,9 +614,7 @@ header{
     padding-left:max(5px,calc((100% - 650px)/2));
     padding-right:max(5px,calc((100% - 650px)/2));
   }
-
 }
-
 </style>
 </head>
 
@@ -500,6 +630,80 @@ header{
     alt="Dynotic Distribution"
   >
 
+  <div class="header-actions">
+
+    <!-- NOTIFICATION -->
+
+    <button
+      class="header-button"
+      id="notificationButton"
+      aria-label="Notifications"
+      onclick="toggleNotification()"
+    >
+      <i class="fa-regular fa-bell"></i>
+      <span class="notification-dot"></span>
+    </button>
+
+    <!-- ACCOUNT -->
+
+    <button
+      class="header-button"
+      id="profileButton"
+      aria-label="Account"
+      onclick="toggleProfile()"
+    >
+      <i class="fa-regular fa-user"></i>
+    </button>
+
+  </div>
+
+  <!-- NOTIFICATION POPUP -->
+
+  <div class="header-popup" id="notificationPopup">
+
+    <div class="popup-title">Notifications</div>
+
+    <div class="popup-empty">
+      <i class="fa-regular fa-bell-slash"></i>
+      No notifications yet
+    </div>
+
+  </div>
+
+  <!-- PROFILE POPUP -->
+
+  <div class="header-popup" id="profilePopup">
+
+    <div class="profile-info">
+
+      <div class="profile-name" id="profileName">
+        Artist Account
+      </div>
+
+      <div class="profile-email" id="profileEmail">
+        Loading account...
+      </div>
+
+    </div>
+
+    <button
+      class="profile-menu-item"
+      onclick="goAccount()"
+    >
+      <i class="fa-regular fa-user"></i>
+      <span>Account Settings</span>
+    </button>
+
+    <button
+      class="profile-menu-item logout"
+      onclick="logout()"
+    >
+      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      <span>Logout</span>
+    </button>
+
+  </div>
+
 </header>
 
 
@@ -508,20 +712,11 @@ header{
 <main class="container">
 
   <div class="page-title">
-
     <h1>Analytics</h1>
-
-    <p>
-      Monitor your music performance across platforms.
-    </p>
-
+    <p>Monitor your music performance across platforms.</p>
   </div>
 
-
-  <!-- ANALYTICS PREVIEW -->
-
   <section class="preview-container">
-
 
     <!-- BLURRED DASHBOARD -->
 
@@ -539,74 +734,31 @@ header{
 
       </div>
 
-
-      <!-- STATS -->
-
       <div class="stats-grid">
 
         <div class="stat-card">
-
-          <div class="stat-label">
-            Total Streams
-          </div>
-
-          <div class="stat-value">
-            128,450
-          </div>
-
-          <div class="stat-growth">
-            +12.8% this month
-          </div>
-
+          <div class="stat-label">Total Streams</div>
+          <div class="stat-value">128,450</div>
+          <div class="stat-growth">+12.8% this month</div>
         </div>
 
-
         <div class="stat-card">
-
-          <div class="stat-label">
-            Monthly Listeners
-          </div>
-
-          <div class="stat-value">
-            8,240
-          </div>
-
-          <div class="stat-growth">
-            +8.4% this month
-          </div>
-
+          <div class="stat-label">Monthly Listeners</div>
+          <div class="stat-value">8,240</div>
+          <div class="stat-growth">+8.4% this month</div>
         </div>
 
-
         <div class="stat-card">
-
-          <div class="stat-label">
-            Total Releases
-          </div>
-
-          <div class="stat-value">
-            24
-          </div>
-
+          <div class="stat-label">Total Releases</div>
+          <div class="stat-value">24</div>
         </div>
 
-
         <div class="stat-card">
-
-          <div class="stat-label">
-            Active Platforms
-          </div>
-
-          <div class="stat-value">
-            12
-          </div>
-
+          <div class="stat-label">Active Platforms</div>
+          <div class="stat-value">12</div>
         </div>
 
       </div>
-
-
-      <!-- STREAMING CHART -->
 
       <div class="chart-card">
 
@@ -619,7 +771,6 @@ header{
         </div>
 
         <div class="chart">
-
           <div class="bar" style="height:35%"></div>
           <div class="bar" style="height:48%"></div>
           <div class="bar" style="height:42%"></div>
@@ -632,13 +783,9 @@ header{
           <div class="bar" style="height:96%"></div>
           <div class="bar" style="height:80%"></div>
           <div class="bar" style="height:100%"></div>
-
         </div>
 
       </div>
-
-
-      <!-- PLATFORMS -->
 
       <div class="platform-card">
 
@@ -646,73 +793,45 @@ header{
           Platform Performance
         </div>
 
-
         <div class="platform-row">
-
           <div class="platform-icon">
             <i class="fa-brands fa-spotify"></i>
           </div>
-
           <div class="platform-info">
-
-            <div class="platform-name">
-              Spotify
-            </div>
-
+            <div class="platform-name">Spotify</div>
             <div class="platform-line">
               <div class="platform-progress" style="width:85%"></div>
             </div>
-
           </div>
-
         </div>
 
-
         <div class="platform-row">
-
           <div class="platform-icon">
             <i class="fa-brands fa-apple"></i>
           </div>
-
           <div class="platform-info">
-
-            <div class="platform-name">
-              Apple Music
-            </div>
-
+            <div class="platform-name">Apple Music</div>
             <div class="platform-line">
               <div class="platform-progress" style="width:65%"></div>
             </div>
-
           </div>
-
         </div>
 
-
         <div class="platform-row">
-
           <div class="platform-icon">
             <i class="fa-brands fa-youtube"></i>
           </div>
-
           <div class="platform-info">
-
-            <div class="platform-name">
-              YouTube Music
-            </div>
-
+            <div class="platform-name">YouTube Music</div>
             <div class="platform-line">
               <div class="platform-progress" style="width:52%"></div>
             </div>
-
           </div>
-
         </div>
 
       </div>
 
     </div>
-
 
     <!-- COMING SOON -->
 
@@ -725,11 +844,8 @@ header{
         </div>
 
         <div class="coming-badge">
-
           <span class="coming-dot"></span>
-
           Coming soon
-
         </div>
 
         <div class="coming-title">
@@ -741,11 +857,8 @@ header{
         </div>
 
         <div class="coming-footer">
-
           <i class="fa-solid fa-circle-info"></i>
-
           <span>Analytics features are currently in development.</span>
-
         </div>
 
       </div>
@@ -763,66 +876,31 @@ header{
 
 <nav class="bottom-nav">
 
-  <div
-    class="nav-item"
-    onclick="goHome()"
-  >
-
+  <div class="nav-item" onclick="goHome()">
     <i class="fa-solid fa-house"></i>
-
     <span>Home</span>
-
   </div>
 
-
-  <div
-    class="nav-item"
-    onclick="goCatalog()"
-  >
-
+  <div class="nav-item" onclick="goCatalog()">
     <i class="fa-solid fa-compact-disc"></i>
-
     <span>Catalog</span>
-
   </div>
 
-
-  <div
-    class="create-nav"
-    onclick="goCreateRelease()"
-  >
-
+  <div class="create-nav" onclick="goCreateRelease()">
     <div class="create-circle">
-
       <i class="fa-solid fa-plus"></i>
-
     </div>
-
     <span>Create</span>
-
   </div>
 
-
-  <div
-    class="nav-item"
-    onclick="goTransactions()"
-  >
-
+  <div class="nav-item" onclick="goTransactions()">
     <i class="fa-solid fa-receipt"></i>
-
     <span>Transactions</span>
-
   </div>
 
-
-  <div
-    class="nav-item active"
-  >
-
+  <div class="nav-item active">
     <i class="fa-solid fa-chart-line"></i>
-
     <span>Analytics</span>
-
   </div>
 
 </nav>
@@ -853,40 +931,124 @@ const auth = firebase.auth();
 auth.onAuthStateChanged(user => {
 
   if(!user){
-
     location.href = "../login";
-
     return;
+  }
 
+  document.getElementById("profileEmail").textContent =
+    user.email || "Email unavailable";
+
+  document.getElementById("profileName").textContent =
+    user.displayName || "Artist Account";
+
+});
+
+
+/* HEADER POPUPS */
+
+function closePopups(){
+
+  document.getElementById("notificationPopup")
+    .classList.remove("show");
+
+  document.getElementById("profilePopup")
+    .classList.remove("show");
+
+}
+
+function toggleNotification(){
+
+  const popup = document.getElementById("notificationPopup");
+  const wasOpen = popup.classList.contains("show");
+
+  closePopups();
+
+  if(!wasOpen){
+    popup.classList.add("show");
+  }
+
+}
+
+function toggleProfile(){
+
+  const popup = document.getElementById("profilePopup");
+  const wasOpen = popup.classList.contains("show");
+
+  closePopups();
+
+  if(!wasOpen){
+    popup.classList.add("show");
+  }
+
+}
+
+document.addEventListener("click", function(e){
+
+  const notificationButton =
+    document.getElementById("notificationButton");
+
+  const profileButton =
+    document.getElementById("profileButton");
+
+  const notificationPopup =
+    document.getElementById("notificationPopup");
+
+  const profilePopup =
+    document.getElementById("profilePopup");
+
+  if(
+    !notificationButton.contains(e.target) &&
+    !profileButton.contains(e.target) &&
+    !notificationPopup.contains(e.target) &&
+    !profilePopup.contains(e.target)
+  ){
+    closePopups();
   }
 
 });
 
 
+/* ACCOUNT */
+
+function goAccount(){
+  location.href = "../account";
+}
+
+
+/* LOGOUT */
+
+function logout(){
+
+  if(!confirm("Are you sure you want to logout?")){
+    return;
+  }
+
+  auth.signOut().then(() => {
+    location.href = "../login";
+  }).catch(error => {
+    alert("Logout failed. Please try again.");
+    console.error(error);
+  });
+
+}
+
+
 /* NAVIGATION */
 
 function goHome(){
-
   location.href = "../dashboard";
-
 }
 
 function goCatalog(){
-
   location.href = "../catalog";
-
 }
 
 function goCreateRelease(){
-
   location.href = "../catalog/releases/create";
-
 }
 
 function goTransactions(){
-
   location.href = "../transactions";
-
 }
 
 </script>
