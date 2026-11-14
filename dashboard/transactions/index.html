@@ -1,0 +1,2483 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Transactions | Dynotic Distribution</title>
+
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+
+<meta name="theme-color" content="#ffffff">
+<meta name="robots" content="noindex, nofollow">
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:"Outfit",sans-serif;
+}
+
+:root{
+  --bg:#f1f2f7;
+  --white:#fff;
+  --text:#17181c;
+  --muted:#777b84;
+  --border:#e8e8ed;
+  --green:#16a34a;
+  --red:#ef4444;
+  --orange:#d97706;
+}
+
+body{
+  background:var(--bg);
+  min-height:100vh;
+  color:var(--text);
+  padding-top:64px;
+  padding-bottom:105px;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+
+button,input{
+  font-family:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+/* ================= HEADER ================= */
+
+header{
+  height:64px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  background:#fff;
+  border-bottom:1px solid #e8e8ed;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+}
+
+.header-logo{
+  height:32px;
+  width:auto;
+  object-fit:contain;
+}
+
+.header-actions{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* NOTIFICATION BUTTON */
+
+.notif-btn{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  cursor:pointer;
+  transition:.15s;
+  border:none;
+  color:#17181c;
+}
+
+.notif-btn:active,
+.profile-btn:active{
+  transform:scale(.93);
+}
+
+.notif-btn i{
+  font-size:16px;
+}
+
+.notif-badge{
+  position:absolute;
+  top:-4px;
+  right:-4px;
+  min-width:17px;
+  height:17px;
+  padding:0 4px;
+  border-radius:999px;
+  background:#ef4444;
+  color:#fff;
+  font-size:9px;
+  font-weight:700;
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+/* PROFILE */
+
+.profile-btn{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.15s;
+  border:2px solid #f1f2f7;
+  overflow:hidden;
+}
+
+.profile-btn i{
+  font-size:15px;
+}
+
+.profile-popup{
+  position:fixed;
+  top:58px;
+  right:14px;
+  width:260px;
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:16px;
+  box-shadow:0 10px 35px rgba(0,0,0,.12);
+  padding:15px;
+  z-index:1500;
+  display:none;
+  animation:popupIn .18s ease;
+}
+
+.profile-popup.show{
+  display:block;
+}
+
+.profile-info{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding-bottom:13px;
+}
+
+.profile-avatar{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+.profile-avatar i{
+  font-size:17px;
+}
+
+.profile-details{
+  min-width:0;
+}
+
+.profile-name{
+  font-size:13px;
+  font-weight:700;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.profile-email{
+  font-size:11px;
+  color:#858891;
+  margin-top:3px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.profile-divider{
+  height:1px;
+  background:#eeeeF2;
+  margin:2px 0 9px;
+}
+
+.profile-option{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 9px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.profile-option:hover{
+  background:#f5f5f8;
+}
+
+.profile-option i{
+  width:18px;
+  text-align:center;
+  color:#777b84;
+  font-size:14px;
+}
+
+.profile-option.logout{
+  color:#e04444;
+}
+
+.profile-option.logout i{
+  color:#e04444;
+}
+
+/* ================= MAIN ================= */
+
+.container{
+  width:calc(100% - 28px);
+  max-width:760px;
+  margin:0 auto;
+}
+
+.page-heading{
+  margin-top:24px;
+  animation:pageIn .45s ease both;
+}
+
+.page-heading h1{
+  font-size:23px;
+  font-weight:700;
+  letter-spacing:-.5px;
+}
+
+.page-heading p{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:5px;
+  line-height:1.6;
+}
+
+/* ================= CARDS ================= */
+
+.card{
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:18px;
+  padding:18px;
+  margin-top:20px;
+  animation:pageIn .45s ease both;
+}
+
+/* BALANCE */
+
+.balance-card{
+  background:#17181c;
+  color:#fff;
+  border:0;
+  position:relative;
+  overflow:hidden;
+}
+
+.balance-card::after{
+  content:"";
+  position:absolute;
+  width:170px;
+  height:170px;
+  border-radius:50%;
+  background:rgba(255,255,255,.045);
+  right:-65px;
+  top:-75px;
+  pointer-events:none;
+}
+
+.balance-label{
+  font-size:12px;
+  color:#c5c6cc;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.balance-label i{
+  font-size:13px;
+}
+
+.balance-amount{
+  font-size:27px;
+  font-weight:700;
+  margin-top:12px;
+  letter-spacing:-.5px;
+  overflow-wrap:anywhere;
+}
+
+.balance-caption{
+  font-size:11px;
+  color:#c5c6cc;
+  margin-top:7px;
+  line-height:1.6;
+}
+
+.balance-actions{
+  display:flex;
+  gap:9px;
+  margin-top:20px;
+  position:relative;
+  z-index:1;
+}
+
+.btn{
+  border:0;
+  border-radius:11px;
+  padding:11px 15px;
+  font-size:12px;
+  font-weight:600;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  transition:.15s;
+}
+
+.btn:active{
+  transform:scale(.97);
+}
+
+.btn-light{
+  background:#fff;
+  color:#17181c;
+}
+
+.btn-dark{
+  background:#17181c;
+  color:#fff;
+}
+
+.btn-outline{
+  background:#fff;
+  color:#17181c;
+  border:1px solid #e8e8ed;
+}
+
+.btn:disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+/* SECTION */
+
+.section-heading{
+  margin:25px 3px 10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.section-heading h2{
+  font-size:13px;
+  font-weight:600;
+  color:#777b84;
+}
+
+.section-heading span{
+  font-size:10px;
+  color:#777b84;
+}
+
+/* REPORT CARD */
+
+.report-card{
+  padding:0;
+  overflow:hidden;
+}
+
+.report-top{
+  padding:17px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  border-bottom:1px solid #e8e8ed;
+}
+
+.report-top h3{
+  font-size:14px;
+  font-weight:700;
+}
+
+.report-top p{
+  color:#777b84;
+  font-size:11px;
+  margin-top:4px;
+  line-height:1.5;
+}
+
+.report-count{
+  font-size:10px;
+  color:#777b84;
+  background:#f1f2f7;
+  padding:6px 9px;
+  border-radius:8px;
+  white-space:nowrap;
+}
+
+.report-list{
+  display:flex;
+  flex-direction:column;
+}
+
+.report-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:15px 18px;
+  border-bottom:1px solid #f0f0f4;
+}
+
+.report-item:last-child{
+  border-bottom:none;
+}
+
+.report-icon{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  overflow:hidden;
+}
+
+.report-icon img{
+  width:25px;
+  height:25px;
+  object-fit:contain;
+}
+
+.report-icon i{
+  font-size:16px;
+  color:#555963;
+}
+
+.report-info{
+  flex:1;
+  min-width:0;
+}
+
+.report-info h3{
+  font-size:12px;
+  font-weight:600;
+  overflow-wrap:anywhere;
+  line-height:1.5;
+}
+
+.report-info p{
+  font-size:10px;
+  color:#777b84;
+  margin-top:5px;
+  overflow-wrap:anywhere;
+  line-height:1.5;
+}
+
+.report-status{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:10px;
+  font-weight:600;
+  margin-top:7px;
+}
+
+.status-accepted,
+.status-paid,
+.status-approved{
+  color:#16a34a;
+}
+
+.status-pending,
+.status-processing{
+  color:#d97706;
+}
+
+.status-rejected,
+.status-failed{
+  color:#dc2626;
+}
+
+.report-action{
+  flex-shrink:0;
+}
+
+.report-action button{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  border:1px solid #e8e8ed;
+  background:#fff;
+  color:#17181c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.report-action button:active{
+  background:#f1f2f7;
+}
+
+.report-action button:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+/* EMPTY STATE */
+
+.empty-state{
+  padding:35px 20px;
+  text-align:center;
+}
+
+.empty-icon{
+  width:48px;
+  height:48px;
+  border-radius:15px;
+  margin:0 auto 13px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777b84;
+  font-size:18px;
+}
+
+.empty-state h3{
+  font-size:13px;
+  font-weight:600;
+}
+
+.empty-state p{
+  color:#777b84;
+  font-size:11px;
+  margin-top:6px;
+  line-height:1.7;
+}
+
+.loading{
+  padding:30px;
+  text-align:center;
+  color:#777b84;
+  font-size:12px;
+}
+
+.loading i{
+  margin-right:7px;
+}
+
+/* PAGINATION */
+
+.pagination{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:13px 18px;
+  border-top:1px solid #f0f0f4;
+}
+
+.pagination-info{
+  font-size:10px;
+  color:#777b84;
+}
+
+.pagination-actions{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.pagination-actions button{
+  min-width:32px;
+  height:32px;
+  padding:0 9px;
+  border:1px solid #e8e8ed;
+  border-radius:9px;
+  background:#fff;
+  color:#17181c;
+  font-size:11px;
+  font-weight:600;
+}
+
+.pagination-actions button:disabled{
+  opacity:.35;
+  cursor:not-allowed;
+}
+
+/* INFO */
+
+.info-card{
+  display:flex;
+  align-items:flex-start;
+  gap:11px;
+}
+
+.info-icon{
+  width:35px;
+  height:35px;
+  background:#f1f2f7;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  font-size:14px;
+}
+
+.info-text h3{
+  font-size:12px;
+  font-weight:600;
+}
+
+.info-text p{
+  color:#777b84;
+  font-size:11px;
+  line-height:1.7;
+  margin-top:5px;
+}
+
+/* ================= MODAL ================= */
+
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  background:rgba(18,19,24,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.modal-overlay.show{
+  display:flex;
+}
+
+.modal{
+  width:100%;
+  max-width:390px;
+  background:#fff;
+  border-radius:20px;
+  padding:22px;
+  animation:modalIn .2s ease;
+  max-height:90vh;
+  overflow-y:auto;
+}
+
+.modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.modal-header h2{
+  font-size:17px;
+  font-weight:700;
+}
+
+.modal-close{
+  width:32px;
+  height:32px;
+  border:0;
+  border-radius:10px;
+  background:#f1f2f7;
+  color:#17181c;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.form-label{
+  font-size:12px;
+  font-weight:600;
+  display:block;
+  margin-bottom:8px;
+}
+
+.form-input-wrap{
+  position:relative;
+}
+
+.form-prefix{
+  position:absolute;
+  left:13px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:13px;
+  color:#777b84;
+  font-weight:600;
+}
+
+.form-input{
+  width:100%;
+  height:46px;
+  border:1px solid #e8e8ed;
+  background:#fff;
+  border-radius:11px;
+  padding:0 13px 0 43px;
+  outline:none;
+  font-size:14px;
+  color:#17181c;
+}
+
+.form-input:focus{
+  border-color:#a1a1aa;
+}
+
+.form-help{
+  color:#777b84;
+  font-size:10px;
+  line-height:1.6;
+  margin-top:8px;
+}
+
+.modal-balance{
+  background:#f1f2f7;
+  border-radius:12px;
+  padding:13px;
+  margin-bottom:18px;
+}
+
+.modal-balance span{
+  color:#777b84;
+  font-size:11px;
+}
+
+.modal-balance strong{
+  display:block;
+  font-size:16px;
+  margin-top:5px;
+}
+
+.modal-error{
+  display:none;
+  background:#fef2f2;
+  color:#dc2626;
+  padding:11px 12px;
+  border-radius:10px;
+  font-size:11px;
+  line-height:1.6;
+  margin-top:12px;
+}
+
+.modal-error.show{
+  display:block;
+}
+
+.modal-actions{
+  display:flex;
+  gap:9px;
+  margin-top:20px;
+}
+
+.modal-actions button{
+  flex:1;
+}
+
+/* ================= NOTIFICATIONS ================= */
+
+.notif-overlay{
+  position:fixed;
+  inset:0;
+  z-index:1500;
+  background:rgba(0,0,0,.18);
+  display:none;
+}
+
+.notif-overlay.show{
+  display:block;
+}
+
+.notif-panel{
+  position:fixed;
+  z-index:1501;
+  top:72px;
+  right:14px;
+  width:calc(100% - 28px);
+  max-width:360px;
+  max-height:min(70vh,520px);
+  overflow-y:auto;
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:17px;
+  box-shadow:0 12px 35px rgba(0,0,0,.12);
+  display:none;
+  animation:pageIn .2s ease both;
+}
+
+.notif-panel.show{
+  display:block;
+}
+
+.notif-panel-header{
+  padding:16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #e8e8ed;
+}
+
+.notif-panel-header h3{
+  font-size:14px;
+  font-weight:700;
+}
+
+.notif-panel-header button{
+  border:0;
+  background:none;
+  font-size:12px;
+  color:#777b84;
+}
+
+.notif-list{
+  padding:5px 0;
+}
+
+.notif-item{
+  padding:13px 16px;
+  border-bottom:1px solid #f0f0f4;
+  cursor:pointer;
+}
+
+.notif-item:last-child{
+  border-bottom:none;
+}
+
+.notif-item.unread{
+  background:#fafaff;
+}
+
+.notif-item h4{
+  font-size:12px;
+  font-weight:600;
+  line-height:1.5;
+}
+
+.notif-item p{
+  color:#777b84;
+  font-size:11px;
+  line-height:1.6;
+  margin-top:4px;
+  overflow-wrap:anywhere;
+}
+
+.notif-empty{
+  padding:28px 15px;
+  text-align:center;
+  color:#777b84;
+  font-size:12px;
+}
+
+/* ================= BOTTOM NAVIGATION ================= */
+
+.bottom-nav{
+  height:76px;
+  background:#fff;
+  border-top:1px solid #e6e6eb;
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:1000;
+  padding:0 5px;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+
+.nav-item{
+  flex:1;
+  min-width:0;
+  text-align:center;
+  font-size:10px;
+  font-weight:500;
+  color:#999ca4;
+  padding:9px 2px;
+  cursor:pointer;
+  transition:.15s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+}
+
+.nav-item i{
+  font-size:18px;
+}
+
+.nav-item:active{
+  transform:scale(.92);
+}
+
+.nav-item.active{
+  color:#17181c;
+  font-weight:700;
+}
+
+/* CREATE BUTTON */
+
+.create-nav{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  cursor:pointer;
+  color:#999ca4;
+  font-size:10px;
+  font-weight:500;
+}
+
+.create-circle{
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  margin-top:-27px;
+  border:4px solid #f1f2f7;
+  box-sizing:content-box;
+  transition:.15s;
+}
+
+.create-nav:active .create-circle{
+  transform:scale(.91);
+}
+
+.create-label{
+  margin-top:0;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  z-index:3000;
+  left:50%;
+  bottom:90px;
+  transform:translate(-50%,15px);
+  opacity:0;
+  pointer-events:none;
+  background:#17181c;
+  color:#fff;
+  border-radius:12px;
+  padding:12px 16px;
+  font-size:12px;
+  max-width:calc(100% - 36px);
+  text-align:center;
+  transition:.25s;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* ANIMATIONS */
+
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translateY(12px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes popupIn{
+  from{
+    opacity:0;
+    transform:translateY(-7px) scale(.98);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+@keyframes modalIn{
+  from{
+    opacity:0;
+    transform:translateY(10px) scale(.98);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+  .container{
+    width:calc(100% - 28px);
+  }
+}
+
+/* SMALL MOBILE */
+
+@media(max-width:380px){
+  .balance-amount{
+    font-size:23px;
+  }
+
+  .card{
+    padding:15px;
+  }
+
+  .report-item{
+    padding:13px;
+    gap:9px;
+  }
+
+  .report-icon{
+    width:38px;
+    height:38px;
+  }
+
+  .report-action button{
+    width:31px;
+    height:31px;
+  }
+}
+
+/* DESKTOP */
+
+@media(min-width:700px){
+  .container{
+    width:100%;
+  }
+
+  .bottom-nav{
+    padding-left:max(5px,calc((100% - 650px)/2));
+    padding-right:max(5px,calc((100% - 650px)/2));
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+  <img
+    src="../assets/dynotic-distribution.png"
+    class="header-logo"
+    alt="Dynotic Distribution"
+  >
+
+  <div class="header-actions">
+
+    <button
+      class="notif-btn"
+      id="notifButton"
+      type="button"
+      aria-label="Notifikasi"
+    >
+      <i class="fa-regular fa-bell"></i>
+      <span class="notif-badge" id="notifBadge">0</span>
+    </button>
+
+    <div
+      class="profile-btn"
+      onclick="toggleProfile()"
+      id="profileBtn"
+    >
+      <i class="fa-regular fa-user"></i>
+    </div>
+
+  </div>
+</header>
+
+<!-- ================= PROFILE POPUP ================= -->
+
+<div class="profile-popup" id="profilePopup">
+
+  <div class="profile-info">
+
+    <div class="profile-avatar">
+      <i class="fa-regular fa-user"></i>
+    </div>
+
+    <div class="profile-details">
+
+      <div class="profile-name" id="profileName">
+        Artist
+      </div>
+
+      <div class="profile-email" id="profileEmail">
+        -
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="profile-divider"></div>
+
+  <div class="profile-option" onclick="goAccount()">
+    <i class="fa-solid fa-gear"></i>
+    <span>Account Settings</span>
+  </div>
+
+  <div class="profile-option logout" onclick="logout()">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    <span>Logout</span>
+  </div>
+
+</div>
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+  <section class="page-heading">
+    <h1>Income</h1>
+    <p>Kelola pendapatan royalti dan pengajuan pembayaran kamu.</p>
+  </section>
+
+  <!-- BALANCE -->
+
+  <section class="card balance-card">
+
+    <div class="balance-label">
+      <i class="fa-solid fa-wallet"></i>
+      Saldo Tersedia
+    </div>
+
+    <div class="balance-amount" id="balanceAmount">
+      Rp0
+    </div>
+
+    <p class="balance-caption">
+      Saldo yang tercatat pada akun Dynotic kamu.
+    </p>
+
+    <div class="balance-actions">
+      <button class="btn btn-light" id="requestInvoiceButton" type="button">
+        <i class="fa-solid fa-file-invoice-dollar"></i>
+        Ajukan Invoice
+      </button>
+    </div>
+
+  </section>
+
+  <!-- RIWAYAT LAPORAN ROYALTI -->
+
+  <div class="section-heading">
+    <h2>Riwayat Laporan Royalti</h2>
+  </div>
+
+  <section class="card report-card">
+
+    <div class="report-top">
+      <div>
+        <h3>Laporan Royalti</h3>
+        <p>Laporan pendapatan yang diterbitkan untuk akun kamu.</p>
+      </div>
+
+      <span class="report-count" id="reportCount">
+        0 laporan
+      </span>
+    </div>
+
+    <div class="report-list" id="reportList">
+      <div class="loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Memuat laporan...
+      </div>
+    </div>
+
+    <div class="pagination" id="reportPagination"></div>
+
+  </section>
+
+  <!-- RIWAYAT PENGAJUAN INVOICE -->
+
+  <div class="section-heading">
+    <h2>Riwayat Pengajuan Invoice</h2>
+    <span id="invoiceCount">0 pengajuan</span>
+  </div>
+
+  <section class="card report-card">
+
+    <div class="report-top">
+      <div>
+        <h3>Pengajuan Pembayaran</h3>
+        <p>Pantau status permintaan pencairan saldo kamu.</p>
+      </div>
+    </div>
+
+    <div class="report-list" id="invoiceList">
+      <div class="loading">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Memuat pengajuan...
+      </div>
+    </div>
+
+    <div class="pagination" id="invoicePagination"></div>
+
+  </section>
+
+  <!-- INFORMATION -->
+
+  <div class="section-heading">
+    <h2>Informasi</h2>
+  </div>
+
+  <section class="card info-card">
+
+    <div class="info-icon">
+      <i class="fa-solid fa-circle-info"></i>
+    </div>
+
+    <div class="info-text">
+      <h3>Ketentuan Pengajuan Invoice</h3>
+      <p>
+        Minimum pengajuan invoice adalah Rp100.000.
+        Pengajuan akan diperiksa oleh tim Dynotic.
+        Status pengajuan dapat dipantau pada bagian Riwayat Pengajuan Invoice.
+      </p>
+    </div>
+
+  </section>
+
+  <div style="height:15px"></div>
+
+</main>
+
+<!-- ================= BOTTOM NAVIGATION ================= -->
+
+<nav class="bottom-nav">
+
+  <div class="nav-item" onclick="goHome()">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span>
+  </div>
+
+  <div class="nav-item" onclick="goCatalog()">
+    <i class="fa-solid fa-compact-disc"></i>
+    <span>Catalog</span>
+  </div>
+
+  <div class="create-nav" onclick="goCreateRelease()">
+    <div class="create-circle">
+      <i class="fa-solid fa-plus"></i>
+    </div>
+    <span class="create-label">Create</span>
+  </div>
+
+  <div class="nav-item active">
+    <i class="fa-solid fa-receipt"></i>
+    <span>Transactions</span>
+  </div>
+
+  <div class="nav-item" onclick="goAnalytics()">
+    <i class="fa-solid fa-chart-line"></i>
+    <span>Analytics</span>
+  </div>
+
+</nav>
+
+<!-- ================= NOTIFICATION BACKDROP ================= -->
+
+<div class="notif-overlay" id="notifOverlay"></div>
+
+<!-- ================= NOTIFICATION PANEL ================= -->
+
+<div class="notif-panel" id="notifPanel">
+
+  <div class="notif-panel-header">
+    <h3>Notifikasi</h3>
+    <button type="button" id="closeNotifButton">Tutup</button>
+  </div>
+
+  <div class="notif-list" id="notifList">
+    <div class="notif-empty">Memuat notifikasi...</div>
+  </div>
+
+</div>
+
+<!-- ================= INVOICE MODAL ================= -->
+
+<div class="modal-overlay" id="invoiceModal">
+
+  <div class="modal">
+
+    <div class="modal-header">
+      <h2>Ajukan Invoice</h2>
+
+      <button
+        class="modal-close"
+        id="closeInvoiceButton"
+        type="button"
+        aria-label="Tutup"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="modal-balance">
+      <span>Saldo tersedia</span>
+      <strong id="modalBalance">Rp0</strong>
+    </div>
+
+    <label class="form-label" for="invoiceAmount">
+      Nominal pengajuan
+    </label>
+
+    <div class="form-input-wrap">
+      <span class="form-prefix">Rp</span>
+
+      <input
+        class="form-input"
+        type="number"
+        id="invoiceAmount"
+        min="100000"
+        step="1000"
+        inputmode="numeric"
+        placeholder="100000"
+      >
+    </div>
+
+    <p class="form-help">
+      Minimum Rp100.000 dan tidak boleh melebihi saldo tersedia.
+      Pengajuan akan masuk ke antrean pemeriksaan admin.
+    </p>
+
+    <div class="modal-error" id="invoiceError"></div>
+
+    <div class="modal-actions">
+
+      <button class="btn btn-outline" id="cancelInvoiceButton" type="button">
+        Batal
+      </button>
+
+      <button class="btn btn-dark" id="submitInvoiceButton" type="button">
+        <i class="fa-solid fa-paper-plane"></i>
+        Ajukan
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= ROUTES ================= */
+
+const ROUTES = {
+  home: "../home",
+  catalog: "../catalog",
+  create: "../catalog/releases/create",
+  transactions: "../transactions",
+  analytics: "../analytics",
+  account: "../account",
+  login: "../login"
+};
+
+/* ================= FIREBASE ================= */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain: "dynopay-2513c.firebaseapp.com",
+  databaseURL: "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+const auth = firebase.auth();
+const db = firebase.database();
+
+let currentUser = null;
+let currentSaldo = 0;
+
+let messagesRef = null;
+let messagesListener = null;
+
+let royaltyRef = null;
+let royaltyListener = null;
+
+let invoiceRef = null;
+let invoiceListener = null;
+
+let submittingInvoice = false;
+let toastTimeout = null;
+
+/* ================= HELPERS ================= */
+
+const rupiah = value =>
+  "Rp" + Number(value || 0).toLocaleString("id-ID");
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  }[char]));
+}
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(toastTimeout);
+
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2800);
+}
+
+function showInvoiceError(message) {
+  const error = document.getElementById("invoiceError");
+
+  error.textContent = message;
+  error.classList.add("show");
+}
+
+function clearInvoiceError() {
+  const error = document.getElementById("invoiceError");
+
+  error.textContent = "";
+  error.classList.remove("show");
+}
+
+/* ================= PROFILE ================= */
+
+function toggleProfile() {
+  document.getElementById("profilePopup")
+    .classList.toggle("show");
+}
+
+function closeProfile() {
+  document.getElementById("profilePopup")
+    .classList.remove("show");
+}
+
+document.addEventListener("click", function(event) {
+  const popup = document.getElementById("profilePopup");
+  const button = document.getElementById("profileBtn");
+
+  if (
+    popup &&
+    button &&
+    !popup.contains(event.target) &&
+    !button.contains(event.target)
+  ) {
+    closeProfile();
+  }
+});
+
+function goAccount() {
+  closeProfile();
+  window.location.href = ROUTES.account;
+}
+
+function logout() {
+  auth.signOut()
+    .then(() => {
+      window.location.href = ROUTES.login;
+    })
+    .catch(error => {
+      console.error("Logout gagal:", error);
+      showToast("Logout gagal. Silakan coba lagi.");
+    });
+}
+
+/* ================= NAVIGATION ================= */
+
+function goHome() {
+  window.location.href = ROUTES.home;
+}
+
+function goCatalog() {
+  window.location.href = ROUTES.catalog;
+}
+
+function goCreateRelease() {
+  window.location.href = ROUTES.create;
+}
+
+function goAnalytics() {
+  window.location.href = ROUTES.analytics;
+}
+
+/* ================= INVOICE MODAL ================= */
+
+function openInvoiceModal() {
+  if (!currentUser) return;
+
+  clearInvoiceError();
+
+  document.getElementById("invoiceAmount").value = "";
+  document.getElementById("modalBalance").textContent =
+    rupiah(currentSaldo);
+
+  document.getElementById("invoiceModal")
+    .classList.add("show");
+}
+
+function closeInvoiceModal() {
+  if (submittingInvoice) return;
+
+  document.getElementById("invoiceModal")
+    .classList.remove("show");
+
+  clearInvoiceError();
+}
+
+document.getElementById("requestInvoiceButton")
+  .addEventListener("click", openInvoiceModal);
+
+document.getElementById("closeInvoiceButton")
+  .addEventListener("click", closeInvoiceModal);
+
+document.getElementById("cancelInvoiceButton")
+  .addEventListener("click", closeInvoiceModal);
+
+document.getElementById("invoiceModal")
+  .addEventListener("click", event => {
+    if (event.target.id === "invoiceModal") {
+      closeInvoiceModal();
+    }
+  });
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeInvoiceModal();
+    closeNotifications();
+    closeProfile();
+  }
+});
+
+/* ================= NOTIFICATIONS ================= */
+
+function openNotifications() {
+  document.getElementById("notifPanel")
+    .classList.add("show");
+
+  document.getElementById("notifOverlay")
+    .classList.add("show");
+}
+
+function closeNotifications() {
+  document.getElementById("notifPanel")
+    .classList.remove("show");
+
+  document.getElementById("notifOverlay")
+    .classList.remove("show");
+}
+
+document.getElementById("notifButton")
+  .addEventListener("click", () => {
+    const panel = document.getElementById("notifPanel");
+
+    if (panel.classList.contains("show")) {
+      closeNotifications();
+    } else {
+      openNotifications();
+    }
+  });
+
+document.getElementById("closeNotifButton")
+  .addEventListener("click", closeNotifications);
+
+document.getElementById("notifOverlay")
+  .addEventListener("click", closeNotifications);
+
+function loadMessages(uid) {
+  if (messagesRef && messagesListener) {
+    messagesRef.off("value", messagesListener);
+  }
+
+  messagesRef = db.ref("messages_inbox/" + uid);
+
+  messagesListener = snapshot => {
+    const data = snapshot.val() || {};
+
+    const messages = Object.entries(data)
+      .map(([key, message]) => ({
+        key,
+        ...message
+      }))
+      .sort((a, b) =>
+        Number(b.createdAt || b.timestamp || 0) -
+        Number(a.createdAt || a.timestamp || 0)
+      );
+
+    const unreadCount =
+      messages.filter(message => !message.read).length;
+
+    const badge = document.getElementById("notifBadge");
+
+    if (unreadCount > 0) {
+      badge.textContent = unreadCount > 99 ? "99+" : unreadCount;
+      badge.style.display = "flex";
+    } else {
+      badge.style.display = "none";
+    }
+
+    const list = document.getElementById("notifList");
+
+    if (!messages.length) {
+      list.innerHTML = `
+        <div class="notif-empty">
+          <i class="fa-regular fa-bell-slash"></i>
+          <p style="margin-top:9px">Belum ada notifikasi.</p>
+        </div>
+      `;
+      return;
+    }
+
+    list.innerHTML = messages.map(message => `
+      <div class="notif-item ${message.read ? "" : "unread"}"
+           data-message-key="${escapeHTML(message.key)}">
+
+        <h4>${escapeHTML(message.subject || "Notifikasi Dynotic")}</h4>
+        <p>${escapeHTML(message.body || "")}</p>
+
+      </div>
+    `).join("");
+
+    list.querySelectorAll(".notif-item").forEach(item => {
+      item.addEventListener("click", async () => {
+        const key = item.dataset.messageKey;
+        const message = data[key];
+
+        if (!message || message.read) return;
+
+        try {
+          await db.ref(
+            "messages_inbox/" + uid + "/" + key
+          ).update({
+            read: true
+          });
+        } catch (error) {
+          console.error("Gagal menandai notifikasi:", error);
+        }
+      });
+    });
+  };
+
+  messagesRef.on("value", messagesListener, error => {
+    console.error("Gagal memuat notifikasi:", error);
+
+    document.getElementById("notifList").innerHTML = `
+      <div class="notif-empty">
+        Notifikasi belum dapat dimuat.
+      </div>
+    `;
+  });
+}
+
+/* ================= USER DATA ================= */
+
+function loadUser(uid) {
+  db.ref("users/" + uid).on("value", snapshot => {
+    const data = snapshot.val() || {};
+
+    currentSaldo = Number(data.saldo || 0);
+
+    document.getElementById("balanceAmount").textContent =
+      rupiah(currentSaldo);
+
+    document.getElementById("modalBalance").textContent =
+      rupiah(currentSaldo);
+
+    const nama = data.nama || "Artist";
+
+    document.getElementById("profileName").textContent = nama;
+    document.getElementById("profileEmail").textContent =
+      currentUser?.email || "-";
+
+  }, error => {
+    console.error("Gagal memuat saldo:", error);
+    showToast("Saldo belum dapat dimuat.");
+  });
+}
+
+/* ================= STATUS HELPERS ================= */
+
+function normalizeStatus(status) {
+  return String(status || "Pending").trim().toLowerCase();
+}
+
+function statusLabel(status) {
+  const normalized = normalizeStatus(status);
+
+  const labels = {
+    pending: "Pending",
+    process: "Diproses",
+    processing: "Diproses",
+    approved: "Disetujui",
+    accepted: "Accepted",
+    paid: "Paid",
+    rejected: "Ditolak",
+    failed: "Gagal",
+    completed: "Selesai",
+    success: "Berhasil",
+    on_hold: "Ditahan",
+    "on hold": "Ditahan"
+  };
+
+  return labels[normalized] || String(status || "Pending");
+}
+
+function statusClass(status) {
+  const normalized = normalizeStatus(status);
+
+  if (
+    ["approved", "accepted", "paid", "completed", "success"]
+      .includes(normalized)
+  ) {
+    return normalized === "paid"
+      ? "status-paid"
+      : "status-approved";
+  }
+
+  if (["rejected", "failed"].includes(normalized)) {
+    return normalized === "failed"
+      ? "status-failed"
+      : "status-rejected";
+  }
+
+  if (["process", "processing"].includes(normalized)) {
+    return "status-processing";
+  }
+
+  return "status-pending";
+}
+
+/* ================= DATE HELPERS ================= */
+
+function getCreatedAt(item) {
+  const value =
+    item.createdAt ??
+    item.timestamp ??
+    item.date ??
+    item.created_at ??
+    0;
+
+  if (
+    typeof value === "number" ||
+    /^\d+$/.test(String(value))
+  ) {
+    const number = Number(value);
+
+    return number > 0 && number < 1e12
+      ? number * 1000
+      : number;
+  }
+
+  const parsed = Date.parse(value);
+
+  return Number.isNaN(parsed) ? 0 : parsed;
+}
+
+function formatDate(value) {
+  if (!value) return "";
+
+  const timestamp = getCreatedAt({
+    createdAt: value
+  });
+
+  if (!timestamp) return "";
+
+  const date = new Date(timestamp);
+
+  if (Number.isNaN(date.getTime())) return "";
+
+  return date.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  });
+}
+
+/* ================= PAGINATION ================= */
+
+const PAGE_SIZE = 5;
+
+const currentPages = {
+  reports: 1,
+  invoices: 1
+};
+
+let lastRoyaltySnapshot = null;
+let lastInvoiceSnapshot = null;
+
+function renderPagination(containerId, type, total) {
+  const container = document.getElementById(containerId);
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+
+  if (totalPages <= 1) {
+    container.innerHTML = "";
+    return;
+  }
+
+  currentPages[type] = Math.min(
+    currentPages[type],
+    totalPages
+  );
+
+  const page = currentPages[type];
+  const start = (page - 1) * PAGE_SIZE + 1;
+  const end = Math.min(page * PAGE_SIZE, total);
+
+  container.innerHTML = `
+    <span class="pagination-info">
+      ${start}–${end} dari ${total}
+    </span>
+
+    <div class="pagination-actions">
+
+      <button type="button"
+        data-page-dir="-1"
+        ${page === 1 ? "disabled" : ""}>
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <span class="pagination-info">
+        ${page}/${totalPages}
+      </span>
+
+      <button type="button"
+        data-page-dir="1"
+        ${page === totalPages ? "disabled" : ""}>
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+
+    </div>
+  `;
+
+  container.querySelectorAll("[data-page-dir]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        currentPages[type] +=
+          Number(button.dataset.pageDir);
+
+        if (type === "reports") {
+          renderReports(lastRoyaltySnapshot);
+        } else {
+          renderInvoiceHistory(lastInvoiceSnapshot);
+        }
+      });
+    });
+}
+
+/* ================= ROYALTY REPORTS ================= */
+
+function renderReports(snapshot) {
+  lastRoyaltySnapshot = snapshot;
+
+  const allReports = snapshot.val() || {};
+
+  const reports = Object.entries(allReports)
+    .filter(([key, report]) => {
+      if (!report || typeof report !== "object") {
+        return false;
+      }
+
+      const sameUid =
+        report.uid &&
+        String(report.uid) === currentUser.uid;
+
+      const sameEmail =
+        report.email &&
+        currentUser.email &&
+        String(report.email).toLowerCase() ===
+          currentUser.email.toLowerCase();
+
+      return sameUid || sameEmail;
+    })
+    .map(([key, report]) => ({
+      key,
+      ...report
+    }))
+    .sort((a, b) =>
+      Number(getCreatedAt(b)) -
+      Number(getCreatedAt(a))
+    );
+
+  document.getElementById("reportCount").textContent =
+    reports.length + " laporan";
+
+  const list = document.getElementById("reportList");
+
+  if (!reports.length) {
+    list.innerHTML = `
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          <i class="fa-solid fa-file-circle-question"></i>
+        </div>
+
+        <h3>Belum ada laporan royalti</h3>
+
+        <p>
+          Laporan yang sudah diterbitkan untuk akun kamu
+          akan muncul di sini.
+        </p>
+
+      </div>
+    `;
+
+    document.getElementById("reportPagination").innerHTML = "";
+    return;
+  }
+
+  currentPages.reports = Math.min(
+    currentPages.reports,
+    Math.max(1, Math.ceil(reports.length / PAGE_SIZE))
+  );
+
+  const startIndex =
+    (currentPages.reports - 1) * PAGE_SIZE;
+
+  const visibleReports =
+    reports.slice(startIndex, startIndex + PAGE_SIZE);
+
+  renderPagination(
+    "reportPagination",
+    "reports",
+    reports.length
+  );
+
+  list.innerHTML = visibleReports.map(report => {
+    const type = String(
+      report.type || report.reportType || ""
+    ).toLowerCase();
+
+    const status = normalizeStatus(report.status);
+
+    const title =
+      report.title ||
+      report.name ||
+      report.type ||
+      report.reportType ||
+      "Royalty Report";
+
+    const dateText =
+      formatDate(getCreatedAt(report)) ||
+      report.period ||
+      "Laporan pendapatan";
+
+    let action = "";
+
+    if (report.downloadUrl) {
+      action = `
+        <button type="button"
+          data-action="download"
+          data-url="${escapeHTML(report.downloadUrl)}"
+          aria-label="Unduh laporan">
+          <i class="fa-solid fa-download"></i>
+        </button>
+      `;
+    } else {
+      action = `
+        <button type="button"
+          disabled
+          aria-label="Laporan belum tersedia">
+          <i class="fa-solid fa-clock"></i>
+        </button>
+      `;
+    }
+
+    const amount =
+      report.amount !== undefined &&
+      report.amount !== null
+        ? `<p>${escapeHTML(rupiah(report.amount))}</p>`
+        : "";
+
+    const displayStatus =
+      status === "pending"
+        ? "Accepted"
+        : statusLabel(report.status || "Pending");
+
+    const displayStatusClass =
+      status === "pending"
+        ? "status-accepted"
+        : statusClass(status);
+
+    return `
+      <div class="report-item">
+
+        <div class="report-icon">
+          <img
+            src="../assets/report.png"
+            alt=""
+            onerror="this.style.display='none'"
+          >
+        </div>
+
+        <div class="report-info">
+
+          <h3>${escapeHTML(title)}</h3>
+
+          <p>${escapeHTML(dateText)}</p>
+
+          ${amount}
+
+          <span class="report-status ${displayStatusClass}">
+            <i class="fa-solid fa-circle" style="font-size:6px"></i>
+            ${escapeHTML(displayStatus)}
+          </span>
+
+        </div>
+
+        <div class="report-action">
+          ${action}
+        </div>
+
+      </div>
+    `;
+  }).join("");
+
+  list.querySelectorAll("[data-action='download']")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        const url = button.dataset.url;
+
+        try {
+          const parsed = new URL(url, window.location.href);
+
+          if (!["http:", "https:"].includes(parsed.protocol)) {
+            showToast("Tautan laporan tidak valid.");
+            return;
+          }
+
+          window.open(
+            parsed.href,
+            "_blank",
+            "noopener,noreferrer"
+          );
+
+        } catch (error) {
+          showToast("Tautan laporan tidak valid.");
+        }
+      });
+    });
+}
+
+function loadIncome() {
+  royaltyRef = db.ref("royalties");
+
+  royaltyListener = snapshot => {
+    renderReports(snapshot);
+  };
+
+  royaltyRef.on("value", royaltyListener, error => {
+    console.error("Gagal memuat laporan royalti:", error);
+
+    document.getElementById("reportList").innerHTML = `
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+
+        <h3>Laporan gagal dimuat</h3>
+
+        <p>
+          Periksa koneksi atau izin akses database kamu.
+        </p>
+
+      </div>
+    `;
+  });
+}
+
+/* ================= INVOICE HISTORY ================= */
+
+function renderInvoiceHistory(snapshot) {
+  lastInvoiceSnapshot = snapshot;
+
+  const allRequests = snapshot.val() || {};
+
+  const requests = Object.entries(allRequests)
+    .filter(([key, request]) => {
+      return request &&
+        String(request.uid || "") === currentUser.uid;
+    })
+    .map(([key, request]) => ({
+      key,
+      ...request
+    }))
+    .sort((a, b) =>
+      getCreatedAt(b) - getCreatedAt(a)
+    );
+
+  document.getElementById("invoiceCount").textContent =
+    requests.length + " pengajuan";
+
+  currentPages.invoices = Math.min(
+    currentPages.invoices,
+    Math.max(1, Math.ceil(requests.length / PAGE_SIZE))
+  );
+
+  const startIndex =
+    (currentPages.invoices - 1) * PAGE_SIZE;
+
+  const visibleRequests =
+    requests.slice(startIndex, startIndex + PAGE_SIZE);
+
+  renderPagination(
+    "invoicePagination",
+    "invoices",
+    requests.length
+  );
+
+  const list = document.getElementById("invoiceList");
+
+  if (!requests.length) {
+    list.innerHTML = `
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          <i class="fa-solid fa-file-invoice"></i>
+        </div>
+
+        <h3>Belum ada pengajuan invoice</h3>
+
+        <p>
+          Pengajuan yang kamu buat akan muncul di sini,
+          lengkap dengan nominal dan statusnya.
+        </p>
+
+      </div>
+    `;
+
+    document.getElementById("invoicePagination").innerHTML = "";
+    return;
+  }
+
+  list.innerHTML = visibleRequests.map(request => {
+    const status = normalizeStatus(request.status);
+
+    const createdDate =
+      formatDate(getCreatedAt(request)) ||
+      "Tanggal tidak tersedia";
+
+    const amount = rupiah(request.amount);
+
+    const statusDescription =
+      request.note ||
+      request.adminNote ||
+      request.rejectionReason ||
+      "";
+
+    return `
+      <div class="report-item">
+
+        <div class="report-icon">
+          <i class="fa-solid fa-file-invoice-dollar"></i>
+        </div>
+
+        <div class="report-info">
+
+          <h3>Pengajuan Invoice</h3>
+
+          <p>${escapeHTML(createdDate)}</p>
+
+          <p style="font-size:12px;font-weight:700;color:#17181c;margin-top:6px">
+            ${escapeHTML(amount)}
+          </p>
+
+          <span class="report-status ${statusClass(status)}">
+            <i class="fa-solid fa-circle" style="font-size:6px"></i>
+            ${escapeHTML(statusLabel(request.status))}
+          </span>
+
+          ${statusDescription ? `
+            <p style="margin-top:6px">
+              Catatan: ${escapeHTML(statusDescription)}
+            </p>
+          ` : ""}
+
+        </div>
+
+        <div class="report-action">
+
+          <button type="button"
+            data-invoice-detail="${escapeHTML(request.key)}"
+            aria-label="Detail pengajuan">
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+          </button>
+
+        </div>
+
+      </div>
+    `;
+  }).join("");
+
+  list.querySelectorAll("[data-invoice-detail]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        const key = button.dataset.invoiceDetail;
+
+        const request = requests.find(
+          item => item.key === key
+        );
+
+        if (!request) return;
+
+        const details = [
+          "Pengajuan Invoice",
+          "Nominal: " + rupiah(request.amount),
+          "Status: " + statusLabel(request.status),
+          "Tanggal: " +
+            (
+              formatDate(getCreatedAt(request)) ||
+              "Tidak tersedia"
+            )
+        ];
+
+        const note =
+          request.note ||
+          request.adminNote ||
+          request.rejectionReason;
+
+        if (note) {
+          details.push("Catatan: " + note);
+        }
+
+        showToast(details.join(" • "));
+      });
+    });
+}
+
+function loadInvoiceHistory(uid) {
+  if (invoiceRef && invoiceListener) {
+    invoiceRef.off("value", invoiceListener);
+  }
+
+  invoiceRef = db.ref("invoice_requests")
+    .orderByChild("uid")
+    .equalTo(uid);
+
+  invoiceListener = snapshot => {
+    renderInvoiceHistory(snapshot);
+  };
+
+  invoiceRef.on("value", invoiceListener, error => {
+    console.error("Gagal memuat riwayat invoice:", error);
+
+    document.getElementById("invoiceList").innerHTML = `
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+
+        <h3>Riwayat invoice gagal dimuat</h3>
+
+        <p>
+          Periksa koneksi atau izin akses database kamu.
+        </p>
+
+      </div>
+    `;
+  });
+}
+
+/* ================= SUBMIT INVOICE ================= */
+
+async function submitInvoice() {
+  if (!currentUser || submittingInvoice) return;
+
+  clearInvoiceError();
+
+  const amountInput =
+    document.getElementById("invoiceAmount");
+
+  const amount = Number(amountInput.value);
+
+  if (!Number.isFinite(amount) || amount < 100000) {
+    showInvoiceError(
+      "Minimum pengajuan invoice adalah Rp100.000."
+    );
+    return;
+  }
+
+  if (amount > currentSaldo) {
+    showInvoiceError(
+      "Nominal pengajuan melebihi saldo tersedia."
+    );
+    return;
+  }
+
+  const button =
+    document.getElementById("submitInvoiceButton");
+
+  submittingInvoice = true;
+
+  button.disabled = true;
+
+  button.innerHTML =
+    '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
+
+  try {
+    const requestRef = db.ref("invoice_requests");
+
+    const pendingSnapshot = await requestRef
+      .orderByChild("uid")
+      .equalTo(currentUser.uid)
+      .once("value");
+
+    let hasPending = false;
+
+    pendingSnapshot.forEach(child => {
+      const data = child.val() || {};
+
+      if (normalizeStatus(data.status) === "pending") {
+        hasPending = true;
+      }
+    });
+
+    if (hasPending) {
+      showInvoiceError(
+        "Kamu masih memiliki pengajuan invoice berstatus Pending."
+      );
+      return;
+    }
+
+    const latestUserSnapshot = await db
+      .ref("users/" + currentUser.uid)
+      .once("value");
+
+    const latestUser =
+      latestUserSnapshot.val() || {};
+
+    const latestSaldo =
+      Number(latestUser.saldo || 0);
+
+    currentSaldo = latestSaldo;
+
+    document.getElementById("balanceAmount").textContent =
+      rupiah(currentSaldo);
+
+    document.getElementById("modalBalance").textContent =
+      rupiah(currentSaldo);
+
+    if (amount > latestSaldo) {
+      showInvoiceError(
+        "Saldo terbaru tidak mencukupi untuk nominal tersebut."
+      );
+      return;
+    }
+
+    const newRequest = {
+      uid: currentUser.uid,
+      email: currentUser.email || "",
+      amount: amount,
+      status: "Pending",
+      createdAt: firebase.database.ServerValue.TIMESTAMP
+    };
+
+    await requestRef.push(newRequest);
+
+    document.getElementById("invoiceModal")
+      .classList.remove("show");
+
+    amountInput.value = "";
+
+    showToast("Pengajuan invoice berhasil dikirim.");
+
+  } catch (error) {
+    console.error("Pengajuan invoice gagal:", error);
+
+    showInvoiceError(
+      "Pengajuan gagal: " +
+      (
+        error.message ||
+        error.code ||
+        "Kesalahan tidak diketahui"
+      )
+    );
+
+  } finally {
+    submittingInvoice = false;
+
+    button.disabled = false;
+
+    button.innerHTML =
+      '<i class="fa-solid fa-paper-plane"></i> Ajukan';
+  }
+}
+
+document.getElementById("submitInvoiceButton")
+  .addEventListener("click", submitInvoice);
+
+/* ================= AUTH ================= */
+
+auth.onAuthStateChanged(user => {
+  if (!user) {
+    window.location.href = ROUTES.login;
+    return;
+  }
+
+  currentUser = user;
+
+  document.getElementById("profileEmail").textContent =
+    user.email || "-";
+
+  loadUser(user.uid);
+  loadMessages(user.uid);
+  loadIncome();
+  loadInvoiceHistory(user.uid);
+});
+</script>
+
+</body>
+</html>
