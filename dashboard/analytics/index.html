@@ -1,0 +1,895 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Analytics | Dynotic Distribution</title>
+
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+
+<meta name="theme-color" content="#f1f2f7">
+<meta name="robots" content="noindex, nofollow">
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Outfit",sans-serif;
+}
+
+body{
+  background:#f1f2f7;
+  color:#17181c;
+  min-height:100vh;
+  padding-top:64px;
+  padding-bottom:105px;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+
+button{
+  font-family:inherit;
+}
+
+/* HEADER */
+
+header{
+  height:64px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  background:#fff;
+  border-bottom:1px solid #e8e8ed;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+}
+
+.header-logo{
+  height:32px;
+  width:auto;
+  object-fit:contain;
+}
+
+/* CONTAINER */
+
+.container{
+  width:calc(100% - 28px);
+  max-width:760px;
+  margin:0 auto;
+}
+
+/* PAGE TITLE */
+
+.page-title{
+  margin-top:22px;
+  margin-bottom:17px;
+  animation:pageIn .4s ease both;
+}
+
+.page-title h1{
+  font-size:22px;
+  font-weight:700;
+}
+
+.page-title p{
+  font-size:12px;
+  color:#858891;
+  margin-top:3px;
+}
+
+/* PREVIEW CONTAINER */
+
+.preview-container{
+  position:relative;
+  overflow:hidden;
+  border-radius:19px;
+  min-height:490px;
+  background:#fff;
+  border:1px solid #e8e8ed;
+  animation:pageIn .5s ease both;
+}
+
+/* BACKGROUND DASHBOARD */
+
+.dashboard-preview{
+  padding:19px;
+  filter:blur(5px);
+  opacity:.75;
+  transform:scale(1.015);
+  pointer-events:none;
+}
+
+/* PREVIEW HEADER */
+
+.preview-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+
+.preview-heading{
+  font-size:17px;
+  font-weight:700;
+}
+
+.preview-period{
+  font-size:10px;
+  color:#858891;
+  background:#f1f2f7;
+  border-radius:8px;
+  padding:7px 10px;
+}
+
+/* STATS */
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.stat-card{
+  border:1px solid #e8e8ed;
+  border-radius:13px;
+  padding:14px;
+  background:#fff;
+}
+
+.stat-label{
+  font-size:10px;
+  color:#858891;
+}
+
+.stat-value{
+  font-size:21px;
+  font-weight:700;
+  margin-top:7px;
+}
+
+.stat-growth{
+  font-size:10px;
+  color:#16a36a;
+  margin-top:5px;
+}
+
+/* CHART */
+
+.chart-card{
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:14px;
+  padding:15px;
+  margin-top:13px;
+}
+
+.chart-heading{
+  font-size:12px;
+  font-weight:600;
+}
+
+.chart-subtitle{
+  font-size:10px;
+  color:#858891;
+  margin-top:3px;
+}
+
+.chart{
+  height:130px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:7px;
+  padding-top:15px;
+  border-bottom:1px solid #e8e8ed;
+  background:repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    #f0f0f3 32px
+  );
+}
+
+.bar{
+  flex:1;
+  background:#17181c;
+  border-radius:5px 5px 0 0;
+  min-width:5px;
+}
+
+/* PLATFORM */
+
+.platform-card{
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:14px;
+  padding:15px;
+  margin-top:13px;
+}
+
+.platform-heading{
+  font-size:12px;
+  font-weight:600;
+  margin-bottom:13px;
+}
+
+.platform-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:13px;
+}
+
+.platform-row:last-child{
+  margin-bottom:0;
+}
+
+.platform-icon{
+  width:30px;
+  height:30px;
+  border-radius:9px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+}
+
+.platform-info{
+  flex:1;
+}
+
+.platform-name{
+  font-size:11px;
+  font-weight:600;
+}
+
+.platform-line{
+  height:5px;
+  border-radius:99px;
+  background:#eeeeF2;
+  margin-top:6px;
+  overflow:hidden;
+}
+
+.platform-progress{
+  height:100%;
+  background:#17181c;
+  border-radius:99px;
+}
+
+/* COMING SOON OVERLAY */
+
+.coming-overlay{
+  position:absolute;
+  inset:0;
+  z-index:5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+  background:rgba(255,255,255,.35);
+}
+
+.coming-content{
+  width:100%;
+  max-width:340px;
+  text-align:center;
+  animation:popupIn .5s ease both;
+}
+
+.coming-icon{
+  width:58px;
+  height:58px;
+  border-radius:17px;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  margin:0 auto 19px;
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+
+.coming-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 11px;
+  border-radius:99px;
+  background:#fff;
+  border:1px solid #e8e8ed;
+  color:#777b84;
+  font-size:10px;
+  font-weight:600;
+  margin-bottom:13px;
+}
+
+.coming-dot{
+  width:6px;
+  height:6px;
+  background:#e5a23d;
+  border-radius:50%;
+}
+
+.coming-title{
+  font-size:25px;
+  font-weight:700;
+  letter-spacing:-.6px;
+  color:#17181c;
+}
+
+.coming-description{
+  font-size:12px;
+  line-height:1.7;
+  color:#777b84;
+  margin-top:10px;
+  max-width:310px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* FOOTNOTE */
+
+.coming-footer{
+  margin-top:23px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  font-size:10px;
+  color:#999ca4;
+}
+
+.coming-footer i{
+  font-size:11px;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+  height:76px;
+  background:#fff;
+  border-top:1px solid #e6e6eb;
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:1000;
+  padding:0 5px;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+
+.nav-item{
+  flex:1;
+  min-width:0;
+  text-align:center;
+  font-size:10px;
+  font-weight:500;
+  color:#999ca4;
+  padding:9px 2px;
+  cursor:pointer;
+  transition:.15s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+}
+
+.nav-item i{
+  font-size:18px;
+}
+
+.nav-item:active{
+  transform:scale(.92);
+}
+
+.nav-item.active{
+  color:#17181c;
+  font-weight:700;
+}
+
+/* CREATE */
+
+.create-nav{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  cursor:pointer;
+  color:#999ca4;
+  font-size:10px;
+  font-weight:500;
+}
+
+.create-circle{
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  margin-top:-27px;
+  border:4px solid #f1f2f7;
+  box-sizing:content-box;
+  transition:.15s;
+}
+
+.create-nav:active .create-circle{
+  transform:scale(.91);
+}
+
+/* ANIMATION */
+
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translateY(12px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes popupIn{
+  from{
+    opacity:0;
+    transform:translateY(12px) scale(.97);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+/* DESKTOP */
+
+@media(min-width:700px){
+
+  .container{
+    width:100%;
+  }
+
+  .bottom-nav{
+    padding-left:max(5px,calc((100% - 650px)/2));
+    padding-right:max(5px,calc((100% - 650px)/2));
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+  <img
+    src="../assets/dynotic-distribution.png"
+    class="header-logo"
+    alt="Dynotic Distribution"
+  >
+
+</header>
+
+
+<!-- MAIN -->
+
+<main class="container">
+
+  <div class="page-title">
+
+    <h1>Analytics</h1>
+
+    <p>
+      Monitor your music performance across platforms.
+    </p>
+
+  </div>
+
+
+  <!-- ANALYTICS PREVIEW -->
+
+  <section class="preview-container">
+
+
+    <!-- BLURRED DASHBOARD -->
+
+    <div class="dashboard-preview">
+
+      <div class="preview-header">
+
+        <div class="preview-heading">
+          Streaming Overview
+        </div>
+
+        <div class="preview-period">
+          Last 30 Days
+        </div>
+
+      </div>
+
+
+      <!-- STATS -->
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div class="stat-label">
+            Total Streams
+          </div>
+
+          <div class="stat-value">
+            128,450
+          </div>
+
+          <div class="stat-growth">
+            +12.8% this month
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-label">
+            Monthly Listeners
+          </div>
+
+          <div class="stat-value">
+            8,240
+          </div>
+
+          <div class="stat-growth">
+            +8.4% this month
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-label">
+            Total Releases
+          </div>
+
+          <div class="stat-value">
+            24
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-label">
+            Active Platforms
+          </div>
+
+          <div class="stat-value">
+            12
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- STREAMING CHART -->
+
+      <div class="chart-card">
+
+        <div class="chart-heading">
+          Daily Streaming Performance
+        </div>
+
+        <div class="chart-subtitle">
+          Streaming activity over time
+        </div>
+
+        <div class="chart">
+
+          <div class="bar" style="height:35%"></div>
+          <div class="bar" style="height:48%"></div>
+          <div class="bar" style="height:42%"></div>
+          <div class="bar" style="height:65%"></div>
+          <div class="bar" style="height:54%"></div>
+          <div class="bar" style="height:78%"></div>
+          <div class="bar" style="height:62%"></div>
+          <div class="bar" style="height:88%"></div>
+          <div class="bar" style="height:72%"></div>
+          <div class="bar" style="height:96%"></div>
+          <div class="bar" style="height:80%"></div>
+          <div class="bar" style="height:100%"></div>
+
+        </div>
+
+      </div>
+
+
+      <!-- PLATFORMS -->
+
+      <div class="platform-card">
+
+        <div class="platform-heading">
+          Platform Performance
+        </div>
+
+
+        <div class="platform-row">
+
+          <div class="platform-icon">
+            <i class="fa-brands fa-spotify"></i>
+          </div>
+
+          <div class="platform-info">
+
+            <div class="platform-name">
+              Spotify
+            </div>
+
+            <div class="platform-line">
+              <div class="platform-progress" style="width:85%"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="platform-row">
+
+          <div class="platform-icon">
+            <i class="fa-brands fa-apple"></i>
+          </div>
+
+          <div class="platform-info">
+
+            <div class="platform-name">
+              Apple Music
+            </div>
+
+            <div class="platform-line">
+              <div class="platform-progress" style="width:65%"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="platform-row">
+
+          <div class="platform-icon">
+            <i class="fa-brands fa-youtube"></i>
+          </div>
+
+          <div class="platform-info">
+
+            <div class="platform-name">
+              YouTube Music
+            </div>
+
+            <div class="platform-line">
+              <div class="platform-progress" style="width:52%"></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- COMING SOON -->
+
+    <div class="coming-overlay">
+
+      <div class="coming-content">
+
+        <div class="coming-icon">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+
+        <div class="coming-badge">
+
+          <span class="coming-dot"></span>
+
+          Coming soon
+
+        </div>
+
+        <div class="coming-title">
+          Real-time streams are coming soon
+        </div>
+
+        <div class="coming-description">
+          Daily streaming performance per platform, once we're connected to a live DSP feed.
+        </div>
+
+        <div class="coming-footer">
+
+          <i class="fa-solid fa-circle-info"></i>
+
+          <span>Analytics features are currently in development.</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <div style="height:25px"></div>
+
+</main>
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+
+  <div
+    class="nav-item"
+    onclick="goHome()"
+  >
+
+    <i class="fa-solid fa-house"></i>
+
+    <span>Home</span>
+
+  </div>
+
+
+  <div
+    class="nav-item"
+    onclick="goCatalog()"
+  >
+
+    <i class="fa-solid fa-compact-disc"></i>
+
+    <span>Catalog</span>
+
+  </div>
+
+
+  <div
+    class="create-nav"
+    onclick="goCreateRelease()"
+  >
+
+    <div class="create-circle">
+
+      <i class="fa-solid fa-plus"></i>
+
+    </div>
+
+    <span>Create</span>
+
+  </div>
+
+
+  <div
+    class="nav-item"
+    onclick="goTransactions()"
+  >
+
+    <i class="fa-solid fa-receipt"></i>
+
+    <span>Transactions</span>
+
+  </div>
+
+
+  <div
+    class="nav-item active"
+  >
+
+    <i class="fa-solid fa-chart-line"></i>
+
+    <span>Analytics</span>
+
+  </div>
+
+</nav>
+
+
+<script>
+
+/* FIREBASE */
+
+firebase.initializeApp({
+
+  apiKey:
+    "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+
+  authDomain:
+    "dynopay-2513c.firebaseapp.com",
+
+  databaseURL:
+    "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+
+});
+
+const auth = firebase.auth();
+
+
+/* AUTH */
+
+auth.onAuthStateChanged(user => {
+
+  if(!user){
+
+    location.href = "../login";
+
+    return;
+
+  }
+
+});
+
+
+/* NAVIGATION */
+
+function goHome(){
+
+  location.href = "../dashboard";
+
+}
+
+function goCatalog(){
+
+  location.href = "../catalog";
+
+}
+
+function goCreateRelease(){
+
+  location.href = "../catalog/releases/create";
+
+}
+
+function goTransactions(){
+
+  location.href = "../transactions";
+
+}
+
+</script>
+
+</body>
+</html>
