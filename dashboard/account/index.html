@@ -1,0 +1,960 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Account | Dynotic Distribution</title>
+
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+
+<meta name="theme-color" content="#f1f2f7">
+<meta name="robots" content="noindex, nofollow">
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:"Outfit",sans-serif;
+}
+
+body{
+  background:#f1f2f7;
+  color:#17181c;
+  min-height:100vh;
+  padding-top:64px;
+  padding-bottom:105px;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+
+button{
+  font-family:inherit;
+}
+
+/* HEADER */
+
+header{
+  height:64px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  background:#fff;
+  border-bottom:1px solid #e8e8ed;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+}
+
+.header-logo{
+  height:32px;
+  width:auto;
+  object-fit:contain;
+}
+
+/* CONTAINER */
+
+.container{
+  width:calc(100% - 28px);
+  max-width:760px;
+  margin:0 auto;
+  padding:22px 0 20px;
+}
+
+/* PAGE TITLE */
+
+.page-title{
+  margin-bottom:16px;
+}
+
+.page-title h1{
+  font-size:22px;
+  font-weight:700;
+}
+
+.page-title p{
+  color:#777b84;
+  font-size:12px;
+  margin-top:3px;
+}
+
+/* PROFILE CARD */
+
+.profile-card{
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:18px;
+  padding:18px;
+  animation:pageIn .4s ease both;
+}
+
+.profile-top{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding-bottom:18px;
+  border-bottom:1px solid #eeeeF1;
+}
+
+.avatar{
+  width:56px;
+  height:56px;
+  border-radius:16px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  flex-shrink:0;
+}
+
+.profile-name{
+  font-size:17px;
+  font-weight:600;
+  word-break:break-word;
+}
+
+.profile-role{
+  font-size:12px;
+  color:#858891;
+  margin-top:3px;
+}
+
+/* INFO */
+
+.info-list{
+  margin-top:3px;
+}
+
+.info-item{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:14px 0;
+  border-bottom:1px solid #eeeeF1;
+}
+
+.info-item:last-child{
+  border-bottom:0;
+}
+
+.info-icon{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  flex-shrink:0;
+}
+
+.info-content{
+  flex:1;
+  min-width:0;
+}
+
+.info-label{
+  font-size:11px;
+  color:#858891;
+  margin-bottom:2px;
+}
+
+.info-value{
+  font-size:13px;
+  font-weight:500;
+  word-break:break-word;
+}
+
+.edit-btn{
+  width:32px;
+  height:32px;
+  border:0;
+  border-radius:10px;
+  background:#f1f2f7;
+  color:#555861;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  flex-shrink:0;
+  transition:.15s;
+}
+
+.edit-btn:active{
+  transform:scale(.92);
+}
+
+/* SECTION */
+
+.section-title{
+  font-size:13px;
+  font-weight:600;
+  color:#777b84;
+  margin:24px 3px 10px;
+}
+
+/* PAYMENT */
+
+.payment-card{
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:18px;
+  padding:18px;
+  animation:pageIn .4s ease .08s both;
+}
+
+.card-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:3px;
+}
+
+.card-title{
+  font-size:14px;
+  font-weight:600;
+}
+
+.payment-item{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:14px 0;
+  border-bottom:1px solid #eeeeF1;
+}
+
+.payment-item:last-child{
+  border-bottom:0;
+}
+
+.payment-icon{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  flex-shrink:0;
+}
+
+.payment-content{
+  flex:1;
+  min-width:0;
+}
+
+.payment-label{
+  font-size:11px;
+  color:#858891;
+  margin-bottom:2px;
+}
+
+.payment-value{
+  font-size:13px;
+  font-weight:500;
+  word-break:break-word;
+}
+
+.payment-empty{
+  padding:16px 0 6px;
+  color:#858891;
+  font-size:12px;
+  line-height:1.5;
+}
+
+/* SECURITY */
+
+.password-section{
+  margin-top:12px;
+}
+
+.password-btn{
+  width:100%;
+  border:1px solid #e8e8ed;
+  background:#fff;
+  border-radius:16px;
+  padding:15px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  text-align:left;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.password-btn:active{
+  transform:scale(.98);
+}
+
+.password-icon{
+  width:40px;
+  height:40px;
+  border-radius:11px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+}
+
+.password-info{
+  flex:1;
+}
+
+.password-title{
+  font-size:13px;
+  font-weight:600;
+}
+
+.password-desc{
+  font-size:11px;
+  color:#858891;
+  margin-top:2px;
+}
+
+.password-arrow{
+  color:#a0a2a8;
+  font-size:12px;
+}
+
+/* LOGOUT */
+
+.logout-btn{
+  width:100%;
+  border:1px solid #f0d8da;
+  background:#fff5f5;
+  color:#e0444f;
+  border-radius:16px;
+  padding:15px;
+  margin-top:12px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  text-align:left;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.logout-btn:active{
+  transform:scale(.98);
+  background:#ffecec;
+}
+
+.logout-icon{
+  width:40px;
+  height:40px;
+  border-radius:11px;
+  background:#ffe8e8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+}
+
+.logout-info{
+  flex:1;
+}
+
+.logout-title{
+  font-size:13px;
+  font-weight:600;
+}
+
+.logout-desc{
+  font-size:11px;
+  color:#a66a6a;
+  margin-top:2px;
+}
+
+.logout-arrow{
+  color:#d56b6b;
+  font-size:12px;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+  height:76px;
+  background:#fff;
+  border-top:1px solid #e6e6eb;
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:1000;
+  padding:0 5px;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+
+.nav-item{
+  flex:1;
+  min-width:0;
+  text-align:center;
+  font-size:10px;
+  font-weight:500;
+  color:#999ca4;
+  padding:9px 2px;
+  cursor:pointer;
+  transition:.15s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+}
+
+.nav-item i{
+  font-size:18px;
+}
+
+.nav-item:active{
+  transform:scale(.92);
+}
+
+.nav-item.active{
+  color:#17181c;
+  font-weight:700;
+}
+
+/* CREATE BUTTON */
+
+.create-nav{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  cursor:pointer;
+  color:#999ca4;
+  font-size:10px;
+  font-weight:500;
+}
+
+.create-circle{
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  margin-top:-27px;
+  border:4px solid #f1f2f7;
+  box-sizing:content-box;
+  transition:.15s;
+}
+
+.create-nav:active .create-circle{
+  transform:scale(.91);
+}
+
+.create-label{
+  margin-top:0;
+}
+
+/* ANIMATION */
+
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translateY(12px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* DESKTOP */
+
+@media(min-width:700px){
+
+  .container{
+    width:100%;
+  }
+
+  .bottom-nav{
+    padding-left:max(5px,calc((100% - 650px)/2));
+    padding-right:max(5px,calc((100% - 650px)/2));
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+  <img
+    src="../assets/dynotic-distribution.png"
+    class="header-logo"
+    alt="Dynotic Distribution"
+  >
+</header>
+
+<!-- MAIN -->
+
+<main class="container">
+
+  <div class="page-title">
+    <h1>Account</h1>
+    <p>Manage your Dynotic artist account.</p>
+  </div>
+
+  <!-- PROFILE -->
+
+  <div class="profile-card">
+
+    <div class="profile-top">
+
+      <div class="avatar">
+        <i class="fa-solid fa-user"></i>
+      </div>
+
+      <div>
+        <div class="profile-name" id="nama">
+          Loading...
+        </div>
+
+        <div class="profile-role">
+          Dynotic User
+        </div>
+      </div>
+
+    </div>
+
+    <div class="info-list">
+
+      <div class="info-item">
+
+        <div class="info-icon">
+          <i class="fa-regular fa-envelope"></i>
+        </div>
+
+        <div class="info-content">
+          <div class="info-label">Email</div>
+          <div class="info-value" id="email">
+            Loading...
+          </div>
+        </div>
+
+        <button
+          class="edit-btn"
+          onclick="goEditInfo()"
+          aria-label="Edit account"
+        >
+          <i class="fa-solid fa-pen"></i>
+        </button>
+
+      </div>
+
+      <div class="info-item">
+
+        <div class="info-icon">
+          <i class="fa-solid fa-fingerprint"></i>
+        </div>
+
+        <div class="info-content">
+          <div class="info-label">Account ID</div>
+          <div class="info-value" id="uid">
+            Loading...
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- PAYMENT -->
+
+  <div class="section-title">
+    Payment
+  </div>
+
+  <div class="payment-card">
+
+    <div class="card-header">
+
+      <div class="card-title">
+        Payment Detail
+      </div>
+
+      <button
+        class="edit-btn"
+        onclick="goEditPayment()"
+        aria-label="Edit payment"
+      >
+        <i class="fa-solid fa-pen"></i>
+      </button>
+
+    </div>
+
+    <div id="paymentContent">
+
+      <div class="payment-item">
+
+        <div class="payment-icon">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
+
+        <div class="payment-content">
+          <div class="payment-label">Method</div>
+          <div class="payment-value" id="paymentName">-</div>
+        </div>
+
+      </div>
+
+      <div class="payment-item">
+
+        <div class="payment-icon">
+          <i class="fa-solid fa-credit-card"></i>
+        </div>
+
+        <div class="payment-content">
+          <div class="payment-label">Account</div>
+          <div class="payment-value" id="paymentAccount">-</div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      id="paymentEmpty"
+      class="payment-empty"
+      style="display:none;"
+    >
+      No payment method has been added yet.
+    </div>
+
+  </div>
+
+  <!-- SECURITY -->
+
+  <div class="section-title">
+    Security
+  </div>
+
+  <button
+    class="password-btn"
+    onclick="goChangePassword()"
+  >
+
+    <div class="password-icon">
+      <i class="fa-solid fa-lock"></i>
+    </div>
+
+    <div class="password-info">
+      <div class="password-title">
+        Change Password
+      </div>
+
+      <div class="password-desc">
+        Update your account password.
+      </div>
+    </div>
+
+    <div class="password-arrow">
+      <i class="fa-solid fa-chevron-right"></i>
+    </div>
+
+  </button>
+
+  <!-- LOGOUT -->
+
+  <button
+    class="logout-btn"
+    onclick="logout()"
+  >
+
+    <div class="logout-icon">
+      <i class="fa-solid fa-right-from-bracket"></i>
+    </div>
+
+    <div class="logout-info">
+      <div class="logout-title">
+        Log Out
+      </div>
+
+      <div class="logout-desc">
+        Sign out from your Dynotic account.
+      </div>
+    </div>
+
+    <div class="logout-arrow">
+      <i class="fa-solid fa-chevron-right"></i>
+    </div>
+
+  </button>
+
+  <div style="height:20px"></div>
+
+</main>
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+
+  <div
+    class="nav-item"
+    onclick="goHome()"
+  >
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span>
+  </div>
+
+  <div
+    class="nav-item"
+    onclick="goCatalog()"
+  >
+    <i class="fa-solid fa-compact-disc"></i>
+    <span>Catalog</span>
+  </div>
+
+  <div
+    class="create-nav"
+    onclick="goCreateRelease()"
+  >
+    <div class="create-circle">
+      <i class="fa-solid fa-plus"></i>
+    </div>
+    <span class="create-label">Create</span>
+  </div>
+
+  <div
+    class="nav-item"
+    onclick="goTransactions()"
+  >
+    <i class="fa-solid fa-receipt"></i>
+    <span>Transactions</span>
+  </div>
+
+  <div
+    class="nav-item"
+    onclick="goAnalytics()"
+  >
+    <i class="fa-solid fa-chart-line"></i>
+    <span>Analytics</span>
+  </div>
+
+</nav>
+
+<script>
+
+/* FIREBASE */
+
+firebase.initializeApp({
+
+  apiKey:
+    "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+
+  authDomain:
+    "dynopay-2513c.firebaseapp.com",
+
+  databaseURL:
+    "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+
+});
+
+const auth = firebase.auth();
+const db = firebase.database();
+
+/* AUTH */
+
+auth.onAuthStateChanged(user => {
+
+  if(!user){
+
+    location.href="../login";
+    return;
+
+  }
+
+  loadProfile(user);
+
+});
+
+/* LOAD PROFILE */
+
+function loadProfile(user){
+
+  const uid = user.uid;
+
+  document.getElementById("email").textContent =
+    user.email || "-";
+
+  document.getElementById("uid").textContent =
+    uid;
+
+  db.ref("users/" + uid)
+    .once("value")
+    .then(snap => {
+
+      if(!snap.exists()){
+
+        document.getElementById("nama").textContent =
+          "-";
+
+        return;
+
+      }
+
+      const d = snap.val();
+
+      document.getElementById("nama").textContent =
+        d.nama || "-";
+
+      const paymentName =
+        document.getElementById("paymentName");
+
+      const paymentAccount =
+        document.getElementById("paymentAccount");
+
+      const paymentContent =
+        document.getElementById("paymentContent");
+
+      const paymentEmpty =
+        document.getElementById("paymentEmpty");
+
+      let hasPayment = false;
+
+      /* PAYPAL */
+
+      if(
+        d.payment &&
+        d.payment.paypal &&
+        d.payment.email
+      ){
+
+        paymentName.textContent = "PayPal";
+        paymentAccount.textContent = d.payment.email;
+
+        hasPayment = true;
+
+      }
+
+      /* BANK */
+
+      else if(
+        d.payment &&
+        d.payment.bank &&
+        d.payment.account
+      ){
+
+        paymentName.textContent = d.payment.bank;
+        paymentAccount.textContent = d.payment.account;
+
+        hasPayment = true;
+
+      }
+
+      /* PAYMENT STATUS */
+
+      paymentContent.style.display =
+        hasPayment ? "block" : "none";
+
+      paymentEmpty.style.display =
+        hasPayment ? "none" : "block";
+
+    })
+    .catch(error => {
+
+      console.error(
+        "Failed to load profile:",
+        error
+      );
+
+    });
+
+}
+
+/* ACCOUNT NAVIGATION */
+
+function goEditInfo(){
+  location.href="../edit-account";
+}
+
+function goEditPayment(){
+  location.href="../edit-payment";
+}
+
+function goChangePassword(){
+  location.href="../change-password";
+}
+
+/* BOTTOM NAVIGATION */
+
+function goHome(){
+  location.href="../home";
+}
+
+function goCatalog(){
+  location.href="../catalog";
+}
+
+function goCreateRelease(){
+  location.href="../catalog/releases/create";
+}
+
+function goTransactions(){
+  location.href="../transactions";
+}
+
+function goAnalytics(){
+  location.href="../analytics";
+}
+
+/* LOGOUT */
+
+function logout(){
+
+  auth.signOut()
+    .then(() => {
+
+      location.href="../login";
+
+    })
+    .catch(error => {
+
+      console.error(
+        "Logout failed:",
+        error
+      );
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
