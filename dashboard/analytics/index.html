@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -11,16 +12,12 @@
 <link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
 <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
 
-<meta name="theme-color" content="#f1f2f7">
-<meta name="robots" content="noindex, nofollow">
-
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
 <style>
+
 *{
   margin:0;
   padding:0;
@@ -30,17 +27,12 @@
 
 body{
   background:#f1f2f7;
-  color:#17181c;
   min-height:100vh;
   padding-top:64px;
   padding-bottom:105px;
+  color:#17181c;
   -webkit-tap-highlight-color:transparent;
   user-select:none;
-}
-
-button{
-  font-family:inherit;
-  cursor:pointer;
 }
 
 /* HEADER */
@@ -50,7 +42,6 @@ header{
   padding:0 18px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
   background:#fff;
   border-bottom:1px solid #e8e8ed;
   position:fixed;
@@ -67,144 +58,30 @@ header{
 }
 
 .header-actions{
+  margin-left:auto;
   display:flex;
   align-items:center;
-  gap:10px;
 }
 
-.header-button{
+.profile-btn{
   width:38px;
   height:38px;
-  border:0;
-  border-radius:12px;
-  background:transparent;
-  color:#33353b;
+  border-radius:50%;
+  background:#17181c;
+  color:#fff;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:17px;
-  position:relative;
+  cursor:pointer;
+  border:2px solid #f1f2f7;
   transition:.15s;
 }
 
-.header-button:active{
-  background:#f1f2f7;
-  transform:scale(.94);
+.profile-btn:active{
+  transform:scale(.93);
 }
 
-.notification-dot{
-  position:absolute;
-  top:7px;
-  right:7px;
-  width:7px;
-  height:7px;
-  background:#e34d4d;
-  border:1.5px solid #fff;
-  border-radius:50%;
-  display:none;
-}
-
-.header-button.has-notification .notification-dot{
-  display:block;
-}
-
-/* HEADER POPUPS */
-
-.header-popup{
-  position:absolute;
-  top:55px;
-  right:18px;
-  width:260px;
-  background:#fff;
-  border:1px solid #e8e8ed;
-  border-radius:15px;
-  box-shadow:0 10px 35px rgba(0,0,0,.10);
-  padding:14px;
-  display:none;
-  animation:popupIn .18s ease;
-  z-index:1100;
-}
-
-.header-popup.show{
-  display:block;
-}
-
-.popup-title{
-  font-size:14px;
-  font-weight:700;
-  margin-bottom:12px;
-}
-
-.popup-empty{
-  padding:20px 8px;
-  text-align:center;
-  color:#999ca4;
-  font-size:12px;
-}
-
-.popup-empty i{
-  font-size:22px;
-  margin-bottom:9px;
-  display:block;
-}
-
-.profile-info{
-  padding:4px 2px 13px;
-  border-bottom:1px solid #eeeeF2;
-  margin-bottom:8px;
-  overflow:hidden;
-}
-
-.profile-name{
-  font-size:13px;
-  font-weight:700;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.profile-email{
-  font-size:11px;
-  color:#92959e;
-  margin-top:3px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.profile-menu-item{
-  width:100%;
-  padding:11px 9px;
-  border:0;
-  background:transparent;
-  border-radius:9px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  color:#33353b;
-  font-size:12px;
-  text-align:left;
-}
-
-.profile-menu-item i{
-  width:17px;
-  color:#858891;
-  font-size:13px;
-}
-
-.profile-menu-item:active{
-  background:#f1f2f7;
-}
-
-.profile-menu-item.logout{
-  color:#dc5555;
-}
-
-.profile-menu-item.logout i{
-  color:#dc5555;
-}
-
-/* CONTAINER */
+/* MAIN */
 
 .container{
   width:calc(100% - 28px);
@@ -212,92 +89,101 @@ header{
   margin:0 auto;
 }
 
-/* PAGE TITLE */
-
 .page-title{
-  margin-top:22px;
-  margin-bottom:17px;
-  animation:pageIn .4s ease both;
-}
-
-.page-title h1{
-  font-size:22px;
+  font-size:21px;
   font-weight:700;
+  margin-top:23px;
+  margin-bottom:17px;
 }
 
-.page-title p{
-  font-size:12px;
-  color:#858891;
-  margin-top:3px;
-}
+/* ANALYTICS PREVIEW */
 
-/* PREVIEW */
-
-.preview-container{
+.analytics-wrapper{
   position:relative;
+  min-height:calc(100vh - 190px);
   overflow:hidden;
-  border-radius:19px;
-  min-height:490px;
-  background:#fff;
-  border:1px solid #e8e8ed;
-  animation:pageIn .5s ease both;
+  border-radius:18px;
+  isolation:isolate;
 }
 
-.dashboard-preview{
-  padding:19px;
+.preview-content{
   filter:blur(5px);
-  opacity:.75;
-  transform:scale(1.015);
+  opacity:.78;
   pointer-events:none;
 }
 
-.preview-header{
+/* FILTER */
+
+.filter-row{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:18px;
+  gap:10px;
+  margin-bottom:15px;
 }
 
-.preview-heading{
-  font-size:17px;
-  font-weight:700;
+.period-filter{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  background:#fff;
+  padding:5px;
+  border:1px solid #e8e8ed;
+  border-radius:12px;
 }
 
-.preview-period{
-  font-size:10px;
+.period{
+  padding:7px 12px;
+  border-radius:9px;
+  font-size:11px;
+  font-weight:600;
   color:#858891;
-  background:#f1f2f7;
-  border-radius:8px;
-  padding:7px 10px;
 }
 
-/* STATS */
+.period.active{
+  background:#17181c;
+  color:#fff;
+}
+
+.platform-filter{
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:11px;
+  padding:9px 12px;
+  font-size:11px;
+  color:#555;
+  font-weight:600;
+}
+
+/* CARDS */
 
 .stats-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:10px;
+  margin-bottom:12px;
 }
 
-.stat-card{
-  border:1px solid #e8e8ed;
-  border-radius:13px;
-  padding:14px;
+.stats-card{
   background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:15px;
+  padding:15px;
 }
 
-.stat-label{
-  font-size:10px;
+.stats-label{
+  font-size:11px;
   color:#858891;
+  font-weight:500;
 }
 
-.stat-value{
-  font-size:21px;
+.stats-value{
+  font-size:22px;
   font-weight:700;
-  margin-top:7px;
+  margin-top:8px;
 }
 
-.stat-growth{
+.stats-change{
   font-size:10px;
   color:#16a36a;
   margin-top:5px;
@@ -308,14 +194,21 @@ header{
 .chart-card{
   background:#fff;
   border:1px solid #e8e8ed;
-  border-radius:14px;
-  padding:15px;
-  margin-top:13px;
+  border-radius:16px;
+  padding:17px;
+  margin-bottom:12px;
 }
 
 .chart-heading{
-  font-size:12px;
-  font-weight:600;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.chart-title{
+  font-size:13px;
+  font-weight:700;
 }
 
 .chart-subtitle{
@@ -325,26 +218,27 @@ header{
 }
 
 .chart{
-  height:130px;
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:7px;
-  padding-top:15px;
-  border-bottom:1px solid #e8e8ed;
-  background:repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 31px,
-    #f0f0f3 32px
-  );
+  width:100%;
+  height:155px;
+  display:block;
 }
 
-.bar{
-  flex:1;
-  background:#17181c;
-  border-radius:5px 5px 0 0;
-  min-width:5px;
+.chart-grid{
+  stroke:#ededf2;
+  stroke-width:1;
+  stroke-dasharray:4 4;
+}
+
+.chart-line{
+  fill:none;
+  stroke:#7770e8;
+  stroke-width:3;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.chart-area{
+  fill:url(#chartGradient);
 }
 
 /* PLATFORM */
@@ -352,22 +246,22 @@ header{
 .platform-card{
   background:#fff;
   border:1px solid #e8e8ed;
-  border-radius:14px;
-  padding:15px;
-  margin-top:13px;
+  border-radius:16px;
+  padding:17px;
+  margin-bottom:12px;
 }
 
 .platform-heading{
-  font-size:12px;
-  font-weight:600;
-  margin-bottom:13px;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:17px;
 }
 
 .platform-row{
   display:flex;
   align-items:center;
-  gap:10px;
-  margin-bottom:13px;
+  gap:11px;
+  margin-bottom:17px;
 }
 
 .platform-row:last-child{
@@ -375,18 +269,19 @@ header{
 }
 
 .platform-icon{
-  width:30px;
-  height:30px;
-  border-radius:9px;
+  width:34px;
+  height:34px;
+  border-radius:10px;
   background:#f1f2f7;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:13px;
+  flex-shrink:0;
 }
 
 .platform-info{
   flex:1;
+  min-width:0;
 }
 
 .platform-name{
@@ -394,21 +289,35 @@ header{
   font-weight:600;
 }
 
-.platform-line{
-  height:5px;
-  border-radius:99px;
-  background:#eeeeF2;
-  margin-top:6px;
+.platform-number{
+  font-size:10px;
+  color:#858891;
+  margin-top:3px;
+}
+
+.progress{
+  width:90px;
+  height:6px;
+  background:#eeeef3;
+  border-radius:20px;
   overflow:hidden;
 }
 
-.platform-progress{
+.progress span{
+  display:block;
   height:100%;
-  background:#17181c;
-  border-radius:99px;
+  background:#8c83ec;
+  border-radius:20px;
 }
 
-/* COMING SOON */
+.platform-percent{
+  font-size:10px;
+  font-weight:600;
+  width:35px;
+  text-align:right;
+}
+
+/* COMING SOON OVERLAY */
 
 .coming-overlay{
   position:absolute;
@@ -417,86 +326,58 @@ header{
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:22px;
-  background:rgba(255,255,255,.35);
+  padding:20px;
+  background:rgba(241,242,247,.32);
 }
 
 .coming-content{
   width:100%;
-  max-width:340px;
+  max-width:440px;
   text-align:center;
-  animation:popupIn .5s ease both;
+  animation:fadeIn .5s ease both;
 }
 
 .coming-icon{
-  width:58px;
-  height:58px;
-  border-radius:17px;
-  background:#17181c;
-  color:#fff;
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  background:rgba(255,255,255,.62);
+  border:1px solid rgba(255,255,255,.8);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:22px;
-  margin:0 auto 19px;
-  box-shadow:0 8px 20px rgba(0,0,0,.12);
+  margin:0 auto 20px;
+  box-shadow:0 8px 30px rgba(0,0,0,.025);
 }
 
-.coming-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:6px 11px;
-  border-radius:99px;
-  background:#fff;
-  border:1px solid #e8e8ed;
-  color:#777b84;
-  font-size:10px;
-  font-weight:600;
-  margin-bottom:13px;
-}
-
-.coming-dot{
-  width:6px;
-  height:6px;
-  background:#e5a23d;
-  border-radius:50%;
+.coming-icon i{
+  font-size:42px;
+  color:#292a30;
 }
 
 .coming-title{
-  font-size:25px;
-  font-weight:700;
-  letter-spacing:-.6px;
+  font-size:32px;
+  font-weight:800;
+  letter-spacing:-1px;
   color:#17181c;
 }
 
+.coming-subtitle{
+  font-size:16px;
+  font-weight:600;
+  color:#626574;
+  margin-top:13px;
+  line-height:1.5;
+}
+
 .coming-description{
-  font-size:12px;
+  font-size:13px;
+  color:#777b89;
   line-height:1.7;
-  color:#777b84;
-  margin-top:10px;
-  max-width:310px;
-  margin-left:auto;
-  margin-right:auto;
+  margin-top:13px;
 }
 
-/* FOOTNOTE */
-
-.coming-footer{
-  margin-top:23px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  font-size:10px;
-  color:#999ca4;
-}
-
-.coming-footer i{
-  font-size:11px;
-}
-
-/* BOTTOM NAV */
+/* BOTTOM NAVIGATION */
 
 .bottom-nav{
   height:76px;
@@ -529,6 +410,7 @@ header{
   align-items:center;
   justify-content:center;
   gap:5px;
+  text-decoration:none;
 }
 
 .nav-item i{
@@ -557,6 +439,7 @@ header{
   color:#999ca4;
   font-size:10px;
   font-weight:500;
+  text-decoration:none;
 }
 
 .create-circle{
@@ -581,7 +464,7 @@ header{
 
 /* ANIMATION */
 
-@keyframes pageIn{
+@keyframes fadeIn{
   from{
     opacity:0;
     transform:translateY(12px);
@@ -592,20 +475,40 @@ header{
   }
 }
 
-@keyframes popupIn{
-  from{
-    opacity:0;
-    transform:translateY(12px) scale(.97);
+/* MOBILE */
+
+@media(max-width:600px){
+
+  .container{
+    width:calc(100% - 28px);
   }
-  to{
-    opacity:1;
-    transform:translateY(0) scale(1);
+
+  .coming-title{
+    font-size:30px;
   }
+
+  .coming-subtitle{
+    font-size:15px;
+  }
+
+  .coming-description{
+    font-size:13px;
+  }
+
+  .analytics-wrapper{
+    min-height:calc(100vh - 190px);
+  }
+
+  .progress{
+    width:55px;
+  }
+
 }
 
 /* DESKTOP */
 
 @media(min-width:700px){
+
   .container{
     width:100%;
   }
@@ -614,8 +517,11 @@ header{
     padding-left:max(5px,calc((100% - 650px)/2));
     padding-right:max(5px,calc((100% - 650px)/2));
   }
+
 }
+
 </style>
+
 </head>
 
 <body>
@@ -632,75 +538,12 @@ header{
 
   <div class="header-actions">
 
-    <!-- NOTIFICATION -->
-
-    <button
-      class="header-button"
-      id="notificationButton"
-      aria-label="Notifications"
-      onclick="toggleNotification()"
-    >
-      <i class="fa-regular fa-bell"></i>
-      <span class="notification-dot"></span>
-    </button>
-
-    <!-- ACCOUNT -->
-
-    <button
-      class="header-button"
-      id="profileButton"
-      aria-label="Account"
-      onclick="toggleProfile()"
-    >
-      <i class="fa-regular fa-user"></i>
-    </button>
-
-  </div>
-
-  <!-- NOTIFICATION POPUP -->
-
-  <div class="header-popup" id="notificationPopup">
-
-    <div class="popup-title">Notifications</div>
-
-    <div class="popup-empty">
-      <i class="fa-regular fa-bell-slash"></i>
-      No notifications yet
-    </div>
-
-  </div>
-
-  <!-- PROFILE POPUP -->
-
-  <div class="header-popup" id="profilePopup">
-
-    <div class="profile-info">
-
-      <div class="profile-name" id="profileName">
-        Artist Account
-      </div>
-
-      <div class="profile-email" id="profileEmail">
-        Loading account...
-      </div>
-
-    </div>
-
-    <button
-      class="profile-menu-item"
+    <div
+      class="profile-btn"
       onclick="goAccount()"
     >
       <i class="fa-regular fa-user"></i>
-      <span>Account Settings</span>
-    </button>
-
-    <button
-      class="profile-menu-item logout"
-      onclick="logout()"
-    >
-      <i class="fa-solid fa-arrow-right-from-bracket"></i>
-      <span>Logout</span>
-    </button>
+    </div>
 
   </div>
 
@@ -712,126 +555,300 @@ header{
 <main class="container">
 
   <div class="page-title">
-    <h1>Analytics</h1>
-    <p>Monitor your music performance across platforms.</p>
+    Analytics
   </div>
 
-  <section class="preview-container">
 
-    <!-- BLURRED DASHBOARD -->
+  <!-- ANALYTICS BACKGROUND -->
 
-    <div class="dashboard-preview">
+  <div class="analytics-wrapper">
 
-      <div class="preview-header">
+    <div class="preview-content">
 
-        <div class="preview-heading">
-          Streaming Overview
+      <!-- FILTER -->
+
+      <div class="filter-row">
+
+        <div class="period-filter">
+
+          <div class="period active">7D</div>
+          <div class="period">30D</div>
+          <div class="period">90D</div>
+          <div class="period">1Y</div>
+
         </div>
 
-        <div class="preview-period">
-          Last 30 Days
+        <div class="platform-filter">
+          All Platforms
+          <i class="fa-solid fa-chevron-down"></i>
         </div>
 
       </div>
+
+
+      <!-- STATISTICS -->
 
       <div class="stats-grid">
 
-        <div class="stat-card">
-          <div class="stat-label">Total Streams</div>
-          <div class="stat-value">128,450</div>
-          <div class="stat-growth">+12.8% this month</div>
+        <div class="stats-card">
+
+          <div class="stats-label">
+            Total Streams
+          </div>
+
+          <div class="stats-value">
+            1,284,750
+          </div>
+
+          <div class="stats-change">
+            <i class="fa-solid fa-arrow-up"></i>
+            +12.8%
+          </div>
+
         </div>
 
-        <div class="stat-card">
-          <div class="stat-label">Monthly Listeners</div>
-          <div class="stat-value">8,240</div>
-          <div class="stat-growth">+8.4% this month</div>
-        </div>
 
-        <div class="stat-card">
-          <div class="stat-label">Total Releases</div>
-          <div class="stat-value">24</div>
-        </div>
+        <div class="stats-card">
 
-        <div class="stat-card">
-          <div class="stat-label">Active Platforms</div>
-          <div class="stat-value">12</div>
+          <div class="stats-label">
+            Estimated Revenue
+          </div>
+
+          <div class="stats-value">
+            Rp 8.7M
+          </div>
+
+          <div class="stats-change">
+            <i class="fa-solid fa-arrow-up"></i>
+            +8.4%
+          </div>
+
         </div>
 
       </div>
+
+
+      <!-- STREAM CHART -->
 
       <div class="chart-card">
 
         <div class="chart-heading">
-          Daily Streaming Performance
+
+          <div>
+
+            <div class="chart-title">
+              Streaming Performance
+            </div>
+
+            <div class="chart-subtitle">
+              Daily streams overview
+            </div>
+
+          </div>
+
+          <i class="fa-solid fa-ellipsis"></i>
+
         </div>
 
-        <div class="chart-subtitle">
-          Streaming activity over time
-        </div>
 
-        <div class="chart">
-          <div class="bar" style="height:35%"></div>
-          <div class="bar" style="height:48%"></div>
-          <div class="bar" style="height:42%"></div>
-          <div class="bar" style="height:65%"></div>
-          <div class="bar" style="height:54%"></div>
-          <div class="bar" style="height:78%"></div>
-          <div class="bar" style="height:62%"></div>
-          <div class="bar" style="height:88%"></div>
-          <div class="bar" style="height:72%"></div>
-          <div class="bar" style="height:96%"></div>
-          <div class="bar" style="height:80%"></div>
-          <div class="bar" style="height:100%"></div>
-        </div>
+        <svg
+          class="chart"
+          viewBox="0 0 340 155"
+          preserveAspectRatio="none"
+        >
+
+          <defs>
+
+            <linearGradient
+              id="chartGradient"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="1"
+            >
+
+              <stop
+                offset="0%"
+                stop-color="#8c83ec"
+                stop-opacity=".25"
+              />
+
+              <stop
+                offset="100%"
+                stop-color="#8c83ec"
+                stop-opacity="0"
+              />
+
+            </linearGradient>
+
+          </defs>
+
+
+          <line class="chart-grid" x1="0" y1="25" x2="340" y2="25"/>
+          <line class="chart-grid" x1="0" y1="65" x2="340" y2="65"/>
+          <line class="chart-grid" x1="0" y1="105" x2="340" y2="105"/>
+          <line class="chart-grid" x1="0" y1="145" x2="340" y2="145"/>
+
+
+          <path
+            class="chart-area"
+            d="M0 115
+               C25 110 35 90 55 82
+               S85 40 110 52
+               S140 125 165 112
+               S195 70 215 83
+               S240 100 260 60
+               S295 25 310 45
+               S330 30 340 15
+               L340 155 L0 155 Z"
+          />
+
+
+          <path
+            class="chart-line"
+            d="M0 115
+               C25 110 35 90 55 82
+               S85 40 110 52
+               S140 125 165 112
+               S195 70 215 83
+               S240 100 260 60
+               S295 25 310 45
+               S330 30 340 15"
+          />
+
+        </svg>
 
       </div>
+
+
+      <!-- PLATFORM PERFORMANCE -->
 
       <div class="platform-card">
 
         <div class="platform-heading">
-          Platform Performance
+          By Platform
         </div>
 
-        <div class="platform-row">
-          <div class="platform-icon">
-            <i class="fa-brands fa-spotify"></i>
-          </div>
-          <div class="platform-info">
-            <div class="platform-name">Spotify</div>
-            <div class="platform-line">
-              <div class="platform-progress" style="width:85%"></div>
-            </div>
-          </div>
-        </div>
 
         <div class="platform-row">
+
           <div class="platform-icon">
-            <i class="fa-brands fa-apple"></i>
+            <i class="fa-brands fa-youtube" style="color:#ef4444"></i>
           </div>
+
           <div class="platform-info">
-            <div class="platform-name">Apple Music</div>
-            <div class="platform-line">
-              <div class="platform-progress" style="width:65%"></div>
+
+            <div class="platform-name">
+              YouTube
             </div>
+
+            <div class="platform-number">
+              520,340 streams
+            </div>
+
           </div>
+
+          <div class="progress">
+            <span style="width:85%"></span>
+          </div>
+
+          <div class="platform-percent">
+            42%
+          </div>
+
         </div>
 
+
         <div class="platform-row">
+
           <div class="platform-icon">
-            <i class="fa-brands fa-youtube"></i>
+            <i class="fa-brands fa-spotify" style="color:#1db954"></i>
           </div>
+
           <div class="platform-info">
-            <div class="platform-name">YouTube Music</div>
-            <div class="platform-line">
-              <div class="platform-progress" style="width:52%"></div>
+
+            <div class="platform-name">
+              Spotify
             </div>
+
+            <div class="platform-number">
+              410,250 streams
+            </div>
+
           </div>
+
+          <div class="progress">
+            <span style="width:65%"></span>
+          </div>
+
+          <div class="platform-percent">
+            32%
+          </div>
+
+        </div>
+
+
+        <div class="platform-row">
+
+          <div class="platform-icon">
+            <i class="fa-brands fa-apple" style="color:#e45b70"></i>
+          </div>
+
+          <div class="platform-info">
+
+            <div class="platform-name">
+              Apple Music
+            </div>
+
+            <div class="platform-number">
+              240,320 streams
+            </div>
+
+          </div>
+
+          <div class="progress">
+            <span style="width:40%"></span>
+          </div>
+
+          <div class="platform-percent">
+            19%
+          </div>
+
+        </div>
+
+
+        <div class="platform-row">
+
+          <div class="platform-icon">
+            <i class="fa-solid fa-music"></i>
+          </div>
+
+          <div class="platform-info">
+
+            <div class="platform-name">
+              Other Platforms
+            </div>
+
+            <div class="platform-number">
+              113,840 streams
+            </div>
+
+          </div>
+
+          <div class="progress">
+            <span style="width:20%"></span>
+          </div>
+
+          <div class="platform-percent">
+            7%
+          </div>
+
         </div>
 
       </div>
 
     </div>
+
 
     <!-- COMING SOON -->
 
@@ -840,75 +857,101 @@ header{
       <div class="coming-content">
 
         <div class="coming-icon">
-          <i class="fa-solid fa-chart-line"></i>
+
+          <i class="fa-solid fa-chart-simple"></i>
+
         </div>
 
-        <div class="coming-badge">
-          <span class="coming-dot"></span>
+
+        <div class="coming-title">
           Coming soon
         </div>
 
-        <div class="coming-title">
+
+        <div class="coming-subtitle">
           Real-time streams are coming soon
         </div>
 
-        <div class="coming-description">
-          Daily streaming performance per platform, once we're connected to a live DSP feed.
-        </div>
 
-        <div class="coming-footer">
-          <i class="fa-solid fa-circle-info"></i>
-          <span>Analytics features are currently in development.</span>
+        <div class="coming-description">
+          Daily streaming performance per platform,
+          once we're connected to a live DSP feed.
         </div>
 
       </div>
 
     </div>
 
-  </section>
-
-  <div style="height:25px"></div>
+  </div>
 
 </main>
 
 
-<!-- BOTTOM NAV -->
+<!-- BOTTOM NAVIGATION -->
 
 <nav class="bottom-nav">
 
-  <div class="nav-item" onclick="goHome()">
+  <a class="nav-item" href="../dashboard">
+
     <i class="fa-solid fa-house"></i>
+
     <span>Home</span>
-  </div>
 
-  <div class="nav-item" onclick="goCatalog()">
+  </a>
+
+
+  <a class="nav-item" href="../catalog">
+
     <i class="fa-solid fa-compact-disc"></i>
+
     <span>Catalog</span>
-  </div>
 
-  <div class="create-nav" onclick="goCreateRelease()">
+  </a>
+
+
+  <a class="create-nav" href="../catalog/releases/create">
+
     <div class="create-circle">
+
       <i class="fa-solid fa-plus"></i>
+
     </div>
+
     <span>Create</span>
-  </div>
 
-  <div class="nav-item" onclick="goTransactions()">
+  </a>
+
+
+  <a class="nav-item" href="../transactions">
+
     <i class="fa-solid fa-receipt"></i>
-    <span>Transactions</span>
-  </div>
 
-  <div class="nav-item active">
+    <span>Transactions</span>
+
+  </a>
+
+
+  <a class="nav-item active" href="../analytics">
+
     <i class="fa-solid fa-chart-line"></i>
+
     <span>Analytics</span>
-  </div>
+
+  </a>
 
 </nav>
 
 
+<!-- FIREBASE -->
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+
 <script>
 
-/* FIREBASE */
+/* FIREBASE CONFIG */
 
 firebase.initializeApp({
 
@@ -923,86 +966,15 @@ firebase.initializeApp({
 
 });
 
-const auth = firebase.auth();
-
 
 /* AUTH */
 
-auth.onAuthStateChanged(user => {
+firebase.auth().onAuthStateChanged(user => {
 
   if(!user){
+
     location.href = "../login";
-    return;
-  }
 
-  document.getElementById("profileEmail").textContent =
-    user.email || "Email unavailable";
-
-  document.getElementById("profileName").textContent =
-    user.displayName || "Artist Account";
-
-});
-
-
-/* HEADER POPUPS */
-
-function closePopups(){
-
-  document.getElementById("notificationPopup")
-    .classList.remove("show");
-
-  document.getElementById("profilePopup")
-    .classList.remove("show");
-
-}
-
-function toggleNotification(){
-
-  const popup = document.getElementById("notificationPopup");
-  const wasOpen = popup.classList.contains("show");
-
-  closePopups();
-
-  if(!wasOpen){
-    popup.classList.add("show");
-  }
-
-}
-
-function toggleProfile(){
-
-  const popup = document.getElementById("profilePopup");
-  const wasOpen = popup.classList.contains("show");
-
-  closePopups();
-
-  if(!wasOpen){
-    popup.classList.add("show");
-  }
-
-}
-
-document.addEventListener("click", function(e){
-
-  const notificationButton =
-    document.getElementById("notificationButton");
-
-  const profileButton =
-    document.getElementById("profileButton");
-
-  const notificationPopup =
-    document.getElementById("notificationPopup");
-
-  const profilePopup =
-    document.getElementById("profilePopup");
-
-  if(
-    !notificationButton.contains(e.target) &&
-    !profileButton.contains(e.target) &&
-    !notificationPopup.contains(e.target) &&
-    !profilePopup.contains(e.target)
-  ){
-    closePopups();
   }
 
 });
@@ -1011,44 +983,9 @@ document.addEventListener("click", function(e){
 /* ACCOUNT */
 
 function goAccount(){
+
   location.href = "../account";
-}
 
-
-/* LOGOUT */
-
-function logout(){
-
-  if(!confirm("Are you sure you want to logout?")){
-    return;
-  }
-
-  auth.signOut().then(() => {
-    location.href = "../login";
-  }).catch(error => {
-    alert("Logout failed. Please try again.");
-    console.error(error);
-  });
-
-}
-
-
-/* NAVIGATION */
-
-function goHome(){
-  location.href = "../dashboard";
-}
-
-function goCatalog(){
-  location.href = "../catalog";
-}
-
-function goCreateRelease(){
-  location.href = "../catalog/releases/create";
-}
-
-function goTransactions(){
-  location.href = "../transactions";
 }
 
 </script>
