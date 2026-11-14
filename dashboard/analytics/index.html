@@ -35,7 +35,11 @@ body{
   user-select:none;
 }
 
-/* HEADER */
+button{
+  font-family:inherit;
+}
+
+/* ================= HEADER ================= */
 
 header{
   height:64px;
@@ -61,7 +65,51 @@ header{
   margin-left:auto;
   display:flex;
   align-items:center;
+  gap:10px;
 }
+
+/* ================= NOTIFICATION ================= */
+
+.notif-btn{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.notif-btn:active,
+.profile-btn:active{
+  transform:scale(.93);
+}
+
+.notif-btn i{
+  font-size:16px;
+}
+
+.notif-badge{
+  position:absolute;
+  top:-4px;
+  right:-4px;
+  min-width:17px;
+  height:17px;
+  padding:0 4px;
+  border-radius:999px;
+  background:#ef4444;
+  color:#fff;
+  font-size:9px;
+  font-weight:700;
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ================= PROFILE ================= */
 
 .profile-btn{
   width:38px;
@@ -73,15 +121,16 @@ header{
   align-items:center;
   justify-content:center;
   cursor:pointer;
-  border:2px solid #f1f2f7;
   transition:.15s;
+  border:2px solid #f1f2f7;
+  overflow:hidden;
 }
 
-.profile-btn:active{
-  transform:scale(.93);
+.profile-btn i{
+  font-size:15px;
 }
 
-/* MAIN */
+/* ================= MAIN ================= */
 
 .container{
   width:calc(100% - 28px);
@@ -96,7 +145,7 @@ header{
   margin-bottom:17px;
 }
 
-/* ANALYTICS PREVIEW */
+/* ================= ANALYTICS PREVIEW ================= */
 
 .analytics-wrapper{
   position:relative;
@@ -112,7 +161,7 @@ header{
   pointer-events:none;
 }
 
-/* FILTER */
+/* ================= FILTER ================= */
 
 .filter-row{
   display:flex;
@@ -155,7 +204,7 @@ header{
   font-weight:600;
 }
 
-/* CARDS */
+/* ================= CARDS ================= */
 
 .stats-grid{
   display:grid;
@@ -189,7 +238,7 @@ header{
   margin-top:5px;
 }
 
-/* CHART */
+/* ================= CHART ================= */
 
 .chart-card{
   background:#fff;
@@ -241,7 +290,7 @@ header{
   fill:url(#chartGradient);
 }
 
-/* PLATFORM */
+/* ================= PLATFORM ================= */
 
 .platform-card{
   background:#fff;
@@ -317,7 +366,7 @@ header{
   text-align:right;
 }
 
-/* COMING SOON OVERLAY */
+/* ================= COMING SOON OVERLAY ================= */
 
 .coming-overlay{
   position:absolute;
@@ -377,7 +426,7 @@ header{
   margin-top:13px;
 }
 
-/* BOTTOM NAVIGATION */
+/* ================= BOTTOM NAVIGATION ================= */
 
 .bottom-nav{
   height:76px;
@@ -426,7 +475,7 @@ header{
   font-weight:700;
 }
 
-/* CREATE */
+/* ================= CREATE BUTTON ================= */
 
 .create-nav{
   flex:1;
@@ -462,7 +511,11 @@ header{
   transform:scale(.91);
 }
 
-/* ANIMATION */
+.create-label{
+  margin-top:0;
+}
+
+/* ================= ANIMATIONS ================= */
 
 @keyframes fadeIn{
   from{
@@ -475,7 +528,7 @@ header{
   }
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media(max-width:600px){
 
@@ -505,7 +558,7 @@ header{
 
 }
 
-/* DESKTOP */
+/* ================= DESKTOP ================= */
 
 @media(min-width:700px){
 
@@ -526,7 +579,7 @@ header{
 
 <body>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
 
 <header>
 
@@ -538,11 +591,32 @@ header{
 
   <div class="header-actions">
 
+    <!-- NOTIFICATION -->
+
+    <div
+      id="notifBtn"
+      class="notif-btn"
+      onclick="openMessages()"
+    >
+
+      <i class="fa-regular fa-bell"></i>
+
+      <span
+        id="notifBadge"
+        class="notif-badge"
+      >0</span>
+
+    </div>
+
+    <!-- ACCOUNT -->
+
     <div
       class="profile-btn"
       onclick="goAccount()"
     >
+
       <i class="fa-regular fa-user"></i>
+
     </div>
 
   </div>
@@ -550,7 +624,7 @@ header{
 </header>
 
 
-<!-- MAIN -->
+<!-- ================= MAIN ================= -->
 
 <main class="container">
 
@@ -887,9 +961,11 @@ header{
 </main>
 
 
-<!-- BOTTOM NAVIGATION -->
+<!-- ================= BOTTOM NAVIGATION ================= -->
 
 <nav class="bottom-nav">
+
+  <!-- HOME -->
 
   <a class="nav-item" href="../dashboard">
 
@@ -900,6 +976,8 @@ header{
   </a>
 
 
+  <!-- CATALOG -->
+
   <a class="nav-item" href="../catalog">
 
     <i class="fa-solid fa-compact-disc"></i>
@@ -909,6 +987,8 @@ header{
   </a>
 
 
+  <!-- CREATE -->
+
   <a class="create-nav" href="../catalog/releases/create">
 
     <div class="create-circle">
@@ -917,10 +997,14 @@ header{
 
     </div>
 
-    <span>Create</span>
+    <span class="create-label">
+      Create
+    </span>
 
   </a>
 
+
+  <!-- TRANSACTIONS -->
 
   <a class="nav-item" href="../transactions">
 
@@ -930,6 +1014,8 @@ header{
 
   </a>
 
+
+  <!-- ANALYTICS -->
 
   <a class="nav-item active" href="../analytics">
 
@@ -942,7 +1028,7 @@ header{
 </nav>
 
 
-<!-- FIREBASE -->
+<!-- ================= FIREBASE ================= -->
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -951,7 +1037,7 @@ header{
 
 <script>
 
-/* FIREBASE CONFIG */
+/* ================= FIREBASE CONFIG ================= */
 
 firebase.initializeApp({
 
@@ -967,7 +1053,7 @@ firebase.initializeApp({
 });
 
 
-/* AUTH */
+/* ================= AUTH ================= */
 
 firebase.auth().onAuthStateChanged(user => {
 
@@ -980,11 +1066,21 @@ firebase.auth().onAuthStateChanged(user => {
 });
 
 
-/* ACCOUNT */
+/* ================= ACCOUNT ================= */
 
 function goAccount(){
 
   location.href = "../account";
+
+}
+
+
+/* ================= NOTIFICATION ================= */
+
+function openMessages(){
+
+  // Notification inbox belum dihubungkan.
+  // Sistem notifikasi akan mengikuti halaman Home.
 
 }
 
