@@ -1,0 +1,1761 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Analytics | Dynotic Distribution</title>
+
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Outfit",sans-serif;
+}
+
+body{
+  background:#f1f2f7;
+  min-height:100vh;
+  padding-top:64px;
+  padding-bottom:105px;
+  color:#17181c;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+
+button{
+  font-family:inherit;
+}
+
+/* ================= HEADER ================= */
+
+header{
+  height:64px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  background:#fff;
+  border-bottom:1px solid #e8e8ed;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+}
+
+.header-logo{
+  height:32px;
+  width:auto;
+  object-fit:contain;
+}
+
+.header-actions{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+/* ================= NOTIFICATION ================= */
+
+.notif-btn{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.notif-btn:active,
+.profile-btn:active{
+  transform:scale(.93);
+}
+
+.notif-btn i{
+  font-size:16px;
+}
+
+.notif-badge{
+  position:absolute;
+  top:-4px;
+  right:-4px;
+  min-width:17px;
+  height:17px;
+  padding:0 4px;
+  border-radius:999px;
+  background:#ef4444;
+  color:#fff;
+  font-size:9px;
+  font-weight:700;
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ================= PROFILE ================= */
+
+.profile-btn{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.15s;
+  border:2px solid #f1f2f7;
+  overflow:hidden;
+  flex-shrink:0;
+}
+
+.profile-btn i{
+  font-size:15px;
+}
+
+/* ================= PROFILE POPUP ================= */
+
+.profile-popup{
+  position:fixed;
+  top:58px;
+  right:14px;
+  width:260px;
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:16px;
+  box-shadow:0 10px 35px rgba(0,0,0,.12);
+  padding:15px;
+  z-index:1500;
+  display:none;
+  animation:popupIn .18s ease;
+}
+
+.profile-popup.show{
+  display:block;
+}
+
+.profile-info{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding-bottom:13px;
+}
+
+.profile-avatar{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+.profile-avatar i{
+  font-size:17px;
+}
+
+.profile-details{
+  min-width:0;
+}
+
+.profile-name{
+  font-size:13px;
+  font-weight:700;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.profile-email{
+  font-size:11px;
+  color:#858891;
+  margin-top:3px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.profile-divider{
+  height:1px;
+  background:#eeeeF2;
+  margin:2px 0 9px;
+}
+
+.profile-option{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 9px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.profile-option:hover{
+  background:#f5f5f8;
+}
+
+.profile-option i{
+  width:18px;
+  text-align:center;
+  color:#777b84;
+  font-size:14px;
+}
+
+.profile-option.logout{
+  color:#e04444;
+}
+
+.profile-option.logout i{
+  color:#e04444;
+}
+
+/* ================= MESSAGE POPUP ================= */
+
+.message-popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:2000;
+  padding:20px;
+}
+
+.message-popup.show{
+  display:flex;
+}
+
+.message-card{
+  width:100%;
+  max-width:340px;
+  background:#fff;
+  border-radius:17px;
+  padding:18px;
+  box-shadow:0 12px 35px rgba(0,0,0,.15);
+  animation:popupIn .2s ease;
+}
+
+.message-title{
+  font-weight:700;
+  font-size:15px;
+  margin-bottom:8px;
+}
+
+.message-text{
+  font-size:13px;
+  color:#555;
+  line-height:1.6;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+
+.message-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:15px;
+}
+
+.view-btn,
+.close-btn{
+  border:none;
+  padding:9px 14px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.view-btn{
+  background:#111;
+  color:#fff;
+}
+
+.close-btn{
+  background:#f1f2f7;
+  color:#333;
+}
+
+.view-btn:active,
+.close-btn:active{
+  transform:scale(.95);
+}
+
+/* ================= MAIN ================= */
+
+.container{
+  width:calc(100% - 28px);
+  max-width:760px;
+  margin:0 auto;
+}
+
+.page-title{
+  font-size:21px;
+  font-weight:700;
+  margin-top:23px;
+  margin-bottom:17px;
+}
+
+/* ================= ANALYTICS PREVIEW ================= */
+
+.analytics-wrapper{
+  position:relative;
+  min-height:calc(100vh - 190px);
+  overflow:hidden;
+  border-radius:18px;
+  isolation:isolate;
+}
+
+.preview-content{
+  filter:blur(5px);
+  opacity:.78;
+  pointer-events:none;
+}
+
+/* ================= FILTER ================= */
+
+.filter-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.period-filter{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  background:#fff;
+  padding:5px;
+  border:1px solid #e8e8ed;
+  border-radius:12px;
+}
+
+.period{
+  padding:7px 12px;
+  border-radius:9px;
+  font-size:11px;
+  font-weight:600;
+  color:#858891;
+}
+
+.period.active{
+  background:#17181c;
+  color:#fff;
+}
+
+.platform-filter{
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:11px;
+  padding:9px 12px;
+  font-size:11px;
+  color:#555;
+  font-weight:600;
+}
+
+/* ================= CARDS ================= */
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.stats-card{
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:15px;
+  padding:15px;
+}
+
+.stats-label{
+  font-size:11px;
+  color:#858891;
+  font-weight:500;
+}
+
+.stats-value{
+  font-size:22px;
+  font-weight:700;
+  margin-top:8px;
+}
+
+.stats-change{
+  font-size:10px;
+  color:#16a36a;
+  margin-top:5px;
+}
+
+/* ================= CHART ================= */
+
+.chart-card{
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:16px;
+  padding:17px;
+  margin-bottom:12px;
+}
+
+.chart-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.chart-title{
+  font-size:13px;
+  font-weight:700;
+}
+
+.chart-subtitle{
+  font-size:10px;
+  color:#858891;
+  margin-top:3px;
+}
+
+.chart{
+  width:100%;
+  height:155px;
+  display:block;
+}
+
+.chart-grid{
+  stroke:#ededf2;
+  stroke-width:1;
+  stroke-dasharray:4 4;
+}
+
+.chart-line{
+  fill:none;
+  stroke:#7770e8;
+  stroke-width:3;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.chart-area{
+  fill:url(#chartGradient);
+}
+
+/* ================= PLATFORM ================= */
+
+.platform-card{
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:16px;
+  padding:17px;
+  margin-bottom:12px;
+}
+
+.platform-heading{
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:17px;
+}
+
+.platform-row{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin-bottom:17px;
+}
+
+.platform-row:last-child{
+  margin-bottom:0;
+}
+
+.platform-icon{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+.platform-info{
+  flex:1;
+  min-width:0;
+}
+
+.platform-name{
+  font-size:11px;
+  font-weight:600;
+}
+
+.platform-number{
+  font-size:10px;
+  color:#858891;
+  margin-top:3px;
+}
+
+.progress{
+  width:90px;
+  height:6px;
+  background:#eeeef3;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progress span{
+  display:block;
+  height:100%;
+  background:#8c83ec;
+  border-radius:20px;
+}
+
+.platform-percent{
+  font-size:10px;
+  font-weight:600;
+  width:35px;
+  text-align:right;
+}
+
+/* ================= COMING SOON OVERLAY ================= */
+
+.coming-overlay{
+  position:absolute;
+  inset:0;
+  z-index:5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(241,242,247,.32);
+}
+
+.coming-content{
+  width:100%;
+  max-width:440px;
+  text-align:center;
+  animation:fadeIn .5s ease both;
+}
+
+.coming-icon{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  background:rgba(255,255,255,.62);
+  border:1px solid rgba(255,255,255,.8);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 20px;
+  box-shadow:0 8px 30px rgba(0,0,0,.025);
+}
+
+.coming-icon i{
+  font-size:42px;
+  color:#292a30;
+}
+
+.coming-title{
+  font-size:32px;
+  font-weight:800;
+  letter-spacing:-1px;
+  color:#17181c;
+}
+
+.coming-subtitle{
+  font-size:16px;
+  font-weight:600;
+  color:#626574;
+  margin-top:13px;
+  line-height:1.5;
+}
+
+.coming-description{
+  font-size:13px;
+  color:#777b89;
+  line-height:1.7;
+  margin-top:13px;
+}
+
+/* ================= BOTTOM NAVIGATION ================= */
+
+.bottom-nav{
+  height:76px;
+  background:#fff;
+  border-top:1px solid #e6e6eb;
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:1000;
+  padding:0 5px;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+
+.nav-item{
+  flex:1;
+  min-width:0;
+  text-align:center;
+  font-size:10px;
+  font-weight:500;
+  color:#999ca4;
+  padding:9px 2px;
+  cursor:pointer;
+  transition:.15s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  text-decoration:none;
+}
+
+.nav-item i{
+  font-size:18px;
+}
+
+.nav-item:active{
+  transform:scale(.92);
+}
+
+.nav-item.active{
+  color:#17181c;
+  font-weight:700;
+}
+
+/* ================= CREATE BUTTON ================= */
+
+.create-nav{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  cursor:pointer;
+  color:#999ca4;
+  font-size:10px;
+  font-weight:500;
+  text-decoration:none;
+}
+
+.create-circle{
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  margin-top:-27px;
+  border:4px solid #f1f2f7;
+  box-sizing:content-box;
+  transition:.15s;
+}
+
+.create-nav:active .create-circle{
+  transform:scale(.91);
+}
+
+.create-label{
+  margin-top:0;
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(12px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes popupIn{
+  from{
+    opacity:0;
+    transform:translateY(-7px) scale(.98);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:600px){
+
+  .container{
+    width:calc(100% - 28px);
+  }
+
+  .coming-title{
+    font-size:30px;
+  }
+
+  .coming-subtitle{
+    font-size:15px;
+  }
+
+  .coming-description{
+    font-size:13px;
+  }
+
+  .analytics-wrapper{
+    min-height:calc(100vh - 190px);
+  }
+
+  .progress{
+    width:55px;
+  }
+
+}
+
+/* ================= DESKTOP ================= */
+
+@media(min-width:700px){
+
+  .container{
+    width:100%;
+  }
+
+  .bottom-nav{
+    padding-left:max(5px,calc((100% - 650px)/2));
+    padding-right:max(5px,calc((100% - 650px)/2));
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+  <img
+    src="../assets/dynotic-distribution.png"
+    class="header-logo"
+    alt="Dynotic Distribution"
+  >
+
+  <div class="header-actions">
+
+    <!-- NOTIFICATION -->
+
+    <div
+      id="notifBtn"
+      class="notif-btn"
+      onclick="openMessages()"
+    >
+
+      <i class="fa-regular fa-bell"></i>
+
+      <span
+        id="notifBadge"
+        class="notif-badge"
+      >0</span>
+
+    </div>
+
+    <!-- PROFILE -->
+
+    <div
+      class="profile-btn"
+      onclick="toggleProfile()"
+      id="profileBtn"
+    >
+
+      <i class="fa-regular fa-user"></i>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- ================= PROFILE POPUP ================= -->
+
+<div
+  class="profile-popup"
+  id="profilePopup"
+>
+
+  <div class="profile-info">
+
+    <div class="profile-avatar">
+      <i class="fa-regular fa-user"></i>
+    </div>
+
+    <div class="profile-details">
+
+      <div
+        class="profile-name"
+        id="profileName"
+      >
+        Artist
+      </div>
+
+      <div
+        class="profile-email"
+        id="profileEmail"
+      >
+        -
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="profile-divider"></div>
+
+  <div
+    class="profile-option"
+    onclick="goAccount()"
+  >
+
+    <i class="fa-solid fa-gear"></i>
+
+    <span>Account Settings</span>
+
+  </div>
+
+  <div
+    class="profile-option logout"
+    onclick="logout()"
+  >
+
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+    <span>Logout</span>
+
+  </div>
+
+</div>
+
+
+<!-- ================= MESSAGE POPUP ================= -->
+
+<div
+  id="messagePopup"
+  class="message-popup"
+>
+
+  <div class="message-card">
+
+    <div
+      class="message-title"
+      id="msgTitle"
+    ></div>
+
+    <div
+      class="message-text"
+      id="msgText"
+    ></div>
+
+    <div class="message-actions">
+
+      <button
+        class="view-btn"
+        onclick="viewMessage()"
+      >
+        View
+      </button>
+
+      <button
+        class="close-btn"
+        onclick="closeMessage()"
+      >
+        ✕
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+  <div class="page-title">
+    Analytics
+  </div>
+
+
+  <!-- ANALYTICS BACKGROUND -->
+
+  <div class="analytics-wrapper">
+
+    <div class="preview-content">
+
+      <!-- FILTER -->
+
+      <div class="filter-row">
+
+        <div class="period-filter">
+
+          <div class="period active">7D</div>
+          <div class="period">30D</div>
+          <div class="period">90D</div>
+          <div class="period">1Y</div>
+
+        </div>
+
+        <div class="platform-filter">
+          All Platforms
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+
+      </div>
+
+
+      <!-- STATISTICS -->
+
+      <div class="stats-grid">
+
+        <div class="stats-card">
+
+          <div class="stats-label">
+            Total Streams
+          </div>
+
+          <div class="stats-value">
+            1,284,750
+          </div>
+
+          <div class="stats-change">
+            <i class="fa-solid fa-arrow-up"></i>
+            +12.8%
+          </div>
+
+        </div>
+
+
+        <div class="stats-card">
+
+          <div class="stats-label">
+            Estimated Revenue
+          </div>
+
+          <div class="stats-value">
+            Rp 8.7M
+          </div>
+
+          <div class="stats-change">
+            <i class="fa-solid fa-arrow-up"></i>
+            +8.4%
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- STREAM CHART -->
+
+      <div class="chart-card">
+
+        <div class="chart-heading">
+
+          <div>
+
+            <div class="chart-title">
+              Streaming Performance
+            </div>
+
+            <div class="chart-subtitle">
+              Daily streams overview
+            </div>
+
+          </div>
+
+          <i class="fa-solid fa-ellipsis"></i>
+
+        </div>
+
+
+        <svg
+          class="chart"
+          viewBox="0 0 340 155"
+          preserveAspectRatio="none"
+        >
+
+          <defs>
+
+            <linearGradient
+              id="chartGradient"
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="1"
+            >
+
+              <stop
+                offset="0%"
+                stop-color="#8c83ec"
+                stop-opacity=".25"
+              />
+
+              <stop
+                offset="100%"
+                stop-color="#8c83ec"
+                stop-opacity="0"
+              />
+
+            </linearGradient>
+
+          </defs>
+
+
+          <line class="chart-grid" x1="0" y1="25" x2="340" y2="25"/>
+          <line class="chart-grid" x1="0" y1="65" x2="340" y2="65"/>
+          <line class="chart-grid" x1="0" y1="105" x2="340" y2="105"/>
+          <line class="chart-grid" x1="0" y1="145" x2="340" y2="145"/>
+
+
+          <path
+            class="chart-area"
+            d="M0 115
+               C25 110 35 90 55 82
+               S85 40 110 52
+               S140 125 165 112
+               S195 70 215 83
+               S240 100 260 60
+               S295 25 310 45
+               S330 30 340 15
+               L340 155 L0 155 Z"
+          />
+
+
+          <path
+            class="chart-line"
+            d="M0 115
+               C25 110 35 90 55 82
+               S85 40 110 52
+               S140 125 165 112
+               S195 70 215 83
+               S240 100 260 60
+               S295 25 310 45
+               S330 30 340 15"
+          />
+
+        </svg>
+
+      </div>
+
+
+      <!-- PLATFORM PERFORMANCE -->
+
+      <div class="platform-card">
+
+        <div class="platform-heading">
+          By Platform
+        </div>
+
+
+        <div class="platform-row">
+
+          <div class="platform-icon">
+            <i class="fa-brands fa-youtube" style="color:#ef4444"></i>
+          </div>
+
+          <div class="platform-info">
+
+            <div class="platform-name">
+              YouTube
+            </div>
+
+            <div class="platform-number">
+              520,340 streams
+            </div>
+
+          </div>
+
+          <div class="progress">
+            <span style="width:85%"></span>
+          </div>
+
+          <div class="platform-percent">
+            42%
+          </div>
+
+        </div>
+
+
+        <div class="platform-row">
+
+          <div class="platform-icon">
+            <i class="fa-brands fa-spotify" style="color:#1db954"></i>
+          </div>
+
+          <div class="platform-info">
+
+            <div class="platform-name">
+              Spotify
+            </div>
+
+            <div class="platform-number">
+              410,250 streams
+            </div>
+
+          </div>
+
+          <div class="progress">
+            <span style="width:65%"></span>
+          </div>
+
+          <div class="platform-percent">
+            32%
+          </div>
+
+        </div>
+
+
+        <div class="platform-row">
+
+          <div class="platform-icon">
+            <i class="fa-brands fa-apple" style="color:#e45b70"></i>
+          </div>
+
+          <div class="platform-info">
+
+            <div class="platform-name">
+              Apple Music
+            </div>
+
+            <div class="platform-number">
+              240,320 streams
+            </div>
+
+          </div>
+
+          <div class="progress">
+            <span style="width:40%"></span>
+          </div>
+
+          <div class="platform-percent">
+            19%
+          </div>
+
+        </div>
+
+
+        <div class="platform-row">
+
+          <div class="platform-icon">
+            <i class="fa-solid fa-music"></i>
+          </div>
+
+          <div class="platform-info">
+
+            <div class="platform-name">
+              Other Platforms
+            </div>
+
+            <div class="platform-number">
+              113,840 streams
+            </div>
+
+          </div>
+
+          <div class="progress">
+            <span style="width:20%"></span>
+          </div>
+
+          <div class="platform-percent">
+            7%
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- COMING SOON -->
+
+    <div class="coming-overlay">
+
+      <div class="coming-content">
+
+        <div class="coming-icon">
+
+          <i class="fa-solid fa-chart-simple"></i>
+
+        </div>
+
+
+        <div class="coming-title">
+          Coming soon
+        </div>
+
+
+        <div class="coming-subtitle">
+          Real-time streams are coming soon
+        </div>
+
+
+        <div class="coming-description">
+          Daily streaming performance per platform,
+          once we're connected to a live DSP feed.
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+
+
+<!-- ================= BOTTOM NAVIGATION ================= -->
+
+<nav class="bottom-nav">
+
+  <!-- HOME -->
+
+  <div
+    class="nav-item"
+    onclick="goHome()"
+  >
+
+    <i class="fa-solid fa-house"></i>
+
+    <span>Home</span>
+
+  </div>
+
+
+  <!-- CATALOG -->
+
+  <div
+    class="nav-item"
+    onclick="goCatalog()"
+  >
+
+    <i class="fa-solid fa-compact-disc"></i>
+
+    <span>Catalog</span>
+
+  </div>
+
+
+  <!-- CREATE -->
+
+  <div
+    class="create-nav"
+    onclick="goCreateRelease()"
+  >
+
+    <div class="create-circle">
+
+      <i class="fa-solid fa-plus"></i>
+
+    </div>
+
+    <span class="create-label">
+      Create
+    </span>
+
+  </div>
+
+
+  <!-- TRANSACTIONS -->
+
+  <div
+    class="nav-item"
+    onclick="goTransactions()"
+  >
+
+    <i class="fa-solid fa-receipt"></i>
+
+    <span>Transactions</span>
+
+  </div>
+
+
+  <!-- ANALYTICS -->
+
+  <div
+    class="nav-item active"
+    onclick="homeClick()"
+  >
+
+    <i class="fa-solid fa-chart-line"></i>
+
+    <span>Analytics</span>
+
+  </div>
+
+</nav>
+
+
+<!-- ================= FIREBASE ================= -->
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+
+<script>
+
+/* ================= ROUTES ================= */
+
+const ROUTES = {
+
+  home: "../dashboard",
+
+  catalog: "../catalog",
+
+  create: "../catalog/releases/create",
+
+  transactions: "../transactions",
+
+  analytics: "../analytics",
+
+  account: "../account",
+
+  login: "../login"
+
+};
+
+
+/* ================= FIREBASE CONFIG ================= */
+
+firebase.initializeApp({
+
+  apiKey:
+    "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+
+  authDomain:
+    "dynopay-2513c.firebaseapp.com",
+
+  databaseURL:
+    "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+
+});
+
+
+const db = firebase.database();
+
+let currentUser = null;
+
+
+/* ================= AUTH ================= */
+
+firebase.auth().onAuthStateChanged(user => {
+
+  if(!user){
+
+    location.href = ROUTES.login;
+
+    return;
+
+  }
+
+  currentUser = user;
+
+
+  // PROFILE EMAIL
+
+  document.getElementById(
+    "profileEmail"
+  ).textContent = user.email || "-";
+
+
+  // LOAD NOTIFICATIONS
+
+  loadMessages(user.uid);
+
+
+  // LOAD ARTIST DATA
+
+  db.ref("users/" + user.uid)
+    .once("value")
+    .then(snap => {
+
+      if(!snap.exists()) return;
+
+      const d = snap.val();
+
+      const nama = d.nama || "Artist";
+
+
+      document.getElementById(
+        "profileName"
+      ).textContent = nama;
+
+    })
+    .catch(error => {
+
+      console.error(
+        "Gagal memuat data artist:",
+        error
+      );
+
+    });
+
+});
+
+
+/* ================= PROFILE POPUP ================= */
+
+function toggleProfile(){
+
+  const popup =
+    document.getElementById("profilePopup");
+
+  popup.classList.toggle("show");
+
+}
+
+
+function closeProfile(){
+
+  document
+    .getElementById("profilePopup")
+    .classList.remove("show");
+
+}
+
+
+// CLOSE PROFILE WHEN CLICKING OUTSIDE
+
+document.addEventListener("click", function(e){
+
+  const popup =
+    document.getElementById("profilePopup");
+
+  const button =
+    document.getElementById("profileBtn");
+
+  if(
+    !popup.contains(e.target) &&
+    !button.contains(e.target)
+  ){
+
+    closeProfile();
+
+  }
+
+});
+
+
+/* ================= ACCOUNT ================= */
+
+function goAccount(){
+
+  closeProfile();
+
+  location.href = ROUTES.account;
+
+}
+
+
+/* ================= LOGOUT ================= */
+
+function logout(){
+
+  firebase.auth()
+    .signOut()
+    .then(() => {
+
+      location.href = ROUTES.login;
+
+    })
+    .catch(error => {
+
+      console.error(
+        "Logout gagal:",
+        error
+      );
+
+    });
+
+}
+
+
+/* ================= NAVIGATION ================= */
+
+function homeClick(){
+
+  closeProfile();
+
+  // Already on Analytics.
+
+}
+
+
+function goHome(){
+
+  location.href = ROUTES.home;
+
+}
+
+
+function goCatalog(){
+
+  location.href = ROUTES.catalog;
+
+}
+
+
+function goCreateRelease(){
+
+  location.href = ROUTES.create;
+
+}
+
+
+function goTransactions(){
+
+  location.href = ROUTES.transactions;
+
+}
+
+
+/* ================= MESSAGES ================= */
+
+let messagesQueue = [];
+
+let currentMsgIndex = 0;
+
+
+function loadMessages(uid){
+
+  db.ref("messages_inbox/" + uid)
+    .on("value", snap => {
+
+      messagesQueue = [];
+
+      snap.forEach(i => {
+
+        const m = i.val();
+
+        if(!m.read){
+
+          messagesQueue.push({
+
+            ...m,
+
+            key:i.key
+
+          });
+
+        }
+
+      });
+
+
+      const badge =
+        document.getElementById("notifBadge");
+
+
+      if(messagesQueue.length > 0){
+
+        badge.style.display = "flex";
+
+        badge.textContent =
+          messagesQueue.length;
+
+      }else{
+
+        badge.style.display = "none";
+
+      }
+
+    }, error => {
+
+      console.error(
+        "Gagal memuat notifikasi:",
+        error
+      );
+
+    });
+
+}
+
+
+/* ================= OPEN MESSAGES ================= */
+
+function openMessages(){
+
+  if(messagesQueue.length === 0){
+
+    return;
+
+  }
+
+  currentMsgIndex = 0;
+
+  showCurrentMessage();
+
+}
+
+
+/* ================= SHOW MESSAGE ================= */
+
+function showCurrentMessage(){
+
+  if(
+    currentMsgIndex >= messagesQueue.length
+  ){
+
+    document
+      .getElementById("messagePopup")
+      .classList.remove("show");
+
+    return;
+
+  }
+
+
+  const m =
+    messagesQueue[currentMsgIndex];
+
+
+  document.getElementById(
+    "msgTitle"
+  ).textContent =
+    m.subject || "-";
+
+
+  document.getElementById(
+    "msgText"
+  ).textContent =
+    m.body || "-";
+
+
+  document
+    .getElementById("messagePopup")
+    .classList.add("show");
+
+}
+
+
+/* ================= CLOSE MESSAGE ================= */
+
+function closeMessage(){
+
+  const user =
+    firebase.auth().currentUser;
+
+  const m =
+    messagesQueue[currentMsgIndex];
+
+
+  if(user && m){
+
+    db.ref(
+      "messages_inbox/" +
+      user.uid +
+      "/" +
+      m.key +
+      "/read"
+    ).set(true);
+
+  }
+
+
+  currentMsgIndex++;
+
+  showCurrentMessage();
+
+}
+
+
+/* ================= VIEW MESSAGE ================= */
+
+function viewMessage(){
+
+  closeMessage();
+
+}
+
+
+/* ================= CLOSE POPUP OUTSIDE ================= */
+
+document.getElementById(
+  "messagePopup"
+).addEventListener("click", function(e){
+
+  if(e.target === this){
+
+    this.classList.remove("show");
+
+  }
+
+});
+
+
+/* ================= PAGE ANIMATION ================= */
+
+window.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    document
+      .querySelectorAll(".coming-content")
+      .forEach((c,idx) => {
+
+        setTimeout(
+          () => {
+
+            c.style.opacity = "1";
+
+          },
+          idx * 100
+        );
+
+      });
+
+  }
+);
+
+</script>
+
+</body>
+</html>
