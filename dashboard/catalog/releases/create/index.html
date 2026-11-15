@@ -1,1307 +1,332 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Create New Release | Dynotic Distribution</title>
-
-<link rel="icon" type="image/png" href="../assets/favicon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
-<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
-
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#f3f3f8">
 <meta name="robots" content="noindex, nofollow">
-
+<link rel="icon" type="image/png" href="https://dynoticcollective.com/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://dynoticcollective.com/assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://dynoticcollective.com/assets/favicon-iphone.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
 <style>
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:"Outfit",sans-serif;
-}
-
-body{
-  background:#f1f2f7;
-  color:#17181c;
-  min-height:100vh;
-  padding-top:64px;
-  padding-bottom:105px;
-  -webkit-tap-highlight-color:transparent;
-  user-select:none;
-}
-
-button{
-  font-family:inherit;
-}
-
-/* ================= HEADER ================= */
-
-header{
-  height:64px;
-  padding:0 18px;
-  display:flex;
-  align-items:center;
-  background:#fff;
-  border-bottom:1px solid #e8e8ed;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  z-index:1000;
-}
-
-.header-logo{
-  height:32px;
-  width:auto;
-  object-fit:contain;
-}
-
-.header-actions{
-  margin-left:auto;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-/* ================= NOTIFICATION ================= */
-
-.notif-btn{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  background:#f1f2f7;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  cursor:pointer;
-  transition:.15s;
-}
-
-.notif-btn:active,
-.profile-btn:active{
-  transform:scale(.93);
-}
-
-.notif-btn i{
-  font-size:16px;
-}
-
-.notif-badge{
-  position:absolute;
-  top:-4px;
-  right:-4px;
-  min-width:17px;
-  height:17px;
-  padding:0 4px;
-  border-radius:999px;
-  background:#ef4444;
-  color:#fff;
-  font-size:9px;
-  font-weight:700;
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
-
-/* ================= PROFILE ================= */
-
-.profile-btn{
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  background:#17181c;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  transition:.15s;
-  border:2px solid #f1f2f7;
-  overflow:hidden;
-  flex-shrink:0;
-}
-
-.profile-btn i{
-  font-size:15px;
-}
-
-/* ================= PROFILE POPUP ================= */
-
-.profile-popup{
-  position:fixed;
-  top:58px;
-  right:14px;
-  width:260px;
-  background:#fff;
-  border:1px solid #e8e8ed;
-  border-radius:16px;
-  box-shadow:0 10px 35px rgba(0,0,0,.12);
-  padding:15px;
-  z-index:1500;
-  display:none;
-  animation:popupIn .18s ease;
-}
-
-.profile-popup.show{
-  display:block;
-}
-
-.profile-info{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding-bottom:13px;
-}
-
-.profile-avatar{
-  width:43px;
-  height:43px;
-  border-radius:50%;
-  background:#17181c;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-}
-
-.profile-avatar i{
-  font-size:17px;
-}
-
-.profile-details{
-  min-width:0;
-}
-
-.profile-name{
-  font-size:13px;
-  font-weight:700;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.profile-email{
-  font-size:11px;
-  color:#858891;
-  margin-top:3px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.profile-divider{
-  height:1px;
-  background:#eeeeF2;
-  margin:2px 0 9px;
-}
-
-.profile-option{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding:11px 9px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:500;
-  cursor:pointer;
-  transition:.15s;
-}
-
-.profile-option:hover{
-  background:#f5f5f8;
-}
-
-.profile-option i{
-  width:18px;
-  text-align:center;
-  color:#777b84;
-  font-size:14px;
-}
-
-.profile-option.logout{
-  color:#e04444;
-}
-
-.profile-option.logout i{
-  color:#e04444;
-}
-
-/* ================= MESSAGE POPUP ================= */
-
-.message-popup{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.35);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:2000;
-  padding:20px;
-}
-
-.message-popup.show{
-  display:flex;
-}
-
-.message-card{
-  width:100%;
-  max-width:340px;
-  background:#fff;
-  border-radius:17px;
-  padding:18px;
-  box-shadow:0 12px 35px rgba(0,0,0,.15);
-  animation:popupIn .2s ease;
-}
-
-.message-title{
-  font-weight:700;
-  font-size:15px;
-  margin-bottom:8px;
-}
-
-.message-text{
-  font-size:13px;
-  color:#555;
-  line-height:1.6;
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
-}
-
-.message-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:8px;
-  margin-top:15px;
-}
-
-.view-btn,
-.close-btn{
-  border:none;
-  padding:9px 14px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:600;
-  cursor:pointer;
-}
-
-.view-btn{
-  background:#111;
-  color:#fff;
-}
-
-.close-btn{
-  background:#f1f2f7;
-  color:#333;
-}
-
-.view-btn:active,
-.close-btn:active{
-  transform:scale(.95);
-}
-
-/* ================= MAIN ================= */
-
-.container{
-  width:calc(100% - 28px);
-  max-width:760px;
-  margin:0 auto;
-  padding:22px 0 20px;
-}
-
-.page-title{
-  margin-bottom:18px;
-}
-
-.page-title h1{
-  font-size:22px;
-  font-weight:700;
-}
-
-.page-title p{
-  color:#777b84;
-  font-size:12px;
-  margin-top:3px;
-}
-
-/* ================= RELEASE CARD ================= */
-
-.release-card{
-  background:#fff;
-  border:1px solid #e8e8ed;
-  border-radius:18px;
-  padding:18px;
-  animation:pageIn .45s ease both;
-}
-
-.card-title{
-  font-size:14px;
-  font-weight:600;
-  margin-bottom:14px;
-}
-
-/* ================= RELEASE OPTION ================= */
-
-.release-option{
-  display:flex;
-  align-items:flex-start;
-  gap:13px;
-  width:100%;
-  padding:15px;
-  background:#fff;
-  border:1px solid #e8e8ed;
-  border-radius:15px;
-  cursor:pointer;
-  transition:.15s;
-}
-
-.release-option + .release-option{
-  margin-top:10px;
-}
-
-.release-option:hover{
-  background:#fafaff;
-  border-color:#dfe2f2;
-}
-
-.release-option:active{
-  transform:scale(.98);
-}
-
-/* ICON */
-
-.release-icon{
-  width:42px;
-  height:42px;
-  border-radius:11px;
-  background:#f1f2f7;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-}
-
-.release-icon img{
-  width:23px;
-  height:23px;
-  object-fit:contain;
-}
-
-/* TEXT */
-
-.release-content{
-  flex:1;
-  min-width:0;
-}
-
-.release-text-title{
-  font-size:14px;
-  font-weight:600;
-  color:#17181c;
-  line-height:1.3;
-}
-
-.release-text-desc{
-  font-size:11.5px;
-  color:#858891;
-  margin-top:4px;
-  line-height:1.45;
-}
-
-/* ARROW */
-
-.release-arrow{
-  width:28px;
-  height:28px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#a0a2a8;
-  font-size:11px;
-  flex-shrink:0;
-  margin-top:7px;
-}
-
-/* ================= BOTTOM NAV ================= */
-
-.bottom-nav{
-  height:76px;
-  background:#fff;
-  border-top:1px solid #e6e6eb;
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  z-index:1000;
-  padding:0 5px;
-  padding-bottom:env(safe-area-inset-bottom);
-}
-
-.nav-item{
-  flex:1;
-  min-width:0;
-  text-align:center;
-  font-size:10px;
-  font-weight:500;
-  color:#999ca4;
-  padding:9px 2px;
-  cursor:pointer;
-  transition:.15s;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-  text-decoration:none;
-}
-
-.nav-item i{
-  font-size:18px;
-}
-
-.nav-item:active{
-  transform:scale(.92);
-}
-
-.nav-item.active{
-  color:#17181c;
-  font-weight:700;
-}
-
-/* ================= CREATE BUTTON ================= */
-
-.create-nav{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-  cursor:pointer;
-  color:#17181c;
-  font-size:10px;
-  font-weight:700;
-  text-decoration:none;
-}
-
-.create-circle{
-  width:43px;
-  height:43px;
-  border-radius:14px;
-  background:#17181c;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:21px;
-  margin-top:-27px;
-  border:4px solid #f1f2f7;
-  box-sizing:content-box;
-  transition:.15s;
-}
-
-.create-nav:active .create-circle{
-  transform:scale(.91);
-}
-
-.create-label{
-  margin-top:0;
-}
-
-/* ================= ANIMATIONS ================= */
-
-@keyframes pageIn{
-  from{
-    opacity:0;
-    transform:translateY(12px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-@keyframes popupIn{
-  from{
-    opacity:0;
-    transform:translateY(-7px) scale(.98);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0) scale(1);
-  }
-}
-
-/* ================= DESKTOP ================= */
-
-@media(min-width:700px){
-
-  .container{
-    width:100%;
-  }
-
-  .bottom-nav{
-    padding-left:max(5px,calc((100% - 650px)/2));
-    padding-right:max(5px,calc((100% - 650px)/2));
-  }
-
-}
-
+:root{--bg:#f3f3f8;--paper:#fff;--ink:#14141a;--muted:#6f7280;--line:#e6e6ee;--dark:#0d0d12;--accent:#7772a8;--accent-2:#a9a3f2;--red:#ef4444;--side:260px;--ease:cubic-bezier(.16,1,.3,1)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:110px}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.sidebar{display:none;position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--dark);color:#fff;padding:26px 18px 20px;flex-direction:column;z-index:60;overflow-y:auto}
+.sidebar .logo img{height:32px;max-width:180px;object-fit:contain;filter:brightness(0) invert(1);display:block;margin:0 8px 30px}
+.side-nav{display:flex;flex-direction:column;gap:4px}
+.side-nav a{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:14px;font-size:14px;font-weight:500;color:rgba(255,255,255,.62);transition:background .2s,color .2s}
+.side-nav a .i{width:19px;height:19px}
+.side-nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.side-create{display:flex;align-items:center;justify-content:center;gap:9px;margin-bottom:18px;height:48px;border-radius:14px;background:#fff;color:var(--ink);font-size:14px;font-weight:700;box-shadow:0 0 0 3px rgba(169,163,242,.5)}
+.side-create .i{width:18px;height:18px}
+.side-foot{margin-top:auto;padding-top:20px}
+.side-help{padding:16px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.side-help strong{display:block;font-size:13px}
+.side-help span{display:block;margin-top:3px;font-size:12px;line-height:1.6;color:rgba(255,255,255,.5)}
+.side-acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:13px}
+.side-help a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--accent-2)}
+.side-help a .i{width:14px;height:14px}
+.side-help a.wa{height:36px;padding:0 14px;border-radius:999px;background:#fff;color:var(--ink)}
+.topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 16px;display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
+.topbar.scrolled{border-bottom-color:var(--line)}
+.logo-m img{height:30px;max-width:170px;object-fit:contain;display:block}
+.page-title{display:none;font-size:20px;font-weight:800;letter-spacing:-.03em}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.icon-btn{position:relative;width:42px;height:42px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease)}
+.icon-btn:active,.avatar-btn:active{transform:scale(.93)}
+.icon-btn .i{width:19px;height:19px}
+.badge{position:absolute;top:-5px;right:-5px;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--red);border:2px solid var(--bg);color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center}
+.avatar-btn{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line)}
+.wrap{width:100%;max-width:960px;margin:0 auto;padding:6px 16px 0}
+.head{padding:10px 2px 18px}
+.head small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.head h1{margin-top:2px;font-size:clamp(26px,5vw,36px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.head p{margin-top:8px;font-size:14px;color:var(--muted)}
+.opts{display:grid;grid-template-columns:1fr;gap:12px}
+.opt{position:relative;display:flex;flex-direction:column;gap:18px;min-height:210px;padding:clamp(18px,3vw,26px);background:var(--paper);border:1px solid var(--line);border-radius:26px;overflow:hidden;isolation:isolate;animation:up .6s var(--ease) both;transition:transform .3s var(--ease),box-shadow .3s,border-color .3s}
+.opt:nth-child(2){animation-delay:.08s}
+.opt:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(20,20,40,.08);border-color:#d3d1e6}
+.opt:active{transform:scale(.985)}
+.opt .ico{width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,#ebeaf6,#dcdaee);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.opt .ico .i{width:26px;height:26px}
+.opt h2{font-size:clamp(20px,3.5vw,24px);font-weight:800;letter-spacing:-.03em}
+.opt p{margin-top:6px;font-size:14px;line-height:1.7;color:var(--muted);max-width:380px}
+.go{margin-top:auto;display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700}
+.go span{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:14px;border:1.5px solid var(--line);transition:background .25s,color .25s,border-color .25s}
+.go .i{width:17px;height:17px}
+.opt:hover .go span{background:var(--ink);border-color:var(--ink);color:#fff}
+.opt.dark{background:var(--dark);border-color:var(--dark);color:#fff}
+.opt.dark::after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-80px;top:-100px;background:radial-gradient(circle,rgba(119,114,168,.55),transparent 70%);z-index:-1}
+.opt.dark .ico{background:rgba(255,255,255,.1);color:#fff}
+.opt.dark p{color:rgba(255,255,255,.6)}
+.opt.dark .go span{border-color:rgba(255,255,255,.25)}
+.opt.dark:hover{border-color:var(--dark)}
+.opt.dark:hover .go span{background:#fff;color:var(--ink);border-color:#fff}
+.back{display:inline-flex;align-items:center;gap:8px;margin-top:18px;height:44px;padding:0 18px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:13px;font-weight:700;transition:border-color .2s}
+.back:hover{border-color:#cfcfdb}
+.back .i{width:15px;height:15px}
+.bottom{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);width:calc(100% - 28px);max-width:540px;height:70px;padding:0 8px;background:rgba(13,13,18,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:26px;box-shadow:0 18px 40px rgba(13,13,18,.3);display:flex;align-items:center;justify-content:space-around;z-index:70}
+.b-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:100%;font-size:10px;font-weight:500;color:rgba(255,255,255,.5);transition:color .2s,transform .15s}
+.b-item .i{width:20px;height:20px}
+.b-item:active{transform:scale(.92)}
+.b-create{flex:1;display:flex;align-items:center;justify-content:center}
+.b-create span{width:54px;height:54px;border-radius:18px;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;margin-top:-30px;border:5px solid var(--bg);box-sizing:content-box;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+.b-create .i{width:23px;height:23px}
+.pop{position:fixed;top:70px;right:14px;width:272px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(20,20,40,.16);padding:10px;z-index:200;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top right;transition:all .22s var(--ease)}
+.pop.show{opacity:1;visibility:visible;transform:none}
+.pop-info{display:flex;align-items:center;gap:12px;padding:10px 10px 14px}
+.pop-info .avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.pop-info .nm{min-width:0}
+.pop-info strong{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pop-info span{display:block;margin-top:2px;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pop .lbl{padding:8px 10px 4px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a3a5b0}
+.pop hr{border:0;height:1px;background:var(--line);margin:2px 4px 6px}
+.pop a,.pop button.opt2{display:flex;align-items:center;gap:12px;width:100%;padding:12px 10px;border-radius:12px;font-size:13px;font-weight:500;text-align:left}
+.pop a:hover,.pop button.opt2:hover{background:var(--bg)}
+.pop .i{width:17px;height:17px;color:var(--muted)}
+.pop .logout,.pop .logout .i{color:#d83a3a}
+.overlay{position:fixed;inset:0;background:rgba(13,13,18,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:300;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.overlay.show{opacity:1;visibility:visible}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:420px;max-width:100%;background:var(--paper);z-index:310;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .4s var(--ease);box-shadow:-20px 0 60px rgba(0,0,0,.12)}
+.drawer.show{transform:none}
+.d-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 20px 14px}
+.d-head h3{font-size:20px;font-weight:800;letter-spacing:-.03em}
+.d-head .acts{display:flex;align-items:center;gap:8px}
+.d-all{font-size:12px;font-weight:700;color:var(--accent);padding:8px 12px;border-radius:999px}
+.d-all:hover{background:#e9e8f4}
+.d-all:disabled{opacity:.4;cursor:default;background:none}
+.d-x{width:38px;height:38px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.d-x .i{width:17px;height:17px}
+.d-list{flex:1;overflow-y:auto;padding:0 12px 24px;overscroll-behavior:contain}
+.d-item{border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:10px}
+.d-item.unread{border-color:#d3d1e6;background:#fbfbfe}
+.d-item .row{display:flex;align-items:flex-start;gap:10px}
+.d-item .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+.d-item.read .dot{background:#d5d6de}
+.d-item strong{display:block;font-size:14px;line-height:1.4}
+.d-item.read strong{color:#4a4c58;font-weight:600}
+.d-item p{margin-top:6px;font-size:13px;line-height:1.7;color:#5a5d6a;white-space:pre-wrap;overflow-wrap:anywhere}
+.d-item .mark{margin-top:12px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--accent);padding:6px 11px;border-radius:999px;background:#eeedf7}
+.d-item .mark .i{width:13px;height:13px}
+.d-empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:40px 20px;text-align:center;color:var(--muted);font-size:13px}
+.d-empty .ic{width:46px;height:46px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media(min-width:1000px){
+body{padding-bottom:40px;padding-left:var(--side)}
+.sidebar{display:flex}.bottom{display:none}
+.topbar{height:78px;padding:0 36px}.logo-m{display:none}.page-title{display:block}
+.wrap{padding:6px 36px 0}.pop{top:76px;right:34px}.toast{bottom:30px}
+.opts{grid-template-columns:1fr 1fr}
+.opt{min-height:300px}
+}
+@media(max-width:700px){
+.wrap{padding:0 14px}.opt{border-radius:22px}
+.drawer{top:auto;width:100%;height:84dvh;border-radius:26px 26px 0 0;transform:translateY(102%)}
+.drawer.show{transform:none}
+.pop{right:12px;top:66px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
-
 <body>
 
-<!-- ================= HEADER ================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10.5 9-7.5 9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+<symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-receipt" viewBox="0 0 24 24"><path d="M4 2v20l3-2 3 2 2-2 2 2 3-2 3 2V2l-3 2-3-2-2 2-2-2-3 2z"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></symbol>
+<symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8.5 9.5c.3 2.4 2.6 4.7 5 5l1.4-1.2-1.8-1-.8.7c-.9-.4-1.6-1.2-2-2l.7-.8-1-1.8z"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+<symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+<symbol id="i-note" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 10 5-10 5L2 7zM2 12l10 5 10-5M2 17l10 5 10-5"/></symbol>
+</svg>
 
-<header>
-
-  <img
-    src="../assets/dynotic-distribution.png"
-    class="header-logo"
-    alt="Dynotic Distribution"
-  >
-
-  <div class="header-actions">
-
-    <!-- NOTIFICATION -->
-
-    <div
-      id="notifBtn"
-      class="notif-btn"
-      onclick="openMessages()"
-    >
-
-      <i class="fa-regular fa-bell"></i>
-
-      <span
-        id="notifBadge"
-        class="notif-badge"
-      >0</span>
-
+<aside class="sidebar">
+  <a href="https://app.dynoticcollective.com/home/" class="logo"><img src="https://dynoticcollective.com/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+  <a href="https://app.dynoticcollective.com/catalog/releases/create/" class="side-create" aria-current="page"><svg class="i"><use href="#i-plus"/></svg>New Release</a>
+  <nav class="side-nav" aria-label="Main navigation">
+    <a href="https://app.dynoticcollective.com/home/"><svg class="i"><use href="#i-home"/></svg>Home</a>
+    <a href="https://app.dynoticcollective.com/catalog/"><svg class="i"><use href="#i-disc"/></svg>Catalog</a>
+    <a href="https://app.dynoticcollective.com/transactions/"><svg class="i"><use href="#i-receipt"/></svg>Transactions</a>
+    <a href="https://app.dynoticcollective.com/analytics/"><svg class="i"><use href="#i-chart"/></svg>Analytics</a>
+    <a href="https://app.dynoticcollective.com/account/"><svg class="i"><use href="#i-gear"/></svg>Account</a>
+  </nav>
+  <div class="side-foot"><div class="side-help">
+    <strong>Need help?</strong>
+    <span>Tim kami siap membantu soal distribusi, rilis, dan katalog.</span>
+    <div class="side-acts">
+      <a href="https://wa.me/6283161380687" target="_blank" rel="noopener noreferrer" class="wa"><svg class="i"><use href="#i-whatsapp"/></svg>WhatsApp CS</a>
+      <a href="mailto:support@dynoticcollective.com"><svg class="i"><use href="#i-mail"/></svg>Email Support</a>
     </div>
+  </div></div>
+</aside>
 
-    <!-- PROFILE -->
-
-    <div
-      class="profile-btn"
-      onclick="toggleProfile()"
-      id="profileBtn"
-    >
-
-      <i class="fa-regular fa-user"></i>
-
-    </div>
-
+<header class="topbar" id="topbar">
+  <a href="https://app.dynoticcollective.com/home/" class="logo-m"><img src="https://dynoticcollective.com/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+  <h2 class="page-title">New Release</h2>
+  <div class="top-actions">
+    <button class="icon-btn" id="notifBtn" type="button" aria-label="Notifikasi"><svg class="i"><use href="#i-bell"/></svg><span class="badge" id="notifBadge">0</span></button>
+    <button class="avatar-btn" id="profileBtn" type="button" aria-label="Profil" aria-expanded="false"><span id="avatarLetter">A</span></button>
   </div>
-
 </header>
 
-
-<!-- ================= PROFILE POPUP ================= -->
-
-<div
-  class="profile-popup"
-  id="profilePopup"
->
-
-  <div class="profile-info">
-
-    <div class="profile-avatar">
-      <i class="fa-regular fa-user"></i>
-    </div>
-
-    <div class="profile-details">
-
-      <div
-        class="profile-name"
-        id="profileName"
-      >
-        Artist
-      </div>
-
-      <div
-        class="profile-email"
-        id="profileEmail"
-      >
-        -
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="profile-divider"></div>
-
-  <div
-    class="profile-option"
-    onclick="goAccount()"
-  >
-
-    <i class="fa-solid fa-gear"></i>
-
-    <span>Account Settings</span>
-
-  </div>
-
-  <div
-    class="profile-option logout"
-    onclick="logout()"
-  >
-
-    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-
-    <span>Logout</span>
-
-  </div>
-
+<div class="pop" id="profilePopup" role="menu">
+  <div class="pop-info"><div class="avatar" id="popAvatar">A</div><div class="nm"><strong id="profileName">Artist</strong><span id="profileEmail">-</span></div></div>
+  <hr>
+  <a href="https://app.dynoticcollective.com/account/" role="menuitem"><svg class="i"><use href="#i-gear"/></svg>Account Settings</a>
+  <div class="lbl">Help</div>
+  <a href="https://wa.me/6283161380687" target="_blank" rel="noopener noreferrer" role="menuitem"><svg class="i"><use href="#i-whatsapp"/></svg>WhatsApp CS</a>
+  <a href="mailto:support@dynoticcollective.com" role="menuitem"><svg class="i"><use href="#i-mail"/></svg>Email Support</a>
+  <hr>
+  <button class="opt2 logout" type="button" id="logoutBtn" role="menuitem"><svg class="i"><use href="#i-logout"/></svg>Logout</button>
 </div>
 
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Notifikasi" aria-hidden="true">
+  <div class="d-head"><h3>Notifikasi</h3><div class="acts">
+    <button class="d-all" id="markAll" type="button">Tandai semua dibaca</button>
+    <button class="d-x" id="drawerClose" type="button" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button>
+  </div></div>
+  <div class="d-list" id="drawerList"></div>
+</aside>
 
-<!-- ================= MESSAGE POPUP ================= -->
-
-<div
-  id="messagePopup"
-  class="message-popup"
->
-
-  <div class="message-card">
-
-    <div
-      class="message-title"
-      id="msgTitle"
-    ></div>
-
-    <div
-      class="message-text"
-      id="msgText"
-    ></div>
-
-    <div class="message-actions">
-
-      <button
-        class="view-btn"
-        onclick="viewMessage()"
-      >
-        View
-      </button>
-
-      <button
-        class="close-btn"
-        onclick="closeMessage()"
-      >
-        ✕
-      </button>
-
-    </div>
-
+<main class="wrap">
+  <div class="head">
+    <small>Create new release</small>
+    <h1>Pilih tipe rilisan</h1>
+    <p>Pilih jenis musik yang ingin kamu distribusikan.</p>
   </div>
 
-</div>
-
-
-<!-- ================= MAIN ================= -->
-
-<main class="container">
-
-  <div class="page-title">
-
-    <h1>Create New Release</h1>
-
-    <p>Choose the type of music you want to distribute.</p>
-
+  <div class="opts">
+    <a class="opt dark" href="https://app.dynoticcollective.com/original-asset/">
+      <div class="ico"><svg class="i"><use href="#i-note"/></svg></div>
+      <div><h2>Original Asset</h2><p>Rilis musik orisinal yang kamu ciptakan dan kamu miliki sepenuhnya.</p></div>
+      <div class="go">Mulai rilis<span><svg class="i"><use href="#i-right"/></svg></span></div>
+    </a>
+    <a class="opt" href="https://app.dynoticcollective.com/licensed-songs/">
+      <div class="ico"><svg class="i"><use href="#i-layers"/></svg></div>
+      <div><h2>Cover to Master</h2><p>Jelajahi lagu berlisensi yang tersedia untuk pengajuan cover dan remix.</p></div>
+      <div class="go">Lihat lagu<span><svg class="i"><use href="#i-right"/></svg></span></div>
+    </a>
   </div>
 
-
-  <div class="release-card">
-
-    <div class="card-title">
-      Choose Release Type
-    </div>
-
-
-    <!-- ORIGINAL ASSET -->
-
-    <div
-      class="release-option"
-      onclick="goOriginalAsset()"
-    >
-
-      <div class="release-icon">
-
-        <img
-          src="../assets/icon-original.png"
-          alt="Original Asset"
-        >
-
-      </div>
-
-      <div class="release-content">
-
-        <div class="release-text-title">
-          Original Asset
-        </div>
-
-        <div class="release-text-desc">
-          Publish original music that you created and fully own.
-        </div>
-
-      </div>
-
-      <div class="release-arrow">
-        <i class="fa-solid fa-chevron-right"></i>
-      </div>
-
-    </div>
-
-
-    <!-- COVER TO MASTER -->
-
-    <div
-      class="release-option"
-      onclick="goCoverToMaster()"
-    >
-
-      <div class="release-icon">
-
-        <img
-          src="../assets/icon-cover.png"
-          alt="Cover to Master"
-        >
-
-      </div>
-
-      <div class="release-content">
-
-        <div class="release-text-title">
-          Cover to Master
-        </div>
-
-        <div class="release-text-desc">
-          Explore licensed songs available for cover and remix submissions.
-        </div>
-
-      </div>
-
-      <div class="release-arrow">
-        <i class="fa-solid fa-chevron-right"></i>
-      </div>
-
-    </div>
-
-  </div>
-
+  <a class="back" href="https://app.dynoticcollective.com/catalog/"><svg class="i"><use href="#i-left"/></svg>Kembali ke Catalog</a>
 </main>
 
-
-<!-- ================= BOTTOM NAVIGATION ================= -->
-
-<nav class="bottom-nav">
-
-  <!-- HOME -->
-
-  <div
-    class="nav-item"
-    onclick="goHome()"
-  >
-
-    <i class="fa-solid fa-house"></i>
-
-    <span>Home</span>
-
-  </div>
-
-
-  <!-- CATALOG -->
-
-  <div
-    class="nav-item"
-    onclick="goCatalog()"
-  >
-
-    <i class="fa-solid fa-compact-disc"></i>
-
-    <span>Catalog</span>
-
-  </div>
-
-
-  <!-- CREATE -->
-
-  <div
-    class="create-nav"
-    onclick="goCreate()"
-  >
-
-    <div class="create-circle">
-
-      <i class="fa-solid fa-plus"></i>
-
-    </div>
-
-    <span class="create-label">
-      Create
-    </span>
-
-  </div>
-
-
-  <!-- TRANSACTIONS -->
-
-  <div
-    class="nav-item"
-    onclick="goTransactions()"
-  >
-
-    <i class="fa-solid fa-receipt"></i>
-
-    <span>Transactions</span>
-
-  </div>
-
-
-  <!-- ANALYTICS -->
-
-  <div
-    class="nav-item"
-    onclick="goAnalytics()"
-  >
-
-    <i class="fa-solid fa-chart-line"></i>
-
-    <span>Analytics</span>
-
-  </div>
-
+<nav class="bottom" aria-label="Main navigation">
+  <a href="https://app.dynoticcollective.com/home/" class="b-item"><svg class="i"><use href="#i-home"/></svg>Home</a>
+  <a href="https://app.dynoticcollective.com/catalog/" class="b-item"><svg class="i"><use href="#i-disc"/></svg>Catalog</a>
+  <a href="https://app.dynoticcollective.com/catalog/releases/create/" class="b-create" aria-label="Create new release" aria-current="page"><span><svg class="i"><use href="#i-plus"/></svg></span></a>
+  <a href="https://app.dynoticcollective.com/transactions/" class="b-item"><svg class="i"><use href="#i-receipt"/></svg>Transactions</a>
+  <a href="https://app.dynoticcollective.com/analytics/" class="b-item"><svg class="i"><use href="#i-chart"/></svg>Analytics</a>
 </nav>
 
-
-<!-- ================= FIREBASE ================= -->
+<div class="toast" id="toast" role="status"></div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
-
 <script>
-
-/* ================= ROUTES ================= */
-
-const ROUTES = {
-
-  home: "https://app.dynoticcollective.com/home/",
-
-  catalog: "https://app.dynoticcollective.com/catalog/",
-
-  create: "../catalog/releases/create",
-
-  transactions: "https://app.dynoticcollective.com/transactions/",
-
-  analytics: "https://app.dynoticcollective.com/analytics/",
-
-  account: "https://app.dynoticcollective.com/account/",
-
-  originalAsset: "../original-asset",
-
-  licensedSongs: "../licensed-songs",
-
-  login: "https://app.dynoticcollective.com/login/"
-
-};
-
-
-/* ================= FIREBASE CONFIG ================= */
-
+const LOGIN = "https://app.dynoticcollective.com/login/";
 firebase.initializeApp({
-
-  apiKey:
-    "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
-
-  authDomain:
-    "dynopay-2513c.firebaseapp.com",
-
-  databaseURL:
-    "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
-
+  apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain: "dynopay-2513c.firebaseapp.com",
+  databaseURL: "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
 });
-
-
 const db = firebase.database();
+const $ = id => document.getElementById(id);
+let user = null, messages = [], msgRef = null;
 
-let currentUser = null;
+function toast(t){ const el = $("toast"); el.textContent = t; el.classList.add("show"); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove("show"), 2200); }
 
-
-/* ================= AUTH ================= */
-
-firebase.auth().onAuthStateChanged(user => {
-
-  if(!user){
-
-    location.href = ROUTES.login;
-
-    return;
-
-  }
-
-  currentUser = user;
-
-
-  // PROFILE EMAIL
-
-  document.getElementById(
-    "profileEmail"
-  ).textContent = user.email || "-";
-
-
-  // LOAD NOTIFICATIONS
-
-  loadMessages(user.uid);
-
-
-  // LOAD ARTIST DATA
-
-  db.ref("users/" + user.uid)
-    .once("value")
-    .then(snap => {
-
-      if(!snap.exists()) return;
-
-      const d = snap.val();
-
-      document.getElementById(
-        "profileName"
-      ).textContent = d.nama || "Artist";
-
-    })
-    .catch(error => {
-
-      console.error(
-        "Gagal memuat data artist:",
-        error
-      );
-
-    });
-
+firebase.auth().onAuthStateChanged(u => {
+  if(!u){ if(msgRef) msgRef.off(); location.href = LOGIN; return; }
+  user = u;
+  $("profileEmail").textContent = u.email || "-";
+  loadMessages();
+  db.ref("users/" + u.uid).once("value").then(s => {
+    if(!s.exists()) return;
+    const nama = s.val().nama || "Artist", l = nama.trim().charAt(0).toUpperCase() || "A";
+    $("profileName").textContent = nama; $("avatarLetter").textContent = l; $("popAvatar").textContent = l;
+  }).catch(e => console.error("Gagal memuat profil:", e));
 });
 
-
-/* ================= PROFILE POPUP ================= */
-
-function toggleProfile(){
-
-  const popup =
-    document.getElementById("profilePopup");
-
-  popup.classList.toggle("show");
-
-}
-
-
-function closeProfile(){
-
-  document
-    .getElementById("profilePopup")
-    .classList.remove("show");
-
-}
-
-
-document.addEventListener("click", function(e){
-
-  const popup =
-    document.getElementById("profilePopup");
-
-  const button =
-    document.getElementById("profileBtn");
-
-  if(
-    !popup.contains(e.target) &&
-    !button.contains(e.target)
-  ){
-
-    closeProfile();
-
-  }
-
+const popup = $("profilePopup"), profileBtn = $("profileBtn");
+function setProfile(o){ popup.classList.toggle("show", o); profileBtn.setAttribute("aria-expanded", String(o)); }
+profileBtn.addEventListener("click", e => { e.stopPropagation(); setProfile(!popup.classList.contains("show")); });
+document.addEventListener("click", e => { if(!popup.contains(e.target) && !profileBtn.contains(e.target)) setProfile(false); });
+$("logoutBtn").addEventListener("click", () => {
+  firebase.auth().signOut().then(() => { location.href = LOGIN; }).catch(() => toast("Logout gagal, coba lagi."));
 });
 
-
-/* ================= ACCOUNT ================= */
-
-function goAccount(){
-
-  closeProfile();
-
-  location.href = ROUTES.account;
-
+function loadMessages(){
+  msgRef = db.ref("messages_inbox/" + user.uid);
+  msgRef.on("value", snap => {
+    messages = [];
+    snap.forEach(i => { const m = i.val(); if(m) messages.push({ ...m, key:i.key }); });
+    messages.reverse();
+    messages.sort((a, b) => (a.read ? 1 : 0) - (b.read ? 1 : 0));
+    const n = messages.filter(m => !m.read).length, b = $("notifBadge");
+    b.style.display = n ? "flex" : "none"; b.textContent = n > 99 ? "99+" : n;
+    $("markAll").disabled = n === 0;
+    renderDrawer();
+  }, e => console.error("Gagal memuat notifikasi:", e));
 }
-
-
-/* ================= LOGOUT ================= */
-
-function logout(){
-
-  closeProfile();
-
-  firebase.auth()
-    .signOut()
-    .then(() => {
-
-      location.href = ROUTES.login;
-
-    })
-    .catch(error => {
-
-      console.error(
-        "Logout gagal:",
-        error
-      );
-
-    });
-
+function renderDrawer(){
+  const list = $("drawerList"); list.innerHTML = "";
+  if(!messages.length){ list.innerHTML = '<div class="d-empty"><div class="ic"><svg class="i"><use href="#i-check"/></svg></div>Belum ada notifikasi.</div>'; return; }
+  messages.slice(0, 50).forEach(m => {
+    const el = document.createElement("div");
+    el.className = "d-item " + (m.read ? "read" : "unread");
+    el.innerHTML = '<div class="row"><span class="dot"></span><div><strong></strong><p></p></div></div>';
+    el.querySelector("strong").textContent = m.subject || "-";
+    el.querySelector("p").textContent = m.body || "-";
+    if(!m.read){
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "mark";
+      b.innerHTML = '<svg class="i"><use href="#i-check"/></svg>Tandai dibaca';
+      b.addEventListener("click", () => db.ref("messages_inbox/" + user.uid + "/" + m.key + "/read").set(true).catch(() => toast("Gagal menandai pesan.")));
+      el.querySelector(".row > div").appendChild(b);
+    }
+    list.appendChild(el);
+  });
 }
-
-
-/* ================= NAVIGATION ================= */
-
-function goHome(){
-
-  location.href = ROUTES.home;
-
-}
-
-
-function goCatalog(){
-
-  location.href = ROUTES.catalog;
-
-}
-
-
-function goCreate(){
-
-  // Halaman saat ini.
-
-}
-
-
-function goTransactions(){
-
-  location.href = ROUTES.transactions;
-
-}
-
-
-function goAnalytics(){
-
-  location.href = ROUTES.analytics;
-
-}
-
-
-/* ================= RELEASE NAVIGATION ================= */
-
-function goOriginalAsset(){
-
-  location.href = ROUTES.originalAsset;
-
-}
-
-
-function goCoverToMaster(){
-
-  location.href = ROUTES.licensedSongs;
-
-}
-
-
-/* ================= MESSAGES ================= */
-
-let messagesQueue = [];
-
-let currentMsgIndex = 0;
-
-
-function loadMessages(uid){
-
-  db.ref("messages_inbox/" + uid)
-    .on("value", snap => {
-
-      messagesQueue = [];
-
-      snap.forEach(i => {
-
-        const m = i.val();
-
-        if(!m.read){
-
-          messagesQueue.push({
-
-            ...m,
-
-            key: i.key
-
-          });
-
-        }
-
-      });
-
-
-      const badge =
-        document.getElementById("notifBadge");
-
-
-      if(messagesQueue.length > 0){
-
-        badge.style.display = "flex";
-
-        badge.textContent =
-          messagesQueue.length;
-
-      }else{
-
-        badge.style.display = "none";
-
-      }
-
-    }, error => {
-
-      console.error(
-        "Gagal memuat notifikasi:",
-        error
-      );
-
-    });
-
-}
-
-
-/* ================= OPEN MESSAGES ================= */
-
-function openMessages(){
-
-  closeProfile();
-
-  if(messagesQueue.length === 0){
-
-    return;
-
-  }
-
-  currentMsgIndex = 0;
-
-  showCurrentMessage();
-
-}
-
-
-/* ================= SHOW MESSAGE ================= */
-
-function showCurrentMessage(){
-
-  if(
-    currentMsgIndex >= messagesQueue.length
-  ){
-
-    document
-      .getElementById("messagePopup")
-      .classList.remove("show");
-
-    return;
-
-  }
-
-
-  const m =
-    messagesQueue[currentMsgIndex];
-
-
-  document.getElementById(
-    "msgTitle"
-  ).textContent =
-    m.subject || "-";
-
-
-  document.getElementById(
-    "msgText"
-  ).textContent =
-    m.body || "-";
-
-
-  document
-    .getElementById("messagePopup")
-    .classList.add("show");
-
-}
-
-
-/* ================= CLOSE MESSAGE ================= */
-
-function closeMessage(){
-
-  const user =
-    firebase.auth().currentUser;
-
-  const m =
-    messagesQueue[currentMsgIndex];
-
-
-  if(user && m){
-
-    db.ref(
-      "messages_inbox/" +
-      user.uid +
-      "/" +
-      m.key +
-      "/read"
-    ).set(true);
-
-  }
-
-
-  currentMsgIndex++;
-
-  showCurrentMessage();
-
-}
-
-
-/* ================= VIEW MESSAGE ================= */
-
-function viewMessage(){
-
-  closeMessage();
-
-}
-
-
-/* ================= CLOSE POPUP OUTSIDE ================= */
-
-document.getElementById(
-  "messagePopup"
-).addEventListener("click", function(e){
-
-  if(e.target === this){
-
-    this.classList.remove("show");
-
-  }
-
+$("markAll").addEventListener("click", () => {
+  const u = {}; messages.forEach(m => { if(!m.read) u[m.key + "/read"] = true; });
+  if(!Object.keys(u).length) return;
+  db.ref("messages_inbox/" + user.uid).update(u).then(() => toast("Semua pesan ditandai dibaca.")).catch(() => toast("Gagal menandai pesan."));
 });
+function openDrawer(){ setProfile(false); $("drawer").classList.add("show"); $("overlay").classList.add("show"); $("drawer").setAttribute("aria-hidden","false"); document.body.classList.add("lock"); }
+function closeDrawer(){ $("drawer").classList.remove("show"); $("overlay").classList.remove("show"); $("drawer").setAttribute("aria-hidden","true"); document.body.classList.remove("lock"); }
+$("notifBtn").addEventListener("click", openDrawer);
+$("drawerClose").addEventListener("click", closeDrawer);
+$("overlay").addEventListener("click", closeDrawer);
+document.addEventListener("keydown", e => { if(e.key === "Escape"){ closeDrawer(); setProfile(false); } });
 
+const topbar = $("topbar");
+const onScroll = () => topbar.classList.toggle("scrolled", scrollY > 6);
+onScroll(); addEventListener("scroll", onScroll, { passive:true });
 </script>
-
 </body>
 </html>
