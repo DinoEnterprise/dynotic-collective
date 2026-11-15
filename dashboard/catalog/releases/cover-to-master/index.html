@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Cover to Master | Dynotic Distribution</title>
 <meta name="theme-color" content="#f3f3f8">
 
@@ -32,7 +32,8 @@
 
 *{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--ink);min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:calc(40px + env(safe-area-inset-bottom))}
+body{background:var(--bg);color:var(--ink);min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:calc(128px + env(safe-area-inset-bottom))}
+body.lock{overflow:hidden}
 a{color:var(--accent);font-weight:700;text-decoration:none}
 a:hover{text-decoration:underline}
 button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
@@ -46,66 +47,141 @@ input,select{font:inherit}
 /* ================= TOPBAR ================= */
 .topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
 .topbar.scrolled{border-bottom-color:var(--line)}
-.icon-btn{width:42px;height:42px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),border-color .2s;flex-shrink:0}
-.icon-btn:hover{border-color:#cfcfdb}
+.icon-btn{width:44px;height:44px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 2px rgba(20,20,40,.05);transition:transform .2s var(--ease),border-color .2s,box-shadow .2s;flex-shrink:0}
+.icon-btn:hover{border-color:#cfcfdb;box-shadow:0 8px 18px -10px rgba(20,20,40,.25)}
 .icon-btn:active{transform:scale(.93)}
-.icon-btn .i{width:19px;height:19px}
+.icon-btn .i{width:20px;height:20px}
 .page-title{display:none;font-size:20px;font-weight:800;letter-spacing:-.03em}
 .topbar .logo{margin-left:auto}
 .topbar .logo img{height:30px;width:auto;max-width:170px;object-fit:contain;display:block}
 
 /* ================= LAYOUT ================= */
 .wrap{width:100%;max-width:640px;margin:0 auto;padding:6px 16px 0}
+.layout{display:flex;flex-direction:column;gap:16px}
 
-/* ================= HERO / PROGRESS ================= */
-.hero{position:relative;overflow:hidden;isolation:isolate;border-radius:28px;background:var(--dark);color:#fff;padding:clamp(22px,4vw,30px);animation:up .6s var(--ease) both}
-.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none}
-.hero::before{width:340px;height:340px;background:rgba(119,114,168,.6);top:-160px;right:-80px}
-.hero::after{width:280px;height:280px;background:rgba(79,70,160,.4);bottom:-170px;left:-80px}
-.hero-grid{position:absolute;inset:0;z-index:-1;opacity:.25;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%)}
+/* ================= SIDE PANEL / STEPPER ================= */
+.side{position:relative;overflow:hidden;isolation:isolate;border-radius:28px;background:var(--dark);color:#fff;padding:clamp(22px,4vw,30px);animation:up .6s var(--ease) both}
+.side::before,.side::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none}
+.side::before{width:340px;height:340px;background:rgba(119,114,168,.6);top:-160px;right:-80px}
+.side::after{width:280px;height:280px;background:rgba(79,70,160,.4);bottom:-170px;left:-80px}
+.side-grid{position:absolute;inset:0;z-index:-1;opacity:.25;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%)}
 .h-label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:rgba(255,255,255,.65)}
 .h-label .i{width:17px;height:17px;color:var(--accent-2)}
-.h-title{margin-top:10px;font-size:clamp(26px,6vw,36px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
-.h-sub{margin-top:8px;font-size:12px;line-height:1.6;color:rgba(255,255,255,.5)}
+.h-title{margin-top:10px;font-size:clamp(26px,6vw,34px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.h-sub{margin-top:8px;font-size:13px;line-height:1.6;color:rgba(255,255,255,.55)}
+
 .stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:22px}
-.st{position:relative;text-align:left;padding-top:12px;font-size:11px;font-weight:600;color:rgba(255,255,255,.45);transition:color .2s,opacity .2s}
+.st{position:relative;text-align:left;padding-top:12px;font-size:12px;font-weight:600;color:rgba(255,255,255,.45);transition:color .2s,opacity .2s,background .2s}
 .st::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;border-radius:999px;background:rgba(255,255,255,.14);transition:background .3s}
 .st.done::before{background:rgba(169,163,242,.55)}
 .st.active::before{background:#fff}
 .st.active{color:#fff;font-weight:700}
 .st.done{color:rgba(255,255,255,.75)}
 .st.locked{opacity:.4;cursor:not-allowed}
+.st .n,.st .d{display:none}
+.st .tx b{font-weight:inherit}
 
 /* ================= CARD / FORM ================= */
-.card{margin-top:16px;background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:clamp(18px,4vw,26px)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:clamp(20px,4vw,34px)}
 .section{animation:up .35s var(--ease) both}
-.sec-title{font-size:17px;font-weight:800;letter-spacing:-.02em}
-.sec-desc{margin-top:4px;font-size:13px;line-height:1.6;color:var(--muted)}
+.sec-title{font-size:22px;font-weight:800;letter-spacing:-.03em;line-height:1.2}
+.sec-desc{margin-top:6px;font-size:14px;line-height:1.65;color:var(--muted)}
+
+.grp{margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
+.sec-desc + .grp{border-top:0;padding-top:0;margin-top:22px}
+.grp-t{font-size:14px;font-weight:700;letter-spacing:-.01em}
+.grp-d{margin-top:2px;font-size:12px;color:var(--muted)}
 
 .field{margin-top:16px}
-.label{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;margin-bottom:7px}
+.label{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;margin-bottom:8px}
 .label .req{color:var(--red)}
 .label small{font-size:11px;font-weight:500;color:var(--muted)}
-.input,.select select{width:100%;height:50px;padding:0 15px;border-radius:15px;border:1px solid var(--line);background:#fafafd;color:var(--ink);font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none;appearance:none}
+.input,.select select{width:100%;height:56px;padding:0 16px;border-radius:16px;border:1px solid var(--line);background:#fafafd;color:var(--ink);font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none;appearance:none}
 .input::placeholder{color:#a3a5b0}
-.input:focus,.select select:focus{border-color:#cfcdea;background:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.12)}
+.input:focus,.select select:focus{border-color:#cfcdea;background:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.14)}
 .select{position:relative}
-.select select{padding-right:40px;cursor:pointer}
-.select .i{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted);pointer-events:none}
+.select select{padding-right:44px;cursor:pointer}
+.select .i{position:absolute;right:16px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--muted);pointer-events:none}
 .field.err .input,.field.err .select select{border-color:var(--red);background:#fff8f8;box-shadow:0 0 0 4px rgba(229,72,77,.1)}
-.err-msg{display:none;margin-top:6px;font-size:12px;font-weight:500;color:var(--red)}
+.err-msg{display:none;margin-top:7px;font-size:12px;font-weight:500;color:var(--red)}
 .field.err .err-msg{display:block}
-.hint{margin-top:7px;font-size:12px;line-height:1.6;color:var(--muted)}
-.row2{display:grid;grid-template-columns:1fr;gap:0 12px}
+.hint{margin-top:8px;font-size:12px;line-height:1.6;color:var(--muted)}
+.row2{display:grid;grid-template-columns:1fr;gap:0 14px}
 
-.btns{display:flex;gap:12px;margin-top:28px}
-.btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 24px;border-radius:18px;font-size:14px;font-weight:700;letter-spacing:-.005em;border:1px solid var(--line);background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(20,20,40,.05);transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .25s,border-color .25s,color .25s;flex:1;white-space:nowrap}
-.btn .i{width:18px;height:18px;transition:transform .35s var(--ease)}
+/* ================= STEP 1 ================= */
+.pick{display:flex;align-items:center;gap:14px;margin-top:20px;padding:14px;border-radius:18px;background:#eeedf7}
+.pick .ic{width:44px;height:44px;border-radius:14px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pick .ic .i{width:20px;height:20px}
+.pick .tx{min-width:0}
+.pick small{display:block;font-size:11px;color:#6b678f;font-weight:500}
+.pick strong{display:block;margin-top:1px;font-size:15px;font-weight:700;overflow-wrap:anywhere}
+.pick span{display:block;margin-top:1px;font-size:12px;color:#6b678f;overflow-wrap:anywhere}
+.need{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.need-i{display:flex;align-items:center;gap:14px;padding:14px;border:1px solid var(--line);border-radius:18px}
+.need-i .ic{width:44px;height:44px;border-radius:14px;background:var(--bg);color:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.need-i .ic .i{width:20px;height:20px}
+.need-i strong{display:block;font-size:14px;font-weight:700}
+.need-i span{display:block;margin-top:2px;font-size:12px;line-height:1.55;color:var(--muted)}
+
+/* ================= UPLOAD ================= */
+.up-grid{display:grid;grid-template-columns:1fr;gap:6px;margin-top:6px}
+.drop{position:relative;display:block;cursor:pointer;border:1.5px dashed #c4c3d6;background:#fafafd;transition:border-color .2s,background .2s}
+.drop:hover,.drop.over{border-color:var(--accent);background:#f4f3fb}
+.drop:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.drop.done{border-style:solid;border-color:#cfe9dd}
+.drop.fail{border-color:var(--red);background:#fff8f8}
+
+.cover-drop{width:min(260px,100%);aspect-ratio:1/1;border-radius:24px;overflow:hidden}
+.cover-in{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:14px;text-align:center}
+.upload-icon-img{width:46px;height:46px;object-fit:contain;display:block}
+.upload-text{font-size:13px;color:var(--muted);line-height:1.5}
+#coverPreview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cover-bar{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(20,20,26,.15)}
+.cover-bar i{display:block;height:100%;width:0;background:var(--accent-2);transition:width .25s}
+.cover-shade{position:absolute;inset:0;background:rgba(13,13,18,.5);display:none;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:800}
+.cover-drop.busy .cover-shade{display:flex}
+
+.audio-drop{border-radius:22px;padding:18px;display:flex;align-items:center;gap:14px;min-height:96px}
+.audio-icon-img{width:46px;height:46px;padding:10px;border-radius:15px;background:var(--paper);border:1px solid var(--line);object-fit:contain;flex-shrink:0}
+.audio-info{min-width:0;flex:1}
+.audio-name{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.audio-sub{margin-top:3px;font-size:12px;color:var(--muted)}
+.progress-wrapper{margin-top:12px;width:100%;height:6px;background:#e5e6eb;border-radius:999px;overflow:hidden}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--ink));border-radius:999px;transition:width .25s}
+.u-status{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:13px;font-weight:600;color:var(--muted);min-height:22px}
+.u-status .i{width:16px;height:16px}
+.u-status.ok{color:var(--green)}
+.u-status.bad{color:var(--red)}
+.u-status.warn{color:var(--amber)}
+.u-status.busy .i{animation:spin .8s linear infinite}
+audio{display:block;width:100%;height:44px;margin-top:14px}
+.up-hint{margin-top:22px;padding:13px 15px;border-radius:16px;background:var(--bg);font-size:13px;line-height:1.6;color:var(--muted)}
+.up-hint.ok{background:#e9f6ef;color:#256c4a}
+
+/* ================= PREVIEW ================= */
+.pv-head{display:flex;gap:16px;align-items:center;margin-top:22px}
+.pv-head img{width:100px;height:100px;border-radius:20px;object-fit:cover;background:var(--bg);flex-shrink:0}
+.pv-head .tx{min-width:0}
+.pv-head strong{display:block;font-size:20px;font-weight:800;letter-spacing:-.025em;line-height:1.25;overflow-wrap:anywhere}
+.pv-head span{display:block;margin-top:3px;font-size:14px;color:var(--muted);overflow-wrap:anywhere}
+.pv-list{margin-top:20px;border:1px solid var(--line);border-radius:20px;padding:4px 16px}
+.pv-row{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+.pv-row:last-child{border-bottom:0}
+.pv-row small{font-size:14px;color:var(--muted);font-weight:500;flex-shrink:0}
+.pv-row b{font-weight:600;text-align:right;overflow-wrap:anywhere}
+.note{margin-top:16px;padding:14px 16px;border-radius:16px;background:#eeedf7;font-size:13px;line-height:1.6;color:#4b4880}
+
+/* ================= ACTION BAR + BUTTONS ================= */
+.actions{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:12px max(16px,env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));background:rgba(243,243,248,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line)}
+.actions-in{display:flex;gap:12px;max-width:640px;margin:0 auto}
+
+.btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:12px;height:58px;padding:0 28px;border-radius:18px;font-size:16px;font-weight:700;letter-spacing:-.01em;border:1px solid var(--line);background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(20,20,40,.05);transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .25s,border-color .25s,color .25s;flex:1;white-space:nowrap}
+.btn .i{width:20px;height:20px;transition:transform .35s var(--ease)}
 .btn:hover:not(:disabled){border-color:#cfcfdb;background:#fafafd;transform:translateY(-1px);box-shadow:0 10px 22px -10px rgba(20,20,40,.22)}
 .btn:active:not(:disabled){transform:translateY(0) scale(.985);box-shadow:0 1px 2px rgba(20,20,40,.05)}
 .btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.btn:hover:not(:disabled) .go{transform:translateX(3px)}
-.btn:hover:not(:disabled) .bk{transform:translateX(-3px)}
+.btn:hover:not(:disabled) .go{transform:translateX(4px)}
+.btn:hover:not(:disabled) .bk{transform:translateX(-4px)}
 .btn.dark{border:0;color:#fff;background:radial-gradient(120% 170% at 90% -40%,rgba(169,163,242,.5),transparent 55%),linear-gradient(180deg,#2b2b36 0%,#14141a 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(0,0,0,.45),0 1px 2px rgba(13,13,18,.35),0 14px 28px -12px rgba(13,13,18,.6)}
 .btn.dark::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.16) 50%,transparent 62%);transform:translateX(-130%);transition:transform .8s var(--ease)}
 .btn.dark:hover:not(:disabled){background:radial-gradient(120% 170% at 90% -40%,rgba(169,163,242,.7),transparent 55%),linear-gradient(180deg,#32323e 0%,#191920 100%);transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(0,0,0,.45),0 2px 4px rgba(13,13,18,.3),0 22px 38px -14px rgba(79,70,160,.6)}
@@ -115,96 +191,73 @@ input,select{font:inherit}
 .btn:disabled:not(.dark){opacity:.5}
 .btn.dark:disabled{background:#d9d9e4;color:#fff;box-shadow:none}
 .btn.dark:disabled::after{display:none}
-.btn.sm{height:36px;padding:0 14px;font-size:12px;flex:none;border:0;border-radius:12px;background:#eeedf7;color:#4b4880;box-shadow:none}
+.btn.back{flex:0 0 auto;min-width:130px}
+.btn.sm{height:38px;padding:0 15px;font-size:13px;flex:none;border:0;border-radius:12px;background:#eeedf7;color:#4b4880;box-shadow:none;gap:8px}
+.btn.sm .i{width:15px;height:15px}
 .btn.sm:hover:not(:disabled){background:#e2e0f1;transform:none;box-shadow:none}
-.icon-btn{box-shadow:0 1px 2px rgba(20,20,40,.05)}
-.icon-btn:hover{box-shadow:0 8px 18px -10px rgba(20,20,40,.25)}
-@keyframes spin{to{transform:rotate(360deg)}}
-.spin{animation:spin .8s linear infinite}
-.btns .back{flex:0 0 auto;min-width:124px}
-.u-status.busy .i{animation:spin .8s linear infinite}
 
-/* ================= STEP 1 ================= */
-.pick{display:flex;align-items:center;gap:13px;margin-top:16px;padding:14px;border-radius:18px;background:var(--bg)}
-.pick .ic{width:42px;height:42px;border-radius:13px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.pick .ic .i{width:19px;height:19px}
-.pick .tx{min-width:0}
-.pick small{display:block;font-size:11px;color:var(--muted);font-weight:500}
-.pick strong{display:block;margin-top:1px;font-size:14px;font-weight:700;overflow-wrap:anywhere}
-.pick span{display:block;margin-top:1px;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
-.need{display:flex;flex-direction:column;gap:10px;margin-top:18px}
-.need div{display:flex;align-items:flex-start;gap:12px;font-size:13px;line-height:1.55;color:#3a3c48}
-.need .ck{width:24px;height:24px;border-radius:50%;background:#eeedf7;color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:-1px}
-.need .ck .i{width:13px;height:13px;stroke-width:2.6}
-
-/* ================= UPLOAD ================= */
-.up-grid{display:grid;grid-template-columns:1fr;gap:20px;margin-top:6px}
-.drop{position:relative;display:block;cursor:pointer;border:1.5px dashed #c4c3d6;background:#fafafd;transition:border-color .2s,background .2s,transform .2s var(--ease)}
-.drop:hover,.drop.over{border-color:var(--accent);background:#f4f3fb}
-.drop:focus-within{outline:2px solid var(--accent);outline-offset:2px}
-.drop.done{border-style:solid;border-color:#cfe9dd}
-.drop.fail{border-color:var(--red);background:#fff8f8}
-
-.cover-drop{width:min(220px,100%);aspect-ratio:1/1;border-radius:22px;overflow:hidden}
-.cover-in{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;padding:12px;text-align:center}
-.upload-icon-img{width:42px;height:42px;object-fit:contain;display:block}
-.upload-text{font-size:12px;color:var(--muted);line-height:1.5}
-#coverPreview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.cover-bar{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(20,20,26,.15)}
-.cover-bar i{display:block;height:100%;width:0;background:var(--ink);transition:width .25s}
-.cover-shade{position:absolute;inset:0;background:rgba(13,13,18,.45);display:none;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:800}
-.cover-drop.busy .cover-shade{display:flex}
-
-.audio-drop{border-radius:20px;padding:14px;display:flex;align-items:center;gap:13px}
-.audio-icon-img{width:40px;height:40px;padding:8px;border-radius:13px;background:var(--paper);border:1px solid var(--line);object-fit:contain;flex-shrink:0}
-.audio-info{min-width:0;flex:1}
-.audio-name{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.audio-sub{margin-top:2px;font-size:12px;color:var(--muted)}
-.progress-wrapper{margin-top:10px;width:100%;height:6px;background:#e5e6eb;border-radius:999px;overflow:hidden}
-.progress-bar{height:100%;width:0%;background:var(--ink);border-radius:999px;transition:width .25s}
-.u-status{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;font-size:12px;font-weight:600;color:var(--muted);min-height:20px}
-.u-status .i{width:15px;height:15px}
-.u-status.ok{color:var(--green)}
-.u-status.bad{color:var(--red)}
-.u-status.warn{color:var(--amber)}
-audio{display:block;width:100%;height:40px;margin-top:12px}
-
-/* ================= PREVIEW ================= */
-.pv-head{display:flex;gap:14px;align-items:center}
-.pv-head img{width:84px;height:84px;border-radius:16px;object-fit:cover;background:var(--bg);flex-shrink:0}
-.pv-head .tx{min-width:0}
-.pv-head strong{display:block;font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.3;overflow-wrap:anywhere}
-.pv-head span{display:block;margin-top:2px;font-size:13px;color:var(--muted);overflow-wrap:anywhere}
-.pv-list{margin-top:16px;border-top:1px solid var(--line)}
-.pv-row{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}
-.pv-row:last-child{border-bottom:0}
-.pv-row small{font-size:13px;color:var(--muted);font-weight:500;flex-shrink:0}
-.pv-row b{font-weight:600;text-align:right;overflow-wrap:anywhere}
-.note{margin-top:16px;padding:13px 15px;border-radius:16px;background:#eeedf7;font-size:12px;line-height:1.6;color:#4b4880}
+/* ================= DONE OVERLAY ================= */
+.done{position:fixed;inset:0;z-index:400;background:rgba(243,243,248,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.done.show{opacity:1;visibility:visible}
+.done-card{width:100%;max-width:380px;background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:34px 26px;text-align:center;box-shadow:0 30px 80px -20px rgba(13,13,18,.25);transform:translateY(12px);transition:transform .5s var(--ease)}
+.done.show .done-card{transform:none}
+.done-ic{width:68px;height:68px;margin:0 auto;border-radius:50%;background:#e9f6ef;color:var(--green);display:flex;align-items:center;justify-content:center}
+.done-ic .i{width:30px;height:30px;stroke-width:2.6}
+.done-card h3{margin-top:18px;font-size:22px;font-weight:800;letter-spacing:-.03em}
+.done-card p{margin-top:6px;font-size:14px;line-height:1.6;color:var(--muted)}
 
 /* ================= TOAST ================= */
-.toast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
+.toast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:12px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 @keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .8s linear infinite}
 
-/* ================= DESKTOP ================= */
+/* ================= TABLET+ ================= */
 @media(min-width:700px){
   .row2{grid-template-columns:1fr 1fr}
-  .up-grid{grid-template-columns:auto 1fr;align-items:start;gap:26px}
+  .up-grid{grid-template-columns:auto 1fr;align-items:start;gap:30px}
 }
-@media(min-width:1000px){
+
+/* ================= DESKTOP ================= */
+@media(min-width:960px){
+  body{padding-bottom:48px}
   .topbar{height:78px;padding:0 36px}
   .page-title{display:block}
-  .wrap{padding:6px 36px 0}
+  .wrap{max-width:1040px;padding:6px 36px 0}
+  .layout{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;align-items:start}
+  .side{position:sticky;top:98px;padding:30px 26px}
+  .stepper{display:flex;flex-direction:column;gap:6px;margin-top:28px}
+  .st{display:flex;align-items:center;gap:14px;padding:12px;border-radius:18px;font-size:14px}
+  .st::before{display:none}
+  .st.active{background:rgba(255,255,255,.1)}
+  .st:not(.locked):not(.active):hover{background:rgba(255,255,255,.06)}
+  .st .n{display:flex;width:36px;height:36px;border-radius:12px;align-items:center;justify-content:center;background:rgba(255,255,255,.1);font-size:14px;font-weight:700;flex-shrink:0;transition:background .2s,color .2s}
+  .st.active .n{background:#fff;color:var(--ink)}
+  .st.done .n{background:rgba(169,163,242,.3);color:#fff}
+  .st .n .ck{display:none;width:16px;height:16px;stroke-width:2.6}
+  .st.done .n .num{display:none}
+  .st.done .n .ck{display:block}
+  .st .d{display:block;margin-top:1px;font-size:12px;font-weight:500;color:rgba(255,255,255,.5)}
+  .st.active .d{color:rgba(255,255,255,.7)}
+  .card{padding:38px 40px}
+  .actions{position:static;padding:0;margin-top:34px;background:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none}
+  .actions-in{max-width:none;justify-content:flex-end}
+  .btn{flex:0 0 auto;min-width:220px}
+  .btn.back{min-width:140px}
+  .toast{bottom:36px}
 }
+
 @media(max-width:700px){
   .wrap{padding:0 14px}
-  .hero{border-radius:24px}
+  .side{border-radius:24px}
+  .card{border-radius:24px}
 }
 @media(max-width:380px){
-  .btns{flex-direction:column-reverse}
-  .pv-head img{width:68px;height:68px}
+  .btn{padding:0 18px;font-size:15px;gap:10px}
+  .btn.back{min-width:104px}
+  .pv-head img{width:78px;height:78px}
 }
 @media(prefers-reduced-motion:reduce){
   *:not(.spin),*::before,*::after{animation:none!important;transition:none!important}
@@ -220,6 +273,8 @@ audio{display:block;width:100%;height:40px;margin-top:12px}
   <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
   <symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></symbol>
   <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
   <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.7 18-8-14a2 2 0 0 0-3.5 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4M12 17h.01"/></symbol>
   <symbol id="i-chev-d" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
@@ -237,179 +292,201 @@ audio{display:block;width:100%;height:40px;margin-top:12px}
 </header>
 
 <main class="wrap">
+  <div class="layout">
 
-  <!-- HERO + STEPPER -->
-  <section class="hero">
-    <div class="hero-grid"></div>
-    <div class="h-label"><svg class="i"><use href="#i-disc"/></svg><span id="stepCount">Langkah 1 dari 4</span></div>
-    <h1 class="h-title" id="stepTitle">Mulai pengajuan</h1>
-    <p class="h-sub" id="stepSub">Ajukan rilisan Cover to Master ke Dynotic.</p>
+    <!-- SIDE / STEPPER -->
+    <aside class="side">
+      <div class="side-grid"></div>
+      <div class="h-label"><svg class="i"><use href="#i-disc"/></svg><span id="stepCount">Langkah 1 dari 4</span></div>
+      <h1 class="h-title">Cover to Master</h1>
+      <p class="h-sub">Ajukan rilisan cover kamu ke Dynotic.</p>
 
-    <div class="stepper" role="tablist" aria-label="Langkah pengajuan">
-      <button type="button" class="st active" id="s1" role="tab">Mulai</button>
-      <button type="button" class="st" id="s2" role="tab">Detail</button>
-      <button type="button" class="st" id="s3" role="tab">Upload</button>
-      <button type="button" class="st" id="s4" role="tab">Review</button>
-    </div>
-  </section>
+      <div class="stepper" role="tablist" aria-label="Langkah pengajuan">
+        <button type="button" class="st active" id="s1" role="tab"><span class="n"><span class="num">1</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Mulai</b><span class="d">Persiapan pengajuan</span></span></button>
+        <button type="button" class="st" id="s2" role="tab"><span class="n"><span class="num">2</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Detail</b><span class="d">Informasi rilisan</span></span></button>
+        <button type="button" class="st" id="s3" role="tab"><span class="n"><span class="num">3</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Upload</b><span class="d">Cover art dan audio</span></span></button>
+        <button type="button" class="st" id="s4" role="tab"><span class="n"><span class="num">4</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Review</b><span class="d">Periksa dan kirim</span></span></button>
+      </div>
+    </aside>
 
-  <section class="card">
+    <!-- MAIN CARD -->
+    <section class="card">
 
-    <!-- hidden type (tetap dikirim sebagai "original") -->
-    <select id="type" hidden><option value="original" selected>Original Asset</option></select>
+      <!-- hidden type (tetap dikirim sebagai "original") -->
+      <select id="type" hidden><option value="original" selected>Original Asset</option></select>
 
-    <!-- STEP 1 -->
-    <div id="step1" class="section">
-      <div class="sec-title">Cover to Master</div>
-      <p class="sec-desc">Gunakan fitur ini untuk mengajukan rilisan Cover to Master.</p>
+      <!-- STEP 1 -->
+      <div id="step1" class="section">
+        <div class="sec-title">Ajukan Cover to Master</div>
+        <p class="sec-desc">Gunakan fitur ini untuk mengajukan rilisan Cover to Master. Siapkan tiga hal berikut sebelum mulai.</p>
 
-      <div class="pick" id="pickedSong" hidden>
-        <div class="ic"><svg class="i"><use href="#i-music"/></svg></div>
-        <div class="tx">
-          <small>Lagu dari katalog</small>
-          <strong id="pickTitle">-</strong>
-          <span id="pickId">-</span>
+        <div class="pick" id="pickedSong" hidden>
+          <div class="ic"><svg class="i"><use href="#i-music"/></svg></div>
+          <div class="tx">
+            <small>Lagu dari katalog</small>
+            <strong id="pickTitle">-</strong>
+            <span id="pickId">-</span>
+          </div>
+        </div>
+
+        <div class="need">
+          <div class="need-i">
+            <div class="ic"><svg class="i"><use href="#i-file"/></svg></div>
+            <div><strong>Detail rilisan</strong><span>Song ID publisher, judul, artist, label, dan version.</span></div>
+          </div>
+          <div class="need-i">
+            <div class="ic"><svg class="i"><use href="#i-image"/></svg></div>
+            <div><strong>Cover art</strong><span>Berformat JPG atau PNG, sebaiknya rasio 1:1.</span></div>
+          </div>
+          <div class="need-i">
+            <div class="ic"><svg class="i"><use href="#i-music"/></svg></div>
+            <div><strong>File audio</strong><span>Berformat MP3 atau WAV.</span></div>
+          </div>
         </div>
       </div>
 
-      <div class="need">
-        <div><span class="ck"><svg class="i"><use href="#i-check"/></svg></span>Song ID dari publisher dan detail rilisan (judul, artist, label, version).</div>
-        <div><span class="ck"><svg class="i"><use href="#i-check"/></svg></span>Cover art berformat JPG atau PNG.</div>
-        <div><span class="ck"><svg class="i"><use href="#i-check"/></svg></span>File audio berformat MP3 atau WAV.</div>
-      </div>
+      <!-- STEP 2 -->
+      <div id="step2" class="section" hidden>
+        <div class="sec-title">Detail rilisan</div>
+        <p class="sec-desc">Isi data lagu dengan benar. Kolom bertanda <span style="color:var(--red)">*</span> wajib diisi.</p>
 
-      <div class="btns">
-        <button type="button" class="btn dark" id="startBtn">Continue<svg class="i go"><use href="#i-arrow-r"/></svg></button>
-      </div>
-    </div>
+        <div class="grp">
+          <div class="grp-t">Informasi lagu</div>
 
-    <!-- STEP 2 -->
-    <div id="step2" class="section" hidden>
-      <div class="sec-title">Detail rilisan</div>
-      <p class="sec-desc">Isi data lagu. Kolom bertanda <span style="color:var(--red)">*</span> wajib diisi.</p>
+          <div class="field" data-f="title">
+            <label class="label" for="title">Title <span class="req">*</span></label>
+            <input class="input" id="title" placeholder="Judul lagu" autocomplete="off">
+            <div class="err-msg">Judul lagu wajib diisi.</div>
+          </div>
 
-      <div class="field" data-f="title">
-        <label class="label" for="title">Title <span class="req">*</span></label>
-        <input class="input" id="title" placeholder="Judul lagu" autocomplete="off">
-        <div class="err-msg">Judul lagu wajib diisi.</div>
-      </div>
-
-      <div class="field" data-f="publisher">
-        <label class="label" for="publisher">Song ID (Publisher) <span class="req">*</span></label>
-        <input class="input" id="publisher" placeholder="Wajib" autocomplete="off">
-        <div class="err-msg">Song ID wajib diisi.</div>
-        <div class="hint" id="songIdNotice"></div>
-      </div>
-
-      <div class="row2">
-        <div class="field" data-f="artist">
-          <label class="label" for="artist">Artist Name <span class="req">*</span></label>
-          <input class="input" id="artist" placeholder="Nama artist" autocomplete="off">
-          <div class="err-msg">Nama artist wajib diisi.</div>
+          <div class="field" data-f="publisher">
+            <label class="label" for="publisher">Song ID (Publisher) <span class="req">*</span></label>
+            <input class="input" id="publisher" placeholder="Wajib" autocomplete="off">
+            <div class="err-msg">Song ID wajib diisi.</div>
+            <div class="hint" id="songIdNotice"></div>
+          </div>
         </div>
-        <div class="field" data-f="label">
-          <label class="label" for="label">Label <span class="req">*</span></label>
-          <input class="input" id="label" placeholder="e.g. Dynotic Distribution" autocomplete="off">
-          <div class="err-msg">Label wajib diisi.</div>
-        </div>
-      </div>
 
-      <div class="field" data-f="version">
-        <label class="label" for="version">Version <span class="req">*</span></label>
-        <div class="select">
-          <select id="version">
-            <option value="">Pilih Version</option>
-            <option value="Remix">Remix</option>
-            <option value="Cover">Cover</option>
-          </select>
-          <svg class="i"><use href="#i-chev-d"/></svg>
-        </div>
-        <div class="err-msg">Pilih version terlebih dahulu.</div>
-      </div>
+        <div class="grp">
+          <div class="grp-t">Artist dan label</div>
 
-      <div class="row2">
-        <div class="field">
-          <label class="label" for="fullname">Nama Vocal</label>
-          <input class="input" id="fullname" placeholder="e.g. Inez Ariesta" autocomplete="off">
-          <div class="hint">Khusus Katalog Pragita Prabawa Pustaka.</div>
-        </div>
-        <div class="field">
-          <label class="label" for="featuring">Featuring <small>Optional</small></label>
-          <input class="input" id="featuring" placeholder="Optional" autocomplete="off">
-        </div>
-      </div>
-
-      <div class="btns">
-        <button type="button" class="btn back" id="back2"><svg class="i bk"><use href="#i-back"/></svg>Back</button>
-        <button type="button" class="btn dark grow" id="next2">Continue<svg class="i go"><use href="#i-arrow-r"/></svg></button>
-      </div>
-    </div>
-
-    <!-- STEP 3 -->
-    <div id="step3" class="section" hidden>
-      <div class="sec-title">Upload file</div>
-      <p class="sec-desc">Upload cover art dan audio. Bisa tap atau tarik file ke kotak upload.</p>
-
-      <div class="up-grid">
-
-        <div>
-          <div class="label" style="margin-top:14px">Cover Art <span class="req">*</span></div>
-          <label class="drop cover-drop" id="coverDrop">
-            <input id="cover" class="vh" type="file" accept="image/jpeg,image/png">
-            <div class="cover-in" id="coverPlaceholder">
-              <img src="../assets/upload-icon.png" class="upload-icon-img" alt="">
-              <div class="upload-text">Upload Cover (JPG / PNG)</div>
+          <div class="row2">
+            <div class="field" data-f="artist">
+              <label class="label" for="artist">Artist Name <span class="req">*</span></label>
+              <input class="input" id="artist" placeholder="Nama artist" autocomplete="off">
+              <div class="err-msg">Nama artist wajib diisi.</div>
             </div>
-            <img id="coverPreview" alt="" hidden>
-            <div class="cover-shade" id="coverPct">0%</div>
-            <div class="cover-bar"><i id="coverBar"></i></div>
-          </label>
-          <div class="u-status" id="coverStatus"></div>
-        </div>
-
-        <div>
-          <div class="label" style="margin-top:14px">Audio File <span class="req">*</span></div>
-          <label class="drop audio-drop" id="audioDrop">
-            <input id="audio" class="vh" type="file" accept="audio/mpeg,audio/wav,audio/x-wav">
-            <img src="../assets/audio-icon.png" class="audio-icon-img" alt="">
-            <div class="audio-info">
-              <div id="audioName" class="audio-name">No file selected</div>
-              <div class="audio-sub" id="audioSub">MP3 / WAV</div>
+            <div class="field" data-f="label">
+              <label class="label" for="label">Label <span class="req">*</span></label>
+              <input class="input" id="label" placeholder="e.g. Dynotic Distribution" autocomplete="off">
+              <div class="err-msg">Label wajib diisi.</div>
             </div>
-          </label>
-          <div class="progress-wrapper"><div id="audioWave" class="progress-bar"></div></div>
-          <div class="u-status" id="audioStatus"></div>
-          <audio id="audioPlayer" controls hidden></audio>
+          </div>
+
+          <div class="field" data-f="version">
+            <label class="label" for="version">Version <span class="req">*</span></label>
+            <div class="select">
+              <select id="version">
+                <option value="">Pilih Version</option>
+                <option value="Remix">Remix</option>
+                <option value="Cover">Cover</option>
+              </select>
+              <svg class="i"><use href="#i-chev-d"/></svg>
+            </div>
+            <div class="err-msg">Pilih version terlebih dahulu.</div>
+          </div>
         </div>
 
+        <div class="grp">
+          <div class="grp-t">Tambahan</div>
+          <div class="grp-d">Boleh dikosongkan jika tidak diperlukan.</div>
+
+          <div class="row2">
+            <div class="field">
+              <label class="label" for="fullname">Nama Vocal</label>
+              <input class="input" id="fullname" placeholder="e.g. Inez Ariesta" autocomplete="off">
+              <div class="hint">Khusus Katalog Pragita Prabawa Pustaka.</div>
+            </div>
+            <div class="field">
+              <label class="label" for="featuring">Featuring <small>Optional</small></label>
+              <input class="input" id="featuring" placeholder="Optional" autocomplete="off">
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="btns">
-        <button type="button" class="btn back" id="back3"><svg class="i bk"><use href="#i-back"/></svg>Back</button>
-        <button type="button" class="btn dark grow" id="previewBtn" disabled>Preview<svg class="i go"><use href="#i-arrow-r"/></svg></button>
+      <!-- STEP 3 -->
+      <div id="step3" class="section" hidden>
+        <div class="sec-title">Upload file</div>
+        <p class="sec-desc">Upload cover art dan audio. Bisa tap atau tarik file ke kotak upload.</p>
+
+        <div class="up-grid">
+
+          <div>
+            <div class="label" style="margin-top:20px">Cover Art <span class="req">*</span></div>
+            <label class="drop cover-drop" id="coverDrop">
+              <input id="cover" class="vh" type="file" accept="image/jpeg,image/png">
+              <div class="cover-in" id="coverPlaceholder">
+                <img src="../assets/upload-icon.png" class="upload-icon-img" alt="">
+                <div class="upload-text">Upload Cover (JPG / PNG)</div>
+              </div>
+              <img id="coverPreview" alt="" hidden>
+              <div class="cover-shade" id="coverPct">0%</div>
+              <div class="cover-bar"><i id="coverBar"></i></div>
+            </label>
+            <div class="u-status" id="coverStatus"></div>
+          </div>
+
+          <div>
+            <div class="label" style="margin-top:20px">Audio File <span class="req">*</span></div>
+            <label class="drop audio-drop" id="audioDrop">
+              <input id="audio" class="vh" type="file" accept="audio/mpeg,audio/wav,audio/x-wav">
+              <img src="../assets/audio-icon.png" class="audio-icon-img" alt="">
+              <div class="audio-info">
+                <div id="audioName" class="audio-name">No file selected</div>
+                <div class="audio-sub" id="audioSub">MP3 / WAV</div>
+              </div>
+            </label>
+            <div class="progress-wrapper"><div id="audioWave" class="progress-bar"></div></div>
+            <div class="u-status" id="audioStatus"></div>
+            <audio id="audioPlayer" controls hidden></audio>
+          </div>
+
+        </div>
+
+        <div class="up-hint" id="upHint">Upload cover dan audio untuk melanjutkan ke preview.</div>
       </div>
-    </div>
 
-    <!-- STEP 4 -->
-    <div id="step4" class="section" hidden>
-      <div class="sec-title">Release Preview</div>
-      <p class="sec-desc">Periksa kembali data sebelum dikirim.</p>
+      <!-- STEP 4 -->
+      <div id="step4" class="section" hidden>
+        <div class="sec-title">Release Preview</div>
+        <p class="sec-desc">Periksa kembali semua data sebelum dikirim.</p>
 
-      <div id="previewBox" style="margin-top:18px"></div>
+        <div id="previewBox"></div>
 
-      <div class="note">Rilisan akan dikirim dengan status proposal dan ditinjau oleh tim Dynotic.</div>
-
-      <div class="btns">
-        <button type="button" class="btn back" id="editBtn"><svg class="i"><use href="#i-edit"/></svg>Edit</button>
-        <button type="button" class="btn dark grow" id="submitBtn">
-          <span id="btnText" style="display:inline-flex;align-items:center;gap:10px"><svg class="i go"><use href="#i-send"/></svg>Submit Release</span>
-          <span id="btnLoader" style="display:none;align-items:center;gap:10px"><svg class="i spin"><use href="#i-loader"/></svg>Mengirim…</span>
-        </button>
+        <div class="note">Rilisan akan dikirim dengan status proposal dan ditinjau oleh tim Dynotic.</div>
       </div>
-    </div>
 
-  </section>
+      <!-- ACTION BAR (satu untuk semua langkah) -->
+      <div class="actions" id="actions">
+        <div class="actions-in">
+          <button type="button" class="btn back" id="backA" hidden><svg class="i bk"><use href="#i-back"/></svg><span id="backLabel">Back</span></button>
+          <button type="button" class="btn dark" id="primaryBtn"></button>
+        </div>
+      </div>
+
+    </section>
+  </div>
 </main>
+
+<!-- DONE -->
+<div class="done" id="done" role="alertdialog" aria-live="assertive" aria-labelledby="doneTitle">
+  <div class="done-card">
+    <div class="done-ic"><svg class="i"><use href="#i-check"/></svg></div>
+    <h3 id="doneTitle">Rilisan terkirim</h3>
+    <p>Rilisan kamu sudah masuk dan akan ditinjau oleh tim Dynotic. Mengalihkan ke katalog…</p>
+  </div>
+</div>
 
 <div class="toast" id="toast" role="status"></div>
 
@@ -446,14 +523,14 @@ function toast(text){
   t.textContent = text;
   t.classList.add("show");
   clearTimeout(toast._t);
-  toast._t = setTimeout(() => t.classList.remove("show"), 2400);
+  toast._t = setTimeout(() => t.classList.remove("show"), 2600);
 }
 
 function escapeHTML(value){
   return String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
 }
 
-function icon(name){ return '<svg class="i"><use href="#i-' + name + '"/></svg>'; }
+function icon(name, cls){ return '<svg class="i' + (cls ? " " + cls : "") + '"><use href="#i-' + name + '"/></svg>'; }
 
 function fmtSize(b){
   if(b < 1024 * 1024) return Math.max(1, Math.round(b / 1024)) + " KB";
@@ -462,7 +539,7 @@ function fmtSize(b){
 
 function setStatus(el, kind, text, extraHTML){
   el.className = "u-status" + (kind ? " " + kind : "");
-  const ic = kind === "ok" ? "check" : kind === "bad" ? "alert" : kind === "warn" ? "alert" : kind === "busy" ? "loader" : "";
+  const ic = kind === "ok" ? "check" : (kind === "bad" || kind === "warn") ? "alert" : kind === "busy" ? "loader" : "";
   el.innerHTML = (ic ? icon(ic) : "") + "<span></span>" + (extraHTML || "");
   el.querySelector("span").textContent = text || "";
 }
@@ -535,12 +612,13 @@ function uploadFile(file, onProgress, onDone){
 }
 
 const up = {
-  audio:{ url:null, state:"idle", pct:0, file:null, xhr:null, token:0 },
-  cover:{ url:null, state:"idle", pct:0, file:null, xhr:null, token:0 }
+  audio:{ url:null, state:"idle", pct:0, file:null, xhr:null, token:0, error:"" },
+  cover:{ url:null, state:"idle", pct:0, file:null, xhr:null, token:0, error:"", hint:"" }
 };
 
 let audioObjURL = null;
 let coverObjURL = null;
+let submitting = false;
 
 function isUploading(){
   return up.audio.state === "uploading" || up.cover.state === "uploading";
@@ -708,7 +786,10 @@ function markErrors(){
     wrap.classList.toggle("err", bad);
     if(bad && !first) first = $(f);
   });
-  if(first) first.focus();
+  if(first){
+    first.scrollIntoView({ behavior:"smooth", block:"center" });
+    first.focus({ preventScroll:true });
+  }
   return !first;
 }
 
@@ -717,15 +798,34 @@ function clearError(f){
   if(wrap) wrap.classList.remove("err");
 }
 
-/* ================= STEPS ================= */
-const META = {
-  1:{ title:"Mulai pengajuan", sub:"Ajukan rilisan Cover to Master ke Dynotic." },
-  2:{ title:"Detail rilisan", sub:"Lengkapi informasi lagu yang akan dirilis." },
-  3:{ title:"Upload file", sub:"Unggah cover art dan file audio." },
-  4:{ title:"Review & kirim", sub:"Pastikan semua data sudah benar." }
+/* ================= STEPS + ACTION BAR ================= */
+const ACT = {
+  1:{ back:null,   label:"Continue",       ic:"arrow-r", cls:"go" },
+  2:{ back:"Back", label:"Continue",       ic:"arrow-r", cls:"go" },
+  3:{ back:"Back", label:"Preview",        ic:"arrow-r", cls:"go" },
+  4:{ back:"Edit", label:"Submit Release", ic:"send",    cls:"go" }
 };
 
 let current = 1;
+
+function renderActions(){
+  const a = ACT[current];
+
+  $("backA").hidden = !a.back;
+  if(a.back){
+    $("backLabel").textContent = a.back;
+    $("backA").querySelector(".i").setAttribute("class", "i " + (current === 4 ? "" : "bk"));
+    $("backA").querySelector("use").setAttribute("href", current === 4 ? "#i-edit" : "#i-back");
+  }
+
+  const p = $("primaryBtn");
+  if(submitting){
+    p.innerHTML = icon("loader", "spin") + "<span>Mengirim…</span>";
+  }else{
+    p.innerHTML = "<span>" + a.label + "</span>" + icon(a.ic, a.cls);
+  }
+  refreshGate();
+}
 
 function goTo(n){
   if(n >= 3 && !step2Valid()){
@@ -751,12 +851,10 @@ function goTo(n){
   }
 
   $("stepCount").textContent = "Langkah " + n + " dari 4";
-  $("stepTitle").textContent = META[n].title;
-  $("stepSub").textContent = META[n].sub;
 
   if(n === 4) loadPreview();
 
-  refreshGate();
+  renderActions();
   window.scrollTo({ top:0, behavior:"smooth" });
 }
 
@@ -765,35 +863,48 @@ function refreshGate(){
   const v3 = step3Valid();
   $("s3").classList.toggle("locked", !v2);
   $("s4").classList.toggle("locked", !(v2 && v3));
-  $("previewBtn").disabled = !v3;
+
+  $("primaryBtn").disabled = submitting || (current === 3 && !v3);
+  $("backA").disabled = submitting;
+
+  const hint = $("upHint");
+  if(hint){
+    if(v3){ hint.className = "up-hint ok"; hint.textContent = "Cover dan audio sudah siap. Lanjut ke preview."; }
+    else if(isUploading()){ hint.className = "up-hint"; hint.textContent = "Upload sedang berjalan. Tunggu sampai selesai."; }
+    else{ hint.className = "up-hint"; hint.textContent = "Upload cover dan audio untuk melanjutkan ke preview."; }
+  }
 }
 
-$("s1").addEventListener("click", () => goTo(1));
-$("s2").addEventListener("click", () => goTo(2));
-$("s3").addEventListener("click", () => goTo(3));
-$("s4").addEventListener("click", () => goTo(4));
+["s1","s2","s3","s4"].forEach((id, i) => $(id).addEventListener("click", () => goTo(i + 1)));
 
-$("startBtn").addEventListener("click", () => {
-  $("type").value = "original";
-  goTo(2);
+$("backA").addEventListener("click", () => {
+  if(current === 4) goTo(2);
+  else goTo(current - 1);
 });
-$("back2").addEventListener("click", () => goTo(1));
-$("next2").addEventListener("click", () => {
-  if(!markErrors()){
-    toast("Lengkapi semua field wajib.");
+
+$("primaryBtn").addEventListener("click", () => {
+  if(current === 1){ $("type").value = "original"; goTo(2); return; }
+
+  if(current === 2){
+    if(!markErrors()){
+      toast("Lengkapi semua field wajib.");
+      return;
+    }
+    goTo(3);
     return;
   }
-  goTo(3);
-});
-$("back3").addEventListener("click", () => goTo(2));
-$("previewBtn").addEventListener("click", () => {
-  if(!step3Valid()){
-    toast("Tunggu sampai audio dan cover selesai di-upload.");
+
+  if(current === 3){
+    if(!step3Valid()){
+      toast("Tunggu sampai audio dan cover selesai di-upload.");
+      return;
+    }
+    goTo(4);
     return;
   }
-  goTo(4);
+
+  submitRelease();
 });
-$("editBtn").addEventListener("click", () => goTo(2));
 
 document.addEventListener("input", e => {
   if(FIELDS.includes(e.target.id)){
@@ -805,6 +916,14 @@ document.addEventListener("input", e => {
 
 document.addEventListener("change", e => {
   if(e.target.id === "version"){ clearError("version"); saveDraft(); refreshGate(); }
+});
+
+/* Enter pada input = lanjut */
+document.addEventListener("keydown", e => {
+  if(e.key === "Enter" && e.target.tagName === "INPUT" && e.target.type !== "file" && current === 2){
+    e.preventDefault();
+    $("primaryBtn").click();
+  }
 });
 
 /* ================= PREVIEW ================= */
@@ -825,18 +944,19 @@ function loadPreview(){
     '</div>' +
     '<div class="pv-list">' +
       rows.map(r => '<div class="pv-row"><small>' + escapeHTML(r[0]) + '</small><b>' + escapeHTML(r[1]) + '</b></div>').join("") +
-    '</div>';
+    '</div>' +
+    (audioObjURL ? '<audio controls src="' + escapeHTML(audioObjURL) + '"></audio>' : "");
 }
 
 /* ================= SUBMIT ================= */
 function setSubmitting(on){
-  $("submitBtn").disabled = on;
-  $("editBtn").disabled = on;
-  $("btnText").style.display = on ? "none" : "inline-flex";
-  $("btnLoader").style.display = on ? "inline-flex" : "none";
+  submitting = on;
+  renderActions();
 }
 
 function submitRelease(){
+
+  if(submitting) return;
 
   if(!step2Valid()){
     toast("Lengkapi data rilisan terlebih dahulu.");
@@ -883,8 +1003,9 @@ function submitRelease(){
     .push(data)
     .then(() => {
       clearDraft();
-      toast("Rilisan berhasil dikirim.");
-      setTimeout(() => { location.href = "https://app.dynoticcollective.com/catalog/"; }, 700);
+      $("done").classList.add("show");
+      document.body.classList.add("lock");
+      setTimeout(() => { location.href = "https://app.dynoticcollective.com/catalog/"; }, 1400);
     })
     .catch(error => {
       console.error("Submit release error:", error);
@@ -892,8 +1013,6 @@ function submitRelease(){
       toast("Gagal mengirim rilisan. Silakan coba lagi.");
     });
 }
-
-$("submitBtn").addEventListener("click", submitRelease);
 
 /* ================= INIT ================= */
 loadDraft();
@@ -911,7 +1030,7 @@ $("songIdNotice").innerHTML = incomingSongId
   ? "Song ID berhasil diambil dari katalog lagu."
   : 'Cek Song ID melalui <a href="../licensed-songs">Licensed Songs Catalog</a>.';
 
-refreshGate();
+renderActions();
 </script>
 
 </body>
