@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Original Asset | Dynotic Distribution</title>
+
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+
+<meta name="theme-color" content="#667eea">
+<meta name="robots" content="noindex, nofollow">
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+>
+
+<style>
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:"Outfit",sans-serif;
+}
+
+body{
+  background:#f1f2f7;
+  color:#17181c;
+  min-height:100vh;
+  padding-top:64px;
+  padding-bottom:30px;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+
+/* HEADER */
+
+header{
+  height:64px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  background:#fff;
+  border-bottom:1px solid #e8e8ed;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+}
+
+header img{
+  height:32px;
+  width:auto;
+  object-fit:contain;
+  display:block;
+}
+
+
+/* CONTAINER */
+
+.container{
+  max-width:760px;
+  margin:auto;
+  padding:22px 14px 30px;
+}
+
+
+/* PAGE TITLE */
+
+.page-title{
+  margin-bottom:18px;
+}
+
+.page-title h1{
+  font-size:22px;
+  font-weight:700;
+}
+
+.page-title p{
+  color:#777b84;
+  font-size:12px;
+  margin-top:3px;
+}
+
+
+/* MAIN CARD */
+
+.form-card{
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:18px;
+  padding:18px;
+  animation:pageIn .45s ease both;
+}
+
+
+/* STEPS */
+
+.steps{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+  margin-bottom:24px;
+}
+
+.steps::before{
+  content:"";
+  position:absolute;
+  left:19px;
+  right:19px;
+  top:19px;
+  height:2px;
+  background:#e5e6eb;
+  z-index:0;
+}
+
+.step{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#e5e6eb;
+  color:#777b84;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:600;
+  z-index:1;
+  border:4px solid #fff;
+  transition:.2s;
+  pointer-events:none;
+}
+
+.step.active{
+  background:#17181c;
+  color:#fff;
+}
+
+
+/* SECTION */
+
+.section{
+  animation:sectionIn .3s ease;
+}
+
+
+/* LABEL */
+
+.label{
+  font-size:12px;
+  font-weight:600;
+  color:#34363c;
+  margin-bottom:6px;
+}
+
+.req{
+  color:#e0444f;
+  margin-left:2px;
+}
+
+
+/* INPUT */
+
+input,
+select{
+  width:100%;
+  padding:12px 13px;
+  border-radius:11px;
+  border:1px solid #dedfe4;
+  background:#fff;
+  color:#17181c;
+  font-size:13px;
+  margin-bottom:15px;
+  outline:none;
+  transition:.15s;
+}
+
+input::placeholder{
+  color:#a0a2a8;
+}
+
+input:focus,
+select:focus{
+  border-color:#b9bbc2;
+  box-shadow:0 0 0 3px rgba(0,0,0,.04);
+}
+
+
+/* UPLOAD COVER */
+
+.upload-box{
+  display:block;
+  width:180px;
+  aspect-ratio:1/1;
+  border:1.5px dashed #bfc1c8;
+  border-radius:16px;
+  background:#fafafa;
+  cursor:pointer;
+  overflow:hidden;
+  transition:.2s;
+}
+
+.upload-box:hover{
+  border-color:#777b84;
+  background:#f7f7f8;
+}
+
+.upload-box:active{
+  transform:scale(.98);
+}
+
+.upload-inner{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.upload-icon-img{
+  width:40px;
+  height:40px;
+  object-fit:contain;
+  display:block;
+  margin:auto;
+}
+
+.upload-text{
+  font-size:11px;
+  color:#777b84;
+  margin-top:7px;
+  text-align:center;
+}
+
+#coverPreview{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:15px;
+  display:none;
+}
+
+
+/* AUDIO */
+
+.upload-audio{
+  display:block;
+  cursor:pointer;
+}
+
+.audio-box{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px;
+  border-radius:12px;
+  background:#fafafa;
+  border:1px solid #e2e3e7;
+  transition:.2s;
+}
+
+.audio-box:hover{
+  background:#f7f7f8;
+  border-color:#bfc1c8;
+}
+
+.audio-box:active{
+  transform:scale(.98);
+}
+
+.audio-icon-img{
+  width:30px;
+  height:30px;
+  object-fit:contain;
+  flex-shrink:0;
+}
+
+.audio-info{
+  min-width:0;
+  flex:1;
+}
+
+.audio-name{
+  font-weight:600;
+  font-size:12px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.audio-sub{
+  font-size:10px;
+  color:#858891;
+  margin-top:2px;
+}
+
+
+/* PROGRESS */
+
+.progress-wrapper{
+  margin-top:8px;
+  width:100%;
+  height:5px;
+  background:#e5e6eb;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#17181c;
+  transition:width .3s;
+}
+
+
+/* BUTTON */
+
+.btn{
+  width:100%;
+  padding:12px 14px;
+  border:1px solid #17181c;
+  border-radius:11px;
+  background:#17181c;
+  color:#fff;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.btn:hover{
+  background:#000;
+}
+
+.btn:active{
+  transform:scale(.97);
+}
+
+.btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.btn.gray{
+  background:#fff;
+  color:#17181c;
+  border:1px solid #dfe0e5;
+}
+
+.btn.gray:hover{
+  background:#f7f7f8;
+}
+
+
+/* BUTTON ROW */
+
+.button-row{
+  display:flex;
+  gap:9px;
+}
+
+
+/* PREVIEW */
+
+.preview{
+  background:#f8f8fa;
+  border:1px solid #e6e7eb;
+  border-radius:13px;
+  padding:14px;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.preview div{
+  margin-bottom:7px;
+}
+
+.preview div:last-child{
+  margin-bottom:0;
+}
+
+.preview span{
+  color:#17181c;
+  font-weight:600;
+}
+
+
+/* WARNING */
+
+.release-warning{
+  font-size:11px;
+  color:#777b84;
+  line-height:1.5;
+  background:#f8f8fa;
+  border-radius:10px;
+  padding:10px;
+  margin-top:-5px;
+  margin-bottom:15px;
+}
+
+
+/* ANIMATION */
+
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translateY(12px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes sectionIn{
+  from{
+    opacity:0;
+    transform:translateY(6px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+
+@media(max-width:600px){
+
+  .upload-box{
+    width:160px;
+  }
+
+}
+
+
+@media(min-width:700px){
+
+  .container{
+    padding-left:0;
+    padding-right:0;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header>
+
+  <img
+    src="../assets/dynotic-distribution.png"
+    alt="Dynotic Distribution"
+  >
+
+</header>
+
+
+<main class="container">
+
+
+  <div class="page-title">
+
+    <h1>Original Asset</h1>
+
+    <p>
+      Submit your original music for distribution.
+    </p>
+
+  </div>
+
+
+  <div class="form-card">
+
+
+    <!-- STEP PROGRESS -->
+
+    <div class="steps">
+
+      <div
+        class="step active"
+        id="s1"
+      >
+        1
+      </div>
+
+      <div
+        class="step"
+        id="s2"
+      >
+        2
+      </div>
+
+      <div
+        class="step"
+        id="s3"
+      >
+        3
+      </div>
+
+      <div
+        class="step"
+        id="s4"
+      >
+        4
+      </div>
+
+    </div>
+
+
+    <!-- STEP 1 -->
+
+    <div
+      id="step1"
+      class="section"
+    >
+
+      <div class="label">
+
+        Original Asset
+        <span class="req">*</span>
+
+      </div>
+
+
+      <select
+        id="type"
+        hidden
+      >
+
+        <option
+          value="original"
+          selected
+        >
+          Original Asset
+        </option>
+
+      </select>
+
+
+      <button
+        type="button"
+        class="btn"
+        onclick="next(1)"
+      >
+        Start Your Release
+      </button>
+
+    </div>
+
+
+    <!-- STEP 2 -->
+
+    <div
+      id="step2"
+      class="section"
+      hidden
+    ></div>
+
+
+    <!-- STEP 3 -->
+
+    <div
+      id="step3"
+      class="section"
+      hidden
+    >
+
+
+      <!-- COVER -->
+
+      <div style="margin-bottom:25px;">
+
+        <div
+          class="label"
+          style="margin-bottom:10px;"
+        >
+          Cover Art
+          <span class="req">*</span>
+        </div>
+
+
+        <label class="upload-box">
+
+          <input
+            id="cover"
+            type="file"
+            accept="image/*"
+            hidden
+          >
+
+
+          <div class="upload-inner">
+
+            <img
+              id="coverPreview"
+            >
+
+
+            <div id="coverPlaceholder">
+
+              <img
+                src="../assets/upload-icon.png"
+                class="upload-icon-img"
+              >
+
+              <div class="upload-text">
+                Upload Cover
+                <br>
+                JPG / PNG
+              </div>
+
+            </div>
+
+          </div>
+
+        </label>
+
+      </div>
+
+
+      <!-- AUDIO -->
+
+      <div style="margin-bottom:25px;">
+
+        <div
+          class="label"
+          style="margin-bottom:10px;"
+        >
+          Audio File
+          <span class="req">*</span>
+        </div>
+
+
+        <label class="upload-audio">
+
+          <input
+            id="audio"
+            type="file"
+            accept="audio/*"
+            hidden
+          >
+
+
+          <div class="audio-box">
+
+            <img
+              src="../assets/audio-icon.png"
+              class="audio-icon-img"
+            >
+
+
+            <div class="audio-info">
+
+              <div
+                id="audioName"
+                class="audio-name"
+              >
+                No file selected
+              </div>
+
+
+              <div class="audio-sub">
+                MP3 / WAV
+              </div>
+
+            </div>
+
+          </div>
+
+        </label>
+
+
+        <div class="progress-wrapper">
+
+          <div
+            id="audioWave"
+            class="progress-bar"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <div class="button-row">
+
+        <button
+          type="button"
+          class="btn gray"
+          onclick="back(3)"
+          style="flex:1;"
+        >
+          Back
+        </button>
+
+
+        <button
+          type="button"
+          class="btn"
+          id="previewBtn"
+          onclick="loadPreview(); goto(4)"
+          disabled
+          style="flex:2;"
+        >
+          Preview
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- STEP 4 -->
+
+    <div
+      id="step4"
+      class="section"
+      hidden
+    >
+
+      <div
+        class="preview"
+        id="previewBox"
+      ></div>
+
+
+      <div style="height:10px;"></div>
+
+
+      <button
+        class="btn gray"
+        onclick="back(4)"
+      >
+        Edit
+      </button>
+
+
+      <div style="height:9px;"></div>
+
+
+      <button
+        class="btn"
+        id="submitBtn"
+        onclick="submitRelease()"
+      >
+
+        <span id="btnText">
+          Submit Release
+        </span>
+
+        <span
+          id="btnLoader"
+          style="display:none;"
+        >
+          Loading...
+        </span>
+
+      </button>
+
+    </div>
+
+
+  </div>
+
+</main>
+
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+
+<script>
+
+firebase.initializeApp({
+
+  apiKey:
+  "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+
+  authDomain:
+  "dynopay-2513c.firebaseapp.com",
+
+  databaseURL:
+  "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+
+});
+
+
+const db =
+  firebase.database();
+
+
+const WORKER_URL =
+  "https://upload-assets.dynotic-bot.workers.dev/";
+
+
+/* UPLOAD */
+
+function uploadFile(
+  file,
+  progressCallback,
+  doneCallback
+){
+
+  const formData =
+    new FormData();
+
+  formData.append(
+    "file",
+    file
+  );
+
+
+  const xhr =
+    new XMLHttpRequest();
+
+
+  xhr.open(
+    "POST",
+    WORKER_URL,
+    true
+  );
+
+
+  xhr.upload.onprogress =
+  function(e){
+
+    if(e.lengthComputable){
+
+      const percent =
+        Math.round(
+          (e.loaded / e.total) * 100
+        );
+
+      progressCallback(percent);
+
+    }
+
+  };
+
+
+  xhr.onload =
+  function(){
+
+    if(xhr.status === 200){
+
+      const data =
+        JSON.parse(
+          xhr.responseText
+        );
+
+
+      if(data.success){
+
+        doneCallback(
+          data.url
+        );
+
+      }else{
+
+        alert(
+          "Upload gagal: " +
+          data.error
+        );
+
+        doneCallback(null);
+
+      }
+
+    }else{
+
+      alert("Upload gagal!");
+
+      doneCallback(null);
+
+    }
+
+  };
+
+
+  xhr.onerror =
+  function(){
+
+    alert("Upload error!");
+
+    doneCallback(null);
+
+  };
+
+
+  xhr.send(formData);
+
+}
+
+
+/* AUTH */
+
+firebase.auth()
+.onAuthStateChanged(user => {
+
+  if(!user){
+
+    location.href =
+      "https://app.dynoticcollective.com/login";
+
+  }
+
+});
+
+
+
+/* STEP VALIDATION */
+
+const stepsData = {
+
+  1: () => true,
+
+  2: () => {
+    const title = document.getElementById("title")?.value.trim();
+    const artist = document.getElementById("artist")?.value.trim();
+    const label = document.getElementById("labelName")?.value.trim();
+    const fullname = document.getElementById("fullname")?.value.trim();
+    const genre = document.getElementById("genre")?.value;
+    const releaseDate = document.getElementById("releaseDate")?.value;
+
+    if (!title || !artist || !label || !fullname || !genre || !releaseDate) {
+      return false;
+    }
+
+    const minDate = new Date();
+    minDate.setHours(0, 0, 0, 0);
+    minDate.setDate(minDate.getDate() + 14);
+
+    const selectedDate = new Date(releaseDate + "T00:00:00");
+
+    return selectedDate >= minDate;
+  },
+
+  3: () => {
+    return document.getElementById("audio")?.dataset.url &&
+           document.getElementById("cover")?.dataset.url;
+  }
+
+};
+
+
+
+/* HIDE */
+
+function hideAll(){
+
+  for(let i=1;i<=4;i++){
+
+    document.getElementById(
+      "step"+i
+    ).hidden = true;
+
+  }
+
+}
+
+
+/* STEP 2 */
+
+function loadStep2Fields(){
+
+  const s =
+    document.getElementById("step2");
+
+
+  s.innerHTML = "";
+
+
+  s.innerHTML += `
+
+    <div class="label">
+      Title
+      <span class="req">*</span>
+    </div>
+
+    <input
+      id="title"
+      placeholder="Release title"
+    >
+
+
+    <div class="label">
+      Label
+      <span class="req">*</span>
+    </div>
+
+    <input
+      id="labelName"
+      placeholder="e.g. Dynotic Distribution"
+    >
+
+
+    <div class="label">
+      Artist Name
+      <span class="req">*</span>
+    </div>
+
+    <input
+      id="artist"
+      placeholder="Artist name"
+    >
+
+
+    <div class="label">
+      Spotify URL
+    </div>
+
+    <input
+      id="spotifyUrl"
+      placeholder="https://open.spotify.com/..."
+    >
+
+
+    <div class="label">
+      Apple Music URL
+    </div>
+
+    <input
+      id="appleUrl"
+      placeholder="https://music.apple.com/..."
+    >
+
+
+    <div class="label">
+      Genre
+      <span class="req">*</span>
+    </div>
+
+    <select id="genre">
+
+      <option value="">
+        Select Genre
+      </option>
+
+      <option>Alternative</option>
+      <option>Anime</option>
+      <option>Antiques & Collectibles</option>
+      <option>Blues</option>
+      <option>Bossa Nova</option>
+      <option>Childrens Music</option>
+      <option>Chill Out</option>
+      <option>Christian</option>
+      <option>Classical</option>
+      <option>Comedy</option>
+      <option>Country</option>
+      <option>Dance</option>
+      <option>Dancehall</option>
+      <option>Devotional</option>
+      <option>Disco</option>
+      <option>Easy Listening</option>
+      <option>Educational</option>
+      <option>Electronic</option>
+      <option>Fitness & Workout</option>
+      <option>Folk</option>
+      <option>Health & Fitness</option>
+      <option>Holiday Music</option>
+      <option>House</option>
+      <option>Indian</option>
+      <option>Industrial</option>
+      <option>Inspirational</option>
+      <option>Instructional</option>
+      <option>Jazz</option>
+      <option>Latin</option>
+      <option>Lo-fi</option>
+      <option>Metal</option>
+      <option>Motown</option>
+      <option>Oldies</option>
+      <option>Pop</option>
+      <option>Phonk</option>
+      <option>R&B/Soul</option>
+      <option>Rap/Hip-Hop</option>
+      <option>Reggae</option>
+      <option>Rock</option>
+      <option>Samba</option>
+      <option>Soundtrack</option>
+      <option>Spoken Word</option>
+      <option>Unknown</option>
+      <option>World</option>
+
+    </select>
+
+
+    <div class="label">
+      Release Type
+      <span class="req">*</span>
+    </div>
+
+    <select id="releaseType">
+
+      <option
+        value="single"
+        selected
+      >
+        Single
+      </option>
+
+      <option value="ep">
+        EP
+      </option>
+
+      <option value="album">
+        Album
+      </option>
+
+    </select>
+
+
+    <div
+      id="releaseWarning"
+      class="release-warning"
+      style="display:none;"
+    >
+      EP and Album releases are not supported yet.
+      Please contact the admin for manual distribution.
+    </div>
+
+
+<div class="label">
+  Release Date
+  <span class="req">*</span>
+</div>
+
+<input
+  type="date"
+  id="releaseDate"
+  required
+>
+
+<div
+  style="
+    font-size:11px;
+    color:#858891;
+    margin-top:-8px;
+    margin-bottom:15px;
+  "
+>
+  Release date must be at least 14 days from today.
+</div>
+
+    <div class="label">
+      Version
+    </div>
+
+    <input
+      id="version"
+      placeholder="Optional"
+    >
+
+
+    <div class="label">
+      Composer & Lyrics
+      <span class="req">*</span>
+    </div>
+
+    <input
+      id="fullname"
+      placeholder="e.g. John Doe, Jane Smith"
+    >
+
+
+    <div
+      style="
+        font-size:11px;
+        color:#858891;
+        margin-top:-8px;
+        margin-bottom:15px;
+      "
+    >
+      Separate multiple names with commas.
+    </div>
+
+
+    <div class="label">
+      Featuring
+    </div>
+
+    <input
+      id="featuring"
+      placeholder="Optional"
+    >
+
+
+    <div class="label">
+      Producer
+    </div>
+
+    <input
+      id="producer"
+      placeholder="Optional"
+    >
+
+  `;
+
+
+  s.innerHTML += `
+
+    <button
+      type="button"
+      class="btn gray"
+      onclick="back(2)"
+    >
+      Back
+    </button>
+
+    <div style="height:9px;"></div>
+
+    <button
+      type="button"
+      class="btn"
+      onclick="next(2)"
+    >
+      Continue
+    </button>
+
+  `;
+
+
+  
+  document
+    .getElementById("releaseType")
+    .addEventListener(
+      "change",
+      e => {
+
+        const val = e.target.value;
+
+        const warning = document.getElementById("releaseWarning");
+
+        if (val === "ep" || val === "album") {
+          warning.style.display = "block";
+        } else {
+          warning.style.display = "none";
+        }
+
+      }
+    );
+
+  setMinReleaseDate();
+
+}
+
+
+
+/* UPLOAD LISTENERS */
+
+let uploadListenerAttached =
+  false;
+
+
+function attachUploadListeners(){
+
+  if(uploadListenerAttached)
+    return;
+
+
+  uploadListenerAttached =
+    true;
+
+
+  const audioInput =
+    document.getElementById("audio");
+
+
+  const coverInput =
+    document.getElementById("cover");
+
+
+  const previewBtn =
+    document.getElementById("previewBtn");
+
+
+  const audioWave =
+    document.getElementById("audioWave");
+
+
+  const audioName =
+    document.getElementById("audioName");
+
+
+  const coverPreview =
+    document.getElementById("coverPreview");
+
+
+  let audioUploaded =
+    false;
+
+
+  let coverUploaded =
+    false;
+
+
+  function checkAllUploaded(){
+
+    previewBtn.disabled =
+      !(audioUploaded && coverUploaded);
+
+  }
+
+
+  /* AUDIO */
+
+  audioInput.addEventListener(
+    "change",
+    e => {
+
+      const file =
+        e.target.files[0];
+
+
+      if(!file) return;
+
+
+      audioUploaded =
+        false;
+
+
+      audioName.textContent =
+        "Uploading...";
+
+
+      audioWave.style.width =
+        "0%";
+
+
+      uploadFile(
+
+        file,
+
+        percent => {
+
+          audioWave.style.width =
+            percent + "%";
+
+
+          audioName.textContent =
+            file.name +
+            " (" +
+            percent +
+            "%)";
+
+        },
+
+        url => {
+
+          if(url){
+
+            audioInput.dataset.url =
+              url;
+
+
+            audioUploaded =
+              true;
+
+
+            audioName.textContent =
+              file.name +
+              " (Done ✓)";
+
+
+            checkAllUploaded();
+
+            updateStepUI();
+
+          }
+
+        }
+
+      );
+
+    }
+  );
+
+
+  /* COVER */
+
+  coverInput.addEventListener(
+    "change",
+    e => {
+
+      const file =
+        e.target.files[0];
+
+
+      if(!file) return;
+
+
+      coverUploaded =
+        false;
+
+
+      const reader =
+        new FileReader();
+
+
+      reader.onload =
+      ev => {
+
+        coverPreview.src =
+          ev.target.result;
+
+
+        coverPreview.style.display =
+          "block";
+
+
+        document
+          .getElementById(
+            "coverPlaceholder"
+          )
+          .style.display =
+          "none";
+
+      };
+
+
+      reader.readAsDataURL(file);
+
+
+      uploadFile(
+
+        file,
+
+        () => {},
+
+        url => {
+
+          if(url){
+
+            coverInput.dataset.url =
+              url;
+
+
+            coverUploaded =
+              true;
+
+
+            checkAllUploaded();
+
+            updateStepUI();
+
+          }
+
+        }
+
+      );
+
+    }
+  );
+
+}
+
+
+/* NAVIGATION */
+
+function next(n){
+
+  if(n === 1){
+
+    document
+      .getElementById("type")
+      .value =
+      "original";
+
+
+    loadStep2Fields();
+
+    goto(2);
+
+    updateStepUI();
+
+    return;
+
+  }
+
+
+  if(n === 2){
+
+    if(!stepsData[2]()){
+
+      alert(
+        "Lengkapi semua field wajib!"
+      );
+
+      return;
+
+    }
+
+  }
+
+
+  if(n === 3){
+
+    if(!stepsData[3]()){
+
+      alert(
+        "Tunggu sampai audio & cover selesai di-upload!"
+      );
+
+      return;
+
+    }
+
+
+    loadPreview();
+
+  }
+
+
+  goto(n + 1);
+
+  updateStepUI();
+
+}
+
+
+function back(n){
+
+  goto(n - 1);
+
+}
+
+
+function goto(n){
+
+  hideAll();
+
+
+  document
+    .getElementById("step"+n)
+    .hidden =
+    false;
+
+
+  if(n === 3){
+
+    attachUploadListeners();
+
+  }
+
+
+  for(let i=1;i<=4;i++){
+
+    document
+      .getElementById("s"+i)
+      .classList
+      .remove("active");
+
+  }
+
+
+  document
+    .getElementById("s"+n)
+    .classList
+    .add("active");
+
+}
+
+
+function setMinReleaseDate() {
+  const input = document.getElementById("releaseDate");
+  if (!input) return;
+
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() + 14);
+
+  const year = minDate.getFullYear();
+  const month = String(minDate.getMonth() + 1).padStart(2, "0");
+  const day = String(minDate.getDate()).padStart(2, "0");
+
+  input.min = `${year}-${month}-${day}`;
+}
+
+/* STEP UI */
+
+function updateStepUI(){
+
+  const validStep2 =
+    stepsData[2]();
+
+
+  const validStep3 =
+    stepsData[3]();
+
+
+  document
+    .getElementById("s3")
+    .style.opacity =
+    validStep2
+      ? "1"
+      : ".4";
+
+
+  document
+    .getElementById("s4")
+    .style.opacity =
+    (
+      validStep2 &&
+      validStep3
+    )
+      ? "1"
+      : ".4";
+
+
+  document
+    .getElementById("s3")
+    .style.pointerEvents =
+    validStep2
+      ? "auto"
+      : "none";
+
+
+  document
+    .getElementById("s4")
+    .style.pointerEvents =
+    (
+      validStep2 &&
+      validStep3
+    )
+      ? "auto"
+      : "none";
+
+}
+
+
+/* PREVIEW */
+
+function loadPreview(){
+
+  const audioUrl =
+    document
+      .getElementById("audio")
+      ?.dataset.url;
+
+
+  const coverUrl =
+    document
+      .getElementById("cover")
+      ?.dataset.url;
+
+
+  const titleVal =
+    document
+      .getElementById("title")
+      ?.value ||
+    "-";
+
+
+  const artistVal =
+    document
+      .getElementById("artist")
+      ?.value ||
+    "-";
+
+
+  const genreVal =
+    document
+      .getElementById("genre")
+      ?.value ||
+    "-";
+
+
+  const labelVal =
+    document
+      .getElementById("labelName")
+      ?.value ||
+    "-";
+
+
+  const html = `
+
+    <div
+      style="
+        display:flex;
+        gap:13px;
+        align-items:center;
+      "
+    >
+
+      <img
+        src="${coverUrl}"
+        style="
+          width:70px;
+          height:70px;
+          border-radius:11px;
+          object-fit:cover;
+          border:1px solid #ddd;
+        "
+      >
+
+
+      <div>
+
+        <div
+          style="
+            font-weight:700;
+            font-size:15px;
+          "
+        >
+          ${titleVal}
+        </div>
+
+
+        <div
+          style="
+            font-size:12px;
+            color:#777b84;
+            margin-top:2px;
+          "
+        >
+          ${artistVal}
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <hr
+      style="
+        margin:14px 0;
+        border:none;
+        border-top:1px solid #e8e8ed;
+      "
+    >
+
+
+    <div>
+      <span>Genre:</span>
+      ${genreVal}
+    </div>
+
+
+    <div>
+      <span>Label:</span>
+      ${labelVal}
+    </div>
+
+  `;
+
+
+  document
+    .getElementById("previewBox")
+    .innerHTML =
+    html;
+
+}
+
+
+/* SUBMIT */
+
+function submitRelease(){
+
+  const btn =
+    document.getElementById(
+      "submitBtn"
+    );
+
+
+  const text =
+    document.getElementById(
+      "btnText"
+    );
+
+
+  const loader =
+    document.getElementById(
+      "btnLoader"
+    );
+
+
+  btn.disabled =
+    true;
+
+
+  text.style.display =
+    "none";
+
+
+  loader.style.display =
+    "inline";
+
+
+  const user =
+    firebase.auth()
+    .currentUser;
+
+
+  if(!user)
+    return;
+
+
+  let data = {
+
+    type:
+      document
+        .getElementById("type")
+        .value,
+
+
+    releaseType:
+      document
+        .getElementById("releaseType")
+        .value,
+
+releaseDate:
+  document.getElementById("releaseDate").value,
+    
+    title:
+      document
+        .getElementById("title")
+        .value,
+
+
+    artist:
+      document
+        .getElementById("artist")
+        .value,
+
+
+    genre:
+      document
+        .getElementById("genre")
+        .value,
+
+
+    label:
+      document
+        .getElementById("labelName")
+        ?.value ||
+      "Unknown Label",
+
+
+    audio:
+      document
+        .getElementById("audio")
+        .dataset.url,
+
+
+    cover:
+      document
+        .getElementById("cover")
+        .dataset.url,
+
+
+    spotifyUrl:
+      document
+        .getElementById("spotifyUrl")
+        ?.value ||
+      "",
+
+
+    appleUrl:
+      document
+        .getElementById("appleUrl")
+        ?.value ||
+      "",
+
+
+    version:
+      document
+        .getElementById("version")
+        ?.value ||
+      "",
+
+
+    fullname:
+      document
+        .getElementById("fullname")
+        ?.value
+        .split(",")
+        .map(n => n.trim())
+        .filter(n => n !== ""),
+
+
+    status:
+      "proposal",
+
+
+    time:
+      Date.now()
+
+  };
+
+
+  const feat =
+    document
+      .getElementById("featuring")
+      ?.value;
+
+
+  if(feat)
+    data.featuring =
+      feat;
+
+
+  const prod =
+    document
+      .getElementById("producer")
+      ?.value;
+
+
+  if(prod)
+    data.producer =
+      prod;
+
+
+  db.ref(
+    "releases/" +
+    user.uid
+  )
+  .push(data)
+
+  .then(() => {
+
+    location.href =
+      "https://app.dynoticcollective.com/catalog/releases";
+
+  })
+
+  .catch(() => {
+
+    btn.disabled =
+      false;
+
+
+    text.style.display =
+      "inline";
+
+
+    loader.style.display =
+      "none";
+
+  });
+
+}
+
+
+/* LIVE UPDATE */
+
+document.addEventListener(
+  "input",
+  updateStepUI
+);
+
+
+updateStepUI();
+
+</script>
+
+</body>
+</html>
