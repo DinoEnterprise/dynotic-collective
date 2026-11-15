@@ -1,16 +1,15 @@
 
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Catalog | Dynotic Distribution</title>
+<title>Releases | Dynotic Distribution</title>
 
-<link rel="icon" type="image/png" href="../assets/favicon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
-<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+<link rel="icon" type="image/png" href="https://dynoticcollective.com/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://dynoticcollective.com/assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://dynoticcollective.com/assets/favicon-iphone.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -26,11 +25,12 @@
 
 body{
   background:#f1f2f7;
-  color:#17181c;
   min-height:100vh;
+  color:#17181c;
   padding-top:64px;
-  padding-bottom:100px;
+  padding-bottom:105px;
   -webkit-tap-highlight-color:transparent;
+  user-select:none;
 }
 
 button{font-family:inherit}
@@ -63,6 +63,8 @@ header{
   align-items:center;
   gap:10px;
 }
+
+/* NOTIFICATION */
 
 .notif-btn{
   width:38px;
@@ -101,6 +103,8 @@ header{
   justify-content:center;
 }
 
+/* PROFILE */
+
 .profile-btn{
   width:38px;
   height:38px;
@@ -113,11 +117,10 @@ header{
   cursor:pointer;
   transition:.15s;
   border:2px solid #f1f2f7;
+  overflow:hidden;
 }
 
 .profile-btn i{font-size:15px}
-
-/* PROFILE POPUP */
 
 .profile-popup{
   position:fixed;
@@ -155,6 +158,8 @@ header{
   flex-shrink:0;
 }
 
+.profile-avatar i{font-size:17px}
+
 .profile-details{min-width:0}
 
 .profile-name{
@@ -176,7 +181,7 @@ header{
 
 .profile-divider{
   height:1px;
-  background:#eeeef2;
+  background:#eeeeF2;
   margin:2px 0 9px;
 }
 
@@ -204,7 +209,7 @@ header{
 .profile-option.logout{color:#e04444}
 .profile-option.logout i{color:#e04444}
 
-/* NOTIFICATION */
+/* MESSAGE POPUP */
 
 .message-popup{
   position:fixed;
@@ -270,174 +275,340 @@ header{
   margin:0 auto;
 }
 
-.page-heading{
-  margin-top:25px;
-  margin-bottom:18px;
-  animation:pageIn .35s ease;
-}
+/* CATALOG MANAGEMENT */
 
-.page-title{
-  font-size:21px;
-  font-weight:700;
-  letter-spacing:-.4px;
-}
-
-.page-description{
-  color:#858891;
-  font-size:12px;
-  margin-top:5px;
-  line-height:1.5;
-}
-
-/* SECTION */
-
-.section-card{
+.card{
   background:#fff;
   border:1px solid #e8e8ed;
   border-radius:18px;
   padding:18px;
-  margin-bottom:14px;
+  margin-top:20px;
   animation:pageIn .4s ease both;
 }
 
+.catalog-intro{
+  cursor:default;
+}
+
+.create-text{min-width:0}
+
+.create-title{
+  font-size:15px;
+  font-weight:700;
+}
+
+.create-desc{
+  font-size:11px;
+  color:#858891;
+  margin-top:5px;
+  line-height:1.6;
+}
+
+/* MANAGEMENT */
+
+.management-card{margin-top:14px}
+
 .section-heading{
-  font-size:14px;
+  font-size:15px;
   font-weight:700;
   margin-bottom:14px;
 }
 
-/* CATALOG GRID */
+/* CATEGORY TABS */
 
-.catalog-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:11px;
+.category-scroll{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:12px;
+  margin-bottom:12px;
+  scrollbar-width:none;
 }
 
-.catalog-item{
-  min-width:0;
-  background:#fff;
+.category-scroll::-webkit-scrollbar{display:none}
+
+.category-tab{
+  flex-shrink:0;
   border:1px solid #e8e8ed;
-  border-radius:15px;
-  padding:15px 13px;
-  cursor:pointer;
-  transition:.18s;
-  position:relative;
-  overflow:hidden;
-}
-
-.catalog-item:active{
-  transform:scale(.97);
-  background:#f8f8fa;
-}
-
-.catalog-icon{
-  width:39px;
-  height:39px;
-  border-radius:12px;
-  background:#f1f2f7;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin-bottom:13px;
-  color:#22242a;
-  font-size:16px;
-}
-
-.catalog-name{
-  font-size:13px;
-  font-weight:700;
-  margin-bottom:4px;
-}
-
-.catalog-description{
-  font-size:10px;
-  color:#858891;
-  line-height:1.5;
-  min-height:30px;
-}
-
-.catalog-arrow{
-  position:absolute;
-  right:13px;
-  top:15px;
+  background:#fff;
+  color:#777b84;
+  padding:9px 13px;
+  border-radius:11px;
   font-size:11px;
-  color:#a2a4ab;
-}
-
-/* RELEASES FEATURE */
-
-.feature-card{
-  background:#17181c;
-  color:#fff;
-  border-radius:16px;
-  padding:17px;
+  font-weight:600;
+  cursor:pointer;
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  cursor:pointer;
+  gap:7px;
+  transition:.15s;
+  white-space:nowrap;
+}
+
+.category-tab i{font-size:12px}
+
+.category-tab.active{
+  background:#17181c;
+  border-color:#17181c;
+  color:#fff;
+}
+
+.category-tab:active{transform:scale(.96)}
+
+/* SEARCH */
+
+.search-wrap{
+  position:relative;
+  margin-bottom:10px;
+}
+
+.search-wrap i{
+  position:absolute;
+  left:13px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:13px;
+  color:#999ca4;
+  pointer-events:none;
+}
+
+#searchInput{
+  width:100%;
+  height:42px;
+  padding:0 13px 0 38px;
+  border-radius:12px;
+  border:1px solid #e8e8ed;
+  background:#f8f8fa;
+  color:#17181c;
+  font-size:13px;
+  outline:none;
   transition:.15s;
 }
 
-.feature-card:active{transform:scale(.98)}
-
-.feature-content{min-width:0}
-
-.feature-title{
-  font-size:14px;
-  font-weight:700;
+#searchInput:focus{
+  border-color:#d6d7dd;
+  background:#fff;
 }
 
-.feature-description{
-  font-size:10px;
-  color:#b9bbc2;
-  margin-top:5px;
-  line-height:1.5;
-}
+#searchInput::placeholder{color:#999ca4}
 
-.feature-icon{
-  width:42px;
-  height:42px;
-  background:#303137;
-  border-radius:13px;
+/* FILTER */
+
+.filter-row{
   display:flex;
   align-items:center;
-  justify-content:center;
-  font-size:17px;
-  flex-shrink:0;
+  gap:9px;
+  margin-bottom:15px;
 }
 
-/* INFO */
-
-.info-row{
-  display:flex;
-  align-items:flex-start;
-  gap:11px;
+.filter-label{
+  font-size:11px;
+  color:#858891;
+  font-weight:600;
+  white-space:nowrap;
 }
 
-.info-icon{
-  width:34px;
-  height:34px;
+.filter-select{
+  flex:1;
+  min-width:0;
+  height:36px;
+  padding:0 11px;
+  border:1px solid #e8e8ed;
   border-radius:10px;
+  background:#fff;
+  color:#333;
+  font-size:11px;
+  outline:none;
+}
+
+/* RELEASE LIST */
+
+.release-box{
+  padding:14px;
+  border:1px solid #e8e8ed;
+  border-radius:15px;
+  margin-bottom:10px;
+  background:#fff;
+  cursor:pointer;
+  transition:.15s;
+  opacity:0;
+  transform:translateY(10px);
+  animation:releaseIn .4s ease forwards;
+}
+
+.release-box:active{transform:scale(.98)}
+
+.release-item{
+  display:flex;
+  gap:12px;
+  min-width:0;
+}
+
+/* COVER */
+
+.release-cover{
+  width:46px;
+  height:46px;
+  border-radius:9px;
   background:#f1f2f7;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:14px;
   flex-shrink:0;
+  overflow:hidden;
 }
 
-.info-title{
-  font-size:12px;
+.release-cover img{
+  width:46px;
+  height:46px;
+  object-fit:cover;
+  border-radius:8px;
+  filter:blur(10px);
+  opacity:.6;
+  transition:filter .35s ease,opacity .35s ease;
+}
+
+.release-cover img.loaded{
+  filter:blur(0);
+  opacity:1;
+}
+
+/* CONTENT */
+
+.release-content{
+  flex:1;
+  min-width:0;
+}
+
+.release-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:8px;
+  min-width:0;
+}
+
+.release-title{
+  flex:1;
+  min-width:0;
+  line-height:1.3;
+  font-size:13px;
+  font-weight:600;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+}
+
+/* STATUS */
+
+.release-status{
+  white-space:nowrap;
+  flex-shrink:0;
+  min-width:68px;
+  text-align:center;
+  font-size:9px;
+  font-weight:600;
+  padding:4px 8px;
+  border-radius:999px;
+  text-transform:uppercase;
+  transform-origin:center;
+}
+
+.release-status.process{animation:pulse 1.2s infinite}
+
+/* META */
+
+.release-meta{
+  font-size:10px;
+  color:#858891;
+  margin-top:5px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+
+.release-meta b{
+  color:#555960;
   font-weight:600;
 }
 
-.info-description{
+/* EMPTY */
+
+.empty-state{
+  text-align:center;
+  color:#999ca4;
+  font-size:12px;
+  padding:25px 8px;
+}
+
+.empty-state i{
+  display:block;
+  font-size:24px;
+  margin-bottom:10px;
+  opacity:.5;
+}
+
+/* PAGINATION */
+
+.pagination{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin:15px auto 2px;
+}
+
+.pagination button{
+  width:36px;
+  height:32px;
+  border:1px solid #e1e2e7;
+  background:#f8f8fa;
+  color:#333;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.pagination button:disabled{
+  opacity:.4;
+  cursor:default;
+}
+
+.pagination button:not(:disabled):active{transform:scale(.92)}
+
+.pagination span{
+  font-size:11px;
+  font-weight:600;
+  color:#777b84;
+}
+
+/* COMING SOON */
+
+.coming-soon{
+  text-align:center;
+  padding:35px 12px;
   color:#858891;
-  font-size:10px;
+}
+
+.coming-soon i{
+  font-size:28px;
+  margin-bottom:12px;
+  color:#b0b2ba;
+}
+
+.coming-soon h3{
+  font-size:14px;
+  color:#34363c;
+  margin-bottom:5px;
+}
+
+.coming-soon p{
+  font-size:11px;
   line-height:1.6;
-  margin-top:3px;
 }
 
 /* BOTTOM NAV */
@@ -476,12 +647,15 @@ header{
 }
 
 .nav-item i{font-size:18px}
+
 .nav-item:active{transform:scale(.92)}
 
 .nav-item.active{
   color:#17181c;
   font-weight:700;
 }
+
+/* CREATE NAV */
 
 .create-nav{
   flex:1;
@@ -516,10 +690,15 @@ header{
 
 .create-label{margin-top:0}
 
-/* ANIMATION */
+/* ANIMATIONS */
 
 @keyframes pageIn{
   from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes releaseIn{
+  from{opacity:0;transform:translateY(10px)}
   to{opacity:1;transform:translateY(0)}
 }
 
@@ -528,23 +707,29 @@ header{
   to{opacity:1;transform:translateY(0) scale(1)}
 }
 
-/* RESPONSIVE */
-
-@media(max-width:360px){
-  .catalog-grid{gap:8px}
-  .catalog-item{padding:13px 11px}
-  .catalog-name{font-size:12px}
-  .catalog-description{font-size:9px}
+@keyframes pulse{
+  0%,100%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.05);opacity:.8}
 }
+
+/* MOBILE */
+
+@media(max-width:600px){
+  .container{width:calc(100% - 28px)}
+  .card{padding:17px}
+  .release-box{padding:13px}
+}
+
+/* DESKTOP */
 
 @media(min-width:700px){
   .container{width:100%}
-  .catalog-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .bottom-nav{
     padding-left:max(5px,calc((100% - 650px)/2));
     padding-right:max(5px,calc((100% - 650px)/2));
   }
 }
+
 </style>
 </head>
 
@@ -555,19 +740,27 @@ header{
 <header>
 
   <img
-    src="../assets/dynotic-distribution.png"
+    src="https://dynoticcollective.com/assets/dynotic-distribution.png"
     class="header-logo"
     alt="Dynotic Distribution"
   >
 
   <div class="header-actions">
 
-    <div class="notif-btn" onclick="openMessages()">
+    <div
+      id="notifBtn"
+      class="notif-btn"
+      onclick="openMessages()"
+    >
       <i class="fa-regular fa-bell"></i>
       <span id="notifBadge" class="notif-badge">0</span>
     </div>
 
-    <div class="profile-btn" id="profileBtn" onclick="toggleProfile()">
+    <div
+      class="profile-btn"
+      onclick="toggleProfile()"
+      id="profileBtn"
+    >
       <i class="fa-regular fa-user"></i>
     </div>
 
@@ -586,8 +779,10 @@ header{
     </div>
 
     <div class="profile-details">
+
       <div class="profile-name" id="profileName">Artist</div>
       <div class="profile-email" id="profileEmail">-</div>
+
     </div>
 
   </div>
@@ -628,177 +823,139 @@ header{
 
 </div>
 
-<!-- MAIN CONTENT -->
+<!-- MAIN -->
 
 <main class="container">
 
-  <div class="page-heading">
+  <!-- CATALOG MANAGEMENT INTRO -->
 
-    <div class="page-title">Catalog</div>
+  <div class="card catalog-intro">
 
-    <div class="page-description">
-      Manage your music catalog and release information.
+    <div class="create-text">
+
+      <div class="create-title">
+        Catalog Management
+      </div>
+
+      <div class="create-desc">
+        Manage your music catalog, track release status,
+        and organize your distribution records in one place.
+      </div>
+
     </div>
 
   </div>
 
-  <!-- RELEASES FEATURE -->
+  <!-- CATALOG MANAGEMENT -->
 
-  <div class="section-card">
+  <div class="card management-card">
 
-    <div class="section-heading">
-      Your Music Catalog
+    <div class="section-heading" id="sectionHeading">
+      Releases
     </div>
 
-    <div class="feature-card" onclick="goReleases()">
+    <!-- CATEGORY MENU -->
 
-      <div class="feature-content">
+    <div class="category-scroll">
 
-        <div class="feature-title">
-          Manage Releases
-        </div>
-
-        <div class="feature-description">
-          View, track, and manage all your submitted releases.
-        </div>
-
-      </div>
-
-      <div class="feature-icon">
+      <button class="category-tab active" data-section="releases" onclick="switchSection('releases')">
         <i class="fa-solid fa-compact-disc"></i>
+        Releases
+      </button>
+
+      <button class="category-tab" data-section="artists" onclick="switchSection('artists')">
+        <i class="fa-solid fa-users"></i>
+        Artists
+      </button>
+
+      <button class="category-tab" data-section="labels" onclick="switchSection('labels')">
+        <i class="fa-solid fa-tag"></i>
+        Labels
+      </button>
+
+      <button class="category-tab" data-section="participants" onclick="switchSection('participants')">
+        <i class="fa-solid fa-user-group"></i>
+        Participants
+      </button>
+
+      <button class="category-tab" data-section="documents" onclick="switchSection('documents')">
+        <i class="fa-solid fa-file-lines"></i>
+        Documents
+      </button>
+
+      <button class="category-tab" data-section="examples" onclick="switchSection('examples')">
+        <i class="fa-solid fa-book-open"></i>
+        Examples
+      </button>
+
+    </div>
+
+    <!-- RELEASES SECTION -->
+
+    <div id="releasesSection">
+
+      <div class="search-wrap">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search title, artist, label..."
+          autocomplete="off"
+        >
+
+      </div>
+
+      <!-- STATUS FILTER -->
+
+      <div class="filter-row">
+
+        <div class="filter-label">
+          <i class="fa-solid fa-filter"></i>
+          Status
+        </div>
+
+        <select id="statusFilter" class="filter-select">
+
+          <option value="all">All Statuses</option>
+          <option value="proposal">Proposal</option>
+          <option value="process">Process</option>
+          <option value="schedule">Schedule</option>
+          <option value="approved">Approved</option>
+          <option value="live">Live</option>
+          <option value="rejected">Rejected</option>
+
+        </select>
+
+      </div>
+
+      <!-- RELEASE LIST -->
+
+      <div id="releaseList">
+
+        <div class="empty-state">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          Loading releases...
+        </div>
+
       </div>
 
     </div>
 
-  </div>
+    <!-- OTHER SECTIONS -->
 
-  <!-- CATALOG MENU -->
+    <div id="otherSection" hidden>
 
-  <div class="section-card">
+      <div class="coming-soon">
 
-    <div class="section-heading">
-      Catalog Management
-    </div>
+        <i class="fa-regular fa-folder-open"></i>
 
-    <div class="catalog-grid">
+        <h3 id="otherTitle">Artists</h3>
 
-      <!-- RELEASES -->
-
-      <div class="catalog-item" onclick="goReleases()">
-
-        <div class="catalog-arrow">
-          <i class="fa-solid fa-arrow-up-right-from-square"></i>
-        </div>
-
-        <div class="catalog-icon">
-          <i class="fa-solid fa-compact-disc"></i>
-        </div>
-
-        <div class="catalog-name">Releases</div>
-
-        <div class="catalog-description">
-          Manage your music releases and submissions.
-        </div>
-
-      </div>
-
-      <!-- ARTISTS -->
-
-      <div class="catalog-item" onclick="goComingSoon('Artists')">
-
-        <div class="catalog-arrow">
-          <i class="fa-solid fa-chevron-right"></i>
-        </div>
-
-        <div class="catalog-icon">
-          <i class="fa-solid fa-users"></i>
-        </div>
-
-        <div class="catalog-name">Artists</div>
-
-        <div class="catalog-description">
-          Manage artist information and profiles.
-        </div>
-
-      </div>
-
-      <!-- LABELS -->
-
-      <div class="catalog-item" onclick="goComingSoon('Labels')">
-
-        <div class="catalog-arrow">
-          <i class="fa-solid fa-chevron-right"></i>
-        </div>
-
-        <div class="catalog-icon">
-          <i class="fa-solid fa-tag"></i>
-        </div>
-
-        <div class="catalog-name">Labels</div>
-
-        <div class="catalog-description">
-          Organize labels associated with releases.
-        </div>
-
-      </div>
-
-      <!-- PARTICIPANTS -->
-
-      <div class="catalog-item" onclick="goComingSoon('Participants')">
-
-        <div class="catalog-arrow">
-          <i class="fa-solid fa-chevron-right"></i>
-        </div>
-
-        <div class="catalog-icon">
-          <i class="fa-solid fa-user-group"></i>
-        </div>
-
-        <div class="catalog-name">Participants</div>
-
-        <div class="catalog-description">
-          Manage composers, producers, and contributors.
-        </div>
-
-      </div>
-
-      <!-- DOCUMENTS -->
-
-      <div class="catalog-item" onclick="goComingSoon('Documents')">
-
-        <div class="catalog-arrow">
-          <i class="fa-solid fa-chevron-right"></i>
-        </div>
-
-        <div class="catalog-icon">
-          <i class="fa-solid fa-file-lines"></i>
-        </div>
-
-        <div class="catalog-name">Documents</div>
-
-        <div class="catalog-description">
-          Access release documents and related files.
-        </div>
-
-      </div>
-
-      <!-- EXAMPLES -->
-
-      <div class="catalog-item" onclick="goComingSoon('Examples')">
-
-        <div class="catalog-arrow">
-          <i class="fa-solid fa-chevron-right"></i>
-        </div>
-
-        <div class="catalog-icon">
-          <i class="fa-solid fa-book-open"></i>
-        </div>
-
-        <div class="catalog-name">Examples</div>
-
-        <div class="catalog-description">
-          View references and submission examples.
-        </div>
+        <p id="otherDescription">
+          This section is not available yet.
+        </p>
 
       </div>
 
@@ -806,34 +963,7 @@ header{
 
   </div>
 
-  <!-- INFORMATION -->
-
-  <div class="section-card">
-
-    <div class="info-row">
-
-      <div class="info-icon">
-        <i class="fa-solid fa-circle-info"></i>
-      </div>
-
-      <div>
-
-        <div class="info-title">
-          About Catalog Management
-        </div>
-
-        <div class="info-description">
-          Use Catalog Management to organize your releases,
-          artist details, labels, participants, and supporting documents.
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <div style="height:20px"></div>
+  <div style="height:80px"></div>
 
 </main>
 
@@ -851,7 +981,7 @@ header{
     <span>Catalog</span>
   </div>
 
-  <div class="create-nav" onclick="goCreate()">
+  <div class="create-nav" onclick="goCreateRelease()">
 
     <div class="create-circle">
       <i class="fa-solid fa-plus"></i>
@@ -885,21 +1015,14 @@ header{
 
 const ROUTES = {
 
-  home: "/dashboard",
-
-  catalog: "/catalog",
-
-  releases: "/catalog/releases",
-
-  create: "/catalog/releases/create",
-
-  transactions: "/transactions",
-
-  analytics: "/analytics",
-
-  account: "/account",
-
-  login: "/login"
+  home: "https://app.dynoticcollective.com/home/",
+  catalog: "https://app.dynoticcollective.com/catalog/",
+  create: "https://app.dynoticcollective.com/catalog/releases/create/",
+  detail: "/release-detail",
+  transactions: "https://app.dynoticcollective.com/transactions/",
+  analytics: "https://app.dynoticcollective.com/analytics/",
+  account: "https://app.dynoticcollective.com/account/",
+  login: "https://app.dynoticcollective.com/login/"
 
 };
 
@@ -923,9 +1046,27 @@ const db = firebase.database();
 
 let currentUser = null;
 
-let messagesQueue = [];
+let allReleases = [];
 
-let currentMsgIndex = 0;
+let filteredReleases = [];
+
+let currentPage = 1;
+
+const releasesPerPage = 5;
+
+
+/* ================= SAFE TEXT ================= */
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
 
 
 /* ================= AUTH ================= */
@@ -945,9 +1086,11 @@ firebase.auth().onAuthStateChanged(user => {
   document.getElementById("profileEmail").textContent =
     user.email || "-";
 
+  loadMessages(user.uid);
+
   loadArtistProfile(user.uid);
 
-  loadMessages(user.uid);
+  loadReleases(user.uid);
 
 });
 
@@ -964,8 +1107,9 @@ function loadArtistProfile(uid){
 
       const d = snap.val();
 
-      document.getElementById("profileName").textContent =
-        d.nama || "Artist";
+      const nama = d.nama || "Artist";
+
+      document.getElementById("profileName").textContent = nama;
 
     })
     .catch(error => {
@@ -1054,11 +1198,7 @@ function goCatalog(){
   location.href = ROUTES.catalog;
 }
 
-function goReleases(){
-  location.href = ROUTES.releases;
-}
-
-function goCreate(){
+function goCreateRelease(){
   location.href = ROUTES.create;
 }
 
@@ -1071,16 +1211,624 @@ function goAnalytics(){
 }
 
 
-/* ================= COMING SOON ================= */
+/* ================= CATEGORY MENU ================= */
 
-function goComingSoon(name){
+function switchSection(section){
 
-  alert(name + " page is coming soon.");
+  document.querySelectorAll(".category-tab")
+    .forEach(tab => {
+
+      tab.classList.toggle(
+        "active",
+        tab.dataset.section === section
+      );
+
+    });
+
+
+  const releasesSection =
+    document.getElementById("releasesSection");
+
+  const otherSection =
+    document.getElementById("otherSection");
+
+
+  if(section === "releases"){
+
+    releasesSection.hidden = false;
+
+    otherSection.hidden = true;
+
+    document.getElementById("sectionHeading").textContent =
+      "Releases";
+
+    return;
+
+  }
+
+
+  releasesSection.hidden = true;
+
+  otherSection.hidden = false;
+
+
+  const titles = {
+
+    artists: "Artists",
+
+    labels: "Labels",
+
+    participants: "Participants",
+
+    documents: "Documents",
+
+    examples: "Examples"
+
+  };
+
+
+  const descriptions = {
+
+    artists: "Artist management will be available here.",
+
+    labels: "Label management will be available here.",
+
+    participants: "Participant management will be available here.",
+
+    documents: "Release documents will be available here.",
+
+    examples: "Release examples will be available here."
+
+  };
+
+
+  document.getElementById("sectionHeading").textContent =
+    titles[section] || "Catalog Management";
+
+  document.getElementById("otherTitle").textContent =
+    titles[section] || "Coming Soon";
+
+  document.getElementById("otherDescription").textContent =
+    descriptions[section] || "This section is not available yet.";
 
 }
 
 
-/* ================= NOTIFICATIONS ================= */
+/* ================= RELEASE DATA ================= */
+
+function loadReleases(uid){
+
+  const list = document.getElementById("releaseList");
+
+  list.innerHTML = `
+    <div class="empty-state">
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      Loading releases...
+    </div>
+  `;
+
+
+  db.ref("releases/" + uid)
+    .once("value")
+
+    .then(snap => {
+
+      allReleases = [];
+
+
+      snap.forEach(i => {
+
+        const r = i.val() || {};
+
+        r._key = i.key;
+
+        allReleases.push(r);
+
+      });
+
+
+      allReleases.sort((a,b) => {
+
+        return Number(b.time || 0) - Number(a.time || 0);
+
+      });
+
+
+      document.getElementById("searchInput").oninput =
+        applyFilters;
+
+      document.getElementById("statusFilter").onchange =
+        applyFilters;
+
+
+      applyFilters();
+
+    })
+
+    .catch(error => {
+
+      console.error("Gagal memuat releases:",error);
+
+      list.innerHTML = `
+        <div class="empty-state">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          Gagal memuat rilisan.
+          <br>
+          Silakan coba kembali.
+        </div>
+      `;
+
+    });
+
+}
+
+
+/* ================= STATUS ================= */
+
+function getReleaseStatus(r){
+
+  let status = String(r.status || "process")
+    .toLowerCase()
+    .trim();
+
+  /*
+    NORMALISASI STATUS FIREBASE
+
+    proses     -> process
+    processing -> process
+    process    -> process
+
+    Tampilan tetap PROCESS.
+  */
+
+  const statusMap = {
+
+    proses: "process",
+
+    processing: "process",
+
+    process: "process",
+
+    proposal: "proposal",
+
+    schedule: "schedule",
+
+    approved: "approved",
+
+    live: "live",
+
+    rejected: "rejected"
+
+  };
+
+
+  status = statusMap[status] || status;
+
+
+  const releaseDate = r.releaseDate || r.date;
+
+  const dateObj = releaseDate
+    ? new Date(
+        releaseDate +
+        (releaseDate.length === 10 ? "T00:00:00" : "")
+      )
+    : null;
+
+
+  if(status === "approved"){
+
+    if(
+      dateObj &&
+      !isNaN(dateObj.getTime()) &&
+      new Date() >= dateObj
+    ){
+
+      return "live";
+
+    }
+
+    return "approved";
+
+  }
+
+
+  if(status === "live") return "live";
+
+  if(status === "proposal") return "proposal";
+
+  if(status === "process") return "process";
+
+  if(status === "schedule") return "schedule";
+
+  if(status === "rejected") return "rejected";
+
+
+  return status;
+
+}
+
+
+function getStatusStyle(status){
+
+  const styles = {
+
+    proposal:{
+      label:"PROPOSAL",
+      color:"#f59e0b"
+    },
+
+    process:{
+      label:"PROCESS",
+      color:"#3b82f6"
+    },
+
+    schedule:{
+      label:"SCHEDULE",
+      color:"#8b5cf6"
+    },
+
+    approved:{
+      label:"APPROVED",
+      color:"#10b981"
+    },
+
+    live:{
+      label:"LIVE",
+      color:"#22c55e"
+    },
+
+    rejected:{
+      label:"REJECTED",
+      color:"#ef4444"
+    }
+
+  };
+
+
+  return styles[status] || {
+
+    label:status.toUpperCase(),
+
+    color:"#858891"
+
+  };
+
+}
+
+
+/* ================= FILTER ================= */
+
+function applyFilters(){
+
+  const query = document
+    .getElementById("searchInput")
+    .value
+    .toLowerCase()
+    .trim();
+
+
+  const selectedStatus = document
+    .getElementById("statusFilter")
+    .value;
+
+
+  filteredReleases = allReleases.filter(r => {
+
+    const title = String(r.title || "").toLowerCase();
+
+    const artist = String(r.artist || "").toLowerCase();
+
+    const label = String(r.label || "").toLowerCase();
+
+    // Status sudah dinormalisasi oleh getReleaseStatus()
+    const status = getReleaseStatus(r);
+
+
+    const matchesSearch =
+      title.includes(query) ||
+      artist.includes(query) ||
+      label.includes(query);
+
+
+    const matchesStatus =
+      selectedStatus === "all" ||
+      status === selectedStatus;
+
+
+    return matchesSearch && matchesStatus;
+
+  });
+
+
+  currentPage = 1;
+
+  renderReleases();
+
+}
+
+
+/* ================= DATE ================= */
+
+function formatReleaseDate(r){
+
+  const date = r.releaseDate || r.date;
+
+  if(!date) return "-";
+
+  const parsed = new Date(
+    date + (date.length === 10 ? "T00:00:00" : "")
+  );
+
+  if(isNaN(parsed.getTime())) return "-";
+
+  return parsed.toLocaleDateString("en-US",{
+
+    year:"numeric",
+
+    month:"long",
+
+    day:"numeric"
+
+  });
+
+}
+
+
+/* ================= RENDER ================= */
+
+function renderReleases(){
+
+  const list = document.getElementById("releaseList");
+
+  list.innerHTML = "";
+
+
+  if(filteredReleases.length === 0){
+
+    const hasFilter =
+      document.getElementById("searchInput").value ||
+      document.getElementById("statusFilter").value !== "all";
+
+
+    list.innerHTML = `
+
+      <div class="empty-state">
+
+        <i class="fa-regular fa-folder-open"></i>
+
+        ${
+          hasFilter
+            ? "Tidak ditemukan hasil"
+            : "Belum ada rilisan"
+        }
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  const totalPages = Math.ceil(
+    filteredReleases.length / releasesPerPage
+  );
+
+
+  if(currentPage > totalPages){
+    currentPage = totalPages;
+  }
+
+
+  const start = (currentPage - 1) * releasesPerPage;
+
+  const pageItems = filteredReleases.slice(
+    start,
+    start + releasesPerPage
+  );
+
+
+  pageItems.forEach((r,index) => {
+
+    const status = getReleaseStatus(r);
+
+    const statusInfo = getStatusStyle(status);
+
+    const title = escapeHTML(r.title || "-");
+
+    const artist = escapeHTML(r.artist || "-");
+
+    const label = escapeHTML(r.label || "Dynotic");
+
+    const featuring = r.featuring
+      ? " • feat. " + escapeHTML(r.featuring)
+      : "";
+
+    const ean = escapeHTML(r.ean || "-");
+
+    const date = escapeHTML(formatReleaseDate(r));
+
+    const genre = escapeHTML(r.genre || "-");
+
+    const cover = escapeHTML(
+      r.cover || "https://dynoticcollective.com/assets/cover-default.png"
+    );
+
+
+    const box = document.createElement("div");
+
+    box.className = "release-box";
+
+    box.style.animationDelay = (index * 0.06) + "s";
+
+    box.onclick = () => goReleaseDetail(r._key);
+
+
+    box.innerHTML = `
+
+      <div class="release-item">
+
+        <div class="release-cover">
+
+          <img
+            src="${cover}"
+            alt="Release Cover"
+            onload="this.classList.add('loaded')"
+            onerror="
+              this.onerror=null;
+              this.src='https://dynoticcollective.com/assets/cover-default.png';
+              this.classList.add('loaded');
+            "
+          >
+
+        </div>
+
+        <div class="release-content">
+
+          <div class="release-row">
+
+            <div class="release-title">
+              ${title}
+            </div>
+
+            <div
+              class="release-status ${status === "process" ? "process" : ""}"
+              style="
+                border:1px solid ${statusInfo.color};
+                color:${statusInfo.color};
+              "
+            >
+              ${escapeHTML(statusInfo.label)}
+            </div>
+
+          </div>
+
+          <div class="release-meta">
+
+            <b>${artist}</b>${featuring}
+
+            <br>
+
+            <span style="opacity:.7">UPC:</span>
+            ${ean}
+
+            <br>
+
+            <span style="opacity:.7">Release Date:</span>
+            ${date}
+
+            <br>
+
+            <span style="opacity:.7">Label:</span>
+            ${label}
+
+            <br>
+
+            <span style="opacity:.7">Genre:</span>
+            ${genre}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    list.appendChild(box);
+
+  });
+
+
+  /* PAGINATION */
+
+  const pagination = document.createElement("div");
+
+  pagination.className = "pagination";
+
+
+  const prev = document.createElement("button");
+
+  prev.innerHTML = '<i class="fa-solid fa-chevron-left"></i>';
+
+  prev.disabled = currentPage === 1;
+
+  prev.onclick = prevPage;
+
+
+  const pageText = document.createElement("span");
+
+  pageText.textContent =
+    `Page ${currentPage}/${totalPages}`;
+
+
+  const next = document.createElement("button");
+
+  next.innerHTML = '<i class="fa-solid fa-chevron-right"></i>';
+
+  next.disabled = currentPage === totalPages;
+
+  next.onclick = nextPage;
+
+
+  pagination.append(prev,pageText,next);
+
+  list.appendChild(pagination);
+
+}
+
+
+/* ================= PAGINATION ================= */
+
+function nextPage(){
+
+  const totalPages = Math.ceil(
+    filteredReleases.length / releasesPerPage
+  );
+
+
+  if(currentPage < totalPages){
+
+    currentPage++;
+
+    renderReleases();
+
+  }
+
+}
+
+
+function prevPage(){
+
+  if(currentPage > 1){
+
+    currentPage--;
+
+    renderReleases();
+
+  }
+
+}
+
+
+/* ================= DETAIL ================= */
+
+function goReleaseDetail(rid){
+
+  location.href =
+    ROUTES.detail + "?rid=" + encodeURIComponent(rid);
+
+}
+
+
+/* ================= MESSAGES ================= */
+
+let messagesQueue = [];
+
+let currentMsgIndex = 0;
+
 
 function loadMessages(uid){
 
@@ -1135,7 +1883,7 @@ function loadMessages(uid){
 }
 
 
-/* ================= OPEN MESSAGE ================= */
+/* ================= OPEN MESSAGES ================= */
 
 function openMessages(){
 
@@ -1196,6 +1944,7 @@ function closeMessage(){
 
   }
 
+
   currentMsgIndex++;
 
   showCurrentMessage();
@@ -1224,6 +1973,9 @@ document.getElementById("messagePopup")
     }
 
   });
+
+
+/* ================= INIT ================= */
 
 </script>
 
