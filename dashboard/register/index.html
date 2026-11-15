@@ -1,1 +1,537 @@
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registrasi | Dynotic Distribution</title>
+<meta name="theme-color" content="#0d0d12">
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="icon" type="image/png" href="https://dynoticcollective.com/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://dynoticcollective.com/assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://dynoticcollective.com/assets/favicon-iphone.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{--bg:#f3f3f8;--ink:#14141a;--muted:#6f7280;--line:#e2e2ea;--dark:#0d0d12;--accent:#7772a8;--accent-2:#a9a3f2;--bad:#e05757;--ease:cubic-bezier(.16,1,.3,1)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{min-height:100dvh;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+.shell{min-height:100dvh;display:grid;grid-template-columns:minmax(380px,42%) 1fr}
+
+/* BRAND PANEL */
+.panel{position:sticky;top:0;height:100dvh;background:var(--dark);color:#fff;padding:clamp(28px,4vw,52px);display:flex;flex-direction:column;overflow:hidden;isolation:isolate}
+.panel::before,.panel::after{content:"";position:absolute;border-radius:50%;filter:blur(90px);z-index:-1;pointer-events:none}
+.panel::before{width:520px;height:520px;background:rgba(119,114,168,.5);top:-180px;right:-160px}
+.panel::after{width:420px;height:420px;background:rgba(79,70,160,.35);bottom:-180px;left:-140px}
+.panel .grid{position:absolute;inset:0;z-index:-1;opacity:.3;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:52px 52px;-webkit-mask-image:radial-gradient(ellipse at 40% 40%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse at 40% 40%,#000 20%,transparent 75%)}
+.logo img{height:34px;width:auto;max-width:190px;object-fit:contain;filter:brightness(0) invert(1);display:block}
+.panel-body{margin:auto 0;padding:40px 0}
+.panel h1{font-size:clamp(32px,3.8vw,52px);line-height:1.02;letter-spacing:-.045em;font-weight:800}
+.panel h1 span{display:block;background:linear-gradient(90deg,var(--accent-2),#fff 75%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.panel p.tag{margin-top:18px;max-width:340px;font-size:15px;line-height:1.8;color:rgba(255,255,255,.58)}
+.steps{margin-top:30px;display:grid;gap:14px;max-width:340px;list-style:none}
+.steps li{display:flex;gap:14px;align-items:flex-start;font-size:14px;line-height:1.6;color:rgba(255,255,255,.78)}
+.steps b{display:block;color:#fff;font-weight:700}
+.steps .n{width:30px;height:30px;border-radius:10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.eq{display:flex;align-items:flex-end;gap:5px;height:44px;margin-top:34px;max-width:300px}
+.eq span{flex:1;border-radius:4px;background:linear-gradient(to top,var(--accent),var(--accent-2));height:var(--h);transform-origin:bottom;animation:eq 1.1s ease-in-out infinite;opacity:.9}
+.eq span:nth-child(2n){animation-delay:.18s}
+.eq span:nth-child(3n){animation-delay:.36s}
+.eq span:nth-child(5n){animation-delay:.52s}
+.panel-foot{font-size:12px;color:rgba(255,255,255,.4)}
+
+/* FORM SIDE */
+.main{display:flex;flex-direction:column;padding:clamp(20px,3vw,36px);min-width:0}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px}
+.back{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-weight:500;text-decoration:none;padding:8px 12px 8px 8px;border-radius:999px;transition:background .2s,color .2s}
+.back:hover{background:#fff;color:var(--ink)}
+.back .i{width:16px;height:16px}
+.top-reg{color:var(--muted)}
+.top-reg a{font-weight:700;color:var(--ink);text-decoration:none;margin-left:4px}
+.top-reg a:hover{text-decoration:underline}
+
+.center{flex:1;display:flex;align-items:center;justify-content:center;padding:28px 0}
+.card{width:100%;max-width:430px;animation:enter .7s var(--ease) both}
+.card h2{font-size:clamp(28px,3.4vw,36px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.card .sub{margin-top:8px;font-size:14px;line-height:1.7;color:var(--muted)}
+form{margin-top:28px}
+.field{margin-bottom:16px}
+.field label{display:block;margin-bottom:7px;font-size:13px;font-weight:600;color:#3b3d49}
+.input{position:relative}
+.input .lead{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:#a3a5b0;pointer-events:none;transition:color .2s}
+.input input{width:100%;height:54px;padding:0 16px 0 46px;border-radius:15px;border:1.5px solid var(--line);background:#fff;font-size:16px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+.input input.pw{padding-right:52px}
+.input input::placeholder{color:#b3b5c0}
+.input input:hover{border-color:#cfcfdb}
+.input input:focus{border-color:var(--ink);box-shadow:0 0 0 4px rgba(119,114,168,.16)}
+.input:focus-within .lead{color:var(--ink)}
+.input.invalid input{border-color:var(--bad)}
+.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;color:#8a8d9a;transition:background .2s,color .2s}
+.eye:hover{background:var(--bg);color:var(--ink)}
+.eye .i{width:19px;height:19px}
+.hint{margin-top:7px;font-size:12px;line-height:1.5;color:var(--muted)}
+.fe{display:none;margin-top:7px;font-size:12px;font-weight:500;color:#d13a3a}
+.field.bad .fe{display:block}
+.field.bad .hint{display:none}
+.caps{display:none;margin-top:7px;font-size:12px;color:#946515;align-items:center;gap:6px}
+.caps.show{display:flex}
+.caps .i{width:14px;height:14px}
+.meter{display:flex;gap:5px;margin-top:9px}
+.meter i{flex:1;height:4px;border-radius:4px;background:var(--line);transition:background .25s}
+.meter[data-s="1"] i:nth-child(-n+1){background:#e05757}
+.meter[data-s="2"] i:nth-child(-n+2){background:#f59e0b}
+.meter[data-s="3"] i:nth-child(-n+3){background:#84cc16}
+.meter[data-s="4"] i:nth-child(-n+4){background:#22c55e}
+#strengthText{margin-top:6px;font-size:12px;color:var(--muted);min-height:16px}
+.two{display:grid;grid-template-columns:1fr;gap:0}
+
+.submit{width:100%;height:56px;margin-top:6px;border-radius:16px;background:var(--ink);color:#fff;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .25s var(--ease),box-shadow .25s,background .2s}
+.submit:hover{background:#000;box-shadow:0 14px 30px rgba(20,20,26,.22);transform:translateY(-2px)}
+.submit:active{transform:scale(.98)}
+.submit:disabled{opacity:.65;cursor:not-allowed;transform:none;box-shadow:none}
+.submit .i{width:18px;height:18px}
+.spin{width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;animation:spin .7s linear infinite;display:none}
+.submit.loading .spin{display:block}
+.submit.loading .arrow{display:none}
+#error{margin-top:14px;min-height:20px;font-size:13px;font-weight:500;color:#d13a3a;text-align:center}
+.legal{margin-top:6px;text-align:center;font-size:12px;line-height:1.7;color:var(--muted)}
+
+#notification{display:none;margin-top:14px;padding:15px;border-radius:16px;gap:12px;align-items:flex-start;background:#fff0f0;border:1px solid #f1caca;color:#9d2b2b;animation:noticeIn .3s var(--ease)}
+#notification.show{display:flex}
+.n-icon{width:32px;height:32px;border-radius:50%;background:#f8dada;color:#c03939;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.n-icon .i{width:17px;height:17px}
+.n-title{font-size:14px;font-weight:700;margin-bottom:3px}
+.n-msg{font-size:13px;line-height:1.6}
+.n-link{display:inline-flex;align-items:center;gap:5px;margin-top:9px;font-size:12px;font-weight:700;text-decoration:none;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.7)}
+.n-link:hover{background:#fff}
+
+.signup{margin-top:24px;text-align:center;font-size:14px;color:var(--muted)}
+.signup a{font-weight:700;color:var(--ink);text-decoration:none}
+.signup a:hover{text-decoration:underline}
+.foot{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 22px;font-size:12px;color:var(--muted)}
+.foot a{display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+.foot a:hover{color:var(--ink)}
+.foot .i{width:14px;height:14px}
+
+.loader{position:fixed;inset:0;z-index:50;background:var(--dark);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;opacity:0;pointer-events:none;transition:opacity .4s}
+.loader.active{opacity:1;pointer-events:auto}
+.loader .eq{margin:0;height:44px;width:120px}
+.loader p{font-size:14px;font-weight:600;color:rgba(255,255,255,.75)}
+.fade-out{animation:exit .45s ease forwards}
+
+@keyframes enter{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes noticeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes exit{to{opacity:0;transform:scale(.97)}}
+@keyframes eq{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(min-width:1200px){.two{grid-template-columns:1fr 1fr;gap:0 12px}}
+@media(max-width:900px){
+  .shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .panel{position:relative;height:auto;padding:22px 22px 26px;border-radius:0 0 30px 30px}
+  .panel-body{padding:26px 0 0;margin:0}
+  .panel h1{font-size:clamp(30px,8vw,44px)}
+  .panel .steps,.panel .eq,.panel-foot{display:none}
+  .panel p.tag{font-size:14px;margin-top:12px}
+  .main{padding:18px 20px 24px}
+  .center{padding:18px 0}
+}
+@media(max-width:480px){
+  .panel{padding:18px 18px 22px;border-radius:0 0 26px 26px}
+  .logo img{height:30px}
+  .panel p.tag{display:none}
+  .panel-body{padding-top:20px}
+  .topbar{font-size:12px}
+  .card h2{font-size:28px}
+  form{margin-top:22px}
+  .input input{height:52px}
+  .submit{height:54px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.9 4.2A10 10 0 0 1 12 4c6.4 0 10 8 10 8a17 17 0 0 1-3.2 4.2M6.6 6.6A16.7 16.7 0 0 0 2 12s3.6 8 10 8a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2M2 2l20 20"/></symbol>
+  <symbol id="i-youtube" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3z"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+</svg>
+
+<div class="shell">
+
+  <!-- BRAND PANEL -->
+  <aside class="panel">
+    <div class="grid"></div>
+    <a href="https://dynoticcollective.com" class="logo" aria-label="Dynotic Distribution">
+      <img src="https://dynoticcollective.com/assets/dynotic-distribution.png" alt="Dynotic Distribution">
+    </a>
+
+    <div class="panel-body">
+      <h1>Start releasing<span>your music.</span></h1>
+      <p class="tag">Buat akun artist untuk mengelola rilis, katalog, dan royalti di satu tempat.</p>
+
+      <ol class="steps">
+        <li><span class="n">1</span><div><b>Isi data dirimu</b>Nama, email, dan link sosial media.</div></li>
+        <li><span class="n">2</span><div><b>Verifikasi email</b>Kami kirim link verifikasi ke inbox kamu.</div></li>
+        <li><span class="n">3</span><div><b>Tunggu aktivasi</b>Admin meninjau lalu mengaktifkan akunmu.</div></li>
+      </ol>
+
+      <div class="eq" aria-hidden="true">
+        <span style="--h:55%"></span><span style="--h:80%"></span><span style="--h:45%"></span>
+        <span style="--h:95%"></span><span style="--h:60%"></span><span style="--h:75%"></span>
+        <span style="--h:40%"></span><span style="--h:100%"></span><span style="--h:65%"></span>
+        <span style="--h:85%"></span><span style="--h:50%"></span><span style="--h:70%"></span>
+      </div>
+    </div>
+
+    <p class="panel-foot">Simple. Honest. Independent.</p>
+  </aside>
+
+  <!-- FORM SIDE -->
+  <main class="main">
+
+    <div class="topbar">
+      <a href="https://dynoticcollective.com" class="back"><svg class="i"><use href="#i-arrow-l"/></svg>Back to home</a>
+      <span class="top-reg">Sudah punya akun?<a href="https://app.dynoticcollective.com/login/">Login</a></span>
+    </div>
+
+    <div class="center">
+      <div class="card" id="card">
+
+        <h2>Create your account</h2>
+        <p class="sub">Daftar sebagai artist Dynotic. Akun aktif setelah email terverifikasi dan disetujui admin.</p>
+
+        <form id="regForm" novalidate>
+
+          <div class="field" id="f-fullname">
+            <label for="fullname">Nama lengkap</label>
+            <div class="input"><svg class="i lead"><use href="#i-user"/></svg>
+              <input id="fullname" type="text" placeholder="Nama sesuai identitas" autocomplete="name" maxlength="80"></div>
+            <div class="fe"></div>
+          </div>
+
+          <div class="field" id="f-email">
+            <label for="email">Email</label>
+            <div class="input"><svg class="i lead"><use href="#i-mail"/></svg>
+              <input id="email" type="email" placeholder="nama@email.com" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false"></div>
+            <div class="fe"></div>
+          </div>
+
+          <div class="field" id="f-password">
+            <label for="password">Password</label>
+            <div class="input"><svg class="i lead"><use href="#i-lock"/></svg>
+              <input id="password" class="pw" type="password" placeholder="Minimal 6 karakter" autocomplete="new-password">
+              <button type="button" class="eye" id="eye" aria-label="Tampilkan password" aria-pressed="false"><svg class="i"><use href="#i-eye"/></svg></button>
+            </div>
+            <div class="meter" id="meter" data-s="0" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <div id="strengthText">Gunakan 8+ karakter dengan huruf besar, angka, atau simbol.</div>
+            <div class="caps" id="caps"><svg class="i"><use href="#i-alert"/></svg>Caps Lock sedang aktif</div>
+            <div class="fe"></div>
+          </div>
+
+          <div class="two">
+            <div class="field" id="f-youtube">
+              <label for="youtube">YouTube</label>
+              <div class="input"><svg class="i lead"><use href="#i-youtube"/></svg>
+                <input id="youtube" type="url" placeholder="youtube.com/@username" autocomplete="off" autocapitalize="none" spellcheck="false"></div>
+              <div class="fe"></div>
+            </div>
+
+            <div class="field" id="f-instagram">
+              <label for="instagram">Instagram</label>
+              <div class="input"><svg class="i lead"><use href="#i-instagram"/></svg>
+                <input id="instagram" type="url" placeholder="instagram.com/username" autocomplete="off" autocapitalize="none" spellcheck="false"></div>
+              <div class="fe"></div>
+            </div>
+          </div>
+
+          <button type="submit" class="submit" id="registerBtn">
+            <span class="spin"></span>
+            <span id="btnText">Create account</span>
+            <svg class="i arrow"><use href="#i-arrow-r"/></svg>
+          </button>
+
+          <div id="error" role="alert" aria-live="polite"></div>
+
+          <div id="notification" role="alert">
+            <div class="n-icon"><svg class="i"><use href="#i-alert"/></svg></div>
+            <div>
+              <div class="n-title" id="noticeTitle"></div>
+              <div class="n-msg" id="noticeMessage"></div>
+              <a class="n-link" id="noticeLink" href="https://app.dynoticcollective.com/login/">Masuk ke akun</a>
+            </div>
+          </div>
+
+          <p class="legal">Dengan mendaftar, kamu setuju data dipakai untuk keperluan distribusi musik di Dynotic.</p>
+
+        </form>
+
+        <p class="signup">Sudah punya akun? <a href="https://app.dynoticcollective.com/login/">Login</a></p>
+
+      </div>
+    </div>
+
+    <div class="foot">
+      <a href="mailto:support@dynoticcollective.com"><svg class="i"><use href="#i-mail"/></svg>support@dynoticcollective.com</a>
+      <a href="https://instagram.com/dynoticcollective" target="_blank" rel="noopener noreferrer"><svg class="i"><use href="#i-instagram"/></svg>@dynoticcollective</a>
+    </div>
+
+  </main>
+</div>
+
+<div class="loader" id="loader">
+  <div class="eq" aria-hidden="true">
+    <span style="--h:55%"></span><span style="--h:90%"></span><span style="--h:45%"></span>
+    <span style="--h:100%"></span><span style="--h:60%"></span><span style="--h:80%"></span>
+    <span style="--h:50%"></span><span style="--h:95%"></span>
+  </div>
+  <p>Mengirim pendaftaran…</p>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+const SUCCESS_URL = "../success";
+
+if(!firebase.apps.length){
+  firebase.initializeApp({
+    apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+    authDomain: "dynopay-2513c.firebaseapp.com",
+    databaseURL: "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+  });
+}
+
+const auth = firebase.auth();
+const db = firebase.database();
+const $ = id => document.getElementById(id);
+const FIELDS = ["fullname","email","password","youtube","instagram"];
+
+let submitting = false;
+
+/* ---------- field state ---------- */
+function setBad(id, msg){
+  const f = $("f-" + id);
+  f.classList.add("bad");
+  f.querySelector(".input").classList.add("invalid");
+  f.querySelector(".fe").textContent = msg;
+}
+function clearBad(id){
+  const f = $("f-" + id);
+  f.classList.remove("bad");
+  f.querySelector(".input").classList.remove("invalid");
+}
+function clearAll(){
+  FIELDS.forEach(clearBad);
+  $("error").textContent = "";
+  $("notification").classList.remove("show");
+}
+FIELDS.forEach(id => $(id).addEventListener("input", () => {
+  clearBad(id);
+  $("error").textContent = "";
+  $("notification").classList.remove("show");
+}));
+
+/* ---------- social URL ---------- */
+function normalizeUrl(v){
+  v = v.trim();
+  if(!v) return "";
+  return /^https?:\/\//i.test(v) ? v : "https://" + v;
+}
+function validSocial(v, type){
+  try{
+    const u = new URL(normalizeUrl(v));
+    const h = u.hostname.toLowerCase().replace(/^(www\.|m\.)/, "");
+    const hosts = type === "youtube" ? ["youtube.com","youtu.be"] : ["instagram.com"];
+    return hosts.includes(h) && u.pathname.replace(/\//g, "").length > 0;
+  }catch(e){ return false; }
+}
+
+/* ---------- password ---------- */
+$("eye").addEventListener("click", () => {
+  const p = $("password");
+  const show = p.type === "password";
+  p.type = show ? "text" : "password";
+  $("eye").setAttribute("aria-pressed", String(show));
+  $("eye").setAttribute("aria-label", show ? "Sembunyikan password" : "Tampilkan password");
+  $("eye").innerHTML = '<svg class="i"><use href="#' + (show ? "i-eye-off" : "i-eye") + '"/></svg>';
+  p.focus();
+});
+
+function strength(p){
+  if(!p) return 0;
+  let s = 0;
+  if(p.length >= 6) s++;
+  if(p.length >= 10) s++;
+  if(/[a-z]/.test(p) && /[A-Z]/.test(p)) s++;
+  if(/\d/.test(p) && /[^A-Za-z0-9]/.test(p)) s++;
+  else if(/\d|[^A-Za-z0-9]/.test(p) && p.length >= 8) s++;
+  return Math.min(4, p.length < 6 ? 1 : Math.max(1, s));
+}
+const LABELS = ["Gunakan 8+ karakter dengan huruf besar, angka, atau simbol.","Terlalu lemah","Cukup","Bagus","Kuat"];
+$("password").addEventListener("input", e => {
+  const v = e.target.value;
+  const s = strength(v);
+  $("meter").dataset.s = v ? s : 0;
+  $("strengthText").textContent = v ? LABELS[s] : LABELS[0];
+});
+function capsCheck(e){
+  if(typeof e.getModifierState === "function") $("caps").classList.toggle("show", e.getModifierState("CapsLock"));
+}
+$("password").addEventListener("keydown", capsCheck);
+$("password").addEventListener("keyup", capsCheck);
+$("password").addEventListener("blur", () => $("caps").classList.remove("show"));
+
+/* ---------- UI ---------- */
+function setLoading(on){
+  $("registerBtn").disabled = on;
+  $("registerBtn").classList.toggle("loading", on);
+  $("btnText").textContent = on ? "Mengirim..." : "Create account";
+}
+function showNotice(title, msg, linkText, href){
+  $("error").textContent = "";
+  $("noticeTitle").textContent = title;
+  $("noticeMessage").textContent = msg;
+  const a = $("noticeLink");
+  a.textContent = linkText;
+  a.href = href;
+  $("notification").classList.add("show");
+}
+
+/* ---------- REGISTER ---------- */
+async function register(){
+
+  if(submitting) return;
+  clearAll();
+
+  const fullname = $("fullname").value.trim();
+  const email = $("email").value.trim();
+  const password = $("password").value;
+  const youtube = normalizeUrl($("youtube").value);
+  const instagram = normalizeUrl($("instagram").value);
+
+  let firstBad = null;
+  const bad = (id, msg) => { setBad(id, msg); if(!firstBad) firstBad = id; };
+
+  if(!fullname) bad("fullname", "Nama lengkap wajib diisi.");
+  else if(fullname.length < 3) bad("fullname", "Nama minimal 3 karakter.");
+
+  if(!email) bad("email", "Email wajib diisi.");
+  else if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) bad("email", "Format email tidak valid.");
+
+  if(!password) bad("password", "Password wajib diisi.");
+  else if(password.length < 6) bad("password", "Password minimal 6 karakter.");
+
+  if(!youtube) bad("youtube", "Link YouTube wajib diisi.");
+  else if(!validSocial(youtube, "youtube")) bad("youtube", "Masukkan link channel YouTube yang valid.");
+
+  if(!instagram) bad("instagram", "Link Instagram wajib diisi.");
+  else if(!validSocial(instagram, "instagram")) bad("instagram", "Masukkan link profil Instagram yang valid.");
+
+  if(firstBad){
+    $("error").textContent = "Periksa kembali data yang ditandai.";
+    $(firstBad).focus();
+    return;
+  }
+
+  submitting = true;
+  setLoading(true);
+
+  let user = null;
+
+  try{
+
+    const credential = await auth.createUserWithEmailAndPassword(email, password);
+    user = credential.user;
+
+    try{
+      await db.ref("users/" + user.uid).set({
+        uid: user.uid,
+        nama: fullname,
+        email: email,
+        youtube: youtube,
+        instagram: instagram,
+        emailVerified: false,
+        status: "unverified",
+        timestamp: new Date().toISOString()
+      });
+    }catch(dbErr){
+      // Hindari akun Auth yatim tanpa data profil
+      console.error("Gagal menyimpan profil:", dbErr);
+      try{ await user.delete(); }catch(e){ console.error(e); }
+      throw { code:"app/profile-failed" };
+    }
+
+    // Verifikasi email tidak boleh menggagalkan pendaftaran
+    try{ await user.sendEmailVerification(); }
+    catch(e){ console.error("Gagal mengirim email verifikasi:", e); }
+
+    sessionStorage.setItem("registrationEmail", email);
+
+    // Jangan signOut: halaman success mengecek status verifikasi
+    $("loader").classList.add("active");
+    $("card").classList.add("fade-out");
+    setTimeout(() => { window.location.href = SUCCESS_URL; }, 700);
+
+  }catch(error){
+
+    console.error(error);
+
+    switch(error.code){
+      case "auth/email-already-in-use":
+        setBad("email", "Email ini sudah terdaftar.");
+        $("email").focus();
+        showNotice("Email sudah terdaftar", "Silakan login dengan email ini. Kalau lupa password, gunakan fitur reset password.", "Masuk ke akun", "https://app.dynoticcollective.com/login/");
+        break;
+      case "auth/invalid-email":
+        setBad("email", "Format email tidak valid.");
+        break;
+      case "auth/weak-password":
+        setBad("password", "Password terlalu lemah.");
+        break;
+      case "auth/operation-not-allowed":
+        $("error").textContent = "Pendaftaran email belum diaktifkan. Hubungi support.";
+        break;
+      case "auth/too-many-requests":
+        $("error").textContent = "Terlalu banyak percobaan. Silakan coba lagi nanti.";
+        break;
+      case "auth/network-request-failed":
+        $("error").textContent = "Koneksi bermasalah. Periksa internet kamu lalu coba lagi.";
+        break;
+      case "app/profile-failed":
+        $("error").textContent = "Data profil gagal disimpan. Silakan coba lagi.";
+        break;
+      default:
+        $("error").textContent = "Pendaftaran gagal. Silakan coba kembali.";
+    }
+
+    setLoading(false);
+    submitting = false;
+  }
+}
+
+$("regForm").addEventListener("submit", e => { e.preventDefault(); register(); });
+</script>
+
+</body>
+</html>
