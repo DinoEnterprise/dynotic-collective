@@ -1,0 +1,1506 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Song Catalog | Dynotic Distribution</title>
+
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Outfit",sans-serif;
+}
+
+:root{
+  --bg:#f1f2f7;
+  --ink:#17181c;
+  --muted:#858891;
+  --border:#e8e8ed;
+  --soft:#f8f8fa;
+}
+
+body{
+  background:var(--bg);
+  min-height:100vh;
+  color:var(--ink);
+  padding-top:64px;
+  padding-bottom:28px;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* ================= HEADER ================= */
+
+header{
+  height:64px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  background:#fff;
+  border-bottom:1px solid #e8e8ed;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:100;
+}
+
+.header-logo{
+  height:32px;
+  width:auto;
+  object-fit:contain;
+  display:block;
+}
+
+/* ================= CONTAINER ================= */
+
+.container{
+  width:calc(100% - 28px);
+  max-width:760px;
+  margin:0 auto;
+}
+
+/* ================= CARD ================= */
+
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px;
+  margin-top:16px;
+  animation:pageIn .4s ease both;
+}
+
+/* ================= HEADING ================= */
+
+.catalog-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.heading-title{
+  font-size:16px;
+  font-weight:700;
+}
+
+.heading-desc{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:4px;
+  line-height:1.5;
+}
+
+.catalog-icon{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:#111;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+/* ================= TOOLBAR ================= */
+
+.toolbar{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:16px;
+}
+
+.search-wrap{
+  position:relative;
+}
+
+.search-wrap i{
+  position:absolute;
+  left:13px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:13px;
+  color:#999ca4;
+  pointer-events:none;
+}
+
+.search-wrap input,
+.publisher-select{
+  width:100%;
+  height:42px;
+  padding:0 13px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--soft);
+  color:var(--ink);
+  font-size:13px;
+  outline:none;
+  transition:.15s;
+}
+
+.search-wrap input{
+  padding-left:38px;
+}
+
+.search-wrap input:focus,
+.publisher-select:focus{
+  border-color:#d6d7dd;
+  background:#fff;
+}
+
+.search-wrap input::placeholder{
+  color:#999ca4;
+}
+
+.publisher-select{
+  cursor:pointer;
+}
+
+/* ================= SECTION ================= */
+
+.section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.section-title{
+  font-size:15px;
+  font-weight:700;
+}
+
+.result-count{
+  font-size:10px;
+  color:var(--muted);
+  white-space:nowrap;
+}
+
+/* ================= SONG LIST ================= */
+
+.song-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.song-card{
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:13px;
+  background:#fff;
+  transition:transform .15s,border-color .15s;
+  animation:releaseIn .35s ease both;
+}
+
+.song-card:active{
+  transform:scale(.985);
+}
+
+.song-top{
+  display:flex;
+  align-items:flex-start;
+  gap:11px;
+}
+
+.song-icon{
+  width:42px;
+  height:42px;
+  border-radius:10px;
+  background:#f1f2f7;
+  color:#34363d;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  font-size:16px;
+}
+
+.song-main{
+  flex:1;
+  min-width:0;
+}
+
+.song-title{
+  font-size:13px;
+  font-weight:700;
+  line-height:1.4;
+  overflow-wrap:anywhere;
+}
+
+.song-performer{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:3px;
+  overflow-wrap:anywhere;
+}
+
+.song-id{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  margin-top:8px;
+  border:1px solid #e5e7eb;
+  background:#f8f8fa;
+  color:#333;
+  border-radius:8px;
+  padding:5px 8px;
+  font-size:10px;
+  font-weight:700;
+  max-width:100%;
+  overflow-wrap:anywhere;
+}
+
+.song-id i{
+  font-size:9px;
+}
+
+/* ================= SONG META ================= */
+
+.song-meta{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px 12px;
+  border-top:1px solid #f0f0f3;
+  margin-top:12px;
+  padding-top:11px;
+}
+
+.meta-item{
+  min-width:0;
+}
+
+.meta-label{
+  font-size:10px;
+  color:#999ca4;
+  margin-bottom:3px;
+}
+
+.meta-value{
+  font-size:11px;
+  font-weight:500;
+  overflow-wrap:anywhere;
+  line-height:1.4;
+}
+
+/* ================= ACTIONS ================= */
+
+.song-actions{
+  display:flex;
+  gap:8px;
+  margin-top:12px;
+}
+
+.action-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:36px;
+  padding:8px 12px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:#f8f8fa;
+  color:#222;
+  text-decoration:none;
+  font-size:11px;
+  font-weight:600;
+  cursor:pointer;
+  flex:1;
+}
+
+.action-btn.primary{
+  background:#111;
+  color:#fff;
+  border-color:#111;
+}
+
+.action-btn:active{
+  transform:scale(.98);
+}
+
+/* ================= EMPTY STATE ================= */
+
+.empty-state{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  padding:28px 8px;
+}
+
+.empty-state i{
+  font-size:24px;
+  margin-bottom:10px;
+  display:block;
+  color:#b4b6bf;
+}
+
+/* ================= PAGINATION ================= */
+
+.pagination{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  margin:16px auto 2px;
+}
+
+.pagination button{
+  width:36px;
+  height:32px;
+  border:1px solid #e1e2e7;
+  background:var(--soft);
+  color:#333;
+  border-radius:10px;
+  font-size:13px;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.pagination button:disabled{
+  opacity:.4;
+  cursor:default;
+}
+
+.pagination button:not(:disabled):active{
+  transform:scale(.92);
+}
+
+.pagination span{
+  font-size:11px;
+  font-weight:600;
+  color:#777b84;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,16,20,.42);
+  backdrop-filter:blur(5px);
+  z-index:2000;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-card{
+  width:100%;
+  max-width:430px;
+  max-height:85vh;
+  overflow-y:auto;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 20px 50px rgba(0,0,0,.16);
+  animation:modalIn .2s ease;
+}
+
+.modal-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:17px;
+}
+
+.modal-title{
+  font-size:17px;
+  font-weight:700;
+}
+
+.modal-subtitle{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.close-modal{
+  width:32px;
+  height:32px;
+  border:0;
+  border-radius:10px;
+  background:#f3f4f6;
+  color:#333;
+  cursor:pointer;
+  flex-shrink:0;
+}
+
+.detail-list{
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+
+.detail-row{
+  min-width:0;
+}
+
+.detail-label{
+  font-size:10px;
+  color:#999ca4;
+  margin-bottom:4px;
+}
+
+.detail-value{
+  font-size:13px;
+  font-weight:600;
+  line-height:1.45;
+  overflow-wrap:anywhere;
+}
+
+.modal-actions{
+  display:flex;
+  gap:9px;
+  margin-top:20px;
+}
+
+.modal-actions .action-btn{
+  min-height:42px;
+}
+
+.notice{
+  font-size:10px;
+  color:var(--muted);
+  line-height:1.5;
+  margin-top:12px;
+}
+
+/* ================= ANIMATION ================= */
+
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes releaseIn{
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+@keyframes modalIn{
+  from{
+    opacity:0;
+    transform:scale(.97);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(min-width:600px){
+
+  .toolbar{
+    display:grid;
+    grid-template-columns:1.4fr 1fr;
+  }
+
+  .song-card{
+    padding:15px;
+  }
+
+  .song-top{
+    gap:13px;
+  }
+
+  .song-icon{
+    width:46px;
+    height:46px;
+  }
+
+}
+
+@media(max-width:360px){
+
+  .card{
+    padding:14px;
+  }
+
+  .song-meta{
+    grid-template-columns:1fr;
+  }
+
+  .catalog-heading{
+    align-items:flex-start;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+  <img
+    src="../assets/dynotic-distribution.png"
+    class="header-logo"
+    alt="Dynotic Distribution"
+  >
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+  <section class="card">
+
+    <div class="catalog-heading">
+
+      <div>
+
+        <div class="heading-title">
+          Song Catalog
+        </div>
+
+        <div class="heading-desc">
+          Cari katalog lagu dan ajukan permohonan cover dengan mudah.
+        </div>
+
+      </div>
+
+      <div class="catalog-icon">
+        <i class="fa-solid fa-music"></i>
+      </div>
+
+    </div>
+
+
+    <div class="toolbar">
+
+      <div class="search-wrap">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Cari judul, artis, composer, Song ID..."
+          autocomplete="off"
+        >
+
+      </div>
+
+
+      <select id="publisherFilter" class="publisher-select">
+
+        <option value="">All Publishers</option>
+
+      </select>
+
+    </div>
+
+  </section>
+
+
+  <!-- ================= SONG LIST ================= -->
+
+  <section class="card">
+
+    <div class="section-head">
+
+      <div class="section-title">
+        Daftar Katalog
+      </div>
+
+      <div class="result-count" id="resultCount">
+        Memuat katalog...
+      </div>
+
+    </div>
+
+
+    <div id="songList" class="song-list">
+
+      <div class="empty-state">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        Memuat katalog...
+      </div>
+
+    </div>
+
+
+    <div class="pagination" id="pagination" style="display:none">
+
+      <button id="prevBtn" aria-label="Halaman sebelumnya">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <span id="pageInfo">
+        Page 1/1
+      </span>
+
+      <button id="nextBtn" aria-label="Halaman berikutnya">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- ================= DETAIL MODAL ================= -->
+
+<div
+  id="modal"
+  class="modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modalTitle"
+>
+
+  <div class="modal-card">
+
+    <div class="modal-header">
+
+      <div>
+
+        <div class="modal-title" id="modalTitle">
+          Detail Lagu
+        </div>
+
+        <div class="modal-subtitle">
+          Informasi katalog yang dipilih
+        </div>
+
+      </div>
+
+      <button
+        class="close-modal"
+        onclick="closeModal()"
+        aria-label="Tutup"
+      >
+
+        <i class="fa-solid fa-xmark"></i>
+
+      </button>
+
+    </div>
+
+
+    <div class="detail-list">
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Song ID
+        </div>
+
+        <div class="detail-value" id="m_songId">
+          -
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Judul Lagu
+        </div>
+
+        <div class="detail-value" id="m_title">
+          -
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Composer
+        </div>
+
+        <div class="detail-value" id="m_composer">
+          -
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Publisher
+        </div>
+
+        <div class="detail-value" id="m_publisher">
+          -
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Performer
+        </div>
+
+        <div class="detail-value" id="m_performer">
+          -
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="action-btn primary"
+        id="submitBtn"
+        onclick="submitRequest()"
+      >
+
+        <i class="fa-solid fa-paper-plane"></i>
+
+        Ajukan Cover
+
+      </button>
+
+      <button
+        class="action-btn"
+        onclick="closeModal()"
+      >
+
+        Tutup
+
+      </button>
+
+    </div>
+
+
+    <div class="notice">
+      Pengajuan cover akan dilanjutkan melalui akun Dynotic kamu.
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= SCRIPT ================= -->
+
+<script>
+
+const itemsPerPage = 10;
+
+let currentPage = 1;
+let transactions = [];
+let filteredTransactions = [];
+let selectedSong = null;
+
+const songList =
+  document.getElementById("songList");
+
+const searchInput =
+  document.getElementById("searchInput");
+
+const publisherFilter =
+  document.getElementById("publisherFilter");
+
+const resultCount =
+  document.getElementById("resultCount");
+
+const pagination =
+  document.getElementById("pagination");
+
+const prevBtn =
+  document.getElementById("prevBtn");
+
+const nextBtn =
+  document.getElementById("nextBtn");
+
+const pageInfo =
+  document.getElementById("pageInfo");
+
+
+/* ================= JSON SOURCES ================= */
+
+const sources = [
+
+  "mahar-pustaka.json",
+  "18musik.json",
+  "dynotic-collective.json",
+  "nadaku-musik.json",
+  "royal-publikasi.json",
+  "alfa-pustaka.json",
+  "pustaka-cipta.json",
+  "star-cipta.json",
+  "sora-music.json",
+  "proaktif-digital.json",
+  "sony-music.json",
+  "istana-publishing.json"
+
+];
+
+
+/* ================= HELPERS ================= */
+
+function safeText(value, fallback = "-"){
+
+  if(
+    value === undefined ||
+    value === null ||
+    String(value).trim() === ""
+  ){
+
+    return fallback;
+
+  }
+
+  return String(value);
+
+}
+
+
+function escapeHTML(value){
+
+  return String(value).replace(/[&<>"']/g, char => ({
+
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+
+  })[char]);
+
+}
+
+
+function normalizeLink(value){
+
+  const raw =
+    safeText(value, "-").trim();
+
+  if(raw === "-") return "-";
+
+  try{
+
+    const url = new URL(raw);
+
+    if(
+      url.protocol === "https:" ||
+      url.protocol === "http:"
+    ){
+
+      return url.href;
+
+    }
+
+  }catch(_){}
+
+  return "-";
+
+}
+
+
+/* ================= LOAD DATA ================= */
+
+async function loadData(){
+
+  songList.innerHTML = `
+    <div class="empty-state">
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      Memuat katalog...
+    </div>
+  `;
+
+  try{
+
+    const results = await Promise.all(
+
+      sources.map(async url => {
+
+        const response = await fetch(url);
+
+        if(!response.ok){
+
+          throw new Error(
+            `Gagal memuat ${url} (${response.status})`
+          );
+
+        }
+
+        const data = await response.json();
+
+        if(!Array.isArray(data)){
+
+          throw new Error(
+            `Format data ${url} harus berupa array`
+          );
+
+        }
+
+        return data;
+
+      })
+
+    );
+
+
+    transactions = results.flat().map(item => ({
+
+      songId: safeText(
+        item["SONG ID"] || item["No"]
+      ),
+
+      title: safeText(
+        item["JUDUL LAGU"] || item["Title"]
+      ),
+
+      composer: safeText(
+        item["KOMPOSER"] || item["Composer"]
+      ),
+
+      publisher: safeText(
+        item["PUBLISHER"]
+      ),
+
+      performer: safeText(
+        item["PERFORMER"] || item["Singer"]
+      ),
+
+      youtube: normalizeLink(
+        item["LINK"] || item["YOUTUBE LINK REFERENCE"]
+      )
+
+    }));
+
+
+    populatePublisherFilter();
+
+    applyFilters();
+
+  }catch(error){
+
+    console.error("Gagal load JSON:", error);
+
+    resultCount.textContent =
+      "Katalog tidak tersedia";
+
+    songList.innerHTML = `
+      <div class="empty-state">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        Gagal memuat katalog. Periksa file JSON dan koneksi, lalu muat ulang halaman.
+      </div>
+    `;
+
+    pagination.style.display = "none";
+
+  }
+
+}
+
+
+/* ================= PUBLISHER FILTER ================= */
+
+function populatePublisherFilter(){
+
+  const publishers = [
+
+    ...new Set(
+
+      transactions
+        .map(t => t.publisher)
+        .filter(p => p && p !== "-")
+
+    )
+
+  ].sort((a,b) => a.localeCompare(b));
+
+
+  publisherFilter.innerHTML =
+    '<option value="">All Publishers</option>';
+
+
+  publishers.forEach(publisher => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = publisher;
+
+    option.textContent = publisher;
+
+    publisherFilter.appendChild(option);
+
+  });
+
+}
+
+
+/* ================= FILTER ================= */
+
+function applyFilters(){
+
+  const q =
+    searchInput.value.toLowerCase().trim();
+
+  const selectedPublisher =
+    publisherFilter.value;
+
+
+  filteredTransactions = transactions.filter(t => {
+
+    const matchesSearch = [
+
+      t.songId,
+      t.title,
+      t.composer,
+      t.publisher,
+      t.performer
+
+    ].some(value =>
+
+      value.toLowerCase().includes(q)
+
+    );
+
+
+    return matchesSearch &&
+      (!selectedPublisher || t.publisher === selectedPublisher);
+
+  });
+
+
+  currentPage = 1;
+
+  renderTransactions();
+
+}
+
+
+/* ================= RENDER SONGS ================= */
+
+function renderTransactions(){
+
+  songList.innerHTML = "";
+
+  const totalPages =
+    Math.ceil(filteredTransactions.length / itemsPerPage);
+
+
+  resultCount.textContent =
+    `${filteredTransactions.length.toLocaleString("id-ID")} lagu`;
+
+
+  pagination.style.display =
+    filteredTransactions.length ? "flex" : "none";
+
+
+  if(!filteredTransactions.length){
+
+    songList.innerHTML = `
+
+      <div class="empty-state">
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        ${transactions.length
+          ? "Tidak ditemukan hasil yang cocok."
+          : "Belum ada katalog."}
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  const start =
+    (currentPage - 1) * itemsPerPage;
+
+  const pageItems =
+    filteredTransactions.slice(
+      start,
+      start + itemsPerPage
+    );
+
+
+  pageItems.forEach((song,index) => {
+
+    const card =
+      document.createElement("article");
+
+    card.className = "song-card";
+
+    card.style.animationDelay =
+      `${Math.min(index * 0.015,0.3)}s`;
+
+
+    const link = song.youtube !== "-"
+
+      ? `
+
+        <a
+          class="action-btn"
+          href="${escapeHTML(song.youtube)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+          Referensi
+
+        </a>
+
+      `
+
+      : "";
+
+
+    card.innerHTML = `
+
+      <div class="song-top">
+
+        <div class="song-icon">
+
+          <i class="fa-solid fa-music"></i>
+
+        </div>
+
+
+        <div class="song-main">
+
+          <div class="song-title">
+            ${escapeHTML(song.title)}
+          </div>
+
+          <div class="song-performer">
+            ${escapeHTML(song.performer)}
+          </div>
+
+          <div class="song-id">
+
+            <i class="fa-solid fa-hashtag"></i>
+
+            ${escapeHTML(song.songId)}
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="song-meta">
+
+        <div class="meta-item">
+
+          <div class="meta-label">
+            Composer
+          </div>
+
+          <div class="meta-value">
+            ${escapeHTML(song.composer)}
+          </div>
+
+        </div>
+
+
+        <div class="meta-item">
+
+          <div class="meta-label">
+            Publisher
+          </div>
+
+          <div class="meta-value">
+            ${escapeHTML(song.publisher)}
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="song-actions">
+
+        <button
+          type="button"
+          class="action-btn primary detail-btn"
+        >
+
+          <i class="fa-regular fa-rectangle-list"></i>
+
+          Detail Lagu
+
+        </button>
+
+        ${link}
+
+      </div>
+
+    `;
+
+
+    card
+      .querySelector(".detail-btn")
+      .addEventListener("click", () => {
+
+        openModal(song);
+
+      });
+
+
+    songList.appendChild(card);
+
+  });
+
+
+  prevBtn.disabled =
+    currentPage === 1;
+
+  nextBtn.disabled =
+    currentPage >= totalPages;
+
+
+  pageInfo.textContent =
+    `Page ${currentPage}/${totalPages}`;
+
+}
+
+
+/* ================= OPEN DETAIL ================= */
+
+function openModal(song){
+
+  selectedSong = song;
+
+
+  document.getElementById(
+    "m_songId"
+  ).textContent = song.songId;
+
+
+  document.getElementById(
+    "m_title"
+  ).textContent = song.title;
+
+
+  document.getElementById(
+    "m_composer"
+  ).textContent = song.composer;
+
+
+  document.getElementById(
+    "m_publisher"
+  ).textContent = song.publisher;
+
+
+  document.getElementById(
+    "m_performer"
+  ).textContent = song.performer;
+
+
+  document.getElementById(
+    "modal"
+  ).classList.add("show");
+
+
+  document.body.style.overflow = "hidden";
+
+}
+
+
+/* ================= CLOSE DETAIL ================= */
+
+function closeModal(){
+
+  document.getElementById(
+    "modal"
+  ).classList.remove("show");
+
+
+  document.body.style.overflow = "";
+
+  selectedSong = null;
+
+}
+
+
+/* ================= SUBMIT COVER ================= */
+
+function submitRequest(){
+
+  if(!selectedSong){
+
+    alert("Silakan pilih lagu terlebih dahulu.");
+
+    return;
+
+  }
+
+
+  const songId =
+    selectedSong.songId;
+
+
+  if(!songId || songId === "-"){
+
+    alert("Song ID lagu ini tidak tersedia.");
+
+    return;
+
+  }
+
+
+  const target =
+    "/cover-to-master?songId=" +
+    encodeURIComponent(songId);
+
+
+  window.location.href = target;
+
+}
+
+
+/* ================= SEARCH ================= */
+
+searchInput.addEventListener(
+  "input",
+  applyFilters
+);
+
+
+/* ================= PUBLISHER ================= */
+
+publisherFilter.addEventListener(
+  "change",
+  applyFilters
+);
+
+
+/* ================= PAGINATION ================= */
+
+prevBtn.addEventListener("click", () => {
+
+  if(currentPage > 1){
+
+    currentPage--;
+
+    renderTransactions();
+
+    document
+      .querySelectorAll(".card")[1]
+      ?.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+  }
+
+});
+
+
+nextBtn.addEventListener("click", () => {
+
+  const totalPages =
+    Math.ceil(filteredTransactions.length / itemsPerPage);
+
+
+  if(currentPage < totalPages){
+
+    currentPage++;
+
+    renderTransactions();
+
+    document
+      .querySelectorAll(".card")[1]
+      ?.scrollIntoView({
+        behavior:"smooth",
+        block:"start"
+      });
+
+  }
+
+});
+
+
+/* ================= MODAL EVENTS ================= */
+
+document.getElementById("modal")
+  .addEventListener("click", event => {
+
+    if(event.target.id === "modal"){
+
+      closeModal();
+
+    }
+
+  });
+
+
+document.addEventListener("keydown", event => {
+
+  if(event.key === "Escape"){
+
+    closeModal();
+
+  }
+
+});
+
+
+/* ================= INITIALIZE ================= */
+
+loadData();
+
+</script>
+
+</body>
+</html>
