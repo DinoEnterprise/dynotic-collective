@@ -1,0 +1,1403 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cover to Master | Dynotic Distribution</title>
+
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Outfit",sans-serif;
+}
+
+body{
+  background:#f1f2f7;
+  color:#17181c;
+  min-height:100vh;
+  padding-top:64px;
+  user-select:none;
+}
+
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:64px;
+  padding:0 18px;
+  background:#fff;
+  border-bottom:1px solid #e6e6eb;
+  display:flex;
+  align-items:center;
+  z-index:1000;
+}
+
+header img{
+  height:32px;
+  width:auto;
+  object-fit:contain;
+  display:block;
+}
+
+.container{
+  width:calc(100% - 28px);
+  max-width:760px;
+  margin:14px auto 0;
+}
+
+.page-title{
+  margin:6px 2px 14px;
+}
+
+.page-title h1{
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:-.3px;
+}
+
+.page-title p{
+  margin-top:3px;
+  color:#858891;
+  font-size:13px;
+}
+
+.card{
+  background:#fff;
+  border:1px solid #e7e7ec;
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:14px;
+}
+
+.steps{
+  display:flex;
+  justify-content:space-between;
+  position:relative;
+  margin:2px 4px 24px;
+}
+
+.steps::before{
+  content:"";
+  position:absolute;
+  top:50%;
+  left:8%;
+  right:8%;
+  height:2px;
+  background:#e4e5ea;
+  z-index:0;
+  transform:translateY(-50%);
+}
+
+.step{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:#e6e7eb;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  font-weight:700;
+  color:#777a82;
+  z-index:1;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.step.active{
+  background:#17181c;
+  color:#fff;
+}
+
+.section{
+  animation:fade .2s ease;
+}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.label{
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:7px;
+}
+
+.req{
+  color:#e53935;
+}
+
+input,
+select{
+  width:100%;
+  padding:13px 14px;
+  border-radius:13px;
+  border:1px solid #dedfe5;
+  background:#fff;
+  color:#17181c;
+  margin-bottom:15px;
+  font-size:14px;
+  outline:none;
+}
+
+input:focus,
+select:focus{
+  border-color:#17181c;
+  box-shadow:0 0 0 3px rgba(23,24,28,.06);
+}
+
+input::placeholder{
+  color:#a1a3aa;
+}
+
+a{
+  color:#17181c;
+  font-weight:600;
+  text-decoration:none;
+}
+
+.btn{
+  width:100%;
+  padding:14px 15px;
+  border:none;
+  border-radius:14px;
+  font-size:14px;
+  font-weight:700;
+  color:#fff;
+  background:#17181c;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.btn:hover{
+  background:#000;
+}
+
+.btn:active{
+  transform:scale(.97);
+}
+
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.btn.gray{
+  background:#fff;
+  color:#17181c;
+  border:1px solid #dcdde3;
+}
+
+.btn.gray:hover{
+  background:#f5f5f7;
+}
+
+.upload-box{
+  display:block;
+  width:190px;
+  max-width:100%;
+  aspect-ratio:1/1;
+  border:1.5px dashed #bfc1c8;
+  border-radius:18px;
+  cursor:pointer;
+  background:#fafafd;
+  transition:.2s;
+  overflow:hidden;
+}
+
+.upload-box:hover{
+  background:#f5f5f8;
+  border-color:#17181c;
+}
+
+.upload-inner{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.upload-icon-img{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+  display:block;
+  margin:0 auto;
+}
+
+.upload-text{
+  font-size:12px;
+  color:#666a73;
+  margin-top:7px;
+  text-align:center;
+}
+
+#coverPreview{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:17px;
+  display:none;
+}
+
+.upload-audio{
+  display:block;
+  cursor:pointer;
+}
+
+.audio-box{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:14px;
+  border-radius:15px;
+  background:#f8f8fa;
+  border:1px solid #e2e3e8;
+  transition:.2s;
+}
+
+.audio-box:hover{
+  border-color:#17181c;
+  background:#f5f5f8;
+}
+
+.audio-box:active{
+  transform:scale(.985);
+}
+
+.audio-icon-img{
+  width:27px;
+  height:27px;
+  object-fit:contain;
+}
+
+.audio-name{
+  font-weight:600;
+  font-size:14px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:calc(100vw - 130px);
+}
+
+.audio-sub{
+  font-size:12px;
+  color:#898b93;
+  margin-top:2px;
+}
+
+.progress-wrapper{
+  margin-top:10px;
+  width:100%;
+  height:6px;
+  background:#e5e6eb;
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:#17181c;
+  transition:width .3s;
+}
+
+.preview{
+  background:#f8f8fa;
+  border:1px solid #e6e6eb;
+  border-radius:16px;
+  padding:15px;
+  font-size:13px;
+  line-height:1.6;
+  overflow-wrap:anywhere;
+}
+
+.preview div{
+  margin-bottom:7px;
+}
+
+.preview span{
+  color:#17181c;
+  font-weight:600;
+}
+
+.preview hr{
+  border:0;
+  border-top:1px solid #e5e5e9;
+}
+
+.input-error{
+  animation:shake .2s ease;
+  border-color:#17181c !important;
+}
+
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-3px)}
+  50%{transform:translateX(3px)}
+  75%{transform:translateX(-3px)}
+  100%{transform:translateX(0)}
+}
+
+.song-id-notice{
+  font-size:11px;
+  color:#777b84;
+  margin-top:-8px;
+  margin-bottom:15px;
+  line-height:1.5;
+}
+
+@media(max-width:400px){
+  .container{
+    width:calc(100% - 22px);
+  }
+
+  .card{
+    padding:15px;
+  }
+
+  .page-title h1{
+    font-size:20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img src="../assets/dynotic-distribution.png" alt="Dynotic Distribution">
+</header>
+
+<div class="container">
+
+  <div class="page-title">
+    <h1>Cover to Master</h1>
+    <p>Submit your cover release to Dynotic.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="steps">
+      <div class="step active" id="s1">1</div>
+      <div class="step" id="s2">2</div>
+      <div class="step" id="s3">3</div>
+      <div class="step" id="s4">4</div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div id="step1" class="section">
+
+      <div class="label">
+        Cover To Master <span class="req">*</span>
+      </div>
+
+      <select id="type" hidden>
+        <option value="original" selected>Original Asset</option>
+      </select>
+
+      <div style="font-size:13px;color:#858891;line-height:1.6;margin-bottom:18px;">
+        Gunakan fitur ini untuk mengajukan rilisan Cover to Master.
+      </div>
+
+      <button type="button" class="btn" onclick="next(1)">
+        Continue
+      </button>
+
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step2" class="section" hidden></div>
+
+    <!-- STEP 3 -->
+    <div id="step3" class="section" hidden>
+
+      <div style="margin-bottom:25px;">
+
+        <div class="label" style="margin-bottom:11px;">
+          Cover Art <span class="req">*</span>
+        </div>
+
+        <label class="upload-box">
+
+          <input id="cover" type="file" accept="image/jpeg,image/png" hidden>
+
+          <div class="upload-inner">
+
+            <img id="coverPreview">
+
+            <div id="coverPlaceholder">
+
+              <img
+                src="../assets/upload-icon.png"
+                class="upload-icon-img"
+                alt=""
+              >
+
+              <div class="upload-text">
+                Upload Cover (JPG / PNG)
+              </div>
+
+            </div>
+
+          </div>
+
+        </label>
+
+      </div>
+
+      <div style="margin-bottom:25px;">
+
+        <div class="label" style="margin-bottom:11px;">
+          Audio File <span class="req">*</span>
+        </div>
+
+        <label class="upload-audio">
+
+          <input id="audio" type="file" accept="audio/mpeg,audio/wav,audio/x-wav" hidden>
+
+          <div class="audio-box">
+
+            <img
+              src="../assets/audio-icon.png"
+              class="audio-icon-img"
+              alt=""
+            >
+
+            <div class="audio-info">
+
+              <div id="audioName" class="audio-name">
+                No file selected
+              </div>
+
+              <div class="audio-sub">
+                MP3 / WAV
+              </div>
+
+            </div>
+
+          </div>
+
+        </label>
+
+        <div class="progress-wrapper">
+          <div id="audioWave" class="progress-bar"></div>
+        </div>
+
+      </div>
+
+      <div style="display:flex;gap:10px;">
+
+        <button type="button" class="btn gray" onclick="back(3)" style="flex:1;">
+          Back
+        </button>
+
+        <button type="button" class="btn" id="previewBtn" onclick="goToPreview()" disabled style="flex:2;">
+          Preview
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- STEP 4 -->
+    <div id="step4" class="section" hidden>
+
+      <div class="label" style="margin-bottom:10px;">
+        Release Preview
+      </div>
+
+      <div class="preview" id="previewBox"></div>
+
+      <div style="height:12px;"></div>
+
+      <button type="button" class="btn gray" onclick="back(4)">
+        Edit
+      </button>
+
+      <div style="height:10px;"></div>
+
+      <button type="button" class="btn" id="submitBtn" onclick="submitRelease()">
+
+        <span id="btnText">
+          Submit Release
+        </span>
+
+        <span id="btnLoader" style="display:none;">
+          Loading...
+        </span>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+
+firebase.initializeApp({
+  apiKey:"AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain:"dynopay-2513c.firebaseapp.com",
+  databaseURL:"https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+});
+
+const db = firebase.database();
+
+const WORKER_URL =
+  "https://upload-assets.dynotic-bot.workers.dev/";
+
+
+/* SONG ID FROM URL */
+
+const urlParams =
+  new URLSearchParams(window.location.search);
+
+const incomingSongId =
+  urlParams.get("songId") || "";
+
+
+/* AUTH */
+
+firebase.auth().onAuthStateChanged(user=>{
+
+  if(!user){
+
+    location.href="../login";
+
+  }
+
+});
+
+
+/* UPLOAD */
+
+function uploadFile(file, progressCallback, doneCallback){
+
+  const formData = new FormData();
+
+  formData.append("file",file);
+
+  const xhr = new XMLHttpRequest();
+
+  xhr.open("POST",WORKER_URL,true);
+
+  xhr.upload.onprogress = function(e){
+
+    if(e.lengthComputable){
+
+      const percent =
+        Math.round((e.loaded/e.total)*100);
+
+      progressCallback(percent);
+
+    }
+
+  };
+
+  xhr.onload = function(){
+
+    try{
+
+      if(xhr.status===200){
+
+        const data =
+          JSON.parse(xhr.responseText);
+
+        if(data.success){
+
+          doneCallback(data.url);
+
+        }else{
+
+          alert("Upload gagal: "+(data.error || "Unknown error"));
+
+          doneCallback(null);
+
+        }
+
+      }else{
+
+        alert("Upload gagal!");
+
+        doneCallback(null);
+
+      }
+
+    }catch(error){
+
+      alert("Respons upload tidak valid!");
+
+      doneCallback(null);
+
+    }
+
+  };
+
+  xhr.onerror = function(){
+
+    alert("Upload error!");
+
+    doneCallback(null);
+
+  };
+
+  xhr.send(formData);
+
+}
+
+
+/* UPLOAD STATUS */
+
+let audioUploaded = false;
+let coverUploaded = false;
+let uploadListenerAttached = false;
+
+
+/* VALIDATION */
+
+const stepsData = {
+
+  1:()=>true,
+
+  2:()=>{
+
+    const title =
+      document.getElementById("title");
+
+    const artist =
+      document.getElementById("artist");
+
+    const publisher =
+      document.getElementById("publisher");
+
+    const label =
+      document.getElementById("label");
+
+    const version =
+      document.getElementById("version");
+
+    return !!(
+      title?.value.trim() &&
+      artist?.value.trim() &&
+      publisher?.value.trim() &&
+      label?.value.trim() &&
+      version?.value
+    );
+
+  },
+
+  3:()=>{
+
+    return !!(
+      document.getElementById("audio")?.dataset.url &&
+      document.getElementById("cover")?.dataset.url
+    );
+
+  }
+
+};
+
+
+/* STEP CONTROL */
+
+function hideAll(){
+
+  for(let i=1;i<=4;i++){
+
+    document.getElementById("step"+i).hidden=true;
+
+  }
+
+}
+
+
+/* STEP 2 */
+
+function loadStep2Fields(){
+
+  const s =
+    document.getElementById("step2");
+
+  if(s.dataset.loaded==="true") return;
+
+  s.innerHTML=`
+
+    <div class="label">
+      Title *
+    </div>
+
+    <input
+      id="title"
+      placeholder="Judul lagu"
+      autocomplete="off"
+    >
+
+    <div class="label">
+      Song ID (Publisher) *
+    </div>
+
+    <input
+      id="publisher"
+      placeholder="Wajib"
+      autocomplete="off"
+      value="${escapeHTML(incomingSongId)}"
+    >
+
+    <div class="song-id-notice" id="songIdNotice">
+      ${incomingSongId
+        ? "Song ID berhasil diambil dari katalog lagu."
+        : 'Cek Song ID melalui <a href="../licensed-songs">Licensed Songs Catalog</a>.'}
+    </div>
+
+    <div class="label">
+      Artist Name *
+    </div>
+
+    <input
+      id="artist"
+      placeholder="Nama artist"
+      autocomplete="off"
+    >
+
+    <div class="label">
+      Label *
+    </div>
+
+    <input
+      id="label"
+      placeholder="e.g. Dynotic Distribution"
+      autocomplete="off"
+    >
+
+    <div class="label">
+      Version *
+    </div>
+
+    <select id="version">
+
+      <option value="">
+        Pilih Version
+      </option>
+
+      <option value="Remix">
+        Remix
+      </option>
+
+      <option value="Cover">
+        Cover
+      </option>
+
+    </select>
+
+    <div class="label">
+      Nama Vocal
+      <span style="font-size:11px;color:#888;font-weight:400;">
+        (Khusus Katalog Pragita Prabawa Pustaka)
+      </span>
+    </div>
+
+    <input
+      id="fullname"
+      placeholder="e.g. Inez Ariesta"
+      autocomplete="off"
+    >
+
+    <div class="label">
+      Featuring
+    </div>
+
+    <input
+      id="featuring"
+      placeholder="Optional"
+      autocomplete="off"
+    >
+
+    <button type="button" class="btn gray" onclick="back(2)">
+      Back
+    </button>
+
+    <div style="height:10px;"></div>
+
+    <button type="button" class="btn" onclick="next(2)">
+      Continue
+    </button>
+
+  `;
+
+  s.dataset.loaded="true";
+
+}
+
+
+/* HTML ESCAPE */
+
+function escapeHTML(value){
+
+  return String(value).replace(/[&<>"']/g,char=>({
+
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+
+  })[char]);
+
+}
+
+
+/* UPLOAD LISTENERS */
+
+function attachUploadListeners(){
+
+  if(uploadListenerAttached) return;
+
+  uploadListenerAttached=true;
+
+  const audioInput =
+    document.getElementById("audio");
+
+  const coverInput =
+    document.getElementById("cover");
+
+  const previewBtn =
+    document.getElementById("previewBtn");
+
+  const audioWave =
+    document.getElementById("audioWave");
+
+  const audioName =
+    document.getElementById("audioName");
+
+  const coverPreview =
+    document.getElementById("coverPreview");
+
+
+  function checkAllUploaded(){
+
+    previewBtn.disabled =
+      !(audioUploaded && coverUploaded);
+
+  }
+
+
+  /* AUDIO */
+
+  audioInput.addEventListener("change",e=>{
+
+    const file=e.target.files[0];
+
+    if(!file) return;
+
+    if(!file.type.startsWith("audio/")){
+
+      alert("Pilih file audio yang valid.");
+
+      audioInput.value="";
+
+      return;
+
+    }
+
+    audioUploaded=false;
+
+    delete audioInput.dataset.url;
+
+    previewBtn.disabled=true;
+
+    audioName.textContent=file.name;
+
+    audioWave.style.width="0%";
+
+    uploadFile(
+
+      file,
+
+      percent=>{
+
+        audioWave.style.width=percent+"%";
+
+      },
+
+      url=>{
+
+        if(url){
+
+          audioInput.dataset.url=url;
+
+          audioUploaded=true;
+
+          checkAllUploaded();
+
+          updateStepUI();
+
+        }
+
+      }
+
+    );
+
+  });
+
+
+  /* COVER */
+
+  coverInput.addEventListener("change",e=>{
+
+    const file=e.target.files[0];
+
+    if(!file) return;
+
+    if(!file.type.startsWith("image/")){
+
+      alert("Pilih file gambar yang valid.");
+
+      coverInput.value="";
+
+      return;
+
+    }
+
+    coverUploaded=false;
+
+    delete coverInput.dataset.url;
+
+    previewBtn.disabled=true;
+
+    const reader=new FileReader();
+
+    reader.onload=ev=>{
+
+      coverPreview.src=ev.target.result;
+
+      coverPreview.style.display="block";
+
+      document.getElementById("coverPlaceholder").style.display="none";
+
+    };
+
+    reader.readAsDataURL(file);
+
+
+    uploadFile(
+
+      file,
+
+      ()=>{},
+
+      url=>{
+
+        if(url){
+
+          coverInput.dataset.url=url;
+
+          coverUploaded=true;
+
+          checkAllUploaded();
+
+          updateStepUI();
+
+        }
+
+      }
+
+    );
+
+  });
+
+}
+
+
+/* NAVIGATION */
+
+function next(n){
+
+  if(n===1){
+
+    document.getElementById("type").value="original";
+
+    loadStep2Fields();
+
+    goto(2);
+
+    updateStepUI();
+
+    return;
+
+  }
+
+
+  if(n===2){
+
+    if(!stepsData[2]()){
+
+      return alert("Lengkapi semua field wajib!");
+
+    }
+
+    goto(3);
+
+    attachUploadListeners();
+
+    updateStepUI();
+
+    return;
+
+  }
+
+}
+
+
+function back(n){
+
+  goto(n-1);
+
+}
+
+
+/* GO TO STEP */
+
+function goto(n){
+
+  hideAll();
+
+  document.getElementById("step"+n).hidden=false;
+
+  if(n===2){
+
+    loadStep2Fields();
+
+  }
+
+  if(n===3){
+
+    attachUploadListeners();
+
+  }
+
+  for(let i=1;i<=4;i++){
+
+    document.getElementById("s"+i).classList.remove("active");
+
+  }
+
+  document.getElementById("s"+n).classList.add("active");
+
+}
+
+
+/* STEP INDICATORS */
+
+document.getElementById("s1").onclick=()=>goto(1);
+
+
+document.getElementById("s2").onclick=()=>{
+
+  loadStep2Fields();
+
+  goto(2);
+
+};
+
+
+document.getElementById("s3").onclick=()=>{
+
+  if(!stepsData[2]()){
+
+    return alert("Lengkapi dulu data di Step 2!");
+
+  }
+
+  goto(3);
+
+};
+
+
+document.getElementById("s4").onclick=()=>{
+
+  if(!stepsData[2]()){
+
+    return alert("Lengkapi dulu data di Step 2!");
+
+  }
+
+  if(!stepsData[3]()){
+
+    return alert("Upload audio & cover dulu!");
+
+  }
+
+  loadPreview();
+
+  goto(4);
+
+};
+
+
+/* PREVIEW BUTTON */
+
+function goToPreview(){
+
+  if(!stepsData[3]()){
+
+    return alert("Tunggu sampai audio dan cover selesai di-upload!");
+
+  }
+
+  loadPreview();
+
+  goto(4);
+
+}
+
+
+/* STEP UI */
+
+function updateStepUI(){
+
+  const validStep2=stepsData[2]();
+
+  const validStep3=stepsData[3]();
+
+
+  document.getElementById("s3").style.opacity=
+    validStep2?"1":"0.4";
+
+  document.getElementById("s4").style.opacity=
+    (validStep2&&validStep3)?"1":"0.4";
+
+
+  document.getElementById("s3").style.pointerEvents=
+    validStep2?"auto":"none";
+
+  document.getElementById("s4").style.pointerEvents=
+    (validStep2&&validStep3)?"auto":"none";
+
+}
+
+
+/* PREVIEW */
+
+function loadPreview(){
+
+  const previewBox =
+    document.getElementById("previewBox");
+
+  const titleVal =
+    document.getElementById("title")?.value || "-";
+
+  const artistVal =
+    document.getElementById("artist")?.value || "-";
+
+  const publisherVal =
+    document.getElementById("publisher")?.value || "-";
+
+  const labelVal =
+    document.getElementById("label")?.value || "-";
+
+  const versionVal =
+    document.getElementById("version")?.value || "-";
+
+  const fullnameVal =
+    document.getElementById("fullname")?.value || "-";
+
+  const featuringVal =
+    document.getElementById("featuring")?.value || "-";
+
+  const coverUrl =
+    document.getElementById("cover")?.dataset.url || "";
+
+
+  previewBox.innerHTML=`
+
+    <div style="display:flex;gap:14px;align-items:center;">
+
+      <img
+        src="${escapeHTML(coverUrl)}"
+        style="width:76px;height:76px;border-radius:12px;object-fit:cover;"
+        alt="Cover Artwork"
+      >
+
+      <div style="min-width:0;">
+
+        <div style="font-weight:700;font-size:15px;margin-bottom:2px;">
+          ${escapeHTML(titleVal)}
+        </div>
+
+        <div style="font-size:13px;color:#777;">
+          ${escapeHTML(artistVal)}
+        </div>
+
+      </div>
+
+    </div>
+
+    <hr style="margin:15px 0;border-top:1px solid #e5e5e9;">
+
+    <div><span>Song ID:</span> ${escapeHTML(publisherVal)}</div>
+
+    <div><span>Label:</span> ${escapeHTML(labelVal)}</div>
+
+    <div><span>Version:</span> ${escapeHTML(versionVal)}</div>
+
+    ${fullnameVal!=="-" ? `<div><span>Nama Vocal:</span> ${escapeHTML(fullnameVal)}</div>` : ""}
+
+    ${featuringVal!=="-" ? `<div><span>Featuring:</span> ${escapeHTML(featuringVal)}</div>` : ""}
+
+  `;
+
+}
+
+
+/* SUBMIT */
+
+function submitRelease(){
+
+  if(!stepsData[2]()){
+
+    return alert("Lengkapi data rilisan terlebih dahulu.");
+
+  }
+
+  if(!stepsData[3]()){
+
+    return alert("Pastikan audio dan cover sudah berhasil di-upload.");
+
+  }
+
+  const btn =
+    document.getElementById("submitBtn");
+
+  const text =
+    document.getElementById("btnText");
+
+  const loader =
+    document.getElementById("btnLoader");
+
+
+  btn.disabled=true;
+
+  text.style.display="none";
+
+  loader.style.display="inline";
+
+
+  const user =
+    firebase.auth().currentUser;
+
+
+  if(!user){
+
+    btn.disabled=false;
+
+    text.style.display="inline";
+
+    loader.style.display="none";
+
+    alert("Sesi login tidak ditemukan. Silakan login kembali.");
+
+    location.href="../login";
+
+    return;
+
+  }
+
+
+  const data={
+
+    type:document.getElementById("type").value,
+
+    title:document.getElementById("title").value.trim(),
+
+    artist:document.getElementById("artist").value.trim(),
+
+    publisher:document.getElementById("publisher").value.trim(),
+
+    version:document.getElementById("version").value,
+
+    label:document.getElementById("label").value.trim(),
+
+    audio:document.getElementById("audio").dataset.url,
+
+    cover:document.getElementById("cover").dataset.url,
+
+    fullname:document.getElementById("fullname")?.value.trim() || "",
+
+    status:"proposal",
+
+    time:Date.now()
+
+  };
+
+
+  const feat =
+    document.getElementById("featuring")?.value.trim();
+
+
+  if(feat){
+
+    data.featuring=feat;
+
+  }
+
+
+  db.ref("releases/"+user.uid)
+    .push(data)
+
+    .then(()=>{
+
+      location.href="https://app.dynoticcollective.com/catalog/releases";
+
+    })
+
+    .catch(error=>{
+
+      console.error("Submit release error:",error);
+
+      btn.disabled=false;
+
+      text.style.display="inline";
+
+      loader.style.display="none";
+
+      alert("Gagal mengirim rilisan. Silakan coba lagi.");
+
+    });
+
+}
+
+
+/* INPUT LISTENER */
+
+document.addEventListener("input",updateStepUI);
+
+updateStepUI();
+
+</script>
+
+</body>
+</html>
