@@ -1,1976 +1,1170 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Original Asset | Dynotic Distribution</title>
+<meta name="theme-color" content="#f3f3f8">
 
 <link rel="icon" type="image/png" href="https://dynoticcollective.com/assets/favicon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="https://dynoticcollective.com/assets/favicon-android.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://dynoticcollective.com/assets/favicon-iphone.png">
 
-<meta name="theme-color" content="#667eea">
-<meta name="robots" content="noindex, nofollow">
-
-<link
-  href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap"
-  rel="stylesheet"
->
-
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:"Outfit",sans-serif;
+:root{
+  --bg:#f3f3f8;
+  --paper:#fff;
+  --ink:#14141a;
+  --muted:#6f7280;
+  --line:#e6e6ee;
+  --dark:#0d0d12;
+  --accent:#7772a8;
+  --accent-2:#a9a3f2;
+  --red:#e5484d;
+  --green:#2f9e6b;
+  --amber:#b7791f;
+  --ease:cubic-bezier(.16,1,.3,1);
 }
 
-body{
-  background:#f1f2f7;
-  color:#17181c;
-  min-height:100vh;
-  padding-top:64px;
-  padding-bottom:30px;
-  -webkit-tap-highlight-color:transparent;
-  user-select:none;
-}
-
-/* HEADER */
-
-header{
-  height:64px;
-  padding:0 18px;
-  display:flex;
-  align-items:center;
-  background:#fff;
-  border-bottom:1px solid #e8e8ed;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  z-index:1000;
-}
-
-header img{
-  height:32px;
-  width:auto;
-  object-fit:contain;
-  display:block;
-}
-
-
-/* CONTAINER */
-
-.container{
-  max-width:760px;
-  margin:auto;
-  padding:22px 14px 30px;
-}
-
-
-/* PAGE TITLE */
-
-.page-title{
-  margin-bottom:18px;
-}
-
-.page-title h1{
-  font-size:22px;
-  font-weight:700;
-}
-
-.page-title p{
-  color:#777b84;
-  font-size:12px;
-  margin-top:3px;
-}
-
-
-/* MAIN CARD */
-
-.form-card{
-  background:#fff;
-  border:1px solid #e8e8ed;
-  border-radius:18px;
-  padding:18px;
-  animation:pageIn .45s ease both;
-}
-
-
-/* STEPS */
-
-.steps{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  position:relative;
-  margin-bottom:24px;
-}
-
-.steps::before{
-  content:"";
-  position:absolute;
-  left:19px;
-  right:19px;
-  top:19px;
-  height:2px;
-  background:#e5e6eb;
-  z-index:0;
-}
-
-.step{
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  background:#e5e6eb;
-  color:#777b84;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:12px;
-  font-weight:600;
-  z-index:1;
-  border:4px solid #fff;
-  transition:.2s;
-  pointer-events:none;
-}
-
-.step.active{
-  background:#17181c;
-  color:#fff;
-}
-
-
-/* SECTION */
-
-.section{
-  animation:sectionIn .3s ease;
-}
-
-
-/* LABEL */
-
-.label{
-  font-size:12px;
-  font-weight:600;
-  color:#34363c;
-  margin-bottom:6px;
-}
-
-.req{
-  color:#e0444f;
-  margin-left:2px;
-}
-
-
-/* INPUT */
-
-input,
-select{
-  width:100%;
-  padding:12px 13px;
-  border-radius:11px;
-  border:1px solid #dedfe4;
-  background:#fff;
-  color:#17181c;
-  font-size:13px;
-  margin-bottom:15px;
-  outline:none;
-  transition:.15s;
-}
-
-input::placeholder{
-  color:#a0a2a8;
-}
-
-input:focus,
-select:focus{
-  border-color:#b9bbc2;
-  box-shadow:0 0 0 3px rgba(0,0,0,.04);
-}
-
-
-/* UPLOAD COVER */
-
-.upload-box{
-  display:block;
-  width:180px;
-  aspect-ratio:1/1;
-  border:1.5px dashed #bfc1c8;
-  border-radius:16px;
-  background:#fafafa;
-  cursor:pointer;
-  overflow:hidden;
-  transition:.2s;
-}
-
-.upload-box:hover{
-  border-color:#777b84;
-  background:#f7f7f8;
-}
-
-.upload-box:active{
-  transform:scale(.98);
-}
-
-.upload-inner{
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
-
-.upload-icon-img{
-  width:40px;
-  height:40px;
-  object-fit:contain;
-  display:block;
-  margin:auto;
-}
-
-.upload-text{
-  font-size:11px;
-  color:#777b84;
-  margin-top:7px;
-  text-align:center;
-}
-
-#coverPreview{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:15px;
-  display:none;
-}
-
-
-/* AUDIO */
-
-.upload-audio{
-  display:block;
-  cursor:pointer;
-}
-
-.audio-box{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:13px;
-  border-radius:12px;
-  background:#fafafa;
-  border:1px solid #e2e3e7;
-  transition:.2s;
-}
-
-.audio-box:hover{
-  background:#f7f7f8;
-  border-color:#bfc1c8;
-}
-
-.audio-box:active{
-  transform:scale(.98);
-}
-
-.audio-icon-img{
-  width:30px;
-  height:30px;
-  object-fit:contain;
-  flex-shrink:0;
-}
-
-.audio-info{
-  min-width:0;
-  flex:1;
-}
-
-.audio-name{
-  font-weight:600;
-  font-size:12px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.audio-sub{
-  font-size:10px;
-  color:#858891;
-  margin-top:2px;
-}
-
-
-/* PROGRESS */
-
-.progress-wrapper{
-  margin-top:8px;
-  width:100%;
-  height:5px;
-  background:#e5e6eb;
-  border-radius:999px;
-  overflow:hidden;
-}
-
-.progress-bar{
-  height:100%;
-  width:0%;
-  background:#17181c;
-  transition:width .3s;
-}
-
-
-/* BUTTON */
-
-.btn{
-  width:100%;
-  padding:12px 14px;
-  border:1px solid #17181c;
-  border-radius:11px;
-  background:#17181c;
-  color:#fff;
-  font-size:13px;
-  font-weight:600;
-  cursor:pointer;
-  transition:.15s;
-}
-
-.btn:hover{
-  background:#000;
-}
-
-.btn:active{
-  transform:scale(.97);
-}
-
-.btn:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-  transform:none;
-}
-
-.btn.gray{
-  background:#fff;
-  color:#17181c;
-  border:1px solid #dfe0e5;
-}
-
-.btn.gray:hover{
-  background:#f7f7f8;
-}
-
-
-/* BUTTON ROW */
-
-.button-row{
-  display:flex;
-  gap:9px;
-}
-
-
-/* PREVIEW */
-
-.preview{
-  background:#f8f8fa;
-  border:1px solid #e6e7eb;
-  border-radius:13px;
-  padding:14px;
-  font-size:12px;
-  line-height:1.6;
-}
-
-.preview div{
-  margin-bottom:7px;
-}
-
-.preview div:last-child{
-  margin-bottom:0;
-}
-
-.preview span{
-  color:#17181c;
-  font-weight:600;
-}
-
-
-/* WARNING */
-
-.release-warning{
-  font-size:11px;
-  color:#777b84;
-  line-height:1.5;
-  background:#f8f8fa;
-  border-radius:10px;
-  padding:10px;
-  margin-top:-5px;
-  margin-bottom:15px;
-}
-
-
-/* ANIMATION */
-
-@keyframes pageIn{
-  from{
-    opacity:0;
-    transform:translateY(12px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-@keyframes sectionIn{
-  from{
-    opacity:0;
-    transform:translateY(6px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-
-@media(max-width:600px){
-
-  .upload-box{
-    width:160px;
-  }
-
-}
-
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:calc(128px + env(safe-area-inset-bottom))}
+body.lock{overflow:hidden}
+a{color:var(--accent);font-weight:700;text-decoration:none}
+a:hover{text-decoration:underline}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+input,select{font:inherit}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.vh{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
+
+/* ================= TOPBAR ================= */
+.topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
+.topbar.scrolled{border-bottom-color:var(--line)}
+.icon-btn{width:44px;height:44px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 2px rgba(20,20,40,.05);transition:transform .2s var(--ease),border-color .2s,box-shadow .2s;flex-shrink:0}
+.icon-btn:hover{border-color:#cfcfdb;box-shadow:0 8px 18px -10px rgba(20,20,40,.25)}
+.icon-btn:active{transform:scale(.93)}
+.icon-btn .i{width:20px;height:20px}
+.page-title{display:none;font-size:20px;font-weight:800;letter-spacing:-.03em}
+.topbar .logo{margin-left:auto}
+.topbar .logo img{height:30px;width:auto;max-width:170px;object-fit:contain;display:block}
+
+/* ================= LAYOUT ================= */
+.wrap{width:100%;max-width:640px;margin:0 auto;padding:6px 16px 0}
+.layout{display:flex;flex-direction:column;gap:16px}
+
+/* ================= SIDE PANEL / STEPPER ================= */
+.side{position:relative;overflow:hidden;isolation:isolate;border-radius:28px;background:var(--dark);color:#fff;padding:clamp(22px,4vw,30px);animation:up .6s var(--ease) both}
+.side::before,.side::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none}
+.side::before{width:340px;height:340px;background:rgba(119,114,168,.6);top:-160px;right:-80px}
+.side::after{width:280px;height:280px;background:rgba(79,70,160,.4);bottom:-170px;left:-80px}
+.side-grid{position:absolute;inset:0;z-index:-1;opacity:.25;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%)}
+.h-label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:rgba(255,255,255,.65)}
+.h-label .i{width:17px;height:17px;color:var(--accent-2)}
+.h-title{margin-top:10px;font-size:clamp(26px,6vw,34px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.h-sub{margin-top:8px;font-size:13px;line-height:1.6;color:rgba(255,255,255,.55)}
+
+.stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:22px}
+.st{position:relative;text-align:left;padding-top:12px;font-size:12px;font-weight:600;color:rgba(255,255,255,.45);transition:color .2s,opacity .2s,background .2s}
+.st::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;border-radius:999px;background:rgba(255,255,255,.14);transition:background .3s}
+.st.done::before{background:rgba(169,163,242,.55)}
+.st.active::before{background:#fff}
+.st.active{color:#fff;font-weight:700}
+.st.done{color:rgba(255,255,255,.75)}
+.st.locked{opacity:.4;cursor:not-allowed}
+.st .n,.st .d{display:none}
+.st .tx b{font-weight:inherit}
+
+/* ================= CARD / FORM ================= */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:clamp(20px,4vw,34px)}
+.section{animation:up .35s var(--ease) both}
+.sec-title{font-size:22px;font-weight:800;letter-spacing:-.03em;line-height:1.2}
+.sec-desc{margin-top:6px;font-size:14px;line-height:1.65;color:var(--muted)}
+
+.grp{margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
+.sec-desc + .grp{border-top:0;padding-top:0;margin-top:22px}
+.grp-t{font-size:14px;font-weight:700;letter-spacing:-.01em}
+.grp-d{margin-top:2px;font-size:12px;color:var(--muted)}
+
+.field{margin-top:16px}
+.label{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;margin-bottom:8px}
+.label .req{color:var(--red)}
+.label small{font-size:11px;font-weight:500;color:var(--muted)}
+.input,.select select{width:100%;height:56px;padding:0 16px;border-radius:16px;border:1px solid var(--line);background:#fafafd;color:var(--ink);font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none;appearance:none}
+.input::placeholder{color:#a3a5b0}
+.input:focus,.select select:focus{border-color:#cfcdea;background:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.14)}
+.select{position:relative}
+.select select{padding-right:44px;cursor:pointer}
+.select .i{position:absolute;right:16px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--muted);pointer-events:none}
+.field.err .input,.field.err .select select{border-color:var(--red);background:#fff8f8;box-shadow:0 0 0 4px rgba(229,72,77,.1)}
+.err-msg{display:none;margin-top:7px;font-size:12px;font-weight:500;color:var(--red)}
+.field.err .err-msg{display:block}
+.hint{margin-top:8px;font-size:12px;line-height:1.6;color:var(--muted)}
+.row2{display:grid;grid-template-columns:1fr;gap:0 14px}
+
+.input[type=date]{display:block;min-height:56px;text-align:left}
+.rt-warn{margin-top:10px;padding:12px 14px;border-radius:14px;background:#fff6e5;color:#8a5a00;font-size:12px;line-height:1.6}
+/* ================= STEP 1 ================= */
+.pick{display:flex;align-items:center;gap:14px;margin-top:20px;padding:14px;border-radius:18px;background:#eeedf7}
+.pick .ic{width:44px;height:44px;border-radius:14px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pick .ic .i{width:20px;height:20px}
+.pick .tx{min-width:0}
+.pick small{display:block;font-size:11px;color:#6b678f;font-weight:500}
+.pick strong{display:block;margin-top:1px;font-size:15px;font-weight:700;overflow-wrap:anywhere}
+.pick span{display:block;margin-top:1px;font-size:12px;color:#6b678f;overflow-wrap:anywhere}
+.need{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.need-i{display:flex;align-items:center;gap:14px;padding:14px;border:1px solid var(--line);border-radius:18px}
+.need-i .ic{width:44px;height:44px;border-radius:14px;background:var(--bg);color:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.need-i .ic .i{width:20px;height:20px}
+.need-i strong{display:block;font-size:14px;font-weight:700}
+.need-i span{display:block;margin-top:2px;font-size:12px;line-height:1.55;color:var(--muted)}
+
+/* ================= UPLOAD ================= */
+.up-grid{display:grid;grid-template-columns:1fr;gap:6px;margin-top:6px}
+.drop{position:relative;display:block;cursor:pointer;border:1.5px dashed #c4c3d6;background:#fafafd;transition:border-color .2s,background .2s}
+.drop:hover,.drop.over{border-color:var(--accent);background:#f4f3fb}
+.drop:focus-within{outline:2px solid var(--accent);outline-offset:2px}
+.drop.done{border-style:solid;border-color:#cfe9dd}
+.drop.fail{border-color:var(--red);background:#fff8f8}
+
+.cover-drop{width:min(260px,100%);aspect-ratio:1/1;border-radius:24px;overflow:hidden}
+.cover-in{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:14px;text-align:center}
+.upload-icon-img{width:46px;height:46px;object-fit:contain;display:block}
+.upload-text{font-size:13px;color:var(--muted);line-height:1.5}
+#coverPreview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cover-bar{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(20,20,26,.15)}
+.cover-bar i{display:block;height:100%;width:0;background:var(--accent-2);transition:width .25s}
+.cover-shade{position:absolute;inset:0;background:rgba(13,13,18,.5);display:none;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:800}
+.cover-drop.busy .cover-shade{display:flex}
+
+.audio-drop{border-radius:22px;padding:18px;display:flex;align-items:center;gap:14px;min-height:96px}
+.audio-icon-img{width:46px;height:46px;padding:10px;border-radius:15px;background:var(--paper);border:1px solid var(--line);object-fit:contain;flex-shrink:0}
+.audio-info{min-width:0;flex:1}
+.audio-name{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.audio-sub{margin-top:3px;font-size:12px;color:var(--muted)}
+.progress-wrapper{margin-top:12px;width:100%;height:6px;background:#e5e6eb;border-radius:999px;overflow:hidden}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--ink));border-radius:999px;transition:width .25s}
+.u-status{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:13px;font-weight:600;color:var(--muted);min-height:22px}
+.u-status .i{width:16px;height:16px}
+.u-status.ok{color:var(--green)}
+.u-status.bad{color:var(--red)}
+.u-status.warn{color:var(--amber)}
+.u-status.busy .i{animation:spin .8s linear infinite}
+audio{display:block;width:100%;height:44px;margin-top:14px}
+.up-hint{margin-top:22px;padding:13px 15px;border-radius:16px;background:var(--bg);font-size:13px;line-height:1.6;color:var(--muted)}
+.up-hint.ok{background:#e9f6ef;color:#256c4a}
+
+/* ================= PREVIEW ================= */
+.pv-head{display:flex;gap:16px;align-items:center;margin-top:22px}
+.pv-head img{width:100px;height:100px;border-radius:20px;object-fit:cover;background:var(--bg);flex-shrink:0}
+.pv-head .tx{min-width:0}
+.pv-head strong{display:block;font-size:20px;font-weight:800;letter-spacing:-.025em;line-height:1.25;overflow-wrap:anywhere}
+.pv-head span{display:block;margin-top:3px;font-size:14px;color:var(--muted);overflow-wrap:anywhere}
+.pv-list{margin-top:20px;border:1px solid var(--line);border-radius:20px;padding:4px 16px}
+.pv-row{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+.pv-row:last-child{border-bottom:0}
+.pv-row small{font-size:14px;color:var(--muted);font-weight:500;flex-shrink:0}
+.pv-row b{font-weight:600;text-align:right;overflow-wrap:anywhere}
+.note{margin-top:16px;padding:14px 16px;border-radius:16px;background:#eeedf7;font-size:13px;line-height:1.6;color:#4b4880}
+
+/* ================= ACTION BAR + BUTTONS ================= */
+.actions{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:12px max(16px,env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));background:rgba(243,243,248,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line)}
+.actions-in{display:flex;gap:12px;max-width:640px;margin:0 auto}
+
+.btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:12px;height:58px;padding:0 28px;border-radius:18px;font-size:16px;font-weight:700;letter-spacing:-.01em;border:1px solid var(--line);background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(20,20,40,.05);transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .25s,border-color .25s,color .25s;flex:1;white-space:nowrap}
+.btn .i{width:20px;height:20px;transition:transform .35s var(--ease)}
+.btn:hover:not(:disabled){border-color:#cfcfdb;background:#fafafd;transform:translateY(-1px);box-shadow:0 10px 22px -10px rgba(20,20,40,.22)}
+.btn:active:not(:disabled){transform:translateY(0) scale(.985);box-shadow:0 1px 2px rgba(20,20,40,.05)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.btn:hover:not(:disabled) .go{transform:translateX(4px)}
+.btn:hover:not(:disabled) .bk{transform:translateX(-4px)}
+.btn.dark{border:0;color:#fff;background:radial-gradient(120% 170% at 90% -40%,rgba(169,163,242,.5),transparent 55%),linear-gradient(180deg,#2b2b36 0%,#14141a 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(0,0,0,.45),0 1px 2px rgba(13,13,18,.35),0 14px 28px -12px rgba(13,13,18,.6)}
+.btn.dark::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.16) 50%,transparent 62%);transform:translateX(-130%);transition:transform .8s var(--ease)}
+.btn.dark:hover:not(:disabled){background:radial-gradient(120% 170% at 90% -40%,rgba(169,163,242,.7),transparent 55%),linear-gradient(180deg,#32323e 0%,#191920 100%);transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(0,0,0,.45),0 2px 4px rgba(13,13,18,.3),0 22px 38px -14px rgba(79,70,160,.6)}
+.btn.dark:hover:not(:disabled)::after{transform:translateX(130%)}
+.btn.dark:active:not(:disabled){transform:translateY(0) scale(.985);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1px 0 rgba(0,0,0,.45),0 6px 14px -8px rgba(13,13,18,.6)}
+.btn:disabled{cursor:not-allowed}
+.btn:disabled:not(.dark){opacity:.5}
+.btn.dark:disabled{background:#d9d9e4;color:#fff;box-shadow:none}
+.btn.dark:disabled::after{display:none}
+.btn.back{flex:0 0 auto;min-width:130px}
+.btn.sm{height:38px;padding:0 15px;font-size:13px;flex:none;border:0;border-radius:12px;background:#eeedf7;color:#4b4880;box-shadow:none;gap:8px}
+.btn.sm .i{width:15px;height:15px}
+.btn.sm:hover:not(:disabled){background:#e2e0f1;transform:none;box-shadow:none}
+
+/* ================= DONE OVERLAY ================= */
+.done{position:fixed;inset:0;z-index:400;background:rgba(243,243,248,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.done.show{opacity:1;visibility:visible}
+.done-card{width:100%;max-width:380px;background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:34px 26px;text-align:center;box-shadow:0 30px 80px -20px rgba(13,13,18,.25);transform:translateY(12px);transition:transform .5s var(--ease)}
+.done.show .done-card{transform:none}
+.done-ic{width:68px;height:68px;margin:0 auto;border-radius:50%;background:#e9f6ef;color:var(--green);display:flex;align-items:center;justify-content:center}
+.done-ic .i{width:30px;height:30px;stroke-width:2.6}
+.done-card h3{margin-top:18px;font-size:22px;font-weight:800;letter-spacing:-.03em}
+.done-card p{margin-top:6px;font-size:14px;line-height:1.6;color:var(--muted)}
+
+/* ================= TOAST ================= */
+.toast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:12px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .8s linear infinite}
+
+/* ================= TABLET+ ================= */
 @media(min-width:700px){
-
-  .container{
-    padding-left:0;
-    padding-right:0;
-  }
-
+  .row2{grid-template-columns:1fr 1fr}
+  .up-grid{grid-template-columns:auto 1fr;align-items:start;gap:30px}
 }
 
-</style>
+/* ================= DESKTOP ================= */
+@media(min-width:960px){
+  body{padding-bottom:48px}
+  .topbar{height:78px;padding:0 36px}
+  .page-title{display:block}
+  .wrap{max-width:1040px;padding:6px 36px 0}
+  .layout{display:grid;grid-template-columns:320px minmax(0,1fr);gap:22px;align-items:start}
+  .side{position:sticky;top:98px;padding:30px 26px}
+  .stepper{display:flex;flex-direction:column;gap:6px;margin-top:28px}
+  .st{display:flex;align-items:center;gap:14px;padding:12px;border-radius:18px;font-size:14px}
+  .st::before{display:none}
+  .st.active{background:rgba(255,255,255,.1)}
+  .st:not(.locked):not(.active):hover{background:rgba(255,255,255,.06)}
+  .st .n{display:flex;width:36px;height:36px;border-radius:12px;align-items:center;justify-content:center;background:rgba(255,255,255,.1);font-size:14px;font-weight:700;flex-shrink:0;transition:background .2s,color .2s}
+  .st.active .n{background:#fff;color:var(--ink)}
+  .st.done .n{background:rgba(169,163,242,.3);color:#fff}
+  .st .n .ck{display:none;width:16px;height:16px;stroke-width:2.6}
+  .st.done .n .num{display:none}
+  .st.done .n .ck{display:block}
+  .st .d{display:block;margin-top:1px;font-size:12px;font-weight:500;color:rgba(255,255,255,.5)}
+  .st.active .d{color:rgba(255,255,255,.7)}
+  .card{padding:38px 40px}
+  .actions{position:static;padding:0;margin-top:34px;background:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none}
+  .actions-in{max-width:none;justify-content:flex-end}
+  .btn{flex:0 0 auto;min-width:220px}
+  .btn.back{min-width:140px}
+  .toast{bottom:36px}
+}
 
+@media(max-width:700px){
+  .wrap{padding:0 14px}
+  .side{border-radius:24px}
+  .card{border-radius:24px}
+}
+@media(max-width:380px){
+  .btn{padding:0 18px;font-size:15px;gap:10px}
+  .btn.back{min-width:104px}
+  .pv-head img{width:78px;height:78px}
+}
+@media(prefers-reduced-motion:reduce){
+  *:not(.spin),*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
 </head>
 
 <body>
 
+<!-- ICON SPRITE -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.7 18-8-14a2 2 0 0 0-3.5 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-chev-d" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-loader" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></symbol>
+</svg>
 
-<header>
-
-  <img
-    src="../assets/dynotic-distribution.png"
-    alt="Dynotic Distribution"
-  >
-
+<!-- ================= TOPBAR ================= -->
+<header class="topbar" id="topbar">
+  <button class="icon-btn" id="backBtn" type="button" aria-label="Kembali"><svg class="i"><use href="#i-back"/></svg></button>
+  <h2 class="page-title">Original Asset</h2>
+  <a href="../dashboard" class="logo"><img src="../assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
 </header>
 
+<main class="wrap">
+  <div class="layout">
 
-<main class="container">
+    <!-- SIDE / STEPPER -->
+    <aside class="side">
+      <div class="side-grid"></div>
+      <div class="h-label"><svg class="i"><use href="#i-disc"/></svg><span id="stepCount">Langkah 1 dari 4</span></div>
+      <h1 class="h-title">Original Asset</h1>
+      <p class="h-sub">Distribusikan musik original kamu lewat Dynotic.</p>
 
-
-  <div class="page-title">
-
-    <h1>Original Asset</h1>
-
-    <p>
-      Submit your original music for distribution.
-    </p>
-
-  </div>
-
-
-  <div class="form-card">
-
-
-    <!-- STEP PROGRESS -->
-
-    <div class="steps">
-
-      <div
-        class="step active"
-        id="s1"
-      >
-        1
+      <div class="stepper" role="tablist" aria-label="Langkah pengajuan">
+        <button type="button" class="st active" id="s1" role="tab"><span class="n"><span class="num">1</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Mulai</b><span class="d">Persiapan pengajuan</span></span></button>
+        <button type="button" class="st" id="s2" role="tab"><span class="n"><span class="num">2</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Detail</b><span class="d">Informasi rilisan</span></span></button>
+        <button type="button" class="st" id="s3" role="tab"><span class="n"><span class="num">3</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Upload</b><span class="d">Cover art dan audio</span></span></button>
+        <button type="button" class="st" id="s4" role="tab"><span class="n"><span class="num">4</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Review</b><span class="d">Periksa dan kirim</span></span></button>
       </div>
+    </aside>
 
-      <div
-        class="step"
-        id="s2"
-      >
-        2
-      </div>
+    <!-- MAIN CARD -->
+    <section class="card">
 
-      <div
-        class="step"
-        id="s3"
-      >
-        3
-      </div>
+      <!-- hidden type (tetap dikirim sebagai "original") -->
+      <select id="type" hidden><option value="original" selected>Original Asset</option></select>
 
-      <div
-        class="step"
-        id="s4"
-      >
-        4
-      </div>
+      <!-- STEP 1 -->
+      <div id="step1" class="section">
+        <div class="sec-title">Ajukan Original Asset</div>
+        <p class="sec-desc">Kirim musik original kamu untuk didistribusikan. Siapkan hal berikut sebelum mulai.</p>
 
-    </div>
-
-
-    <!-- STEP 1 -->
-
-    <div
-      id="step1"
-      class="section"
-    >
-
-      <div class="label">
-
-        Original Asset
-        <span class="req">*</span>
-
-      </div>
-
-
-      <select
-        id="type"
-        hidden
-      >
-
-        <option
-          value="original"
-          selected
-        >
-          Original Asset
-        </option>
-
-      </select>
-
-
-      <button
-        type="button"
-        class="btn"
-        onclick="next(1)"
-      >
-        Start Your Release
-      </button>
-
-    </div>
-
-
-    <!-- STEP 2 -->
-
-    <div
-      id="step2"
-      class="section"
-      hidden
-    ></div>
-
-
-    <!-- STEP 3 -->
-
-    <div
-      id="step3"
-      class="section"
-      hidden
-    >
-
-
-      <!-- COVER -->
-
-      <div style="margin-bottom:25px;">
-
-        <div
-          class="label"
-          style="margin-bottom:10px;"
-        >
-          Cover Art
-          <span class="req">*</span>
+        <div class="need">
+          <div class="need-i">
+            <div class="ic"><svg class="i"><use href="#i-file"/></svg></div>
+            <div><strong>Detail rilisan</strong><span>Judul, artist, label, genre, serta nama composer dan lyrics.</span></div>
+          </div>
+          <div class="need-i">
+            <div class="ic"><svg class="i"><use href="#i-image"/></svg></div>
+            <div><strong>Cover art</strong><span>Berformat JPG atau PNG, sebaiknya rasio 1:1.</span></div>
+          </div>
+          <div class="need-i">
+            <div class="ic"><svg class="i"><use href="#i-music"/></svg></div>
+            <div><strong>File audio</strong><span>Berformat MP3 atau WAV.</span></div>
+          </div>
+          <div class="need-i">
+            <div class="ic"><svg class="i"><use href="#i-calendar"/></svg></div>
+            <div><strong>Tanggal rilis</strong><span>Minimal 14 hari dari hari ini. Saat ini hanya rilisan Single yang didukung.</span></div>
+          </div>
         </div>
+      </div>
 
+      <!-- STEP 2 -->
+      <div id="step2" class="section" hidden>
+        <div class="sec-title">Detail rilisan</div>
+        <p class="sec-desc">Isi data rilisan dengan benar. Kolom bertanda <span style="color:var(--red)">*</span> wajib diisi.</p>
 
-        <label class="upload-box">
+        <div class="grp">
+          <div class="grp-t">Informasi rilis</div>
 
-          <input
-            id="cover"
-            type="file"
-            accept="image/*"
-            hidden
-          >
-
-
-          <div class="upload-inner">
-
-            <img
-              id="coverPreview"
-            >
-
-
-            <div id="coverPlaceholder">
-
-              <img
-                src="../assets/upload-icon.png"
-                class="upload-icon-img"
-              >
-
-              <div class="upload-text">
-                Upload Cover
-                <br>
-                JPG / PNG
-              </div>
-
-            </div>
-
+          <div class="field" data-f="title">
+            <label class="label" for="title">Title <span class="req">*</span></label>
+            <input class="input" id="title" placeholder="Release title" autocomplete="off">
+            <div class="err-msg"></div>
           </div>
 
-        </label>
-
-      </div>
-
-
-      <!-- AUDIO -->
-
-      <div style="margin-bottom:25px;">
-
-        <div
-          class="label"
-          style="margin-bottom:10px;"
-        >
-          Audio File
-          <span class="req">*</span>
-        </div>
-
-
-        <label class="upload-audio">
-
-          <input
-            id="audio"
-            type="file"
-            accept="audio/*"
-            hidden
-          >
-
-
-          <div class="audio-box">
-
-            <img
-              src="../assets/audio-icon.png"
-              class="audio-icon-img"
-            >
-
-
-            <div class="audio-info">
-
-              <div
-                id="audioName"
-                class="audio-name"
-              >
-                No file selected
-              </div>
-
-
-              <div class="audio-sub">
-                MP3 / WAV
-              </div>
-
+          <div class="row2">
+            <div class="field" data-f="artist">
+              <label class="label" for="artist">Artist Name <span class="req">*</span></label>
+              <input class="input" id="artist" placeholder="Artist name" autocomplete="off">
+              <div class="err-msg"></div>
             </div>
-
+            <div class="field" data-f="labelName">
+              <label class="label" for="labelName">Label <span class="req">*</span></label>
+              <input class="input" id="labelName" placeholder="e.g. Dynotic Distribution" autocomplete="off">
+              <div class="err-msg"></div>
+            </div>
           </div>
 
-        </label>
+          <div class="row2">
+            <div class="field" data-f="genre">
+              <label class="label" for="genre">Genre <span class="req">*</span></label>
+              <div class="select">
+                <select id="genre">
+                  <option value="">Select Genre</option>
+                <option>Alternative</option>
+                <option>Anime</option>
+                <option>Antiques &amp; Collectibles</option>
+                <option>Blues</option>
+                <option>Bossa Nova</option>
+                <option>Childrens Music</option>
+                <option>Chill Out</option>
+                <option>Christian</option>
+                <option>Classical</option>
+                <option>Comedy</option>
+                <option>Country</option>
+                <option>Dance</option>
+                <option>Dancehall</option>
+                <option>Devotional</option>
+                <option>Disco</option>
+                <option>Easy Listening</option>
+                <option>Educational</option>
+                <option>Electronic</option>
+                <option>Fitness &amp; Workout</option>
+                <option>Folk</option>
+                <option>Health &amp; Fitness</option>
+                <option>Holiday Music</option>
+                <option>House</option>
+                <option>Indian</option>
+                <option>Industrial</option>
+                <option>Inspirational</option>
+                <option>Instructional</option>
+                <option>Jazz</option>
+                <option>Latin</option>
+                <option>Lo-fi</option>
+                <option>Metal</option>
+                <option>Motown</option>
+                <option>Oldies</option>
+                <option>Pop</option>
+                <option>Phonk</option>
+                <option>R&amp;B/Soul</option>
+                <option>Rap/Hip-Hop</option>
+                <option>Reggae</option>
+                <option>Rock</option>
+                <option>Samba</option>
+                <option>Soundtrack</option>
+                <option>Spoken Word</option>
+                <option>Unknown</option>
+                <option>World</option>
+                </select>
+                <svg class="i"><use href="#i-chev-d"/></svg>
+              </div>
+              <div class="err-msg"></div>
+            </div>
+            <div class="field" data-f="releaseType">
+              <label class="label" for="releaseType">Release Type <span class="req">*</span></label>
+              <div class="select">
+                <select id="releaseType">
+                  <option value="single" selected>Single</option>
+                  <option value="ep">EP</option>
+                  <option value="album">Album</option>
+                </select>
+                <svg class="i"><use href="#i-chev-d"/></svg>
+              </div>
+              <div class="err-msg"></div>
+            </div>
+          </div>
 
+          <div class="rt-warn" id="releaseWarning" hidden>EP and Album releases are not supported yet. Please contact the admin for manual distribution.</div>
 
-        <div class="progress-wrapper">
+          <div class="row2">
+            <div class="field" data-f="releaseDate">
+              <label class="label" for="releaseDate">Release Date <span class="req">*</span></label>
+              <input class="input" type="date" id="releaseDate" required>
+              <div class="err-msg"></div>
+              <div class="hint">Minimal 14 hari dari hari ini.</div>
+            </div>
+            <div class="field">
+              <label class="label" for="version">Version <small>Optional</small></label>
+              <input class="input" id="version" placeholder="Optional" autocomplete="off">
+            </div>
+          </div>
+        </div>
 
-          <div
-            id="audioWave"
-            class="progress-bar"
-          ></div>
+        <div class="grp">
+          <div class="grp-t">Kredit</div>
+
+          <div class="field" data-f="fullname">
+            <label class="label" for="fullname">Composer &amp; Lyrics <span class="req">*</span></label>
+            <input class="input" id="fullname" placeholder="e.g. John Doe, Jane Smith" autocomplete="off">
+            <div class="err-msg"></div>
+            <div class="hint">Pisahkan beberapa nama dengan koma.</div>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label class="label" for="featuring">Featuring <small>Optional</small></label>
+              <input class="input" id="featuring" placeholder="Optional" autocomplete="off">
+            </div>
+            <div class="field">
+              <label class="label" for="producer">Producer <small>Optional</small></label>
+              <input class="input" id="producer" placeholder="Optional" autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+        <div class="grp">
+          <div class="grp-t">Link platform</div>
+          <div class="grp-d">Boleh dikosongkan jika belum ada.</div>
+
+          <div class="row2">
+            <div class="field">
+              <label class="label" for="spotifyUrl">Spotify URL</label>
+              <input class="input" id="spotifyUrl" inputmode="url" placeholder="https://open.spotify.com/..." autocomplete="off" autocapitalize="off">
+            </div>
+            <div class="field">
+              <label class="label" for="appleUrl">Apple Music URL</label>
+              <input class="input" id="appleUrl" inputmode="url" placeholder="https://music.apple.com/..." autocomplete="off" autocapitalize="off">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div id="step3" class="section" hidden>
+        <div class="sec-title">Upload file</div>
+        <p class="sec-desc">Upload cover art dan audio. Bisa tap atau tarik file ke kotak upload.</p>
+
+        <div class="up-grid">
+
+          <div>
+            <div class="label" style="margin-top:20px">Cover Art <span class="req">*</span></div>
+            <label class="drop cover-drop" id="coverDrop">
+              <input id="cover" class="vh" type="file" accept="image/jpeg,image/png">
+              <div class="cover-in" id="coverPlaceholder">
+                <img src="../assets/upload-icon.png" class="upload-icon-img" alt="">
+                <div class="upload-text">Upload Cover (JPG / PNG)</div>
+              </div>
+              <img id="coverPreview" alt="" hidden>
+              <div class="cover-shade" id="coverPct">0%</div>
+              <div class="cover-bar"><i id="coverBar"></i></div>
+            </label>
+            <div class="u-status" id="coverStatus"></div>
+          </div>
+
+          <div>
+            <div class="label" style="margin-top:20px">Audio File <span class="req">*</span></div>
+            <label class="drop audio-drop" id="audioDrop">
+              <input id="audio" class="vh" type="file" accept="audio/mpeg,audio/wav,audio/x-wav">
+              <img src="../assets/audio-icon.png" class="audio-icon-img" alt="">
+              <div class="audio-info">
+                <div id="audioName" class="audio-name">No file selected</div>
+                <div class="audio-sub" id="audioSub">MP3 / WAV</div>
+              </div>
+            </label>
+            <div class="progress-wrapper"><div id="audioWave" class="progress-bar"></div></div>
+            <div class="u-status" id="audioStatus"></div>
+            <audio id="audioPlayer" controls hidden></audio>
+          </div>
 
         </div>
 
+        <div class="up-hint" id="upHint">Upload cover dan audio untuk melanjutkan ke preview.</div>
       </div>
 
+      <!-- STEP 4 -->
+      <div id="step4" class="section" hidden>
+        <div class="sec-title">Release Preview</div>
+        <p class="sec-desc">Periksa kembali semua data sebelum dikirim.</p>
 
-      <div class="button-row">
+        <div id="previewBox"></div>
 
-        <button
-          type="button"
-          class="btn gray"
-          onclick="back(3)"
-          style="flex:1;"
-        >
-          Back
-        </button>
-
-
-        <button
-          type="button"
-          class="btn"
-          id="previewBtn"
-          onclick="loadPreview(); goto(4)"
-          disabled
-          style="flex:2;"
-        >
-          Preview
-        </button>
-
+        <div class="note">Rilisan akan dikirim dengan status proposal dan ditinjau oleh tim Dynotic.</div>
       </div>
 
-    </div>
+      <!-- ACTION BAR (satu untuk semua langkah) -->
+      <div class="actions" id="actions">
+        <div class="actions-in">
+          <button type="button" class="btn back" id="backA" hidden><svg class="i bk"><use href="#i-back"/></svg><span id="backLabel">Back</span></button>
+          <button type="button" class="btn dark" id="primaryBtn"></button>
+        </div>
+      </div>
 
-
-    <!-- STEP 4 -->
-
-    <div
-      id="step4"
-      class="section"
-      hidden
-    >
-
-      <div
-        class="preview"
-        id="previewBox"
-      ></div>
-
-
-      <div style="height:10px;"></div>
-
-
-      <button
-        class="btn gray"
-        onclick="back(4)"
-      >
-        Edit
-      </button>
-
-
-      <div style="height:9px;"></div>
-
-
-      <button
-        class="btn"
-        id="submitBtn"
-        onclick="submitRelease()"
-      >
-
-        <span id="btnText">
-          Submit Release
-        </span>
-
-        <span
-          id="btnLoader"
-          style="display:none;"
-        >
-          Loading...
-        </span>
-
-      </button>
-
-    </div>
-
-
+    </section>
   </div>
-
 </main>
 
+<!-- DONE -->
+<div class="done" id="done" role="alertdialog" aria-live="assertive" aria-labelledby="doneTitle">
+  <div class="done-card">
+    <div class="done-ic"><svg class="i"><use href="#i-check"/></svg></div>
+    <h3 id="doneTitle">Rilisan terkirim</h3>
+    <p>Rilisan kamu sudah masuk dan akan ditinjau oleh tim Dynotic. Mengalihkan ke katalog…</p>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-
 <script>
-
+/* ================= FIREBASE ================= */
 firebase.initializeApp({
-
-  apiKey:
-  "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
-
-  authDomain:
-  "dynopay-2513c.firebaseapp.com",
-
-  databaseURL:
-  "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
-
+  apiKey:"AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain:"dynopay-2513c.firebaseapp.com",
+  databaseURL:"https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
 });
 
+const db = firebase.database();
+const WORKER_URL = "https://upload-assets.dynotic-bot.workers.dev/";
 
-const db =
-  firebase.database();
+const $ = id => document.getElementById(id);
 
+/* ================= AUTH ================= */
+firebase.auth().onAuthStateChanged(user => {
+  if(!user) location.href = "https://app.dynoticcollective.com/login";
+});
 
-const WORKER_URL =
-  "https://upload-assets.dynotic-bot.workers.dev/";
+/* ================= HELPERS ================= */
+function toast(text){
+  const t = $("toast");
+  t.textContent = text;
+  t.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove("show"), 2600);
+}
 
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+}
 
-/* UPLOAD */
+function icon(name, cls){ return '<svg class="i' + (cls ? " " + cls : "") + '"><use href="#i-' + name + '"/></svg>'; }
 
-function uploadFile(
-  file,
-  progressCallback,
-  doneCallback
-){
+function fmtSize(b){
+  if(b < 1024 * 1024) return Math.max(1, Math.round(b / 1024)) + " KB";
+  return (b / 1024 / 1024).toFixed(1) + " MB";
+}
 
-  const formData =
-    new FormData();
+function setStatus(el, kind, text, extraHTML){
+  el.className = "u-status" + (kind ? " " + kind : "");
+  const ic = kind === "ok" ? "check" : (kind === "bad" || kind === "warn") ? "alert" : kind === "busy" ? "loader" : "";
+  el.innerHTML = (ic ? icon(ic) : "") + "<span></span>" + (extraHTML || "");
+  el.querySelector("span").textContent = text || "";
+}
 
-  formData.append(
-    "file",
-    file
-  );
+/* ================= TOPBAR ================= */
+$("backBtn").addEventListener("click", () => {
+  if(history.length > 1) history.back();
+  else location.href = "../dashboard";
+});
 
+const topbar = $("topbar");
+function onScroll(){ topbar.classList.toggle("scrolled", window.scrollY > 6); }
+onScroll();
+window.addEventListener("scroll", onScroll, { passive:true });
 
-  const xhr =
-    new XMLHttpRequest();
+/* ================= DRAFT (step 2 only) ================= */
+const FIELDS = ["title","labelName","artist","genre","releaseType","releaseDate","version","fullname","featuring","producer","spotifyUrl","appleUrl"];
+const DRAFT_KEY = "dyn_oa_draft";
 
+function loadDraft(){
+  try{
+    const d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || "{}");
+    FIELDS.forEach(f => { if(d[f]) $(f).value = d[f]; });
+  }catch(_){}
+}
 
-  xhr.open(
-    "POST",
-    WORKER_URL,
-    true
-  );
+function saveDraft(){
+  try{
+    const d = {};
+    FIELDS.forEach(f => { d[f] = $(f).value; });
+    sessionStorage.setItem(DRAFT_KEY, JSON.stringify(d));
+  }catch(_){}
+}
 
+function clearDraft(){
+  try{ sessionStorage.removeItem(DRAFT_KEY); }catch(_){}
+}
 
-  xhr.upload.onprogress =
-  function(e){
+/* ================= UPLOAD ================= */
+function uploadFile(file, onProgress, onDone){
 
-    if(e.lengthComputable){
+  const formData = new FormData();
+  formData.append("file", file);
 
-      const percent =
-        Math.round(
-          (e.loaded / e.total) * 100
-        );
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", WORKER_URL, true);
 
-      progressCallback(percent);
-
-    }
-
+  xhr.upload.onprogress = e => {
+    if(e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100));
   };
 
-
-  xhr.onload =
-  function(){
-
-    if(xhr.status === 200){
-
-      const data =
-        JSON.parse(
-          xhr.responseText
-        );
-
-
-      if(data.success){
-
-        doneCallback(
-          data.url
-        );
-
+  xhr.onload = () => {
+    try{
+      if(xhr.status === 200){
+        const data = JSON.parse(xhr.responseText);
+        if(data.success) onDone(data.url);
+        else onDone(null, "Upload gagal: " + (data.error || "Unknown error"));
       }else{
-
-        alert(
-          "Upload gagal: " +
-          data.error
-        );
-
-        doneCallback(null);
-
+        onDone(null, "Upload gagal (" + xhr.status + ").");
       }
-
-    }else{
-
-      alert("Upload gagal!");
-
-      doneCallback(null);
-
+    }catch(_){
+      onDone(null, "Respons upload tidak valid.");
     }
-
   };
 
-
-  xhr.onerror =
-  function(){
-
-    alert("Upload error!");
-
-    doneCallback(null);
-
-  };
-
+  xhr.onerror = () => onDone(null, "Koneksi bermasalah saat upload.");
 
   xhr.send(formData);
-
+  return xhr;
 }
 
-
-/* AUTH */
-
-firebase.auth()
-.onAuthStateChanged(user => {
-
-  if(!user){
-
-    location.href =
-      "https://app.dynoticcollective.com/login";
-
-  }
-
-});
-
-
-
-/* STEP VALIDATION */
-
-const stepsData = {
-
-  1: () => true,
-
-  2: () => {
-    const title = document.getElementById("title")?.value.trim();
-    const artist = document.getElementById("artist")?.value.trim();
-    const label = document.getElementById("labelName")?.value.trim();
-    const fullname = document.getElementById("fullname")?.value.trim();
-    const genre = document.getElementById("genre")?.value;
-    const releaseDate = document.getElementById("releaseDate")?.value;
-
-    if (!title || !artist || !label || !fullname || !genre || !releaseDate) {
-      return false;
-    }
-
-    const minDate = new Date();
-    minDate.setHours(0, 0, 0, 0);
-    minDate.setDate(minDate.getDate() + 14);
-
-    const selectedDate = new Date(releaseDate + "T00:00:00");
-
-    return selectedDate >= minDate;
-  },
-
-  3: () => {
-    return document.getElementById("audio")?.dataset.url &&
-           document.getElementById("cover")?.dataset.url;
-  }
-
+const up = {
+  audio:{ url:null, state:"idle", pct:0, file:null, xhr:null, token:0, error:"" },
+  cover:{ url:null, state:"idle", pct:0, file:null, xhr:null, token:0, error:"", hint:"" }
 };
 
+let audioObjURL = null;
+let coverObjURL = null;
+let submitting = false;
 
-
-/* HIDE */
-
-function hideAll(){
-
-  for(let i=1;i<=4;i++){
-
-    document.getElementById(
-      "step"+i
-    ).hidden = true;
-
-  }
-
+function isUploading(){
+  return up.audio.state === "uploading" || up.cover.state === "uploading";
 }
 
-
-/* STEP 2 */
-
-function loadStep2Fields(){
-
-  const s =
-    document.getElementById("step2");
-
-
-  s.innerHTML = "";
-
-
-  s.innerHTML += `
-
-    <div class="label">
-      Title
-      <span class="req">*</span>
-    </div>
-
-    <input
-      id="title"
-      placeholder="Release title"
-    >
-
-
-    <div class="label">
-      Label
-      <span class="req">*</span>
-    </div>
-
-    <input
-      id="labelName"
-      placeholder="e.g. Dynotic Distribution"
-    >
-
-
-    <div class="label">
-      Artist Name
-      <span class="req">*</span>
-    </div>
-
-    <input
-      id="artist"
-      placeholder="Artist name"
-    >
-
-
-    <div class="label">
-      Spotify URL
-    </div>
-
-    <input
-      id="spotifyUrl"
-      placeholder="https://open.spotify.com/..."
-    >
-
-
-    <div class="label">
-      Apple Music URL
-    </div>
-
-    <input
-      id="appleUrl"
-      placeholder="https://music.apple.com/..."
-    >
-
-
-    <div class="label">
-      Genre
-      <span class="req">*</span>
-    </div>
-
-    <select id="genre">
-
-      <option value="">
-        Select Genre
-      </option>
-
-      <option>Alternative</option>
-      <option>Anime</option>
-      <option>Antiques & Collectibles</option>
-      <option>Blues</option>
-      <option>Bossa Nova</option>
-      <option>Childrens Music</option>
-      <option>Chill Out</option>
-      <option>Christian</option>
-      <option>Classical</option>
-      <option>Comedy</option>
-      <option>Country</option>
-      <option>Dance</option>
-      <option>Dancehall</option>
-      <option>Devotional</option>
-      <option>Disco</option>
-      <option>Easy Listening</option>
-      <option>Educational</option>
-      <option>Electronic</option>
-      <option>Fitness & Workout</option>
-      <option>Folk</option>
-      <option>Health & Fitness</option>
-      <option>Holiday Music</option>
-      <option>House</option>
-      <option>Indian</option>
-      <option>Industrial</option>
-      <option>Inspirational</option>
-      <option>Instructional</option>
-      <option>Jazz</option>
-      <option>Latin</option>
-      <option>Lo-fi</option>
-      <option>Metal</option>
-      <option>Motown</option>
-      <option>Oldies</option>
-      <option>Pop</option>
-      <option>Phonk</option>
-      <option>R&B/Soul</option>
-      <option>Rap/Hip-Hop</option>
-      <option>Reggae</option>
-      <option>Rock</option>
-      <option>Samba</option>
-      <option>Soundtrack</option>
-      <option>Spoken Word</option>
-      <option>Unknown</option>
-      <option>World</option>
-
-    </select>
-
-
-    <div class="label">
-      Release Type
-      <span class="req">*</span>
-    </div>
-
-    <select id="releaseType">
-
-      <option
-        value="single"
-        selected
-      >
-        Single
-      </option>
-
-      <option value="ep">
-        EP
-      </option>
-
-      <option value="album">
-        Album
-      </option>
-
-    </select>
-
-
-    <div
-      id="releaseWarning"
-      class="release-warning"
-      style="display:none;"
-    >
-      EP and Album releases are not supported yet.
-      Please contact the admin for manual distribution.
-    </div>
-
-
-<div class="label">
-  Release Date
-  <span class="req">*</span>
-</div>
-
-<input
-  type="date"
-  id="releaseDate"
-  required
->
-
-<div
-  style="
-    font-size:11px;
-    color:#858891;
-    margin-top:-8px;
-    margin-bottom:15px;
-  "
->
-  Release date must be at least 14 days from today.
-</div>
-
-    <div class="label">
-      Version
-    </div>
-
-    <input
-      id="version"
-      placeholder="Optional"
-    >
-
-
-    <div class="label">
-      Composer & Lyrics
-      <span class="req">*</span>
-    </div>
-
-    <input
-      id="fullname"
-      placeholder="e.g. John Doe, Jane Smith"
-    >
-
-
-    <div
-      style="
-        font-size:11px;
-        color:#858891;
-        margin-top:-8px;
-        margin-bottom:15px;
-      "
-    >
-      Separate multiple names with commas.
-    </div>
-
-
-    <div class="label">
-      Featuring
-    </div>
-
-    <input
-      id="featuring"
-      placeholder="Optional"
-    >
-
-
-    <div class="label">
-      Producer
-    </div>
-
-    <input
-      id="producer"
-      placeholder="Optional"
-    >
-
-  `;
-
-
-  s.innerHTML += `
-
-    <button
-      type="button"
-      class="btn gray"
-      onclick="back(2)"
-    >
-      Back
-    </button>
-
-    <div style="height:9px;"></div>
-
-    <button
-      type="button"
-      class="btn"
-      onclick="next(2)"
-    >
-      Continue
-    </button>
-
-  `;
-
-
-  
-  document
-    .getElementById("releaseType")
-    .addEventListener(
-      "change",
-      e => {
-
-        const val = e.target.value;
-
-        const warning = document.getElementById("releaseWarning");
-
-        if (val === "ep" || val === "album") {
-          warning.style.display = "block";
-        } else {
-          warning.style.display = "none";
-        }
-
+function startUpload(kind, file){
+  const u = up[kind];
+
+  if(u.xhr){ try{ u.xhr.abort(); }catch(_){} }
+
+  const token = ++u.token;
+  u.file = file;
+  u.url = null;
+  u.pct = 0;
+  u.state = "uploading";
+  renderUpload(kind);
+  refreshGate();
+
+  u.xhr = uploadFile(
+    file,
+    p => { if(token !== u.token) return; u.pct = p; renderUpload(kind); },
+    (url, err) => {
+      if(token !== u.token) return;
+      u.xhr = null;
+      if(url){
+        u.url = url;
+        u.state = "done";
+        u.pct = 100;
+      }else{
+        u.state = "error";
+        u.error = err || "Upload gagal.";
+        toast(u.error);
       }
-    );
-
-  setMinReleaseDate();
-
-}
-
-
-
-/* UPLOAD LISTENERS */
-
-let uploadListenerAttached =
-  false;
-
-
-function attachUploadListeners(){
-
-  if(uploadListenerAttached)
-    return;
-
-
-  uploadListenerAttached =
-    true;
-
-
-  const audioInput =
-    document.getElementById("audio");
-
-
-  const coverInput =
-    document.getElementById("cover");
-
-
-  const previewBtn =
-    document.getElementById("previewBtn");
-
-
-  const audioWave =
-    document.getElementById("audioWave");
-
-
-  const audioName =
-    document.getElementById("audioName");
-
-
-  const coverPreview =
-    document.getElementById("coverPreview");
-
-
-  let audioUploaded =
-    false;
-
-
-  let coverUploaded =
-    false;
-
-
-  function checkAllUploaded(){
-
-    previewBtn.disabled =
-      !(audioUploaded && coverUploaded);
-
-  }
-
-
-  /* AUDIO */
-
-  audioInput.addEventListener(
-    "change",
-    e => {
-
-      const file =
-        e.target.files[0];
-
-
-      if(!file) return;
-
-
-      audioUploaded =
-        false;
-
-
-      audioName.textContent =
-        "Uploading...";
-
-
-      audioWave.style.width =
-        "0%";
-
-
-      uploadFile(
-
-        file,
-
-        percent => {
-
-          audioWave.style.width =
-            percent + "%";
-
-
-          audioName.textContent =
-            file.name +
-            " (" +
-            percent +
-            "%)";
-
-        },
-
-        url => {
-
-          if(url){
-
-            audioInput.dataset.url =
-              url;
-
-
-            audioUploaded =
-              true;
-
-
-            audioName.textContent =
-              file.name +
-              " (Done ✓)";
-
-
-            checkAllUploaded();
-
-            updateStepUI();
-
-          }
-
-        }
-
-      );
-
+      renderUpload(kind);
+      refreshGate();
     }
   );
-
-
-  /* COVER */
-
-  coverInput.addEventListener(
-    "change",
-    e => {
-
-      const file =
-        e.target.files[0];
-
-
-      if(!file) return;
-
-
-      coverUploaded =
-        false;
-
-
-      const reader =
-        new FileReader();
-
-
-      reader.onload =
-      ev => {
-
-        coverPreview.src =
-          ev.target.result;
-
-
-        coverPreview.style.display =
-          "block";
-
-
-        document
-          .getElementById(
-            "coverPlaceholder"
-          )
-          .style.display =
-          "none";
-
-      };
-
-
-      reader.readAsDataURL(file);
-
-
-      uploadFile(
-
-        file,
-
-        () => {},
-
-        url => {
-
-          if(url){
-
-            coverInput.dataset.url =
-              url;
-
-
-            coverUploaded =
-              true;
-
-
-            checkAllUploaded();
-
-            updateStepUI();
-
-          }
-
-        }
-
-      );
-
-    }
-  );
-
 }
 
+function renderUpload(kind){
+  const u = up[kind];
 
-/* NAVIGATION */
+  if(kind === "audio"){
+    const status = $("audioStatus");
+    const drop = $("audioDrop");
+    $("audioWave").style.width = u.pct + "%";
+    drop.classList.toggle("done", u.state === "done");
+    drop.classList.toggle("fail", u.state === "error");
 
-function next(n){
-
-  if(n === 1){
-
-    document
-      .getElementById("type")
-      .value =
-      "original";
-
-
-    loadStep2Fields();
-
-    goto(2);
-
-    updateStepUI();
-
+    if(u.state === "uploading") setStatus(status, "busy", "Mengunggah… " + u.pct + "%");
+    else if(u.state === "done") setStatus(status, "ok", "Audio berhasil di-upload.");
+    else if(u.state === "error") setStatus(status, "bad", u.error, '<button type="button" class="btn sm" data-retry="audio">' + icon("refresh") + 'Coba lagi</button>');
+    else setStatus(status, "", "");
     return;
-
   }
 
+  const status = $("coverStatus");
+  const drop = $("coverDrop");
+  $("coverBar").style.width = u.pct + "%";
+  $("coverPct").textContent = u.pct + "%";
+  drop.classList.toggle("busy", u.state === "uploading");
+  drop.classList.toggle("done", u.state === "done");
+  drop.classList.toggle("fail", u.state === "error");
 
-  if(n === 2){
+  if(u.state === "uploading") setStatus(status, "busy", "Mengunggah… " + u.pct + "%");
+  else if(u.state === "done") setStatus(status, u.hint ? "warn" : "ok", u.hint || "Cover berhasil di-upload.");
+  else if(u.state === "error") setStatus(status, "bad", u.error, '<button type="button" class="btn sm" data-retry="cover">' + icon("refresh") + 'Coba lagi</button>');
+  else setStatus(status, "", "");
+}
 
-    if(!stepsData[2]()){
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-retry]");
+  if(!b) return;
+  e.preventDefault();
+  const kind = b.getAttribute("data-retry");
+  if(up[kind].file) startUpload(kind, up[kind].file);
+});
 
-      alert(
-        "Lengkapi semua field wajib!"
-      );
+function handleAudio(file){
+  if(!file) return;
 
+  const okType = /^audio\/(mpeg|mp3|wav|x-wav|wave|vnd\.wave)$/.test(file.type) || /\.(mp3|wav)$/i.test(file.name);
+  if(!okType){
+    toast("Pilih file audio MP3 atau WAV.");
+    $("audio").value = "";
+    return;
+  }
+
+  $("audioName").textContent = file.name;
+  $("audioSub").textContent = fmtSize(file.size) + " • " + (/\.wav$/i.test(file.name) ? "WAV" : "MP3");
+
+  if(audioObjURL) URL.revokeObjectURL(audioObjURL);
+  audioObjURL = URL.createObjectURL(file);
+  $("audioPlayer").src = audioObjURL;
+  $("audioPlayer").hidden = false;
+
+  startUpload("audio", file);
+}
+
+function handleCover(file){
+  if(!file) return;
+
+  if(!/^image\/(jpeg|png)$/.test(file.type)){
+    toast("Cover harus berformat JPG atau PNG.");
+    $("cover").value = "";
+    return;
+  }
+
+  if(coverObjURL) URL.revokeObjectURL(coverObjURL);
+  coverObjURL = URL.createObjectURL(file);
+
+  const prev = $("coverPreview");
+  prev.src = coverObjURL;
+  prev.hidden = false;
+  $("coverPlaceholder").style.display = "none";
+
+  up.cover.hint = "";
+  const img = new Image();
+  img.onload = () => {
+    const note = img.naturalWidth + "×" + img.naturalHeight + " px";
+    up.cover.hint = img.naturalWidth !== img.naturalHeight
+      ? "Cover tidak persegi (" + note + "). Sebaiknya rasio 1:1."
+      : "";
+    if(up.cover.state === "done") renderUpload("cover");
+  };
+  img.src = coverObjURL;
+
+  startUpload("cover", file);
+}
+
+$("audio").addEventListener("change", e => handleAudio(e.target.files[0]));
+$("cover").addEventListener("change", e => handleCover(e.target.files[0]));
+
+/* drag & drop */
+[["coverDrop", handleCover], ["audioDrop", handleAudio]].forEach(([id, handler]) => {
+  const el = $(id);
+  ["dragenter","dragover"].forEach(ev => el.addEventListener(ev, e => { e.preventDefault(); el.classList.add("over"); }));
+  ["dragleave","drop"].forEach(ev => el.addEventListener(ev, e => { e.preventDefault(); el.classList.remove("over"); }));
+  el.addEventListener("drop", e => {
+    const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if(f) handler(f);
+  });
+});
+
+window.addEventListener("beforeunload", e => {
+  if(isUploading()){ e.preventDefault(); e.returnValue = ""; }
+});
+
+/* ================= VALIDATION ================= */
+const REQUIRED = ["title","labelName","artist","genre","releaseType","releaseDate","fullname"];
+
+const MSG = {
+  title:"Judul rilisan wajib diisi.",
+  labelName:"Label wajib diisi.",
+  artist:"Nama artist wajib diisi.",
+  genre:"Pilih genre terlebih dahulu.",
+  fullname:"Composer & Lyrics wajib diisi."
+};
+
+function minReleaseDate(){
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 14);
+  return d;
+}
+
+function setMinReleaseDate(){
+  const d = minReleaseDate();
+  $("releaseDate").min = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+
+function parseNames(value){
+  return String(value || "").split(",").map(n => n.trim()).filter(n => n !== "");
+}
+
+function fieldError(f){
+  const v = $(f).value.trim();
+
+  if(f === "releaseType"){
+    return (v === "ep" || v === "album") ? "EP dan Album belum didukung. Hubungi admin untuk distribusi manual." : "";
+  }
+
+  if(f === "releaseDate"){
+    if(!v) return "Tanggal rilis wajib diisi.";
+    const sel = new Date(v + "T00:00:00");
+    if(isNaN(sel) || sel < minReleaseDate()) return "Tanggal rilis minimal 14 hari dari hari ini.";
+    return "";
+  }
+
+  if(f === "fullname") return parseNames(v).length ? "" : MSG.fullname;
+
+  return v ? "" : MSG[f];
+}
+
+function step2Valid(){
+  return REQUIRED.every(f => !fieldError(f));
+}
+
+function step3Valid(){
+  return up.audio.state === "done" && up.cover.state === "done" && !!up.audio.url && !!up.cover.url;
+}
+
+function markErrors(){
+  let first = null;
+  REQUIRED.forEach(f => {
+    const msg = fieldError(f);
+    const wrap = document.querySelector('.field[data-f="' + f + '"]');
+    wrap.classList.toggle("err", !!msg);
+    wrap.querySelector(".err-msg").textContent = msg;
+    if(msg && !first) first = $(f);
+  });
+  if(first){
+    first.scrollIntoView({ behavior:"smooth", block:"center" });
+    first.focus({ preventScroll:true });
+  }
+  return !first;
+}
+
+function clearError(f){
+  const wrap = document.querySelector('.field[data-f="' + f + '"]');
+  if(wrap) wrap.classList.remove("err");
+}
+
+/* ================= STEPS + ACTION BAR ================= */
+const ACT = {
+  1:{ back:null,   label:"Continue",       ic:"arrow-r", cls:"go" },
+  2:{ back:"Back", label:"Continue",       ic:"arrow-r", cls:"go" },
+  3:{ back:"Back", label:"Preview",        ic:"arrow-r", cls:"go" },
+  4:{ back:"Edit", label:"Submit Release", ic:"send",    cls:"go" }
+};
+
+let current = 1;
+
+function renderActions(){
+  const a = ACT[current];
+
+  $("backA").hidden = !a.back;
+  if(a.back){
+    $("backLabel").textContent = a.back;
+    $("backA").querySelector(".i").setAttribute("class", "i " + (current === 4 ? "" : "bk"));
+    $("backA").querySelector("use").setAttribute("href", current === 4 ? "#i-edit" : "#i-back");
+  }
+
+  const p = $("primaryBtn");
+  if(submitting){
+    p.innerHTML = icon("loader", "spin") + "<span>Mengirim…</span>";
+  }else{
+    p.innerHTML = "<span>" + a.label + "</span>" + icon(a.ic, a.cls);
+  }
+  refreshGate();
+}
+
+function goTo(n){
+  if(n >= 3 && !step2Valid()){
+    toast("Lengkapi data di langkah 2 dulu.");
+    goTo(2);
+    markErrors();
+    return;
+  }
+  if(n === 4 && !step3Valid()){
+    toast(isUploading() ? "Tunggu sampai upload selesai." : "Upload audio dan cover dulu.");
+    if(current !== 3) goTo(3);
+    return;
+  }
+
+  current = n;
+
+  for(let i = 1; i <= 4; i++){
+    $("step" + i).hidden = i !== n;
+    const s = $("s" + i);
+    s.classList.toggle("active", i === n);
+    s.classList.toggle("done", i < n);
+    s.setAttribute("aria-selected", String(i === n));
+  }
+
+  $("stepCount").textContent = "Langkah " + n + " dari 4";
+
+  if(n === 4) loadPreview();
+
+  renderActions();
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+function refreshGate(){
+  const v2 = step2Valid();
+  const v3 = step3Valid();
+  $("s3").classList.toggle("locked", !v2);
+  $("s4").classList.toggle("locked", !(v2 && v3));
+
+  $("primaryBtn").disabled = submitting || (current === 3 && !v3);
+  $("backA").disabled = submitting;
+
+  const hint = $("upHint");
+  if(hint){
+    if(v3){ hint.className = "up-hint ok"; hint.textContent = "Cover dan audio sudah siap. Lanjut ke preview."; }
+    else if(isUploading()){ hint.className = "up-hint"; hint.textContent = "Upload sedang berjalan. Tunggu sampai selesai."; }
+    else{ hint.className = "up-hint"; hint.textContent = "Upload cover dan audio untuk melanjutkan ke preview."; }
+  }
+}
+
+["s1","s2","s3","s4"].forEach((id, i) => $(id).addEventListener("click", () => goTo(i + 1)));
+
+$("backA").addEventListener("click", () => {
+  if(current === 4) goTo(2);
+  else goTo(current - 1);
+});
+
+$("primaryBtn").addEventListener("click", () => {
+  if(current === 1){ $("type").value = "original"; goTo(2); return; }
+
+  if(current === 2){
+    if(!markErrors()){
+      toast("Lengkapi semua field wajib.");
       return;
-
     }
-
+    goTo(3);
+    return;
   }
 
-
-  if(n === 3){
-
-    if(!stepsData[3]()){
-
-      alert(
-        "Tunggu sampai audio & cover selesai di-upload!"
-      );
-
+  if(current === 3){
+    if(!step3Valid()){
+      toast("Tunggu sampai audio dan cover selesai di-upload.");
       return;
-
     }
-
-
-    loadPreview();
-
+    goTo(4);
+    return;
   }
 
+  submitRelease();
+});
 
-  goto(n + 1);
-
-  updateStepUI();
-
-}
-
-
-function back(n){
-
-  goto(n - 1);
-
-}
-
-
-function goto(n){
-
-  hideAll();
-
-
-  document
-    .getElementById("step"+n)
-    .hidden =
-    false;
-
-
-  if(n === 3){
-
-    attachUploadListeners();
-
+document.addEventListener("input", e => {
+  if(FIELDS.includes(e.target.id)){
+    clearError(e.target.id);
+    saveDraft();
   }
+  refreshGate();
+});
 
-
-  for(let i=1;i<=4;i++){
-
-    document
-      .getElementById("s"+i)
-      .classList
-      .remove("active");
-
+document.addEventListener("change", e => {
+  if(FIELDS.includes(e.target.id)){
+    clearError(e.target.id);
+    saveDraft();
+    refreshGate();
   }
+  if(e.target.id === "releaseType"){
+    const v = e.target.value;
+    $("releaseWarning").hidden = !(v === "ep" || v === "album");
+  }
+});
 
+/* Enter pada input = lanjut */
+document.addEventListener("keydown", e => {
+  if(e.key === "Enter" && e.target.tagName === "INPUT" && e.target.type !== "file" && current === 2){
+    e.preventDefault();
+    $("primaryBtn").click();
+  }
+});
 
-  document
-    .getElementById("s"+n)
-    .classList
-    .add("active");
+/* ================= PREVIEW ================= */
+const TYPE_LABEL = { single:"Single", ep:"EP", album:"Album" };
 
+function fmtDate(v){
+  const d = new Date(v + "T00:00:00");
+  if(isNaN(d)) return v || "-";
+  return d.toLocaleDateString("id-ID", { day:"numeric", month:"long", year:"numeric" });
 }
-
-
-function setMinReleaseDate() {
-  const input = document.getElementById("releaseDate");
-  if (!input) return;
-
-  const minDate = new Date();
-  minDate.setDate(minDate.getDate() + 14);
-
-  const year = minDate.getFullYear();
-  const month = String(minDate.getMonth() + 1).padStart(2, "0");
-  const day = String(minDate.getDate()).padStart(2, "0");
-
-  input.min = `${year}-${month}-${day}`;
-}
-
-/* STEP UI */
-
-function updateStepUI(){
-
-  const validStep2 =
-    stepsData[2]();
-
-
-  const validStep3 =
-    stepsData[3]();
-
-
-  document
-    .getElementById("s3")
-    .style.opacity =
-    validStep2
-      ? "1"
-      : ".4";
-
-
-  document
-    .getElementById("s4")
-    .style.opacity =
-    (
-      validStep2 &&
-      validStep3
-    )
-      ? "1"
-      : ".4";
-
-
-  document
-    .getElementById("s3")
-    .style.pointerEvents =
-    validStep2
-      ? "auto"
-      : "none";
-
-
-  document
-    .getElementById("s4")
-    .style.pointerEvents =
-    (
-      validStep2 &&
-      validStep3
-    )
-      ? "auto"
-      : "none";
-
-}
-
-
-/* PREVIEW */
 
 function loadPreview(){
+  const v = id => $(id).value.trim();
 
-  const audioUrl =
-    document
-      .getElementById("audio")
-      ?.dataset.url;
+  const rows = [
+    ["Genre", v("genre")],
+    ["Label", v("labelName")],
+    ["Release type", TYPE_LABEL[v("releaseType")] || v("releaseType")],
+    ["Release date", fmtDate(v("releaseDate"))],
+    ["Composer & Lyrics", parseNames(v("fullname")).join(", ")]
+  ];
+  if(v("version")) rows.push(["Version", v("version")]);
+  if(v("featuring")) rows.push(["Featuring", v("featuring")]);
+  if(v("producer")) rows.push(["Producer", v("producer")]);
+  if(v("spotifyUrl")) rows.push(["Spotify", v("spotifyUrl")]);
+  if(v("appleUrl")) rows.push(["Apple Music", v("appleUrl")]);
 
-
-  const coverUrl =
-    document
-      .getElementById("cover")
-      ?.dataset.url;
-
-
-  const titleVal =
-    document
-      .getElementById("title")
-      ?.value ||
-    "-";
-
-
-  const artistVal =
-    document
-      .getElementById("artist")
-      ?.value ||
-    "-";
-
-
-  const genreVal =
-    document
-      .getElementById("genre")
-      ?.value ||
-    "-";
-
-
-  const labelVal =
-    document
-      .getElementById("labelName")
-      ?.value ||
-    "-";
-
-
-  const html = `
-
-    <div
-      style="
-        display:flex;
-        gap:13px;
-        align-items:center;
-      "
-    >
-
-      <img
-        src="${coverUrl}"
-        style="
-          width:70px;
-          height:70px;
-          border-radius:11px;
-          object-fit:cover;
-          border:1px solid #ddd;
-        "
-      >
-
-
-      <div>
-
-        <div
-          style="
-            font-weight:700;
-            font-size:15px;
-          "
-        >
-          ${titleVal}
-        </div>
-
-
-        <div
-          style="
-            font-size:12px;
-            color:#777b84;
-            margin-top:2px;
-          "
-        >
-          ${artistVal}
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <hr
-      style="
-        margin:14px 0;
-        border:none;
-        border-top:1px solid #e8e8ed;
-      "
-    >
-
-
-    <div>
-      <span>Genre:</span>
-      ${genreVal}
-    </div>
-
-
-    <div>
-      <span>Label:</span>
-      ${labelVal}
-    </div>
-
-  `;
-
-
-  document
-    .getElementById("previewBox")
-    .innerHTML =
-    html;
-
+  $("previewBox").innerHTML =
+    '<div class="pv-head">' +
+      '<img src="' + escapeHTML(up.cover.url || "") + '" alt="Cover Artwork">' +
+      '<div class="tx"><strong>' + escapeHTML(v("title") || "-") + '</strong><span>' + escapeHTML(v("artist") || "-") + '</span></div>' +
+    '</div>' +
+    '<div class="pv-list">' +
+      rows.map(r => '<div class="pv-row"><small>' + escapeHTML(r[0]) + '</small><b>' + escapeHTML(r[1]) + '</b></div>').join("") +
+    '</div>' +
+    (audioObjURL ? '<audio controls src="' + escapeHTML(audioObjURL) + '"></audio>' : "");
 }
 
-
-/* SUBMIT */
+/* ================= SUBMIT ================= */
+function setSubmitting(on){
+  submitting = on;
+  renderActions();
+}
 
 function submitRelease(){
 
-  const btn =
-    document.getElementById(
-      "submitBtn"
-    );
+  if(submitting) return;
 
-
-  const text =
-    document.getElementById(
-      "btnText"
-    );
-
-
-  const loader =
-    document.getElementById(
-      "btnLoader"
-    );
-
-
-  btn.disabled =
-    true;
-
-
-  text.style.display =
-    "none";
-
-
-  loader.style.display =
-    "inline";
-
-
-  const user =
-    firebase.auth()
-    .currentUser;
-
-
-  if(!user)
+  if(!step2Valid()){
+    toast("Lengkapi data rilisan terlebih dahulu.");
+    goTo(2);
+    markErrors();
     return;
+  }
 
+  if(!step3Valid()){
+    toast("Pastikan audio dan cover sudah berhasil di-upload.");
+    goTo(3);
+    return;
+  }
 
-  let data = {
+  setSubmitting(true);
 
-    type:
-      document
-        .getElementById("type")
-        .value,
+  const user = firebase.auth().currentUser;
 
+  if(!user){
+    setSubmitting(false);
+    toast("Sesi login tidak ditemukan. Silakan login kembali.");
+    setTimeout(() => { location.href = "https://app.dynoticcollective.com/login"; }, 1200);
+    return;
+  }
 
-    releaseType:
-      document
-        .getElementById("releaseType")
-        .value,
+  const v = id => $(id).value.trim();
 
-releaseDate:
-  document.getElementById("releaseDate").value,
-    
-    title:
-      document
-        .getElementById("title")
-        .value,
-
-
-    artist:
-      document
-        .getElementById("artist")
-        .value,
-
-
-    genre:
-      document
-        .getElementById("genre")
-        .value,
-
-
-    label:
-      document
-        .getElementById("labelName")
-        ?.value ||
-      "Unknown Label",
-
-
-    audio:
-      document
-        .getElementById("audio")
-        .dataset.url,
-
-
-    cover:
-      document
-        .getElementById("cover")
-        .dataset.url,
-
-
-    spotifyUrl:
-      document
-        .getElementById("spotifyUrl")
-        ?.value ||
-      "",
-
-
-    appleUrl:
-      document
-        .getElementById("appleUrl")
-        ?.value ||
-      "",
-
-
-    version:
-      document
-        .getElementById("version")
-        ?.value ||
-      "",
-
-
-    fullname:
-      document
-        .getElementById("fullname")
-        ?.value
-        .split(",")
-        .map(n => n.trim())
-        .filter(n => n !== ""),
-
-
-    status:
-      "proposal",
-
-
-    time:
-      Date.now()
-
+  const data = {
+    type: $("type").value,
+    releaseType: $("releaseType").value,
+    releaseDate: $("releaseDate").value,
+    title: v("title"),
+    artist: v("artist"),
+    genre: $("genre").value,
+    label: v("labelName") || "Unknown Label",
+    audio: up.audio.url,
+    cover: up.cover.url,
+    spotifyUrl: v("spotifyUrl"),
+    appleUrl: v("appleUrl"),
+    version: v("version"),
+    fullname: parseNames($("fullname").value),
+    status: "proposal",
+    time: Date.now()
   };
 
+  if(v("featuring")) data.featuring = v("featuring");
+  if(v("producer")) data.producer = v("producer");
 
-  const feat =
-    document
-      .getElementById("featuring")
-      ?.value;
-
-
-  if(feat)
-    data.featuring =
-      feat;
-
-
-  const prod =
-    document
-      .getElementById("producer")
-      ?.value;
-
-
-  if(prod)
-    data.producer =
-      prod;
-
-
-  db.ref(
-    "releases/" +
-    user.uid
-  )
-  .push(data)
-
-  .then(() => {
-
-    location.href =
-      "https://app.dynoticcollective.com/catalog/";
-
-  })
-
-  .catch(() => {
-
-    btn.disabled =
-      false;
-
-
-    text.style.display =
-      "inline";
-
-
-    loader.style.display =
-      "none";
-
-  });
-
+  db.ref("releases/" + user.uid)
+    .push(data)
+    .then(() => {
+      clearDraft();
+      $("done").classList.add("show");
+      document.body.classList.add("lock");
+      setTimeout(() => { location.href = "https://app.dynoticcollective.com/catalog/"; }, 1400);
+    })
+    .catch(error => {
+      console.error("Submit release error:", error);
+      setSubmitting(false);
+      toast("Gagal mengirim rilisan. Silakan coba lagi.");
+    });
 }
 
-
-/* LIVE UPDATE */
-
-document.addEventListener(
-  "input",
-  updateStepUI
-);
-
-
-updateStepUI();
-
+/* ================= INIT ================= */
+loadDraft();
+setMinReleaseDate();
+$("releaseWarning").hidden = !(["ep","album"].includes($("releaseType").value));
+renderActions();
 </script>
 
 </body>
