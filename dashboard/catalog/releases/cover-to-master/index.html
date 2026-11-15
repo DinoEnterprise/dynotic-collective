@@ -7,9 +7,9 @@
 
 <title>Cover to Master | Dynotic Distribution</title>
 
-<link rel="icon" type="image/png" href="../assets/favicon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
-<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+<link rel="icon" type="image/png" href="https://dynoticcollective/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://dynoticcollective/assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://dynoticcollective/assets/favicon-iphone.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -571,14 +571,12 @@ const WORKER_URL =
   "https://upload-assets.dynotic-bot.workers.dev/";
 
 
-/* SONG ID FROM URL */
+/* SONG DATA FROM URL */
 
-const urlParams =
-  new URLSearchParams(window.location.search);
+const urlParams = new URLSearchParams(window.location.search);
 
-const incomingSongId =
-  urlParams.get("songId") || "";
-
+const incomingSongId = urlParams.get("songId") || "";
+const incomingTitle = urlParams.get("title") || "";
 
 /* AUTH */
 
@@ -746,15 +744,16 @@ function loadStep2Fields(){
 
   s.innerHTML=`
 
-    <div class="label">
-      Title *
-    </div>
+<div class="label">
+  Title *
+</div>
 
-    <input
-      id="title"
-      placeholder="Judul lagu"
-      autocomplete="off"
-    >
+<input
+  id="title"
+  placeholder="Judul lagu"
+  autocomplete="off"
+  value="${escapeHTML(incomingTitle)}"
+>
 
     <div class="label">
       Song ID (Publisher) *
