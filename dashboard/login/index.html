@@ -1,240 +1,309 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login | Dynotic Distribution</title>
+<meta name="theme-color" content="#0d0d12">
+<meta name="robots" content="noindex, nofollow">
 
 <link rel="icon" type="image/png" href="../assets/favicon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
 <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
-  
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-*{ box-sizing:border-box; font-family:'Outfit',sans-serif; margin:0; padding:0; }
-
-body{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:linear-gradient(180deg,#e5e7eb,#d1d5db);
-  padding:15px;
+:root{
+  --bg:#f3f3f8;
+  --ink:#14141a;
+  --muted:#6f7280;
+  --line:#e2e2ea;
+  --dark:#0d0d12;
+  --accent:#7772a8;
+  --accent-2:#a9a3f2;
+  --ease:cubic-bezier(.16,1,.3,1);
 }
 
-/* CARD */
-.container{
-  width:100%;
-  max-width:420px;
-  background:#fff;
-  border-radius:26px;
-  padding:32px 26px;
-  text-align:center;
-  border:1px solid rgba(0,0,0,0.05);
-  box-shadow:0 10px 30px rgba(0,0,0,0.12),0 30px 60px rgba(0,0,0,0.08);
-  animation:enter .6s ease;
-}
-.container:hover{transform:translateY(-3px);transition:.3s;}
-@keyframes enter{
-  from{opacity:0;transform:translateY(40px)}
-  to{opacity:1;transform:none}
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{min-height:100vh;min-height:100dvh;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-/* LOGO */
-.logo{width:70px;margin-bottom:16px;}
-h2{margin-bottom:20px;font-size:22px;font-weight:700;color:#222;}
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 
-/* INPUT */
-.field{position:relative;margin-bottom:15px;width:100%;}
-input{
-  width:100%;
-  padding:14px 44px 14px 16px;
-  border-radius:12px;
-  border:1px solid #ddd;
-  font-size:15px;
-  outline:none;
-  transition:.2s;
-}
-input:focus{
-  border:1px solid #111;
-  box-shadow:0 0 0 3px rgba(0,0,0,0.08);
-}
+/* ---------- LAYOUT ---------- */
+.shell{min-height:100vh;min-height:100dvh;display:grid;grid-template-columns:minmax(380px,46%) 1fr}
 
-/* TOGGLE PASSWORD */
-.toggle{
-  position:absolute;
-  right:12px;
-  top:50%;
-  transform:translateY(-50%);
-  cursor:pointer;
-  font-size:18px;
-  user-select:none;
-  padding:4px;
-  border-radius:6px;
-  transition:.2s;
-  -webkit-tap-highlight-color:transparent;
-}
-.toggle:active,.toggle:focus{outline:2px solid #111;}
+/* ---------- BRAND PANEL ---------- */
+.panel{position:relative;background:var(--dark);color:#fff;padding:clamp(28px,4vw,52px);display:flex;flex-direction:column;overflow:hidden;isolation:isolate}
+.panel::before,.panel::after{content:"";position:absolute;border-radius:50%;filter:blur(90px);z-index:-1;pointer-events:none}
+.panel::before{width:520px;height:520px;background:rgba(119,114,168,.5);top:-180px;right:-160px}
+.panel::after{width:420px;height:420px;background:rgba(79,70,160,.35);bottom:-180px;left:-140px}
+.panel .grid{position:absolute;inset:0;z-index:-1;opacity:.3;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:52px 52px;-webkit-mask-image:radial-gradient(ellipse at 40% 40%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse at 40% 40%,#000 20%,transparent 75%)}
+.logo img{height:34px;width:auto;max-width:190px;object-fit:contain;filter:brightness(0) invert(1);display:block}
+.panel-body{margin:auto 0;padding:40px 0}
+.panel h1{font-size:clamp(34px,4.2vw,58px);line-height:1;letter-spacing:-.045em;font-weight:800}
+.panel h1 span{display:block;background:linear-gradient(90deg,var(--accent-2),#fff 75%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.panel p.tag{margin-top:18px;max-width:340px;font-size:15px;line-height:1.8;color:rgba(255,255,255,.58)}
+.eq{display:flex;align-items:flex-end;gap:5px;height:54px;margin-top:34px;max-width:300px}
+.eq span{flex:1;border-radius:4px;background:linear-gradient(to top,var(--accent),var(--accent-2));height:var(--h);transform-origin:bottom;animation:eq 1.1s ease-in-out infinite;opacity:.9}
+.eq span:nth-child(2n){animation-delay:.18s}
+.eq span:nth-child(3n){animation-delay:.36s}
+.eq span:nth-child(5n){animation-delay:.52s}
+.panel-foot{font-size:12px;color:rgba(255,255,255,.4)}
 
-/* BUTTON */
-button{
-  letter-spacing:.3px;
-  width:100%;
-  padding:15px;
-  border-radius:14px;
-  font-size:16px;
-  font-weight:700;
-  color:#fff;
-  background:#000;
-  border:1px solid #000;
-  cursor:pointer;
-  transition:.2s;
-}
-button:hover{background:#111;}
-button:focus,button:active{outline:2px solid #000;}
-button:active{transform:scale(.96);}
-button:disabled{opacity:.6;cursor:not-allowed;}
+/* ---------- FORM SIDE ---------- */
+.main{display:flex;flex-direction:column;padding:clamp(20px,3vw,36px)}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:13px}
+.back{display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-weight:500;text-decoration:none;padding:8px 12px 8px 8px;border-radius:999px;transition:background .2s,color .2s}
+.back:hover{background:#fff;color:var(--ink)}
+.back .i{width:16px;height:16px}
+.top-reg{color:var(--muted)}
+.top-reg a{font-weight:700;color:var(--ink);text-decoration:none;margin-left:4px}
+.top-reg a:hover{text-decoration:underline}
 
-/* NOTIFICATION */
-#notification{
-  display:none;
-  text-align:left;
-  padding:14px 15px;
-  border-radius:13px;
-  margin-top:16px;
-  gap:11px;
-  align-items:flex-start;
-  animation:noticeIn .25s ease;
-}
-@keyframes noticeIn{
-  from{opacity:0;transform:translateY(-6px);}
-  to{opacity:1;transform:translateY(0);}
-}
-#notification.show{display:flex;}
+.center{flex:1;display:flex;align-items:center;justify-content:center;padding:28px 0}
+.card{width:100%;max-width:410px;animation:enter .7s var(--ease) both}
+.card h2{font-size:clamp(28px,3.4vw,36px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.card .sub{margin-top:8px;font-size:14px;line-height:1.7;color:var(--muted)}
 
-.notice-icon{
-  width:25px;
-  height:25px;
-  min-width:25px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:14px;
-  font-weight:700;
-}
-.notice-content{flex:1;}
-.notice-title{
-  font-size:14px;
-  font-weight:700;
-  margin-bottom:3px;
-}
-.notice-message{
-  font-size:13px;
-  line-height:1.5;
-}
+form{margin-top:30px}
+.field{margin-bottom:16px}
+.field label{display:block;margin-bottom:7px;font-size:13px;font-weight:600;color:#3b3d49}
+.input{position:relative}
+.input .lead{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:#a3a5b0;pointer-events:none;transition:color .2s}
+.input input{width:100%;height:54px;padding:0 50px 0 46px;border-radius:15px;border:1.5px solid var(--line);background:#fff;font-size:16px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+.input input::placeholder{color:#b3b5c0}
+.input input:hover{border-color:#cfcfdb}
+.input input:focus{border-color:var(--ink);box-shadow:0 0 0 4px rgba(119,114,168,.16)}
+.input:focus-within .lead{color:var(--ink)}
+.input.invalid input{border-color:#e05757}
+.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;color:#8a8d9a;transition:background .2s,color .2s}
+.eye:hover{background:var(--bg);color:var(--ink)}
+.eye .i{width:19px;height:19px}
 
-/* WARNING */
-#notification.warning{
-  background:#fff8e8;
-  border:1px solid #f3dfad;
-  color:#805b16;
-}
-#notification.warning .notice-icon{
-  background:#f8e7bd;
-  color:#946515;
-}
+.caps{display:none;margin-top:7px;font-size:12px;color:#946515;align-items:center;gap:6px}
+.caps.show{display:flex}
+.caps .i{width:14px;height:14px}
 
-/* DANGER */
-#notification.danger{
-  background:#fff0f0;
-  border:1px solid #f3cccc;
-  color:#a52d2d;
-}
-#notification.danger .notice-icon{
-  background:#f8dada;
-  color:#c03939;
-}
+.row{display:flex;justify-content:flex-end;margin:-4px 0 22px}
+.row a{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none}
+.row a:hover{color:var(--ink);text-decoration:underline}
 
-/* INFO */
-#notification.info{
-  background:#eef6ff;
-  border:1px solid #cfe2fa;
-  color:#285b91;
-}
-#notification.info .notice-icon{
-  background:#d8eaff;
-  color:#2866a8;
-}
+.submit{width:100%;height:56px;border-radius:16px;background:var(--ink);color:#fff;font-size:16px;font-weight:700;letter-spacing:.2px;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .25s var(--ease),box-shadow .25s,background .2s}
+.submit:hover{background:#000;box-shadow:0 14px 30px rgba(20,20,26,.22);transform:translateY(-2px)}
+.submit:active{transform:scale(.98)}
+.submit:disabled{opacity:.65;cursor:not-allowed;transform:none;box-shadow:none}
+.submit .i{width:18px;height:18px}
+.spin{width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;animation:spin .7s linear infinite;display:none}
+.submit.loading .spin{display:block}
+.submit.loading .arrow{display:none}
 
-/* ERROR */
-#error{
-  margin-top:10px;
-  font-size:14px;
-  color:#e53e3e;
-  min-height:20px;
-}
+#error{margin-top:14px;min-height:20px;font-size:13px;font-weight:500;color:#d13a3a;text-align:center}
 
-/* LOADER */
-.loader{
-  position:fixed;
-  inset:0;
-  background:rgba(255,255,255,.9);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:700;
-  font-size:16px;
-  color:#111;
-  opacity:0;
-  pointer-events:none;
-  transition:.3s;
-}
-.loader.active{opacity:1;pointer-events:auto;}
+/* ---------- NOTIFICATION ---------- */
+#notification{display:none;margin-top:16px;padding:15px;border-radius:16px;gap:12px;align-items:flex-start;text-align:left;animation:noticeIn .3s var(--ease)}
+#notification.show{display:flex}
+.n-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.n-icon .i{width:17px;height:17px}
+.n-body{flex:1;min-width:0}
+.n-title{font-size:14px;font-weight:700;margin-bottom:3px}
+.n-msg{font-size:13px;line-height:1.6}
+.n-link{display:inline-flex;align-items:center;gap:5px;margin-top:9px;font-size:12px;font-weight:700;text-decoration:none;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.7)}
+.n-link:hover{background:#fff}
+.n-link .i{width:13px;height:13px}
+#notification.warning{background:#fff8e8;border:1px solid #f1dca6;color:#7a5513}
+#notification.warning .n-icon{background:#f8e7bd;color:#946515}
+#notification.danger{background:#fff0f0;border:1px solid #f1caca;color:#9d2b2b}
+#notification.danger .n-icon{background:#f8dada;color:#c03939}
+#notification.info{background:#eef6ff;border:1px solid #cde0f7;color:#285b91}
+#notification.info .n-icon{background:#d8eaff;color:#2866a8}
 
-/* ANIMATION EXIT */
-.fade-out{animation:exit .5s ease forwards;}
-@keyframes exit{to{opacity:0;transform:scale(.95);}}
+.signup{margin-top:26px;text-align:center;font-size:14px;color:var(--muted)}
+.signup a{font-weight:700;color:var(--ink);text-decoration:none}
+.signup a:hover{text-decoration:underline}
+
+.foot{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 22px;font-size:12px;color:var(--muted)}
+.foot a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:color .2s}
+.foot a:hover{color:var(--ink)}
+.foot .i{width:14px;height:14px}
+
+/* ---------- LOADER ---------- */
+.loader{position:fixed;inset:0;z-index:50;background:var(--dark);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;opacity:0;pointer-events:none;transition:opacity .4s}
+.loader.active{opacity:1;pointer-events:auto}
+.loader .eq{margin:0;height:44px;width:120px}
+.loader p{font-size:14px;font-weight:600;color:rgba(255,255,255,.75)}
+.fade-out{animation:exit .45s ease forwards}
+
+@keyframes enter{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes noticeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes exit{to{opacity:0;transform:scale(.97)}}
+@keyframes eq{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:900px){
+  .shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .panel{padding:22px 22px 26px;border-radius:0 0 30px 30px}
+  .panel-body{padding:26px 0 0;margin:0}
+  .panel h1{font-size:clamp(30px,8vw,44px)}
+  .panel p.tag,.panel .eq,.panel-foot{display:none}
+  .panel p.tag{display:block;font-size:14px;margin-top:12px}
+  .main{padding:18px 20px 24px}
+  .center{padding:18px 0}
+}
+@media(max-width:480px){
+  .panel{padding:18px 18px 22px;border-radius:0 0 26px 26px}
+  .logo img{height:30px}
+  .panel p.tag{display:none}
+  .panel-body{padding-top:20px}
+  .topbar{font-size:12px}
+  .card h2{font-size:28px}
+  form{margin-top:24px}
+  .input input{height:52px}
+  .submit{height:54px}
+}
+@media(min-width:901px) and (max-height:700px){
+  .center{align-items:flex-start}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
 </style>
 </head>
 
 <body>
 
-<div class="container" id="card">
-  <img src="../assets/dynotic-distribution.png" class="logo" alt="Dynotic Distribution">
-  <h2>Login Dynotic</h2>
+<!-- ICON SPRITE -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.9 4.2A10 10 0 0 1 12 4c6.4 0 10 8 10 8a17 17 0 0 1-3.2 4.2M6.6 6.6A16.7 16.7 0 0 0 2 12s3.6 8 10 8a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2M2 2l20 20"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-arrow-l" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/></symbol>
+</svg>
 
-  <div class="field">
-    <input id="email" type="email" placeholder="Email" autocomplete="email">
-  </div>
+<div class="shell">
 
-  <div class="field">
-    <input id="pass" type="password" placeholder="Password" autocomplete="current-password">
-    <div class="toggle" id="eye" tabindex="0" onclick="togglePass()">𖠂</div>
-  </div>
+  <!-- BRAND PANEL -->
+  <aside class="panel">
+    <div class="grid"></div>
 
-  <div style="text-align:right;margin-bottom:15px;">
-    <a href="../forgot-password" style="font-size:14px;color:#555;text-decoration:underline;">
-      Forgot password?
+    <a href="https://app.dynoticcollective.com" class="logo" aria-label="Dynotic Distribution">
+      <img src="../assets/dynotic-distribution.png" alt="Dynotic Distribution">
     </a>
-  </div>
 
-  <button id="loginBtn" onclick="login()">Login</button>
+    <div class="panel-body">
+      <h1>Welcome back,<span>artist.</span></h1>
+      <p class="tag">Manage your releases, catalog, and royalty information in one place.</p>
 
-  <div id="error"></div>
-
-  <div id="notification">
-    <div class="notice-icon" id="noticeIcon">!</div>
-    <div class="notice-content">
-      <div class="notice-title" id="noticeTitle"></div>
-      <div class="notice-message" id="noticeMessage"></div>
+      <div class="eq" aria-hidden="true">
+        <span style="--h:55%"></span><span style="--h:80%"></span><span style="--h:45%"></span>
+        <span style="--h:95%"></span><span style="--h:60%"></span><span style="--h:75%"></span>
+        <span style="--h:40%"></span><span style="--h:100%"></span><span style="--h:65%"></span>
+        <span style="--h:85%"></span><span style="--h:50%"></span><span style="--h:70%"></span>
+        <span style="--h:90%"></span><span style="--h:45%"></span><span style="--h:60%"></span>
+      </div>
     </div>
-  </div>
+
+    <p class="panel-foot">Simple. Honest. Independent.</p>
+  </aside>
+
+  <!-- FORM SIDE -->
+  <main class="main">
+
+    <div class="topbar">
+      <a href="https://dynoticcollective.com" class="back">
+        <svg class="i"><use href="#i-arrow-l"/></svg>Back to home
+      </a>
+      <span class="top-reg">No account?<a href="https://app.dynoticcollective.com/register">Request access</a></span>
+    </div>
+
+    <div class="center">
+      <div class="card" id="card">
+
+        <h2>Login to Dynotic</h2>
+        <p class="sub">Masuk ke artist dashboard kamu untuk mengelola rilis dan katalog.</p>
+
+        <form id="loginForm" novalidate>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <div class="input" id="emailWrap">
+              <svg class="i lead"><use href="#i-mail"/></svg>
+              <input id="email" type="email" placeholder="nama@email.com" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="pass">Password</label>
+            <div class="input" id="passWrap">
+              <svg class="i lead"><use href="#i-lock"/></svg>
+              <input id="pass" type="password" placeholder="Masukkan password" autocomplete="current-password">
+              <button type="button" class="eye" id="eye" aria-label="Tampilkan password" aria-pressed="false">
+                <svg class="i"><use href="#i-eye"/></svg>
+              </button>
+            </div>
+            <div class="caps" id="caps"><svg class="i"><use href="#i-alert"/></svg>Caps Lock sedang aktif</div>
+          </div>
+
+          <div class="row">
+            <a href="../forgot-password">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="submit" id="loginBtn">
+            <span class="spin"></span>
+            <span id="btnText">Login</span>
+            <svg class="i arrow"><use href="#i-arrow-r"/></svg>
+          </button>
+
+          <div id="error" role="alert" aria-live="polite"></div>
+
+          <div id="notification" role="alert">
+            <div class="n-icon" id="noticeIcon"><svg class="i"><use href="#i-alert"/></svg></div>
+            <div class="n-body">
+              <div class="n-title" id="noticeTitle"></div>
+              <div class="n-msg" id="noticeMessage"></div>
+              <a class="n-link" href="mailto:support@dynoticcollective.com?subject=Bantuan%20Login%20Dynotic">
+                <svg class="i"><use href="#i-mail"/></svg>Hubungi support
+              </a>
+            </div>
+          </div>
+
+        </form>
+
+        <p class="signup">Belum punya akun? <a href="https://app.dynoticcollective.com/register">Request access</a></p>
+
+      </div>
+    </div>
+
+    <div class="foot">
+      <a href="mailto:support@dynoticcollective.com"><svg class="i"><use href="#i-mail"/></svg>support@dynoticcollective.com</a>
+      <a href="https://instagram.com/dynoticcollective" target="_blank" rel="noopener noreferrer"><svg class="i"><use href="#i-instagram"/></svg>@dynoticcollective</a>
+    </div>
+
+  </main>
 </div>
 
-<div class="loader" id="loader">Dynotic Distribution…</div>
+<div class="loader" id="loader">
+  <div class="eq" aria-hidden="true">
+    <span style="--h:55%"></span><span style="--h:90%"></span><span style="--h:45%"></span>
+    <span style="--h:100%"></span><span style="--h:60%"></span><span style="--h:80%"></span>
+    <span style="--h:50%"></span><span style="--h:95%"></span>
+  </div>
+  <p>Membuka dashboard…</p>
+</div>
 
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -252,109 +321,125 @@ firebase.initializeApp({
 const auth = firebase.auth();
 const db = firebase.database();
 
+const HOME_URL = "../home";
+
 let loginInProgress = false;
 let checkingSession = false;
 
-const errorEl = document.getElementById("error");
-const emailInput = document.getElementById("email");
-const passInput = document.getElementById("pass");
-const btn = document.getElementById("loginBtn");
-const notification = document.getElementById("notification");
+const $ = id => document.getElementById(id);
 
-// CLEAR NOTIFICATION
+const errorEl = $("error");
+const emailInput = $("email");
+const passInput = $("pass");
+const btn = $("loginBtn");
+const btnText = $("btnText");
+const notification = $("notification");
+
+// ---------- UI HELPERS ----------
+
 function clearMessages(){
   errorEl.textContent = "";
   notification.className = "";
-  notification.style.display = "none";
+  $("emailWrap").classList.remove("invalid");
+  $("passWrap").classList.remove("invalid");
 }
 
-// SHOW NOTIFICATION
-function showNotification(type,title,message,icon){
+const ICONS = { danger:"#i-alert", warning:"#i-clock", info:"#i-info" };
+
+function showNotification(type, title, message){
   errorEl.textContent = "";
-
   notification.className = "show " + type;
-  notification.style.display = "flex";
-
-  document.getElementById("noticeIcon").textContent = icon;
-  document.getElementById("noticeTitle").textContent = title;
-  document.getElementById("noticeMessage").textContent = message;
+  $("noticeIcon").innerHTML = '<svg class="i"><use href="' + (ICONS[type] || "#i-alert") + '"/></svg>';
+  $("noticeTitle").textContent = title;
+  $("noticeMessage").textContent = message;
 }
 
-// INPUT LISTENER
-emailInput.addEventListener("input",clearMessages);
-passInput.addEventListener("input",clearMessages);
-
-// TOGGLE PASSWORD
-function togglePass(){
-  if(passInput.type === "password"){
-    passInput.type = "text";
-    document.getElementById("eye").textContent = "⌒";
-  }else{
-    passInput.type = "password";
-    document.getElementById("eye").textContent = "𖠂";
+function showError(msg, field){
+  notification.className = "";
+  errorEl.textContent = msg;
+  if(field){
+    $(field + "Wrap").classList.add("invalid");
   }
 }
 
-// RESET BUTTON
+function setLoading(on){
+  btn.disabled = on;
+  btn.classList.toggle("loading", on);
+  btnText.textContent = on ? "Signing in..." : "Login";
+}
+
 function resetButton(){
-  btn.disabled = false;
-  btn.textContent = "Login";
+  setLoading(false);
   loginInProgress = false;
 }
 
-// VALIDATE ACCOUNT
+emailInput.addEventListener("input", clearMessages);
+passInput.addEventListener("input", clearMessages);
+
+// ---------- PASSWORD TOGGLE ----------
+
+$("eye").addEventListener("click", () => {
+  const show = passInput.type === "password";
+  passInput.type = show ? "text" : "password";
+  $("eye").setAttribute("aria-pressed", String(show));
+  $("eye").setAttribute("aria-label", show ? "Sembunyikan password" : "Tampilkan password");
+  $("eye").innerHTML = '<svg class="i"><use href="#' + (show ? "i-eye-off" : "i-eye") + '"/></svg>';
+  passInput.focus();
+});
+
+// ---------- CAPS LOCK HINT ----------
+
+function capsCheck(e){
+  if(typeof e.getModifierState === "function"){
+    $("caps").classList.toggle("show", e.getModifierState("CapsLock"));
+  }
+}
+passInput.addEventListener("keydown", capsCheck);
+passInput.addEventListener("keyup", capsCheck);
+passInput.addEventListener("blur", () => $("caps").classList.remove("show"));
+
+// ---------- VALIDATE ACCOUNT ----------
+
 async function validateAccount(user){
 
-  // CHECK DATABASE STATUS FIRST
   const snapshot = await db.ref("users/" + user.uid).once("value");
   const data = snapshot.val();
 
   if(!data){
     await auth.signOut();
-
     showNotification(
       "danger",
       "Data Akun Tidak Ditemukan",
-      "Data akun kamu tidak ditemukan. Silakan hubungi admin untuk mendapatkan bantuan.",
-      "!"
+      "Data akun kamu tidak ditemukan. Silakan hubungi admin untuk mendapatkan bantuan."
     );
-
     return false;
   }
 
-  // WAITING FOR ADMIN ACTIVATION
   if(data.status === "unverified"){
     await auth.signOut();
-
     showNotification(
       "warning",
       "Menunggu Aktivasi",
-      "Akun kamu belum aktif. Silakan menunggu konfirmasi aktivasi dari admin sebelum masuk ke dashboard.",
-      "⌛"
+      "Akun kamu belum aktif. Silakan menunggu konfirmasi aktivasi dari admin sebelum masuk ke dashboard."
     );
-
     return false;
   }
 
-  // DISABLED ACCOUNT
   if(data.status !== "active"){
     await auth.signOut();
-
     showNotification(
       "danger",
       "Akun Dinonaktifkan",
-      "Akun kamu sedang dinonaktifkan. Silakan hubungi admin jika membutuhkan bantuan.",
-      "!"
+      "Akun kamu sedang dinonaktifkan. Silakan hubungi admin jika membutuhkan bantuan."
     );
-
     return false;
   }
 
-  // ACTIVE ACCOUNT
   return true;
 }
 
-// LOGIN
+// ---------- LOGIN ----------
+
 async function login(){
 
   if(loginInProgress || btn.disabled) return;
@@ -362,22 +447,28 @@ async function login(){
   clearMessages();
 
   const email = emailInput.value.trim();
-  const pass = passInput.value.trim();
+  const pass = passInput.value; // password tidak di-trim
 
-  if(!email || !pass){
-    errorEl.textContent = "Email dan password wajib diisi.";
+  if(!email){
+    showError("Email wajib diisi.", "email");
+    emailInput.focus();
+    return;
+  }
+
+  if(!pass){
+    showError("Password wajib diisi.", "pass");
+    passInput.focus();
     return;
   }
 
   loginInProgress = true;
-  btn.disabled = true;
-  btn.textContent = "Signing in...";
+  setLoading(true);
 
   try{
 
     await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
-    const credential = await auth.signInWithEmailAndPassword(email,pass);
+    const credential = await auth.signInWithEmailAndPassword(email, pass);
     const user = credential.user;
 
     const isValid = await validateAccount(user);
@@ -389,52 +480,67 @@ async function login(){
 
     await db.ref("users/" + user.uid + "/lastLogin").set(Date.now());
 
-    document.getElementById("loader").classList.add("active");
-    document.getElementById("card").classList.add("fade-out");
+    $("loader").classList.add("active");
+    $("card").classList.add("fade-out");
 
-    setTimeout(()=>{
-      window.location.replace("../home");
-    },600);
+    setTimeout(() => {
+      window.location.replace(HOME_URL);
+    }, 700);
 
   }catch(error){
 
     switch(error.code){
 
       case "auth/user-not-found":
-        errorEl.textContent = "Email tidak ditemukan.";
+        showError("Email tidak ditemukan.", "email");
         break;
 
       case "auth/wrong-password":
-        errorEl.textContent = "Password yang kamu masukkan salah.";
+        showError("Password yang kamu masukkan salah.", "pass");
         break;
 
       case "auth/invalid-email":
-        errorEl.textContent = "Format email tidak valid.";
+        showError("Format email tidak valid.", "email");
         break;
 
       case "auth/invalid-credential":
-        errorEl.textContent = "Email atau password salah.";
+        showError("Email atau password salah.");
+        $("emailWrap").classList.add("invalid");
+        $("passWrap").classList.add("invalid");
         break;
 
       case "auth/too-many-requests":
-        errorEl.textContent = "Terlalu banyak percobaan. Silakan coba lagi nanti.";
+        showError("Terlalu banyak percobaan. Silakan coba lagi nanti.");
+        break;
+
+      case "auth/network-request-failed":
+        showError("Koneksi bermasalah. Periksa internet kamu lalu coba lagi.");
+        break;
+
+      case "auth/user-disabled":
+        showNotification(
+          "danger",
+          "Akun Dinonaktifkan",
+          "Akun kamu sedang dinonaktifkan. Silakan hubungi admin jika membutuhkan bantuan."
+        );
         break;
 
       default:
-        errorEl.textContent = "Terjadi kesalahan. Silakan coba kembali.";
+        showError("Terjadi kesalahan. Silakan coba kembali.");
     }
 
     resetButton();
   }
 }
 
-// ENTER KEY
-document.addEventListener("keydown",e=>{
-  if(e.key === "Enter") login();
+$("loginForm").addEventListener("submit", e => {
+  e.preventDefault();
+  login();
 });
 
-// AUTO REDIRECT - VALIDATE EXISTING SESSION
-auth.onAuthStateChanged(async user=>{
+// ---------- AUTO REDIRECT (VALIDATE EXISTING SESSION) ----------
+
+auth.onAuthStateChanged(async user => {
 
   if(!user || loginInProgress || checkingSession) return;
 
@@ -445,11 +551,11 @@ auth.onAuthStateChanged(async user=>{
     const isValid = await validateAccount(user);
 
     if(isValid){
-      window.location.replace("../home");
+      window.location.replace(HOME_URL);
     }
 
   }catch(error){
-    console.error("Session validation error:",error);
+    console.error("Session validation error:", error);
     await auth.signOut();
   }finally{
     checkingSession = false;
