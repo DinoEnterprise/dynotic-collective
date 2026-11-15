@@ -55,8 +55,11 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .side-help{padding:16px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
 .side-help strong{display:block;font-size:13px;font-weight:700}
 .side-help span{display:block;margin-top:3px;font-size:12px;line-height:1.6;color:rgba(255,255,255,.5)}
-.side-help a{display:inline-flex;align-items:center;gap:7px;margin-top:11px;font-size:12px;font-weight:700;color:var(--accent-2)}
+.side-acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:13px}
+.side-help a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--accent-2)}
 .side-help a .i{width:14px;height:14px}
+.side-help a.wa{height:36px;padding:0 14px;border-radius:999px;background:#fff;color:var(--ink);transition:transform .25s var(--ease)}
+.side-help a.wa:hover{transform:translateY(-2px)}
 
 /* ================= TOPBAR ================= */
 .topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
@@ -155,6 +158,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .pop-info .nm{min-width:0}
 .pop-info strong{display:block;font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pop-info span{display:block;margin-top:2px;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pop .lbl{padding:8px 10px 4px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a3a5b0}
 .pop hr{border:0;height:1px;background:var(--line);margin:2px 4px 6px}
 .pop a,.pop button.opt{display:flex;align-items:center;gap:12px;width:100%;padding:12px 10px;border-radius:12px;font-size:13px;font-weight:500;text-align:left;transition:background .2s}
 .pop a:hover,.pop button.opt:hover{background:var(--bg)}
@@ -246,7 +250,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   <symbol id="i-youtube" viewBox="0 0 24 24"><path d="M2.5 17a24.1 24.1 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.1 24.1 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></symbol>
   <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></symbol>
   <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></symbol>
-  <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/></symbol>
+  <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8.5 9.5c.3 2.4 2.6 4.7 5 5l1.4-1.2-1.8-1-.8.7c-.9-.4-1.6-1.2-2-2l.7-.8-1-1.8z"/></symbol>
   <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
   <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.9 4.2A10 10 0 0 1 12 4c6.4 0 10 8 10 8a17 17 0 0 1-3.2 4.2M6.6 6.6A16.7 16.7 0 0 0 2 12s3.6 8 10 8a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2M2 2l20 20"/></symbol>
   <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
@@ -274,9 +278,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
   <div class="side-foot">
     <div class="side-help">
-      <strong>Butuh bantuan?</strong>
+      <strong>Need help?</strong>
       <span>Tim kami siap membantu soal distribusi, rilis, dan katalog.</span>
-      <a href="mailto:support@dynoticcollective.com"><svg class="i"><use href="#i-mail"/></svg>Hubungi support</a>
+      <div class="side-acts">
+        <a href="https://wa.me/6283161380687" target="_blank" rel="noopener noreferrer" class="wa"><svg class="i"><use href="#i-whatsapp"/></svg>WhatsApp CS</a>
+        <a href="mailto:support@dynoticcollective.com"><svg class="i"><use href="#i-mail"/></svg>Email Support</a>
+      </div>
     </div>
   </div>
 </aside>
@@ -308,8 +315,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   </div>
   <hr>
   <a href="../account" role="menuitem"><svg class="i"><use href="#i-gear"/></svg>Account Settings</a>
+  <div class="lbl">Help</div>
+  <a href="https://wa.me/6283161380687" target="_blank" rel="noopener noreferrer" role="menuitem"><svg class="i"><use href="#i-whatsapp"/></svg>WhatsApp CS</a>
   <a href="mailto:support@dynoticcollective.com" role="menuitem"><svg class="i"><use href="#i-mail"/></svg>Email Support</a>
-  <a href="https://instagram.com/dynotiiccollective" target="_blank" rel="noopener noreferrer" role="menuitem"><svg class="i"><use href="#i-instagram"/></svg>Instagram</a>
   <hr>
   <button class="opt logout" type="button" id="logoutBtn" role="menuitem"><svg class="i"><use href="#i-logout"/></svg>Logout</button>
 </div>
