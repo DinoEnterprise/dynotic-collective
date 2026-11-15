@@ -1,1 +1,1231 @@
 
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Catalog | Dynotic Distribution</title>
+
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:"Outfit",sans-serif;
+}
+
+body{
+  background:#f1f2f7;
+  color:#17181c;
+  min-height:100vh;
+  padding-top:64px;
+  padding-bottom:100px;
+  -webkit-tap-highlight-color:transparent;
+}
+
+button{font-family:inherit}
+
+/* HEADER */
+
+header{
+  height:64px;
+  padding:0 18px;
+  display:flex;
+  align-items:center;
+  background:#fff;
+  border-bottom:1px solid #e8e8ed;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+}
+
+.header-logo{
+  height:32px;
+  width:auto;
+  object-fit:contain;
+}
+
+.header-actions{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.notif-btn{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.notif-btn:active,
+.profile-btn:active{
+  transform:scale(.93);
+}
+
+.notif-btn i{font-size:16px}
+
+.notif-badge{
+  position:absolute;
+  top:-4px;
+  right:-4px;
+  min-width:17px;
+  height:17px;
+  padding:0 4px;
+  border-radius:999px;
+  background:#ef4444;
+  color:#fff;
+  font-size:9px;
+  font-weight:700;
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+.profile-btn{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:.15s;
+  border:2px solid #f1f2f7;
+}
+
+.profile-btn i{font-size:15px}
+
+/* PROFILE POPUP */
+
+.profile-popup{
+  position:fixed;
+  top:58px;
+  right:14px;
+  width:260px;
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:16px;
+  box-shadow:0 10px 35px rgba(0,0,0,.12);
+  padding:15px;
+  z-index:1500;
+  display:none;
+  animation:popupIn .18s ease;
+}
+
+.profile-popup.show{display:block}
+
+.profile-info{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding-bottom:13px;
+}
+
+.profile-avatar{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+.profile-details{min-width:0}
+
+.profile-name{
+  font-size:13px;
+  font-weight:700;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.profile-email{
+  font-size:11px;
+  color:#858891;
+  margin-top:3px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.profile-divider{
+  height:1px;
+  background:#eeeef2;
+  margin:2px 0 9px;
+}
+
+.profile-option{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:11px 9px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.profile-option:hover{background:#f5f5f8}
+
+.profile-option i{
+  width:18px;
+  text-align:center;
+  color:#777b84;
+  font-size:14px;
+}
+
+.profile-option.logout{color:#e04444}
+.profile-option.logout i{color:#e04444}
+
+/* NOTIFICATION */
+
+.message-popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:2000;
+  padding:20px;
+}
+
+.message-popup.show{display:flex}
+
+.message-card{
+  width:100%;
+  max-width:340px;
+  background:#fff;
+  border-radius:17px;
+  padding:18px;
+  box-shadow:0 12px 35px rgba(0,0,0,.15);
+  animation:popupIn .2s ease;
+}
+
+.message-title{
+  font-weight:700;
+  font-size:15px;
+  margin-bottom:8px;
+}
+
+.message-text{
+  font-size:13px;
+  color:#555;
+  line-height:1.6;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+
+.message-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:15px;
+}
+
+.view-btn,.close-btn{
+  border:none;
+  padding:9px 14px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.view-btn{background:#111;color:#fff}
+.close-btn{background:#f1f2f7;color:#333}
+
+/* MAIN */
+
+.container{
+  width:calc(100% - 28px);
+  max-width:760px;
+  margin:0 auto;
+}
+
+.page-heading{
+  margin-top:25px;
+  margin-bottom:18px;
+  animation:pageIn .35s ease;
+}
+
+.page-title{
+  font-size:21px;
+  font-weight:700;
+  letter-spacing:-.4px;
+}
+
+.page-description{
+  color:#858891;
+  font-size:12px;
+  margin-top:5px;
+  line-height:1.5;
+}
+
+/* SECTION */
+
+.section-card{
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:14px;
+  animation:pageIn .4s ease both;
+}
+
+.section-heading{
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:14px;
+}
+
+/* CATALOG GRID */
+
+.catalog-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
+}
+
+.catalog-item{
+  min-width:0;
+  background:#fff;
+  border:1px solid #e8e8ed;
+  border-radius:15px;
+  padding:15px 13px;
+  cursor:pointer;
+  transition:.18s;
+  position:relative;
+  overflow:hidden;
+}
+
+.catalog-item:active{
+  transform:scale(.97);
+  background:#f8f8fa;
+}
+
+.catalog-icon{
+  width:39px;
+  height:39px;
+  border-radius:12px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:13px;
+  color:#22242a;
+  font-size:16px;
+}
+
+.catalog-name{
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:4px;
+}
+
+.catalog-description{
+  font-size:10px;
+  color:#858891;
+  line-height:1.5;
+  min-height:30px;
+}
+
+.catalog-arrow{
+  position:absolute;
+  right:13px;
+  top:15px;
+  font-size:11px;
+  color:#a2a4ab;
+}
+
+/* RELEASES FEATURE */
+
+.feature-card{
+  background:#17181c;
+  color:#fff;
+  border-radius:16px;
+  padding:17px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  cursor:pointer;
+  transition:.15s;
+}
+
+.feature-card:active{transform:scale(.98)}
+
+.feature-content{min-width:0}
+
+.feature-title{
+  font-size:14px;
+  font-weight:700;
+}
+
+.feature-description{
+  font-size:10px;
+  color:#b9bbc2;
+  margin-top:5px;
+  line-height:1.5;
+}
+
+.feature-icon{
+  width:42px;
+  height:42px;
+  background:#303137;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:17px;
+  flex-shrink:0;
+}
+
+/* INFO */
+
+.info-row{
+  display:flex;
+  align-items:flex-start;
+  gap:11px;
+}
+
+.info-icon{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  background:#f1f2f7;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  flex-shrink:0;
+}
+
+.info-title{
+  font-size:12px;
+  font-weight:600;
+}
+
+.info-description{
+  color:#858891;
+  font-size:10px;
+  line-height:1.6;
+  margin-top:3px;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+  height:76px;
+  background:#fff;
+  border-top:1px solid #e6e6eb;
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:1000;
+  padding:0 5px;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+
+.nav-item{
+  flex:1;
+  min-width:0;
+  text-align:center;
+  font-size:10px;
+  font-weight:500;
+  color:#999ca4;
+  padding:9px 2px;
+  cursor:pointer;
+  transition:.15s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+}
+
+.nav-item i{font-size:18px}
+.nav-item:active{transform:scale(.92)}
+
+.nav-item.active{
+  color:#17181c;
+  font-weight:700;
+}
+
+.create-nav{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  cursor:pointer;
+  color:#999ca4;
+  font-size:10px;
+  font-weight:500;
+}
+
+.create-circle{
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  background:#17181c;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  margin-top:-27px;
+  border:4px solid #f1f2f7;
+  box-sizing:content-box;
+  transition:.15s;
+}
+
+.create-nav:active .create-circle{transform:scale(.91)}
+
+.create-label{margin-top:0}
+
+/* ANIMATION */
+
+@keyframes pageIn{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes popupIn{
+  from{opacity:0;transform:translateY(-7px) scale(.98)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+/* RESPONSIVE */
+
+@media(max-width:360px){
+  .catalog-grid{gap:8px}
+  .catalog-item{padding:13px 11px}
+  .catalog-name{font-size:12px}
+  .catalog-description{font-size:9px}
+}
+
+@media(min-width:700px){
+  .container{width:100%}
+  .catalog-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .bottom-nav{
+    padding-left:max(5px,calc((100% - 650px)/2));
+    padding-right:max(5px,calc((100% - 650px)/2));
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+  <img
+    src="../assets/dynotic-distribution.png"
+    class="header-logo"
+    alt="Dynotic Distribution"
+  >
+
+  <div class="header-actions">
+
+    <div class="notif-btn" onclick="openMessages()">
+      <i class="fa-regular fa-bell"></i>
+      <span id="notifBadge" class="notif-badge">0</span>
+    </div>
+
+    <div class="profile-btn" id="profileBtn" onclick="toggleProfile()">
+      <i class="fa-regular fa-user"></i>
+    </div>
+
+  </div>
+
+</header>
+
+<!-- PROFILE POPUP -->
+
+<div class="profile-popup" id="profilePopup">
+
+  <div class="profile-info">
+
+    <div class="profile-avatar">
+      <i class="fa-regular fa-user"></i>
+    </div>
+
+    <div class="profile-details">
+      <div class="profile-name" id="profileName">Artist</div>
+      <div class="profile-email" id="profileEmail">-</div>
+    </div>
+
+  </div>
+
+  <div class="profile-divider"></div>
+
+  <div class="profile-option" onclick="goAccount()">
+    <i class="fa-solid fa-gear"></i>
+    <span>Account Settings</span>
+  </div>
+
+  <div class="profile-option logout" onclick="logout()">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    <span>Logout</span>
+  </div>
+
+</div>
+
+<!-- NOTIFICATION POPUP -->
+
+<div id="messagePopup" class="message-popup">
+
+  <div class="message-card">
+
+    <div class="message-title" id="msgTitle"></div>
+
+    <div class="message-text" id="msgText"></div>
+
+    <div class="message-actions">
+
+      <button class="view-btn" onclick="viewMessage()">View</button>
+
+      <button class="close-btn" onclick="closeMessage()">✕</button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- MAIN CONTENT -->
+
+<main class="container">
+
+  <div class="page-heading">
+
+    <div class="page-title">Catalog</div>
+
+    <div class="page-description">
+      Manage your music catalog and release information.
+    </div>
+
+  </div>
+
+  <!-- RELEASES FEATURE -->
+
+  <div class="section-card">
+
+    <div class="section-heading">
+      Your Music Catalog
+    </div>
+
+    <div class="feature-card" onclick="goReleases()">
+
+      <div class="feature-content">
+
+        <div class="feature-title">
+          Manage Releases
+        </div>
+
+        <div class="feature-description">
+          View, track, and manage all your submitted releases.
+        </div>
+
+      </div>
+
+      <div class="feature-icon">
+        <i class="fa-solid fa-compact-disc"></i>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CATALOG MENU -->
+
+  <div class="section-card">
+
+    <div class="section-heading">
+      Catalog Management
+    </div>
+
+    <div class="catalog-grid">
+
+      <!-- RELEASES -->
+
+      <div class="catalog-item" onclick="goReleases()">
+
+        <div class="catalog-arrow">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </div>
+
+        <div class="catalog-icon">
+          <i class="fa-solid fa-compact-disc"></i>
+        </div>
+
+        <div class="catalog-name">Releases</div>
+
+        <div class="catalog-description">
+          Manage your music releases and submissions.
+        </div>
+
+      </div>
+
+      <!-- ARTISTS -->
+
+      <div class="catalog-item" onclick="goComingSoon('Artists')">
+
+        <div class="catalog-arrow">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+
+        <div class="catalog-icon">
+          <i class="fa-solid fa-users"></i>
+        </div>
+
+        <div class="catalog-name">Artists</div>
+
+        <div class="catalog-description">
+          Manage artist information and profiles.
+        </div>
+
+      </div>
+
+      <!-- LABELS -->
+
+      <div class="catalog-item" onclick="goComingSoon('Labels')">
+
+        <div class="catalog-arrow">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+
+        <div class="catalog-icon">
+          <i class="fa-solid fa-tag"></i>
+        </div>
+
+        <div class="catalog-name">Labels</div>
+
+        <div class="catalog-description">
+          Organize labels associated with releases.
+        </div>
+
+      </div>
+
+      <!-- PARTICIPANTS -->
+
+      <div class="catalog-item" onclick="goComingSoon('Participants')">
+
+        <div class="catalog-arrow">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+
+        <div class="catalog-icon">
+          <i class="fa-solid fa-user-group"></i>
+        </div>
+
+        <div class="catalog-name">Participants</div>
+
+        <div class="catalog-description">
+          Manage composers, producers, and contributors.
+        </div>
+
+      </div>
+
+      <!-- DOCUMENTS -->
+
+      <div class="catalog-item" onclick="goComingSoon('Documents')">
+
+        <div class="catalog-arrow">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+
+        <div class="catalog-icon">
+          <i class="fa-solid fa-file-lines"></i>
+        </div>
+
+        <div class="catalog-name">Documents</div>
+
+        <div class="catalog-description">
+          Access release documents and related files.
+        </div>
+
+      </div>
+
+      <!-- EXAMPLES -->
+
+      <div class="catalog-item" onclick="goComingSoon('Examples')">
+
+        <div class="catalog-arrow">
+          <i class="fa-solid fa-chevron-right"></i>
+        </div>
+
+        <div class="catalog-icon">
+          <i class="fa-solid fa-book-open"></i>
+        </div>
+
+        <div class="catalog-name">Examples</div>
+
+        <div class="catalog-description">
+          View references and submission examples.
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- INFORMATION -->
+
+  <div class="section-card">
+
+    <div class="info-row">
+
+      <div class="info-icon">
+        <i class="fa-solid fa-circle-info"></i>
+      </div>
+
+      <div>
+
+        <div class="info-title">
+          About Catalog Management
+        </div>
+
+        <div class="info-description">
+          Use Catalog Management to organize your releases,
+          artist details, labels, participants, and supporting documents.
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div style="height:20px"></div>
+
+</main>
+
+<!-- BOTTOM NAVIGATION -->
+
+<nav class="bottom-nav">
+
+  <div class="nav-item" onclick="goHome()">
+    <i class="fa-solid fa-house"></i>
+    <span>Home</span>
+  </div>
+
+  <div class="nav-item active" onclick="goCatalog()">
+    <i class="fa-solid fa-compact-disc"></i>
+    <span>Catalog</span>
+  </div>
+
+  <div class="create-nav" onclick="goCreate()">
+
+    <div class="create-circle">
+      <i class="fa-solid fa-plus"></i>
+    </div>
+
+    <span class="create-label">Create</span>
+
+  </div>
+
+  <div class="nav-item" onclick="goTransactions()">
+    <i class="fa-solid fa-receipt"></i>
+    <span>Transactions</span>
+  </div>
+
+  <div class="nav-item" onclick="goAnalytics()">
+    <i class="fa-solid fa-chart-line"></i>
+    <span>Analytics</span>
+  </div>
+
+</nav>
+
+<!-- FIREBASE -->
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+
+/* ================= ROUTES ================= */
+
+const ROUTES = {
+
+  home: "/dashboard",
+
+  catalog: "/catalog",
+
+  releases: "/catalog/releases",
+
+  create: "/catalog/releases/create",
+
+  transactions: "/transactions",
+
+  analytics: "/analytics",
+
+  account: "/account",
+
+  login: "/login"
+
+};
+
+
+/* ================= FIREBASE ================= */
+
+firebase.initializeApp({
+
+  apiKey:
+    "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+
+  authDomain:
+    "dynopay-2513c.firebaseapp.com",
+
+  databaseURL:
+    "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+
+});
+
+const db = firebase.database();
+
+let currentUser = null;
+
+let messagesQueue = [];
+
+let currentMsgIndex = 0;
+
+
+/* ================= AUTH ================= */
+
+firebase.auth().onAuthStateChanged(user => {
+
+  if(!user){
+
+    location.href = ROUTES.login;
+
+    return;
+
+  }
+
+  currentUser = user;
+
+  document.getElementById("profileEmail").textContent =
+    user.email || "-";
+
+  loadArtistProfile(user.uid);
+
+  loadMessages(user.uid);
+
+});
+
+
+/* ================= PROFILE ================= */
+
+function loadArtistProfile(uid){
+
+  db.ref("users/" + uid)
+    .once("value")
+    .then(snap => {
+
+      if(!snap.exists()) return;
+
+      const d = snap.val();
+
+      document.getElementById("profileName").textContent =
+        d.nama || "Artist";
+
+    })
+    .catch(error => {
+
+      console.error("Gagal memuat profil:",error);
+
+    });
+
+}
+
+
+function toggleProfile(){
+
+  document
+    .getElementById("profilePopup")
+    .classList.toggle("show");
+
+}
+
+
+function closeProfile(){
+
+  document
+    .getElementById("profilePopup")
+    .classList.remove("show");
+
+}
+
+
+document.addEventListener("click",function(e){
+
+  const popup = document.getElementById("profilePopup");
+
+  const button = document.getElementById("profileBtn");
+
+  if(
+    !popup.contains(e.target) &&
+    !button.contains(e.target)
+  ){
+
+    closeProfile();
+
+  }
+
+});
+
+
+/* ================= ACCOUNT ================= */
+
+function goAccount(){
+
+  closeProfile();
+
+  location.href = ROUTES.account;
+
+}
+
+
+/* ================= LOGOUT ================= */
+
+function logout(){
+
+  firebase.auth()
+    .signOut()
+    .then(() => {
+
+      location.href = ROUTES.login;
+
+    })
+    .catch(error => {
+
+      console.error("Logout gagal:",error);
+
+    });
+
+}
+
+
+/* ================= NAVIGATION ================= */
+
+function goHome(){
+  location.href = ROUTES.home;
+}
+
+function goCatalog(){
+  location.href = ROUTES.catalog;
+}
+
+function goReleases(){
+  location.href = ROUTES.releases;
+}
+
+function goCreate(){
+  location.href = ROUTES.create;
+}
+
+function goTransactions(){
+  location.href = ROUTES.transactions;
+}
+
+function goAnalytics(){
+  location.href = ROUTES.analytics;
+}
+
+
+/* ================= COMING SOON ================= */
+
+function goComingSoon(name){
+
+  alert(name + " page is coming soon.");
+
+}
+
+
+/* ================= NOTIFICATIONS ================= */
+
+function loadMessages(uid){
+
+  db.ref("messages_inbox/" + uid)
+    .on("value",snap => {
+
+      messagesQueue = [];
+
+      snap.forEach(i => {
+
+        const m = i.val() || {};
+
+        if(!m.read){
+
+          messagesQueue.push({
+
+            ...m,
+
+            key:i.key
+
+          });
+
+        }
+
+      });
+
+
+      const badge = document.getElementById("notifBadge");
+
+
+      if(messagesQueue.length > 0){
+
+        badge.style.display = "flex";
+
+        badge.textContent =
+          messagesQueue.length > 99
+            ? "99+"
+            : messagesQueue.length;
+
+      }else{
+
+        badge.style.display = "none";
+
+      }
+
+    },error => {
+
+      console.error("Gagal memuat notifikasi:",error);
+
+    });
+
+}
+
+
+/* ================= OPEN MESSAGE ================= */
+
+function openMessages(){
+
+  if(messagesQueue.length === 0) return;
+
+  currentMsgIndex = 0;
+
+  showCurrentMessage();
+
+}
+
+
+function showCurrentMessage(){
+
+  if(currentMsgIndex >= messagesQueue.length){
+
+    document
+      .getElementById("messagePopup")
+      .classList.remove("show");
+
+    return;
+
+  }
+
+
+  const m = messagesQueue[currentMsgIndex];
+
+
+  document.getElementById("msgTitle").textContent =
+    m.subject || "-";
+
+  document.getElementById("msgText").textContent =
+    m.body || "-";
+
+
+  document
+    .getElementById("messagePopup")
+    .classList.add("show");
+
+}
+
+
+/* ================= CLOSE MESSAGE ================= */
+
+function closeMessage(){
+
+  const m = messagesQueue[currentMsgIndex];
+
+  if(currentUser && m){
+
+    db.ref(
+      "messages_inbox/" +
+      currentUser.uid +
+      "/" +
+      m.key +
+      "/read"
+    ).set(true);
+
+  }
+
+  currentMsgIndex++;
+
+  showCurrentMessage();
+
+}
+
+
+/* ================= VIEW MESSAGE ================= */
+
+function viewMessage(){
+
+  closeMessage();
+
+}
+
+
+/* ================= OUTSIDE POPUP ================= */
+
+document.getElementById("messagePopup")
+  .addEventListener("click",function(e){
+
+    if(e.target === this){
+
+      this.classList.remove("show");
+
+    }
+
+  });
+
+</script>
+
+</body>
+</html>
