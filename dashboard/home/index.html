@@ -1,1469 +1,756 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Home | Dynotic Distribution</title>
+<meta name="theme-color" content="#f3f3f8">
+<meta name="robots" content="noindex, nofollow">
 
 <link rel="icon" type="image/png" href="../assets/favicon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
 <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
 
-
-<link
-  href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap"
-  rel="stylesheet"
->
-
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Outfit",sans-serif;
-}
-
-body{
-  background:#f1f2f7;
-  min-height:100vh;
-  color:#17181c;
-  padding-top:64px;
-  padding-bottom:105px;
-  -webkit-tap-highlight-color:transparent;
-  user-select:none;
-}
-
-button{
-  font-family:inherit;
-}
-
-/* ================= HEADER ================= */
-
-header{
-  height:64px;
-  padding:0 18px;
-  display:flex;
-  align-items:center;
-  background:#fff;
-  border-bottom:1px solid #e8e8ed;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  z-index:1000;
-}
-
-.header-logo{
-  height:32px;
-  width:auto;
-  object-fit:contain;
-}
-
-.header-actions{
-  margin-left:auto;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-/* ================= NOTIFICATION ================= */
-
-.notif-btn{
-  width:38px;
-  height:38px;
-  border-radius:12px;
-  background:#f1f2f7;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  cursor:pointer;
-  transition:.15s;
-}
-
-.notif-btn:active,
-.profile-btn:active{
-  transform:scale(.93);
-}
-
-.notif-btn i{
-  font-size:16px;
-}
-
-.notif-badge{
-  position:absolute;
-  top:-4px;
-  right:-4px;
-  min-width:17px;
-  height:17px;
-  padding:0 4px;
-  border-radius:999px;
-  background:#ef4444;
-  color:#fff;
-  font-size:9px;
-  font-weight:700;
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
-
-/* ================= PROFILE ================= */
-
-.profile-btn{
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  background:#17181c;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  transition:.15s;
-  border:2px solid #f1f2f7;
-  overflow:hidden;
-}
-
-.profile-btn i{
-  font-size:15px;
-}
-
-.profile-popup{
-  position:fixed;
-  top:58px;
-  right:14px;
-  width:260px;
-  background:#fff;
-  border:1px solid #e8e8ed;
-  border-radius:16px;
-  box-shadow:0 10px 35px rgba(0,0,0,.12);
-  padding:15px;
-  z-index:1500;
-  display:none;
-  animation:popupIn .18s ease;
-}
-
-.profile-popup.show{
-  display:block;
-}
-
-.profile-info{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding-bottom:13px;
-}
-
-.profile-avatar{
-  width:43px;
-  height:43px;
-  border-radius:50%;
-  background:#17181c;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-shrink:0;
-}
-
-.profile-avatar i{
-  font-size:17px;
-}
-
-.profile-details{
-  min-width:0;
-}
-
-.profile-name{
-  font-size:13px;
-  font-weight:700;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.profile-email{
-  font-size:11px;
-  color:#858891;
-  margin-top:3px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.profile-divider{
-  height:1px;
-  background:#eeeeF2;
-  margin:2px 0 9px;
-}
-
-.profile-option{
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding:11px 9px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:500;
-  cursor:pointer;
-  transition:.15s;
-}
-
-.profile-option:hover{
-  background:#f5f5f8;
-}
-
-.profile-option i{
-  width:18px;
-  text-align:center;
-  color:#777b84;
-  font-size:14px;
-}
-
-.profile-option.logout{
-  color:#e04444;
-}
-
-.profile-option.logout i{
-  color:#e04444;
-}
-
-/* ================= MAIN ================= */
-
-.container{
-  width:calc(100% - 28px);
-  max-width:760px;
-  margin:0 auto;
-}
-
-/* ================= WALLET ================= */
-
-.card{
-  background:#fff;
-  border:1px solid #e8e8ed;
-  border-radius:18px;
-  padding:18px;
-  margin-top:20px;
-  animation:pageIn .4s ease both;
-}
-
-.wallet-card{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  cursor:pointer;
-  transition:.15s;
-}
-
-.wallet-card:active{
-  transform:scale(.99);
-}
-
-.wallet-content{
-  min-width:0;
-}
-
-.artist-name{
-  font-size:12px;
-  font-weight:500;
-  color:#777b84;
-  margin-bottom:5px;
-}
-
-.balance-title{
-  font-size:13px;
-  font-weight:600;
-  color:#25262b;
-}
-
-.card-value{
-  font-size:clamp(22px,6vw,32px);
-  font-weight:700;
-  color:#111;
-  margin-top:4px;
-  white-space:nowrap;
-  display:flex;
-  align-items:center;
-  gap:6px;
-}
-
-.wallet-desc{
-  font-size:10px;
-  color:#888b93;
-  margin-top:6px;
-  line-height:1.4;
-}
-
-.detail-btn{
-  flex-shrink:0;
-  padding:10px 13px;
-  border-radius:11px;
-  background:#111;
-  color:#fff;
-  font-size:12px;
-  font-weight:600;
-  display:flex;
-  align-items:center;
-  gap:6px;
-  cursor:pointer;
-}
-
-.detail-btn i{
-  font-size:11px;
-}
-
-/* ================= SECTION ================= */
-
-.section-title{
-  font-size:13px;
-  font-weight:600;
-  color:#777b84;
-  margin:24px 3px 10px;
-}
-
-/* ================= TOOLS ================= */
-
-.tools-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.tool-item{
-  background:#fff;
-  border:1px solid #e8e8ed;
-  border-radius:16px;
-  padding:14px;
-  display:flex;
-  align-items:center;
-  gap:11px;
-  cursor:pointer;
-  transition:.18s ease;
-  animation:pageIn .4s ease both;
-}
-
-.tool-item:active{
-  transform:scale(.97);
-}
-
-.tool-icon{
-  width:40px;
-  height:40px;
-  border-radius:11px;
-  background:#f1f2f7;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:15px;
-  flex-shrink:0;
-}
-
-.tool-text{
-  min-width:0;
-}
-
-.tool-title{
-  font-size:13px;
-  font-weight:600;
-  line-height:1.3;
-}
-
-.tool-desc{
-  font-size:10px;
-  color:#858891;
-  margin-top:3px;
-  line-height:1.4;
-}
-
-/* ================= NOTIFICATION POPUP ================= */
-
-.message-popup{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.35);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:2000;
-  padding:20px;
-}
-
-.message-popup.show{
-  display:flex;
-}
-
-.message-card{
-  width:100%;
-  max-width:340px;
-  background:#fff;
-  border-radius:17px;
-  padding:18px;
-  box-shadow:0 12px 35px rgba(0,0,0,.15);
-  animation:popupIn .2s ease;
-}
-
-.message-title{
-  font-weight:700;
-  font-size:15px;
-  margin-bottom:8px;
-}
-
-.message-text{
-  font-size:13px;
-  color:#555;
-  line-height:1.6;
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
-}
-
-.message-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:8px;
-  margin-top:15px;
-}
-
-.view-btn,
-.close-btn{
-  border:none;
-  padding:9px 14px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:600;
-  cursor:pointer;
-}
-
-.view-btn{
-  background:#111;
-  color:#fff;
-}
-
-.close-btn{
-  background:#f1f2f7;
-  color:#333;
-}
-
-/* ================= BOTTOM NAVIGATION ================= */
-
-.bottom-nav{
-  height:76px;
-  background:#fff;
-  border-top:1px solid #e6e6eb;
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  z-index:1000;
-  padding:0 5px;
-  padding-bottom:env(safe-area-inset-bottom);
-}
-
-.nav-item{
-  flex:1;
-  min-width:0;
-  text-align:center;
-  font-size:10px;
-  font-weight:500;
-  color:#999ca4;
-  padding:9px 2px;
-  cursor:pointer;
-  transition:.15s;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-}
-
-.nav-item i{
-  font-size:18px;
-}
-
-.nav-item:active{
-  transform:scale(.92);
-}
-
-.nav-item.active{
-  color:#17181c;
-  font-weight:700;
-}
-
-/* ================= CREATE BUTTON ================= */
-
-.create-nav{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-  cursor:pointer;
-  color:#999ca4;
-  font-size:10px;
-  font-weight:500;
-}
-
-.create-circle{
-  width:43px;
-  height:43px;
-  border-radius:14px;
-  background:#17181c;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:21px;
-  margin-top:-27px;
-  border:4px solid #f1f2f7;
-  box-sizing:content-box;
-  transition:.15s;
-}
-
-.create-nav:active .create-circle{
-  transform:scale(.91);
-}
-
-.create-label{
-  margin-top:0;
-}
-
-/* ================= ANIMATIONS ================= */
-
-@keyframes pageIn{
-  from{
-    opacity:0;
-    transform:translateY(12px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-@keyframes popupIn{
-  from{
-    opacity:0;
-    transform:translateY(-7px) scale(.98);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0) scale(1);
-  }
+:root{
+  --bg:#f3f3f8;
+  --paper:#fff;
+  --ink:#14141a;
+  --muted:#6f7280;
+  --line:#e6e6ee;
+  --dark:#0d0d12;
+  --accent:#7772a8;
+  --accent-2:#a9a3f2;
+  --red:#ef4444;
+  --side:260px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:110px}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* ================= SIDEBAR (desktop) ================= */
+.sidebar{display:none;position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--dark);color:#fff;padding:26px 18px 20px;flex-direction:column;z-index:60;overflow-y:auto}
+.sidebar .logo img{height:32px;width:auto;max-width:180px;object-fit:contain;filter:brightness(0) invert(1);display:block;margin:0 8px 30px}
+.side-nav{display:flex;flex-direction:column;gap:4px}
+.side-nav a{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:14px;font-size:14px;font-weight:500;color:rgba(255,255,255,.62);transition:background .2s,color .2s}
+.side-nav a .i{width:19px;height:19px}
+.side-nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.side-nav a.active{background:rgba(255,255,255,.1);color:#fff;font-weight:700}
+.side-create{display:flex;align-items:center;justify-content:center;gap:9px;margin:0 0 18px;height:48px;border-radius:14px;background:#fff;color:var(--ink);font-size:14px;font-weight:700;transition:transform .25s var(--ease),box-shadow .25s}
+.side-create:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,255,255,.14)}
+.side-create .i{width:18px;height:18px}
+.side-foot{margin-top:auto;padding-top:20px}
+.side-help{padding:16px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.side-help strong{display:block;font-size:13px;font-weight:700}
+.side-help span{display:block;margin-top:3px;font-size:12px;line-height:1.6;color:rgba(255,255,255,.5)}
+.side-help a{display:inline-flex;align-items:center;gap:7px;margin-top:11px;font-size:12px;font-weight:700;color:var(--accent-2)}
+.side-help a .i{width:14px;height:14px}
+
+/* ================= TOPBAR ================= */
+.topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
+.topbar.scrolled{border-bottom-color:var(--line)}
+.topbar .logo-m img{height:30px;width:auto;max-width:170px;object-fit:contain;display:block}
+.page-title{display:none;font-size:20px;font-weight:800;letter-spacing:-.03em}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.icon-btn{position:relative;width:42px;height:42px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),border-color .2s}
+.icon-btn:hover{border-color:#cfcfdb}
+.icon-btn:active{transform:scale(.93)}
+.icon-btn .i{width:19px;height:19px}
+.badge{position:absolute;top:-5px;right:-5px;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--red);border:2px solid var(--bg);color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center}
+.avatar-btn{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line);transition:transform .2s var(--ease)}
+.avatar-btn:active{transform:scale(.93)}
+
+/* ================= LAYOUT ================= */
+.wrap{width:100%;max-width:880px;margin:0 auto;padding:6px 16px 0}
+
+/* ================= HERO / WALLET ================= */
+.greet{padding:10px 2px 18px}
+.greet small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.greet h1{margin-top:2px;font-size:clamp(26px,5vw,36px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+
+.wallet{position:relative;overflow:hidden;isolation:isolate;border-radius:28px;background:var(--dark);color:#fff;padding:clamp(22px,4vw,34px);animation:up .6s var(--ease) both}
+.wallet::before,.wallet::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none}
+.wallet::before{width:360px;height:360px;background:rgba(119,114,168,.6);top:-160px;right:-80px}
+.wallet::after{width:300px;height:300px;background:rgba(79,70,160,.4);bottom:-170px;left:-80px}
+.wallet-grid{position:absolute;inset:0;z-index:-1;opacity:.25;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%)}
+.w-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.w-label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:rgba(255,255,255,.65)}
+.w-label .i{width:17px;height:17px;color:var(--accent-2)}
+.eye-btn{width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;transition:background .2s}
+.eye-btn:hover{background:rgba(255,255,255,.18)}
+.eye-btn .i{width:17px;height:17px}
+.w-amount{margin-top:14px;display:flex;align-items:baseline;gap:8px;font-weight:800;letter-spacing:-.04em;line-height:1;white-space:nowrap}
+.w-amount .cur{font-size:clamp(16px,2.6vw,22px);font-weight:600;opacity:.6;letter-spacing:0}
+.w-amount .val{font-size:clamp(36px,8vw,58px)}
+.w-foot{margin-top:24px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.w-foot p{font-size:12px;color:rgba(255,255,255,.5);line-height:1.6}
+.w-btn{display:inline-flex;align-items:center;gap:9px;height:44px;padding:0 18px;border-radius:999px;background:#fff;color:var(--ink);font-size:13px;font-weight:700;transition:transform .25s var(--ease),box-shadow .25s}
+.w-btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(255,255,255,.16)}
+.w-btn .i{width:16px;height:16px}
+
+/* ================= SECTIONS ================= */
+.sec{margin-top:30px}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin:0 2px 12px}
+.sec-head h2{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.sec-head button{font-size:12px;font-weight:700;color:var(--accent);padding:6px 10px;border-radius:999px;transition:background .2s}
+.sec-head button:hover{background:#e9e8f4}
+
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.tile{display:flex;align-items:center;gap:14px;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:20px;transition:transform .3s var(--ease),box-shadow .3s,border-color .3s;animation:up .6s var(--ease) both}
+.tile:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(20,20,40,.07);border-color:#d3d1e6}
+.tile:active{transform:scale(.98)}
+.tile .ic{width:46px;height:46px;border-radius:14px;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink);transition:background .25s,color .25s}
+.tile .ic .i{width:21px;height:21px}
+.tile:hover .ic{background:var(--ink);color:#fff}
+.tile .tx{min-width:0;flex:1}
+.tile strong{display:block;font-size:14px;font-weight:700}
+.tile span.d{display:block;margin-top:2px;font-size:12px;line-height:1.5;color:var(--muted);overflow-wrap:anywhere}
+.tile .go{width:17px;height:17px;color:#a3a5b0;transition:transform .25s,color .25s}
+.tile:hover .go{transform:translateX(3px);color:var(--ink)}
+
+/* inbox preview */
+.inbox{background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.msg{display:flex;gap:13px;align-items:flex-start;width:100%;padding:16px 18px;text-align:left;border-bottom:1px solid var(--line);transition:background .2s}
+.msg:last-child{border-bottom:0}
+.msg:hover{background:#fafafd}
+.msg .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+.msg.read .dot{background:#d5d6de}
+.msg .mt{min-width:0;flex:1}
+.msg strong{display:block;font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg.read strong{font-weight:600;color:#4a4c58}
+.msg p{margin-top:2px;font-size:12px;line-height:1.6;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:30px 20px;text-align:center;color:var(--muted);font-size:13px}
+.empty .ic{width:46px;height:46px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.empty .ic .i{width:21px;height:21px}
+
+/* ================= BOTTOM NAV (mobile) ================= */
+.bottom{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);width:calc(100% - 28px);max-width:540px;height:70px;padding:0 8px;background:rgba(13,13,18,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:26px;box-shadow:0 18px 40px rgba(13,13,18,.3);display:flex;align-items:center;justify-content:space-around;z-index:70}
+.b-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:100%;font-size:10px;font-weight:500;color:rgba(255,255,255,.5);transition:color .2s,transform .15s}
+.b-item .i{width:20px;height:20px}
+.b-item:active{transform:scale(.92)}
+.b-item.active{color:#fff;font-weight:700}
+.b-item.active .i{color:var(--accent-2)}
+.b-create{flex:1;display:flex;align-items:center;justify-content:center}
+.b-create span{width:54px;height:54px;border-radius:18px;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;margin-top:-30px;border:5px solid var(--bg);box-sizing:content-box;box-shadow:0 10px 24px rgba(0,0,0,.2);transition:transform .2s var(--ease)}
+.b-create:active span{transform:scale(.9)}
+.b-create .i{width:23px;height:23px}
+
+/* ================= PROFILE POPUP ================= */
+.pop{position:fixed;top:70px;right:14px;width:272px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(20,20,40,.16);padding:10px;z-index:200;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top right;transition:all .22s var(--ease)}
+.pop.show{opacity:1;visibility:visible;transform:none}
+.pop-info{display:flex;align-items:center;gap:12px;padding:10px 10px 14px}
+.pop-info .avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.pop-info .nm{min-width:0}
+.pop-info strong{display:block;font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pop-info span{display:block;margin-top:2px;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pop hr{border:0;height:1px;background:var(--line);margin:2px 4px 6px}
+.pop a,.pop button.opt{display:flex;align-items:center;gap:12px;width:100%;padding:12px 10px;border-radius:12px;font-size:13px;font-weight:500;text-align:left;transition:background .2s}
+.pop a:hover,.pop button.opt:hover{background:var(--bg)}
+.pop .i{width:17px;height:17px;color:var(--muted)}
+.pop .logout,.pop .logout .i{color:#d83a3a}
+
+/* ================= NOTIFICATION DRAWER ================= */
+.overlay{position:fixed;inset:0;background:rgba(13,13,18,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:300;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.overlay.show{opacity:1;visibility:visible}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:420px;max-width:100%;background:var(--paper);z-index:310;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .4s var(--ease);box-shadow:-20px 0 60px rgba(0,0,0,.12)}
+.drawer.show{transform:none}
+.d-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 20px 14px}
+.d-head h3{font-size:20px;font-weight:800;letter-spacing:-.03em}
+.d-head .acts{display:flex;align-items:center;gap:8px}
+.d-all{font-size:12px;font-weight:700;color:var(--accent);padding:8px 12px;border-radius:999px;transition:background .2s}
+.d-all:hover{background:#e9e8f4}
+.d-all:disabled{opacity:.4;cursor:default;background:none}
+.d-x{width:38px;height:38px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.d-x .i{width:17px;height:17px}
+.d-list{flex:1;overflow-y:auto;padding:0 12px 24px;overscroll-behavior:contain}
+.d-item{border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:10px;background:var(--paper);transition:border-color .2s}
+.d-item.unread{border-color:#d3d1e6;background:#fbfbfe}
+.d-item .row{display:flex;align-items:flex-start;gap:10px}
+.d-item .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+.d-item.read .dot{background:#d5d6de}
+.d-item strong{display:block;font-size:14px;font-weight:700;line-height:1.4}
+.d-item.read strong{color:#4a4c58;font-weight:600}
+.d-item p{margin-top:6px;font-size:13px;line-height:1.7;color:#5a5d6a;white-space:pre-wrap;overflow-wrap:anywhere;user-select:text}
+.d-item .mark{margin-top:12px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--accent);padding:6px 11px;border-radius:999px;background:#eeedf7;transition:background .2s}
+.d-item .mark:hover{background:#e2e0f1}
+.d-item .mark .i{width:13px;height:13px}
+
+/* ================= TOAST ================= */
+.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* skeleton */
+.sk{display:inline-block;border-radius:8px;background:linear-gradient(90deg,rgba(255,255,255,.08),rgba(255,255,255,.2),rgba(255,255,255,.08));background-size:200% 100%;animation:sh 1.3s linear infinite;color:transparent!important}
+
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes sh{to{background-position:-200% 0}}
+
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}
+
+/* ================= DESKTOP ================= */
+@media(min-width:1000px){
+  body{padding-bottom:40px;padding-left:var(--side)}
+  .sidebar{display:flex}
+  .bottom{display:none}
+  .topbar{height:78px;padding:0 36px}
+  .topbar .logo-m{display:none}
+  .page-title{display:block}
+  .wrap{max-width:960px;padding:6px 36px 0}
+  .pop{top:76px;right:34px}
+  .toast{bottom:30px}
+  .grid2.wide{grid-template-columns:repeat(2,1fr)}
 }
 
 /* ================= MOBILE ================= */
-
-@media(max-width:600px){
-
-  .container{
-    width:calc(100% - 28px);
-  }
-
-  .wallet-card{
-    padding:17px;
-  }
-
-  .card-value{
-    font-size:23px;
-  }
-
-  .tools-grid{
-    grid-template-columns:1fr;
-  }
-
+@media(max-width:700px){
+  .wrap{padding:0 14px}
+  .grid2{grid-template-columns:1fr}
+  .wallet{border-radius:24px}
+  .w-foot{flex-direction:column;align-items:stretch}
+  .w-btn{justify-content:center;height:48px}
+  .drawer{top:auto;width:100%;height:84dvh;border-radius:26px 26px 0 0;transform:translateY(102%);box-shadow:0 -20px 60px rgba(0,0,0,.2)}
+  .drawer.show{transform:none}
+  .pop{right:12px;top:66px}
 }
 
-/* ================= DESKTOP ================= */
-
-@media(min-width:700px){
-
-  .container{
-    width:100%;
-  }
-
-  .bottom-nav{
-    padding-left:max(5px,calc((100% - 650px)/2));
-    padding-right:max(5px,calc((100% - 650px)/2));
-  }
-
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
 }
-
 </style>
-
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- ICON SPRITE -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10.5 9-7.5 9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M4 2v20l3-2 3 2 2-2 2 2 3-2 3 2V2l-3 2-3-2-2 2-2-2-3 2z"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-youtube" viewBox="0 0 24 24"><path d="M2.5 17a24.1 24.1 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.1 24.1 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6" fill="currentColor"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.9 4.2A10 10 0 0 1 12 4c6.4 0 10 8 10 8a17 17 0 0 1-3.2 4.2M6.6 6.6A16.7 16.7 0 0 0 2 12s3.6 8 10 8a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2M2 2l20 20"/></symbol>
+  <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol>
+  <symbol id="i-life" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><path d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24"/></symbol>
+</svg>
 
-<header>
+<!-- ================= SIDEBAR (desktop) ================= -->
+<aside class="sidebar">
+  <a href="../dashboard" class="logo"><img src="../assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
 
-  <img
-    src="../assets/dynotic-distribution.png"
-    class="header-logo"
-    alt="Dynotic Distribution"
-  >
+  <a href="../catalog/releases/create" class="side-create">
+    <svg class="i"><use href="#i-plus"/></svg>New Release
+  </a>
 
-  <div class="header-actions">
+  <nav class="side-nav" aria-label="Main navigation">
+    <a href="../dashboard" class="active"><svg class="i"><use href="#i-home"/></svg>Home</a>
+    <a href="../catalog"><svg class="i"><use href="#i-disc"/></svg>Catalog</a>
+    <a href="../transactions"><svg class="i"><use href="#i-receipt"/></svg>Transactions</a>
+    <a href="../analytics"><svg class="i"><use href="#i-chart"/></svg>Analytics</a>
+    <a href="../account"><svg class="i"><use href="#i-gear"/></svg>Account</a>
+  </nav>
 
-    <!-- NOTIFICATION -->
-
-    <div
-      id="notifBtn"
-      class="notif-btn"
-      onclick="openMessages()"
-    >
-
-      <i class="fa-regular fa-bell"></i>
-
-      <span
-        id="notifBadge"
-        class="notif-badge"
-      >0</span>
-
+  <div class="side-foot">
+    <div class="side-help">
+      <strong>Butuh bantuan?</strong>
+      <span>Tim kami siap membantu soal distribusi, rilis, dan katalog.</span>
+      <a href="mailto:support@dynoticcollective.com"><svg class="i"><use href="#i-mail"/></svg>Hubungi support</a>
     </div>
-
-    <!-- PROFILE -->
-
-    <div
-      class="profile-btn"
-      onclick="toggleProfile()"
-      id="profileBtn"
-    >
-
-      <i class="fa-regular fa-user"></i>
-
-    </div>
-
   </div>
+</aside>
 
+<!-- ================= TOPBAR ================= -->
+<header class="topbar" id="topbar">
+  <a href="../dashboard" class="logo-m"><img src="../assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+  <h2 class="page-title">Home</h2>
+
+  <div class="top-actions">
+    <button class="icon-btn" id="notifBtn" type="button" aria-label="Notifikasi">
+      <svg class="i"><use href="#i-bell"/></svg>
+      <span class="badge" id="notifBadge">0</span>
+    </button>
+    <button class="avatar-btn" id="profileBtn" type="button" aria-label="Profil" aria-expanded="false">
+      <span id="avatarLetter">A</span>
+    </button>
+  </div>
 </header>
 
-
 <!-- ================= PROFILE POPUP ================= -->
-
-<div
-  class="profile-popup"
-  id="profilePopup"
->
-
-  <div class="profile-info">
-
-    <div class="profile-avatar">
-      <i class="fa-regular fa-user"></i>
+<div class="pop" id="profilePopup" role="menu">
+  <div class="pop-info">
+    <div class="avatar" id="popAvatar">A</div>
+    <div class="nm">
+      <strong id="profileName">Artist</strong>
+      <span id="profileEmail">-</span>
     </div>
-
-    <div class="profile-details">
-
-      <div
-        class="profile-name"
-        id="profileName"
-      >
-        Artist
-      </div>
-
-      <div
-        class="profile-email"
-        id="profileEmail"
-      >
-        -
-      </div>
-
-    </div>
-
   </div>
-
-  <div class="profile-divider"></div>
-
-  <div
-    class="profile-option"
-    onclick="goAccount()"
-  >
-
-    <i class="fa-solid fa-gear"></i>
-
-    <span>Account Settings</span>
-
-  </div>
-
-  <div
-    class="profile-option logout"
-    onclick="logout()"
-  >
-
-    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-
-    <span>Logout</span>
-
-  </div>
-
+  <hr>
+  <a href="../account" role="menuitem"><svg class="i"><use href="#i-gear"/></svg>Account Settings</a>
+  <a href="mailto:support@dynoticcollective.com" role="menuitem"><svg class="i"><use href="#i-mail"/></svg>Email Support</a>
+  <a href="https://instagram.com/dynotiiccollective" target="_blank" rel="noopener noreferrer" role="menuitem"><svg class="i"><use href="#i-instagram"/></svg>Instagram</a>
+  <hr>
+  <button class="opt logout" type="button" id="logoutBtn" role="menuitem"><svg class="i"><use href="#i-logout"/></svg>Logout</button>
 </div>
 
-
-<!-- ================= MESSAGE POPUP ================= -->
-
-<div
-  id="messagePopup"
-  class="message-popup"
->
-
-  <div class="message-card">
-
-    <div
-      class="message-title"
-      id="msgTitle"
-    ></div>
-
-    <div
-      class="message-text"
-      id="msgText"
-    ></div>
-
-    <div class="message-actions">
-
-      <button
-        class="view-btn"
-        onclick="viewMessage()"
-      >
-        View
-      </button>
-
-      <button
-        class="close-btn"
-        onclick="closeMessage()"
-      >
-        ✕
-      </button>
-
+<!-- ================= NOTIFICATION DRAWER ================= -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Notifikasi" aria-hidden="true">
+  <div class="d-head">
+    <h3>Notifikasi</h3>
+    <div class="acts">
+      <button class="d-all" id="markAll" type="button">Tandai semua dibaca</button>
+      <button class="d-x" id="drawerClose" type="button" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button>
     </div>
-
   </div>
-
-</div>
-
+  <div class="d-list" id="drawerList"></div>
+</aside>
 
 <!-- ================= MAIN ================= -->
+<main class="wrap">
 
-<main class="container">
+  <div class="greet">
+    <small id="greetTime">Welcome back</small>
+    <h1 id="namaArtis">Hi, Artist</h1>
+  </div>
 
   <!-- WALLET -->
+  <section class="wallet">
+    <div class="wallet-grid"></div>
 
-  <div
-    class="card wallet-card"
-    onclick="goRekapan()"
-  >
-
-    <div class="wallet-content">
-
-      <div
-        id="namaArtis"
-        class="artist-name"
-      >
-        Hi, --
-      </div>
-
-      <div class="balance-title">
-        Main Wallet Balance
-      </div>
-
-      <div
-        id="saldo"
-        class="card-value"
-      >
-
-        <span style="font-size:.6em;opacity:.7">
-          Rp
-        </span>
-
-        <span>0</span>
-
-      </div>
-
-      <div class="wallet-desc">
-        Tap to view royalty breakdown
-      </div>
-
+    <div class="w-top">
+      <div class="w-label"><svg class="i"><use href="#i-wallet"/></svg>Main Wallet Balance</div>
+      <button class="eye-btn" id="eyeBtn" type="button" aria-label="Sembunyikan saldo" aria-pressed="false">
+        <svg class="i"><use href="#i-eye"/></svg>
+      </button>
     </div>
 
-    <div class="detail-btn">
-
-      <i class="fa-solid fa-clock-rotate-left"></i>
-
-      Detail
-
+    <div class="w-amount" id="saldo">
+      <span class="cur">Rp</span><span class="val sk" id="saldoValue">00.000</span>
     </div>
 
-  </div>
-
-
-  <!-- TOOLS -->
-
-  <div class="section-title">
-    Tools
-  </div>
-
-  <section class="tools-grid">
-
-    <!-- OAC -->
-
-    <div
-      class="tool-item"
-      onclick="goOAC()"
-    >
-
-      <div class="tool-icon">
-        <i class="fa-brands fa-youtube"></i>
-      </div>
-
-      <div class="tool-text">
-
-        <div class="tool-title">
-          Official Artist Channel
-        </div>
-
-        <div class="tool-desc">
-          Manage your YouTube artist channel.
-        </div>
-
-      </div>
-
+    <div class="w-foot">
+      <p>Total royalti yang tersedia di wallet kamu.</p>
+      <a href="../income" class="w-btn">Royalty breakdown<svg class="i"><use href="#i-arrow-r"/></svg></a>
     </div>
-
-
-    <!-- ARTWORK -->
-
-    <div
-      class="tool-item"
-      onclick="goArtwork()"
-    >
-
-      <div class="tool-icon">
-        <i class="fa-solid fa-image"></i>
-      </div>
-
-      <div class="tool-text">
-
-        <div class="tool-title">
-          Artwork Generator
-        </div>
-
-        <div class="tool-desc">
-          Create artwork for your release.
-        </div>
-
-      </div>
-
-    </div>
-
   </section>
 
-  <div style="height:80px"></div>
+  <!-- TOOLS -->
+  <section class="sec">
+    <div class="sec-head"><h2>Tools</h2></div>
+    <div class="grid2">
+      <a href="../oac" class="tile d1">
+        <div class="ic"><svg class="i"><use href="#i-youtube"/></svg></div>
+        <div class="tx"><strong>Official Artist Channel</strong><span class="d">Manage your YouTube artist channel.</span></div>
+        <svg class="i go"><use href="#i-arrow-r"/></svg>
+      </a>
+      <a href="../artwork-generate" class="tile d2">
+        <div class="ic"><svg class="i"><use href="#i-image"/></svg></div>
+        <div class="tx"><strong>Artwork Generator</strong><span class="d">Create artwork for your release.</span></div>
+        <svg class="i go"><use href="#i-arrow-r"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- INBOX -->
+  <section class="sec">
+    <div class="sec-head">
+      <h2>Inbox</h2>
+      <button type="button" id="viewAll">Lihat semua</button>
+    </div>
+    <div class="inbox" id="inbox">
+      <div class="empty">
+        <div class="ic"><svg class="i"><use href="#i-bell"/></svg></div>
+        Memuat pesan…
+      </div>
+    </div>
+  </section>
+
+  <!-- HELP -->
+  <section class="sec">
+    <div class="sec-head"><h2>Help &amp; Community</h2></div>
+    <div class="grid2">
+      <a href="mailto:support@dynoticcollective.com" class="tile d1">
+        <div class="ic"><svg class="i"><use href="#i-mail"/></svg></div>
+        <div class="tx"><strong>Email Support</strong><span class="d">support@dynoticcollective.com</span></div>
+        <svg class="i go"><use href="#i-arrow-r"/></svg>
+      </a>
+      <a href="https://instagram.com/dynotiiccollective" target="_blank" rel="noopener noreferrer" class="tile d2">
+        <div class="ic"><svg class="i"><use href="#i-instagram"/></svg></div>
+        <div class="tx"><strong>Instagram</strong><span class="d">@dynotiiccollective</span></div>
+        <svg class="i go"><use href="#i-arrow-r"/></svg>
+      </a>
+    </div>
+  </section>
 
 </main>
 
-
-<!-- ================= BOTTOM NAVIGATION ================= -->
-
-<nav class="bottom-nav">
-
-  <!-- HOME -->
-
-  <div
-    class="nav-item active"
-    onclick="homeClick()"
-  >
-
-    <i class="fa-solid fa-house"></i>
-
-    <span>Home</span>
-
-  </div>
-
-
-  <!-- CATALOG -->
-
-  <div
-    class="nav-item"
-    onclick="goCatalog()"
-  >
-
-    <i class="fa-solid fa-compact-disc"></i>
-
-    <span>Catalog</span>
-
-  </div>
-
-
-  <!-- CREATE NEW RELEASE -->
-
-  <div
-    class="create-nav"
-    onclick="goCreateRelease()"
-  >
-
-    <div class="create-circle">
-
-      <i class="fa-solid fa-plus"></i>
-
-    </div>
-
-    <span class="create-label">
-      Create
-    </span>
-
-  </div>
-
-
-  <!-- TRANSACTION -->
-
-  <div
-    class="nav-item"
-    onclick="goTransactions()"
-  >
-
-    <i class="fa-solid fa-receipt"></i>
-
-    <span>Transactions</span>
-
-  </div>
-
-
-  <!-- ANALYTICS -->
-
-  <div
-    class="nav-item"
-    onclick="goAnalytics()"
-  >
-
-    <i class="fa-solid fa-chart-line"></i>
-
-    <span>Analytics</span>
-
-  </div>
-
+<!-- ================= BOTTOM NAV (mobile) ================= -->
+<nav class="bottom" aria-label="Main navigation">
+  <a href="../dashboard" class="b-item active"><svg class="i"><use href="#i-home"/></svg>Home</a>
+  <a href="../catalog" class="b-item"><svg class="i"><use href="#i-disc"/></svg>Catalog</a>
+  <a href="../catalog/releases/create" class="b-create" aria-label="Create new release"><span><svg class="i"><use href="#i-plus"/></svg></span></a>
+  <a href="../transactions" class="b-item"><svg class="i"><use href="#i-receipt"/></svg>Transactions</a>
+  <a href="../analytics" class="b-item"><svg class="i"><use href="#i-chart"/></svg>Analytics</a>
 </nav>
 
+<div class="toast" id="toast" role="status"></div>
 
-<!-- ================= FIREBASE ================= -->
-
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
-
 <script>
-
 /* ================= ROUTES ================= */
-
 const ROUTES = {
-
-  home: "../dashboard",
-
-  catalog: "../catalog",
-
-  create: "../catalog/releases/create",
-
-  transactions: "../transactions",
-
-  analytics: "../analytics",
-
-  account: "../account",
-
-  income: "../income",
-
-  oac: "../oac",
-
-  artwork: "../artwork-generate",
-
   login: "../login"
-
 };
 
-
-/* ================= FIREBASE CONFIG ================= */
-
+/* ================= FIREBASE ================= */
 firebase.initializeApp({
-
-  apiKey:
-    "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
-
-  authDomain:
-    "dynopay-2513c.firebaseapp.com",
-
-  databaseURL:
-    "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
-
+  apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain: "dynopay-2513c.firebaseapp.com",
+  databaseURL: "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
 });
 
-
 const db = firebase.database();
-
-let targetSaldo = 0;
+const $ = id => document.getElementById(id);
 
 let currentUser = null;
+let displayedSaldo = 0;
+let currentSaldo = 0;
+let saldoRaf = null;
+let saldoHidden = false;
+let messages = [];
+let dataRef = null;
+let msgRef = null;
 
+/* ================= HELPERS ================= */
+
+function toast(text){
+  const t = $("toast");
+  t.textContent = text;
+  t.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+function greeting(){
+  const h = new Date().getHours();
+  if(h < 11) return "Selamat pagi";
+  if(h < 15) return "Selamat siang";
+  if(h < 18) return "Selamat sore";
+  return "Selamat malam";
+}
+
+function fmt(n){ return Number(n || 0).toLocaleString("id-ID"); }
 
 /* ================= AUTH ================= */
 
 firebase.auth().onAuthStateChanged(user => {
 
   if(!user){
-
+    if(dataRef) dataRef.off();
+    if(msgRef) msgRef.off();
     location.href = ROUTES.login;
-
     return;
-
   }
 
   currentUser = user;
+  $("profileEmail").textContent = user.email || "-";
+  $("greetTime").textContent = greeting();
 
-  // PROFILE EMAIL
-
-  document.getElementById(
-    "profileEmail"
-  ).textContent = user.email || "-";
-
-
-  // LOAD NOTIFICATIONS
+  // restore hide-balance preference
+  try{ saldoHidden = localStorage.getItem("dyn_hide_balance") === "1"; }catch(e){}
+  updateEye();
 
   loadMessages(user.uid);
 
+  // realtime artist data
+  dataRef = db.ref("users/" + user.uid);
+  dataRef.on("value", snap => {
 
-  // LOAD ARTIST DATA
+    if(!snap.exists()) return;
 
-  db.ref("users/" + user.uid)
-    .once("value")
-    .then(snap => {
+    const d = snap.val();
+    const nama = d.nama || "Artist";
+    const letter = nama.trim().charAt(0).toUpperCase() || "A";
 
-      if(!snap.exists()) return;
+    $("namaArtis").textContent = "Hi, " + nama;
+    $("profileName").textContent = nama;
+    $("avatarLetter").textContent = letter;
+    $("popAvatar").textContent = letter;
 
-      const d = snap.val();
+    currentSaldo = Number(d.saldo || 0);
+    $("saldoValue").classList.remove("sk");
+    animateSaldo(currentSaldo);
 
-      targetSaldo = Number(d.saldo || 0);
-
-      const nama = d.nama || "Artist";
-
-
-      document.getElementById(
-        "namaArtis"
-      ).textContent = "Hi, " + nama;
-
-
-      document.getElementById(
-        "profileName"
-      ).textContent = nama;
-
-
-      animateSaldo();
-
-    })
-    .catch(error => {
-
-      console.error(
-        "Gagal memuat data artist:",
-        error
-      );
-
-    });
+  }, error => {
+    console.error("Gagal memuat data artist:", error);
+    $("saldoValue").classList.remove("sk");
+    toast("Gagal memuat data. Coba muat ulang halaman.");
+  });
 
 });
 
+/* ================= SALDO ================= */
 
-/* ================= SALDO ANIMATION ================= */
-
-function animateSaldo(){
-
-  let angka = 0;
-
-  const step =
-    Math.ceil(targetSaldo / 15) || 1;
-
-  const saldoElement =
-    document.getElementById("saldo");
-
-  const i = setInterval(() => {
-
-    if(angka < targetSaldo){
-
-      angka += step;
-
-      if(angka > targetSaldo){
-
-        angka = targetSaldo;
-
-      }
-
-      saldoElement.innerHTML = `
-
-        <span style="font-size:.6em;opacity:.7">
-          Rp
-        </span>
-
-        <span>
-          ${angka.toLocaleString("id-ID")}
-        </span>
-
-      `;
-
-    }else{
-
-      clearInterval(i);
-
-    }
-
-  },15);
-
+function renderSaldo(n){
+  $("saldoValue").textContent = saldoHidden ? "••••••" : fmt(n);
 }
 
+function animateSaldo(target){
+
+  if(saldoRaf) cancelAnimationFrame(saldoRaf);
+
+  if(saldoHidden){
+    displayedSaldo = target;
+    renderSaldo(target);
+    return;
+  }
+
+  const from = displayedSaldo;
+  const diff = target - from;
+  const start = performance.now();
+  const duration = 700;
+
+  function frame(now){
+    const p = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    displayedSaldo = Math.round(from + diff * eased);
+    renderSaldo(displayedSaldo);
+
+    if(p < 1){
+      saldoRaf = requestAnimationFrame(frame);
+    }else{
+      displayedSaldo = target;
+      renderSaldo(target);
+    }
+  }
+
+  saldoRaf = requestAnimationFrame(frame);
+}
+
+function updateEye(){
+  const b = $("eyeBtn");
+  b.setAttribute("aria-pressed", String(saldoHidden));
+  b.setAttribute("aria-label", saldoHidden ? "Tampilkan saldo" : "Sembunyikan saldo");
+  b.innerHTML = '<svg class="i"><use href="#' + (saldoHidden ? "i-eye-off" : "i-eye") + '"/></svg>';
+}
+
+$("eyeBtn").addEventListener("click", () => {
+  saldoHidden = !saldoHidden;
+  try{ localStorage.setItem("dyn_hide_balance", saldoHidden ? "1" : "0"); }catch(e){}
+  updateEye();
+  displayedSaldo = currentSaldo;
+  renderSaldo(currentSaldo);
+});
 
 /* ================= PROFILE POPUP ================= */
 
-function toggleProfile(){
+const popup = $("profilePopup");
+const profileBtn = $("profileBtn");
 
-  const popup =
-    document.getElementById("profilePopup");
-
-  popup.classList.toggle("show");
-
+function setProfile(open){
+  popup.classList.toggle("show", open);
+  profileBtn.setAttribute("aria-expanded", String(open));
 }
 
-
-function closeProfile(){
-
-  document
-    .getElementById("profilePopup")
-    .classList.remove("show");
-
-}
-
-
-// CLOSE PROFILE WHEN CLICKING OUTSIDE
-
-document.addEventListener("click", function(e){
-
-  const popup =
-    document.getElementById("profilePopup");
-
-  const button =
-    document.getElementById("profileBtn");
-
-  if(
-    !popup.contains(e.target) &&
-    !button.contains(e.target)
-  ){
-
-    closeProfile();
-
-  }
-
+profileBtn.addEventListener("click", e => {
+  e.stopPropagation();
+  setProfile(!popup.classList.contains("show"));
 });
 
+document.addEventListener("click", e => {
+  if(!popup.contains(e.target) && !profileBtn.contains(e.target)) setProfile(false);
+});
 
-/* ================= ACCOUNT ================= */
-
-function goAccount(){
-
-  closeProfile();
-
-  location.href = ROUTES.account;
-
-}
-
-
-/* ================= LOGOUT ================= */
-
-function logout(){
-
-  firebase.auth()
-    .signOut()
-    .then(() => {
-
-      location.href = ROUTES.login;
-
-    })
+$("logoutBtn").addEventListener("click", () => {
+  firebase.auth().signOut()
+    .then(() => { location.href = ROUTES.login; })
     .catch(error => {
-
-      console.error(
-        "Logout gagal:",
-        error
-      );
-
+      console.error("Logout gagal:", error);
+      toast("Logout gagal, coba lagi.");
     });
-
-}
-
-
-/* ================= NAVIGATION ================= */
-
-function homeClick(){
-
-  closeProfile();
-
-  // Already on Home.
-
-}
-
-
-function goCatalog(){
-
-  location.href = ROUTES.catalog;
-
-}
-
-
-function goCreateRelease(){
-
-  location.href = ROUTES.create;
-
-}
-
-
-function goTransactions(){
-
-  location.href = ROUTES.transactions;
-
-}
-
-
-function goAnalytics(){
-
-  location.href = ROUTES.analytics;
-
-}
-
-
-function goRekapan(){
-
-  location.href = ROUTES.income;
-
-}
-
-
-function goOAC(){
-
-  location.href = ROUTES.oac;
-
-}
-
-
-function goArtwork(){
-
-  location.href = ROUTES.artwork;
-
-}
-
+});
 
 /* ================= MESSAGES ================= */
 
-let messagesQueue = [];
-
-let currentMsgIndex = 0;
-
-
 function loadMessages(uid){
 
-  db.ref("messages_inbox/" + uid)
-    .on("value", snap => {
+  msgRef = db.ref("messages_inbox/" + uid);
 
-      messagesQueue = [];
+  msgRef.on("value", snap => {
 
-      snap.forEach(i => {
+    messages = [];
 
-        const m = i.val();
-
-        if(!m.read){
-
-          messagesQueue.push({
-
-            ...m,
-
-            key:i.key
-
-          });
-
-        }
-
-      });
-
-
-      const badge =
-        document.getElementById("notifBadge");
-
-
-      if(messagesQueue.length > 0){
-
-        badge.style.display = "flex";
-
-        badge.textContent =
-          messagesQueue.length;
-
-      }else{
-
-        badge.style.display = "none";
-
-      }
-
-    }, error => {
-
-      console.error(
-        "Gagal memuat notifikasi:",
-        error
-      );
-
+    snap.forEach(i => {
+      const m = i.val();
+      if(m) messages.push({ ...m, key: i.key });
     });
 
+    // terbaru di atas (key Firebase berurutan waktu), belum dibaca lebih dulu
+    messages.reverse();
+    messages.sort((a, b) => (a.read ? 1 : 0) - (b.read ? 1 : 0));
+
+    renderBadge();
+    renderInbox();
+    renderDrawer();
+
+  }, error => {
+    console.error("Gagal memuat notifikasi:", error);
+  });
 }
 
+function unreadCount(){
+  return messages.filter(m => !m.read).length;
+}
 
-/* ================= OPEN MESSAGES ================= */
+function renderBadge(){
+  const n = unreadCount();
+  const b = $("notifBadge");
+  b.style.display = n > 0 ? "flex" : "none";
+  b.textContent = n > 99 ? "99+" : n;
+  $("markAll").disabled = n === 0;
+}
 
-function openMessages(){
+function emptyState(text){
+  const d = document.createElement("div");
+  d.className = "empty";
+  d.innerHTML = '<div class="ic"><svg class="i"><use href="#i-check"/></svg></div>';
+  d.appendChild(document.createTextNode(text));
+  return d;
+}
 
-  if(messagesQueue.length === 0){
+function renderInbox(){
+  const box = $("inbox");
+  box.innerHTML = "";
 
+  const unread = messages.filter(m => !m.read).slice(0, 3);
+
+  if(unread.length === 0){
+    box.appendChild(emptyState("Semua pesan sudah dibaca."));
     return;
-
   }
 
-  currentMsgIndex = 0;
-
-  showCurrentMessage();
-
+  unread.forEach(m => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "msg";
+    b.innerHTML = '<span class="dot"></span><div class="mt"><strong></strong><p></p></div>';
+    b.querySelector("strong").textContent = m.subject || "-";
+    b.querySelector("p").textContent = m.body || "-";
+    b.addEventListener("click", openDrawer);
+    box.appendChild(b);
+  });
 }
 
+function renderDrawer(){
+  const list = $("drawerList");
+  list.innerHTML = "";
 
-/* ================= SHOW MESSAGE ================= */
-
-function showCurrentMessage(){
-
-  if(
-    currentMsgIndex >= messagesQueue.length
-  ){
-
-    document
-      .getElementById("messagePopup")
-      .classList.remove("show");
-
+  if(messages.length === 0){
+    list.appendChild(emptyState("Belum ada notifikasi."));
     return;
-
   }
 
+  messages.slice(0, 50).forEach(m => {
+    const item = document.createElement("div");
+    item.className = "d-item " + (m.read ? "read" : "unread");
+    item.innerHTML = '<div class="row"><span class="dot"></span><div><strong></strong><p></p></div></div>';
+    item.querySelector("strong").textContent = m.subject || "-";
+    item.querySelector("p").textContent = m.body || "-";
 
-  const m =
-    messagesQueue[currentMsgIndex];
+    if(!m.read){
+      const mark = document.createElement("button");
+      mark.type = "button";
+      mark.className = "mark";
+      mark.innerHTML = '<svg class="i"><use href="#i-check"/></svg>Tandai dibaca';
+      mark.addEventListener("click", () => markRead(m.key));
+      item.querySelector(".row > div").appendChild(mark);
+    }
 
-
-  document.getElementById(
-    "msgTitle"
-  ).textContent =
-    m.subject || "-";
-
-
-  document.getElementById(
-    "msgText"
-  ).textContent =
-    m.body || "-";
-
-
-  document
-    .getElementById("messagePopup")
-    .classList.add("show");
-
+    list.appendChild(item);
+  });
 }
 
-
-/* ================= CLOSE MESSAGE ================= */
-
-function closeMessage(){
-
-  const user =
-    firebase.auth().currentUser;
-
-  const m =
-    messagesQueue[currentMsgIndex];
-
-
-  if(user && m){
-
-    db.ref(
-      "messages_inbox/" +
-      user.uid +
-      "/" +
-      m.key +
-      "/read"
-    ).set(true);
-
-  }
-
-
-  currentMsgIndex++;
-
-  showCurrentMessage();
-
+function markRead(key){
+  if(!currentUser) return;
+  db.ref("messages_inbox/" + currentUser.uid + "/" + key + "/read").set(true)
+    .catch(() => toast("Gagal menandai pesan."));
 }
 
+$("markAll").addEventListener("click", () => {
+  if(!currentUser) return;
+  const updates = {};
+  messages.forEach(m => { if(!m.read) updates[m.key + "/read"] = true; });
+  if(Object.keys(updates).length === 0) return;
 
-/* ================= VIEW MESSAGE ================= */
-
-function viewMessage(){
-
-  closeMessage();
-
-}
-
-
-/* ================= CLOSE POPUP OUTSIDE ================= */
-
-document.getElementById(
-  "messagePopup"
-).addEventListener("click", function(e){
-
-  if(e.target === this){
-
-    this.classList.remove("show");
-
-  }
-
+  db.ref("messages_inbox/" + currentUser.uid).update(updates)
+    .then(() => toast("Semua pesan ditandai dibaca."))
+    .catch(() => toast("Gagal menandai pesan."));
 });
 
+/* ================= DRAWER ================= */
 
-/* ================= PAGE ANIMATION ================= */
+const drawer = $("drawer");
+const overlay = $("overlay");
 
-window.addEventListener(
-  "DOMContentLoaded",
-  () => {
+function openDrawer(){
+  setProfile(false);
+  drawer.classList.add("show");
+  overlay.classList.add("show");
+  drawer.setAttribute("aria-hidden", "false");
+  document.body.classList.add("lock");
+}
 
-    document
-      .querySelectorAll(".card,.tool-item")
-      .forEach((c,idx) => {
+function closeDrawer(){
+  drawer.classList.remove("show");
+  overlay.classList.remove("show");
+  drawer.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("lock");
+}
 
-        setTimeout(
-          () => {
+$("notifBtn").addEventListener("click", openDrawer);
+$("viewAll").addEventListener("click", openDrawer);
+$("drawerClose").addEventListener("click", closeDrawer);
+overlay.addEventListener("click", closeDrawer);
 
-            c.style.opacity = "1";
-
-          },
-          idx * 100
-        );
-
-      });
-
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape"){
+    closeDrawer();
+    setProfile(false);
   }
-);
+});
 
+/* ================= TOPBAR SCROLL ================= */
+
+const topbar = $("topbar");
+function onScroll(){ topbar.classList.toggle("scrolled", window.scrollY > 6); }
+onScroll();
+window.addEventListener("scroll", onScroll, { passive:true });
 </script>
 
 </body>
