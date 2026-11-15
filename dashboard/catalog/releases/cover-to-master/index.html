@@ -98,16 +98,31 @@ input,select{font:inherit}
 .hint{margin-top:7px;font-size:12px;line-height:1.6;color:var(--muted)}
 .row2{display:grid;grid-template-columns:1fr;gap:0 12px}
 
-.btns{display:flex;gap:10px;margin-top:24px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:50px;padding:0 20px;border-radius:999px;font-size:14px;font-weight:700;border:1px solid var(--line);background:var(--paper);color:var(--ink);transition:transform .25s var(--ease),box-shadow .25s,background .2s;flex:1;white-space:nowrap}
-.btn .i{width:17px;height:17px}
-.btn:hover:not(:disabled){transform:translateY(-2px);background:#fafafd}
-.btn:active:not(:disabled){transform:scale(.97)}
-.btn.dark{background:var(--ink);border-color:var(--ink);color:#fff}
-.btn.dark:hover:not(:disabled){background:#25252e;box-shadow:0 10px 24px rgba(20,20,26,.2)}
-.btn.grow{flex:2}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.btn.sm{height:36px;padding:0 14px;font-size:12px;flex:none}
+.btns{display:flex;gap:12px;margin-top:28px}
+.btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 24px;border-radius:18px;font-size:14px;font-weight:700;letter-spacing:-.005em;border:1px solid var(--line);background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(20,20,40,.05);transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .25s,border-color .25s,color .25s;flex:1;white-space:nowrap}
+.btn .i{width:18px;height:18px;transition:transform .35s var(--ease)}
+.btn:hover:not(:disabled){border-color:#cfcfdb;background:#fafafd;transform:translateY(-1px);box-shadow:0 10px 22px -10px rgba(20,20,40,.22)}
+.btn:active:not(:disabled){transform:translateY(0) scale(.985);box-shadow:0 1px 2px rgba(20,20,40,.05)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.btn:hover:not(:disabled) .go{transform:translateX(3px)}
+.btn:hover:not(:disabled) .bk{transform:translateX(-3px)}
+.btn.dark{border:0;color:#fff;background:radial-gradient(120% 170% at 90% -40%,rgba(169,163,242,.5),transparent 55%),linear-gradient(180deg,#2b2b36 0%,#14141a 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(0,0,0,.45),0 1px 2px rgba(13,13,18,.35),0 14px 28px -12px rgba(13,13,18,.6)}
+.btn.dark::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.16) 50%,transparent 62%);transform:translateX(-130%);transition:transform .8s var(--ease)}
+.btn.dark:hover:not(:disabled){background:radial-gradient(120% 170% at 90% -40%,rgba(169,163,242,.7),transparent 55%),linear-gradient(180deg,#32323e 0%,#191920 100%);transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(0,0,0,.45),0 2px 4px rgba(13,13,18,.3),0 22px 38px -14px rgba(79,70,160,.6)}
+.btn.dark:hover:not(:disabled)::after{transform:translateX(130%)}
+.btn.dark:active:not(:disabled){transform:translateY(0) scale(.985);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1px 0 rgba(0,0,0,.45),0 6px 14px -8px rgba(13,13,18,.6)}
+.btn:disabled{cursor:not-allowed}
+.btn:disabled:not(.dark){opacity:.5}
+.btn.dark:disabled{background:#d9d9e4;color:#fff;box-shadow:none}
+.btn.dark:disabled::after{display:none}
+.btn.sm{height:36px;padding:0 14px;font-size:12px;flex:none;border:0;border-radius:12px;background:#eeedf7;color:#4b4880;box-shadow:none}
+.btn.sm:hover:not(:disabled){background:#e2e0f1;transform:none;box-shadow:none}
+.icon-btn{box-shadow:0 1px 2px rgba(20,20,40,.05)}
+.icon-btn:hover{box-shadow:0 8px 18px -10px rgba(20,20,40,.25)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .8s linear infinite}
+.btns .back{flex:0 0 auto;min-width:124px}
+.u-status.busy .i{animation:spin .8s linear infinite}
 
 /* ================= STEP 1 ================= */
 .pick{display:flex;align-items:center;gap:13px;margin-top:16px;padding:14px;border-radius:18px;background:var(--bg)}
@@ -192,7 +207,7 @@ audio{display:block;width:100%;height:40px;margin-top:12px}
   .pv-head img{width:68px;height:68px}
 }
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none!important;transition:none!important}
+  *:not(.spin),*::before,*::after{animation:none!important;transition:none!important}
 }
 </style>
 </head>
@@ -264,7 +279,7 @@ audio{display:block;width:100%;height:40px;margin-top:12px}
       </div>
 
       <div class="btns">
-        <button type="button" class="btn dark" id="startBtn">Continue<svg class="i"><use href="#i-arrow-r"/></svg></button>
+        <button type="button" class="btn dark" id="startBtn">Continue<svg class="i go"><use href="#i-arrow-r"/></svg></button>
       </div>
     </div>
 
@@ -325,8 +340,8 @@ audio{display:block;width:100%;height:40px;margin-top:12px}
       </div>
 
       <div class="btns">
-        <button type="button" class="btn" id="back2"><svg class="i"><use href="#i-back"/></svg>Back</button>
-        <button type="button" class="btn dark grow" id="next2">Continue<svg class="i"><use href="#i-arrow-r"/></svg></button>
+        <button type="button" class="btn back" id="back2"><svg class="i bk"><use href="#i-back"/></svg>Back</button>
+        <button type="button" class="btn dark grow" id="next2">Continue<svg class="i go"><use href="#i-arrow-r"/></svg></button>
       </div>
     </div>
 
@@ -370,8 +385,8 @@ audio{display:block;width:100%;height:40px;margin-top:12px}
       </div>
 
       <div class="btns">
-        <button type="button" class="btn" id="back3"><svg class="i"><use href="#i-back"/></svg>Back</button>
-        <button type="button" class="btn dark grow" id="previewBtn" disabled>Preview<svg class="i"><use href="#i-arrow-r"/></svg></button>
+        <button type="button" class="btn back" id="back3"><svg class="i bk"><use href="#i-back"/></svg>Back</button>
+        <button type="button" class="btn dark grow" id="previewBtn" disabled>Preview<svg class="i go"><use href="#i-arrow-r"/></svg></button>
       </div>
     </div>
 
@@ -385,10 +400,10 @@ audio{display:block;width:100%;height:40px;margin-top:12px}
       <div class="note">Rilisan akan dikirim dengan status proposal dan ditinjau oleh tim Dynotic.</div>
 
       <div class="btns">
-        <button type="button" class="btn" id="editBtn"><svg class="i"><use href="#i-edit"/></svg>Edit</button>
+        <button type="button" class="btn back" id="editBtn"><svg class="i"><use href="#i-edit"/></svg>Edit</button>
         <button type="button" class="btn dark grow" id="submitBtn">
-          <span id="btnText" style="display:inline-flex;align-items:center;gap:9px"><svg class="i"><use href="#i-send"/></svg>Submit Release</span>
-          <span id="btnLoader" style="display:none">Mengirim…</span>
+          <span id="btnText" style="display:inline-flex;align-items:center;gap:10px"><svg class="i go"><use href="#i-send"/></svg>Submit Release</span>
+          <span id="btnLoader" style="display:none;align-items:center;gap:10px"><svg class="i spin"><use href="#i-loader"/></svg>Mengirim…</span>
         </button>
       </div>
     </div>
@@ -818,7 +833,7 @@ function setSubmitting(on){
   $("submitBtn").disabled = on;
   $("editBtn").disabled = on;
   $("btnText").style.display = on ? "none" : "inline-flex";
-  $("btnLoader").style.display = on ? "inline" : "none";
+  $("btnLoader").style.display = on ? "inline-flex" : "none";
 }
 
 function submitRelease(){
