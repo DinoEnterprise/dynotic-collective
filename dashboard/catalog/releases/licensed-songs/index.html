@@ -7,9 +7,9 @@
 
 <title>Song Catalog | Dynotic Distribution</title>
 
-<link rel="icon" type="image/png" href="../assets/favicon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
-<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+<link rel="icon" type="image/png" href="https://dynoticcollective/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://dynoticcollective/assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://dynoticcollective/assets/favicon-iphone.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -1378,33 +1378,23 @@ function closeModal(){
 function submitRequest(){
 
   if(!selectedSong){
-
     alert("Silakan pilih lagu terlebih dahulu.");
-
     return;
-
   }
 
-
-  const songId =
-    selectedSong.songId;
-
+  const songId = selectedSong.songId;
+  const title = selectedSong.title;
 
   if(!songId || songId === "-"){
-
     alert("Song ID lagu ini tidak tersedia.");
-
     return;
-
   }
 
-
-  const target =
-    "../cover-to-master?songId=" +
-    encodeURIComponent(songId);
-
-
-  window.location.href = target;
+  window.location.href =
+    "/cover-to-master?songId=" +
+    encodeURIComponent(songId) +
+    "&title=" +
+    encodeURIComponent(title);
 
 }
 
