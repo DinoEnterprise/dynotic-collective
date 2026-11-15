@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Account | Dynotic Distribution</title>
+<meta name="theme-color" content="#f3f3f8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="https://dynoticcollective.com/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://dynoticcollective.com/assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://dynoticcollective.com/assets/favicon-iphone.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{--bg:#f3f3f8;--paper:#fff;--ink:#14141a;--muted:#6f7280;--line:#e6e6ee;--dark:#0d0d12;--accent:#7772a8;--accent-2:#a9a3f2;--red:#ef4444;--ok:#16a34a;--side:260px;--ease:cubic-bezier(.16,1,.3,1)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:110px}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+[hidden]{display:none!important}
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* SIDEBAR */
+.sidebar{display:none;position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--dark);color:#fff;padding:26px 18px 20px;flex-direction:column;z-index:60;overflow-y:auto}
+.sidebar .logo img{height:32px;width:auto;max-width:180px;object-fit:contain;filter:brightness(0) invert(1);display:block;margin:0 8px 30px}
+.side-nav{display:flex;flex-direction:column;gap:4px}
+.side-nav a{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:14px;font-size:14px;font-weight:500;color:rgba(255,255,255,.62);transition:background .2s,color .2s}
+.side-nav a .i{width:19px;height:19px}
+.side-nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.side-nav a.active{background:rgba(255,255,255,.1);color:#fff;font-weight:700}
+.side-create{display:flex;align-items:center;justify-content:center;gap:9px;margin:0 0 18px;height:48px;border-radius:14px;background:#fff;color:var(--ink);font-size:14px;font-weight:700}
+.side-create .i{width:18px;height:18px}
+.side-foot{margin-top:auto;padding-top:20px}
+.side-help{padding:16px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.side-help strong{display:block;font-size:13px;font-weight:700}
+.side-help span{display:block;margin-top:3px;font-size:12px;line-height:1.6;color:rgba(255,255,255,.5)}
+.side-acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:13px}
+.side-help a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--accent-2)}
+.side-help a .i{width:14px;height:14px}
+.side-help a.wa{height:36px;padding:0 14px;border-radius:999px;background:#fff;color:var(--ink)}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
+.topbar.scrolled{border-bottom-color:var(--line)}
+.topbar .logo-m img{height:30px;width:auto;max-width:170px;object-fit:contain;display:block}
+.page-title{display:none;font-size:20px;font-weight:800;letter-spacing:-.03em}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.icon-btn{position:relative;width:42px;height:42px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease)}
+.icon-btn:active{transform:scale(.93)}
+.icon-btn .i{width:19px;height:19px}
+.badge{position:absolute;top:-5px;right:-5px;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--red);border:2px solid var(--bg);color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center}
+.avatar-btn{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line)}
+
+/* LAYOUT */
+.wrap{width:100%;max-width:960px;margin:0 auto;padding:6px 16px 0}
+.crumb{display:inline-flex;align-items:center;gap:6px;margin:10px 2px 6px;font-size:13px;font-weight:600;color:var(--muted);transition:color .2s}
+.crumb:hover{color:var(--ink)}
+.crumb .i{width:16px;height:16px}
+.head{padding:8px 2px 18px}
+.head small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.head h1{margin-top:2px;font-size:clamp(26px,5vw,36px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:clamp(16px,2.4vw,24px);animation:up .6s var(--ease) both}
+.card + .card,.grid > div .card{animation-delay:.08s}
+.card h2{font-size:15px;font-weight:700;letter-spacing:-.01em;margin-bottom:14px}
+
+/* FIELDS */
+.field{margin-bottom:16px}
+.field label{display:block;margin-bottom:7px;font-size:13px;font-weight:600;color:#3b3d49}
+.input{position:relative}
+.input .lead{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:#a3a5b0;pointer-events:none;transition:color .2s}
+.input input{width:100%;height:52px;padding:0 16px 0 44px;border-radius:15px;border:1.5px solid var(--line);background:#fafafd;font-size:16px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+.input input.pw{padding-right:52px}
+.input input::placeholder{color:#b3b5c0}
+.input input:hover{border-color:#cfcfdb}
+.input input:focus{border-color:var(--ink);background:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.14)}
+.input input[readonly]{background:#f0f0f5;color:#6f7280;cursor:default;box-shadow:none;border-color:var(--line)}
+.input:focus-within .lead{color:var(--ink)}
+.field.bad .input input{border-color:#e05757}
+.eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;color:#8a8d9a;transition:background .2s,color .2s}
+.eye:hover{background:var(--bg);color:var(--ink)}
+.eye .i{width:18px;height:18px}
+.fe{display:none;margin-top:7px;font-size:12px;font-weight:500;color:#d13a3a}
+.field.bad .fe{display:block}
+.hint{margin-top:7px;font-size:12px;line-height:1.5;color:var(--muted)}
+.field.bad .hint{display:none}
+.caps{display:none;margin-top:7px;font-size:12px;color:#946515;align-items:center;gap:6px}
+.caps.show{display:flex}
+.caps .i{width:14px;height:14px}
+.lock-tag{display:inline-flex;align-items:center;gap:5px;margin-left:6px;font-size:11px;font-weight:600;color:#a3a5b0}
+.lock-tag .i{width:12px;height:12px}
+
+.acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:48px;padding:0 24px;border-radius:999px;font-size:14px;font-weight:700;background:var(--ink);color:#fff;transition:transform .25s var(--ease),box-shadow .25s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(20,20,26,.2)}
+.btn:active{transform:scale(.96)}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+.btn .i{width:16px;height:16px}
+.btn.line{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.btn.line:hover{box-shadow:none;border-color:#cfcfdb}
+.acts .btn.main{flex:1 1 180px}
+.spin{width:16px;height:16px;border-radius:50%;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;animation:spin .7s linear infinite;display:none}
+.btn.loading .spin{display:block}
+.btn.loading .i{display:none}
+
+.alert{display:none;margin-top:14px;padding:13px 15px;border-radius:16px;gap:11px;align-items:flex-start;font-size:13px;line-height:1.65;background:#fff0f0;border:1px solid #f1caca;color:#9d2b2b;animation:up .3s var(--ease)}
+.alert.show{display:flex}
+.alert .i{margin-top:2px}
+
+/* SENT STATE */
+.ico{width:60px;height:60px;border-radius:20px;background:#e9f9ef;border:1px solid #bfe9cd;color:var(--ok);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.ico .i{width:26px;height:26px}
+.sent h2{font-size:22px;font-weight:800;letter-spacing:-.03em;margin-bottom:6px}
+.sent p{font-size:13px;line-height:1.75;color:var(--muted)}
+.mail{display:flex;align-items:center;gap:12px;margin-top:16px;padding:13px 15px;background:var(--bg);border-radius:16px}
+.mail .i{width:18px;height:18px;color:var(--muted)}
+.mail span{flex:1;min-width:0;font-size:14px;font-weight:600;overflow-wrap:anywhere}
+
+/* SIDE */
+.steps{list-style:none;display:grid;gap:14px;counter-reset:s}
+.steps li{display:flex;gap:12px;font-size:13px;line-height:1.65;color:#4a4c58;counter-increment:s}
+.steps li::before{content:counter(s);width:24px;height:24px;border-radius:8px;background:var(--bg);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--ink)}
+.steps b{color:var(--ink);font-weight:700}
+.warn{display:flex;gap:11px;margin-top:16px;padding:13px 14px;border-radius:16px;background:#fff8e8;border:1px solid #f1dca6;color:#7a5513;font-size:12px;line-height:1.65}
+.warn .i{margin-top:2px;color:#946515}
+
+/* BOTTOM NAV */
+.bottom{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);width:calc(100% - 28px);max-width:540px;height:70px;padding:0 8px;background:rgba(13,13,18,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:26px;box-shadow:0 18px 40px rgba(13,13,18,.3);display:flex;align-items:center;justify-content:space-around;z-index:70}
+.b-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:100%;font-size:10px;font-weight:500;color:rgba(255,255,255,.5);transition:color .2s,transform .15s}
+.b-item .i{width:20px;height:20px}
+.b-item:active{transform:scale(.92)}
+.b-create{flex:1;display:flex;align-items:center;justify-content:center}
+.b-create span{width:54px;height:54px;border-radius:18px;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;margin-top:-30px;border:5px solid var(--bg);box-sizing:content-box;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+.b-create .i{width:23px;height:23px}
+
+/* PROFILE POPUP */
+.pop{position:fixed;top:70px;right:14px;width:272px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(20,20,40,.16);padding:10px;z-index:200;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top right;transition:all .22s var(--ease)}
+.pop.show{opacity:1;visibility:visible;transform:none}
+.pop-info{display:flex;align-items:center;gap:12px;padding:10px 10px 14px}
+.pop-info .avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.pop-info .nm{min-width:0}
+.pop-info strong{display:block;font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pop-info span{display:block;margin-top:2px;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pop .lbl{padding:8px 10px 4px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a3a5b0}
+.pop hr{border:0;height:1px;background:var(--line);margin:2px 4px 6px}
+.pop a,.pop button.opt2{display:flex;align-items:center;gap:12px;width:100%;padding:12px 10px;border-radius:12px;font-size:13px;font-weight:500;text-align:left;transition:background .2s}
+.pop a:hover,.pop button.opt2:hover{background:var(--bg)}
+.pop .i{width:17px;height:17px;color:var(--muted)}
+.pop .logout,.pop .logout .i{color:#d83a3a}
+
+/* DRAWER */
+.overlay{position:fixed;inset:0;background:rgba(13,13,18,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:300;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.overlay.show{opacity:1;visibility:visible}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:420px;max-width:100%;background:var(--paper);z-index:310;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .4s var(--ease);box-shadow:-20px 0 60px rgba(0,0,0,.12)}
+.drawer.show{transform:none}
+.d-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 20px 14px}
+.d-head h3{font-size:20px;font-weight:800;letter-spacing:-.03em}
+.d-head .dacts{display:flex;align-items:center;gap:8px}
+.d-all{font-size:12px;font-weight:700;color:var(--accent);padding:8px 12px;border-radius:999px}
+.d-all:hover{background:#e9e8f4}
+.d-all:disabled{opacity:.4;cursor:default;background:none}
+.d-x{width:38px;height:38px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.d-x .i{width:17px;height:17px}
+.d-list{flex:1;overflow-y:auto;padding:0 12px 24px;overscroll-behavior:contain}
+.d-item{border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:10px}
+.d-item.unread{border-color:#d3d1e6;background:#fbfbfe}
+.d-item .row{display:flex;align-items:flex-start;gap:10px}
+.d-item .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+.d-item.read .dot{background:#d5d6de}
+.d-item strong{display:block;font-size:14px;font-weight:700;line-height:1.4}
+.d-item.read strong{color:#4a4c58;font-weight:600}
+.d-item p{margin-top:6px;font-size:13px;line-height:1.7;color:#5a5d6a;white-space:pre-wrap;overflow-wrap:anywhere}
+.d-item .mark{margin-top:12px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--accent);padding:6px 11px;border-radius:999px;background:#eeedf7}
+.d-item .mark .i{width:13px;height:13px}
+.d-empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:40px 20px;text-align:center;color:var(--muted);font-size:13px}
+
+.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(min-width:1000px){
+  body{padding-bottom:40px;padding-left:var(--side)}
+  .sidebar{display:flex}
+  .bottom{display:none}
+  .topbar{height:78px;padding:0 36px}
+  .topbar .logo-m{display:none}
+  .page-title{display:block}
+  .wrap{padding:6px 36px 0}
+  .pop{top:76px;right:34px}
+  .toast{bottom:30px}
+  .grid{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:start}
+}
+@media(max-width:700px){
+  .wrap{padding:0 14px}
+  .card{border-radius:22px}
+  .drawer{top:auto;width:100%;height:84dvh;border-radius:26px 26px 0 0;transform:translateY(102%)}
+  .drawer.show{transform:none}
+  .pop{right:12px;top:66px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10.5 9-7.5 9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M4 2v20l3-2 3 2 2-2 2 2 3-2 3 2V2l-3 2-3-2-2 2-2-2-3 2z"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8.5 9.5c.3 2.4 2.6 4.7 5 5l1.4-1.2-1.8-1-.8.7c-.9-.4-1.6-1.2-2-2l.7-.8-1-1.8z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.9 4.2A10 10 0 0 1 12 4c6.4 0 10 8 10 8a17 17 0 0 1-3.2 4.2M6.6 6.6A16.7 16.7 0 0 0 2 12s3.6 8 10 8a9.7 9.7 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2M2 2l20 20"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+</svg>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <a href="https://app.dynoticcollective.com/home/" class="logo"><img src="https://dynoticcollective.com/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+  <a href="https://app.dynoticcollective.com/catalog/releases/create/" class="side-create"><svg class="i"><use href="#i-plus"/></svg>New Release</a>
+  <nav class="side-nav" aria-label="Main navigation">
+    <a href="https://app.dynoticcollective.com/home/"><svg class="i"><use href="#i-home"/></svg>Home</a>
+    <a href="https://app.dynoticcollective.com/catalog/"><svg class="i"><use href="#i-disc"/></svg>Catalog</a>
+    <a href="https://app.dynoticcollective.com/transactions/"><svg class="i"><use href="#i-receipt"/></svg>Transactions</a>
+    <a href="https://app.dynoticcollective.com/analytics/"><svg class="i"><use href="#i-chart"/></svg>Analytics</a>
+    <a href="https://app.dynoticcollective.com/account/" class="active"><svg class="i"><use href="#i-gear"/></svg>Account</a>
+  </nav>
+  <div class="side-foot">
+    <div class="side-help">
+      <strong>Need help?</strong>
+      <span>Tim kami siap membantu soal distribusi, rilis, dan katalog.</span>
+      <div class="side-acts">
+        <a href="https://wa.me/6283161380687" target="_blank" rel="noopener noreferrer" class="wa"><svg class="i"><use href="#i-whatsapp"/></svg>WhatsApp CS</a>
+        <a href="mailto:support@dynoticcollective.com"><svg class="i"><use href="#i-mail"/></svg>Email Support</a>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- TOPBAR -->
+<header class="topbar" id="topbar">
+  <a href="https://app.dynoticcollective.com/home/" class="logo-m"><img src="https://dynoticcollective.com/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+  <h2 class="page-title">Account</h2>
+  <div class="top-actions">
+    <button class="icon-btn" id="notifBtn" type="button" aria-label="Notifikasi"><svg class="i"><use href="#i-bell"/></svg><span class="badge" id="notifBadge">0</span></button>
+    <button class="avatar-btn" id="profileBtn" type="button" aria-label="Profil" aria-expanded="false"><span id="avatarLetter">A</span></button>
+  </div>
+</header>
+
+<!-- PROFILE POPUP -->
+<div class="pop" id="profilePopup" role="menu">
+  <div class="pop-info">
+    <div class="avatar" id="popAvatar">A</div>
+    <div class="nm"><strong id="profileName">Artist</strong><span id="profileEmail">-</span></div>
+  </div>
+  <hr>
+  <a href="https://app.dynoticcollective.com/account/" role="menuitem"><svg class="i"><use href="#i-gear"/></svg>Account Settings</a>
+  <div class="lbl">Help</div>
+  <a href="https://wa.me/6283161380687" target="_blank" rel="noopener noreferrer" role="menuitem"><svg class="i"><use href="#i-whatsapp"/></svg>WhatsApp CS</a>
+  <a href="mailto:support@dynoticcollective.com" role="menuitem"><svg class="i"><use href="#i-mail"/></svg>Email Support</a>
+  <hr>
+  <button class="opt2 logout" type="button" id="logoutBtn" role="menuitem"><svg class="i"><use href="#i-logout"/></svg>Logout</button>
+</div>
+
+<!-- NOTIFICATION DRAWER -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Notifikasi" aria-hidden="true">
+  <div class="d-head">
+    <h3>Notifikasi</h3>
+    <div class="dacts">
+      <button class="d-all" id="markAll" type="button">Tandai semua dibaca</button>
+      <button class="d-x" id="drawerClose" type="button" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+  </div>
+  <div class="d-list" id="drawerList"></div>
+</aside>
+
+<!-- MAIN -->
+<main class="wrap">
+
+  <a class="crumb" href="https://app.dynoticcollective.com/account/"><svg class="i"><use href="#i-left"/></svg>Kembali ke Account</a>
+
+  <div class="head">
+    <small>Account Settings</small>
+    <h1>Change email</h1>
+  </div>
+
+  <div class="grid">
+
+    <!-- FORM / SENT -->
+    <div>
+      <section class="card" id="formCard">
+        <h2>Email login</h2>
+
+        <form id="form" novalidate>
+
+          <div class="field">
+            <label for="currentEmail">Email saat ini<span class="lock-tag"><svg class="i"><use href="#i-lock"/></svg>tidak bisa diubah di sini</span></label>
+            <div class="input"><svg class="i lead"><use href="#i-mail"/></svg>
+              <input id="currentEmail" type="email" readonly placeholder="Memuat…"></div>
+          </div>
+
+          <div class="field" id="f-newEmail">
+            <label for="newEmail">Email baru</label>
+            <div class="input"><svg class="i lead"><use href="#i-mail"/></svg>
+              <input id="newEmail" type="email" placeholder="nama.baru@email.com" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false"></div>
+            <div class="fe"></div>
+            <div class="hint">Gunakan email yang aktif dan bisa kamu akses sekarang.</div>
+          </div>
+
+          <div class="field" id="f-password">
+            <label for="password">Password saat ini</label>
+            <div class="input"><svg class="i lead"><use href="#i-lock"/></svg>
+              <input id="password" class="pw" type="password" placeholder="Masukkan password akun" autocomplete="current-password">
+              <button type="button" class="eye" id="eye" aria-label="Tampilkan password" aria-pressed="false"><svg class="i"><use href="#i-eye"/></svg></button>
+            </div>
+            <div class="caps" id="caps"><svg class="i"><use href="#i-alert"/></svg>Caps Lock sedang aktif</div>
+            <div class="fe"></div>
+            <div class="hint">Diperlukan untuk memastikan perubahan ini dilakukan oleh pemilik akun.</div>
+          </div>
+
+          <div class="acts">
+            <button type="submit" class="btn main" id="saveBtn"><span class="spin"></span><svg class="i"><use href="#i-mail"/></svg><span id="saveText">Kirim link verifikasi</span></button>
+            <a class="btn line" href="https://app.dynoticcollective.com/account/">Batal</a>
+          </div>
+
+          <div class="alert" id="alert" role="alert"><svg class="i"><use href="#i-alert"/></svg><span id="alertText"></span></div>
+        </form>
+      </section>
+
+      <section class="card sent" id="sentCard" hidden>
+        <div class="ico"><svg class="i"><use href="#i-check"/></svg></div>
+        <h2>Cek email baru kamu</h2>
+        <p>Link verifikasi sudah dikirim ke alamat di bawah. Klik link itu untuk menyelesaikan perubahan email. Cek juga folder Spam.</p>
+        <div class="mail"><svg class="i"><use href="#i-mail"/></svg><span id="sentEmail">-</span></div>
+        <div class="warn">
+          <svg class="i"><use href="#i-alert"/></svg>
+          <span>Email login <b>belum berubah</b> sampai link diklik. Setelah itu, login ulang dengan email baru dan password yang sama.</span>
+        </div>
+        <div class="acts" style="margin-top:18px">
+          <a class="btn main" href="https://app.dynoticcollective.com/account/">Kembali ke Account</a>
+          <button type="button" class="btn line" id="againBtn">Pakai email lain</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- SIDE -->
+    <section class="card">
+      <h2>Cara kerjanya</h2>
+      <ol class="steps">
+        <li><div><b>Konfirmasi identitas</b><br>Kamu memasukkan password saat ini.</div></li>
+        <li><div><b>Link dikirim ke email baru</b><br>Email login belum berubah pada tahap ini.</div></li>
+        <li><div><b>Klik link verifikasi</b><br>Email login berpindah ke alamat baru.</div></li>
+        <li><div><b>Login ulang</b><br>Pakai email baru dengan password yang sama.</div></li>
+      </ol>
+      <div class="warn">
+        <svg class="i"><use href="#i-shield"/></svg>
+        <span>Mengganti email tidak menghapus ID, release, royalti, atau data akun lainnya.</span>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom" aria-label="Main navigation">
+  <a href="https://app.dynoticcollective.com/home/" class="b-item"><svg class="i"><use href="#i-home"/></svg>Home</a>
+  <a href="https://app.dynoticcollective.com/catalog/" class="b-item"><svg class="i"><use href="#i-disc"/></svg>Catalog</a>
+  <a href="https://app.dynoticcollective.com/catalog/releases/create/" class="b-create" aria-label="Create new release"><span><svg class="i"><use href="#i-plus"/></svg></span></a>
+  <a href="https://app.dynoticcollective.com/transactions/" class="b-item"><svg class="i"><use href="#i-receipt"/></svg>Transactions</a>
+  <a href="https://app.dynoticcollective.com/analytics/" class="b-item"><svg class="i"><use href="#i-chart"/></svg>Analytics</a>
+</nav>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+const ROUTES = { login: "https://app.dynoticcollective.com/login/" };
+
+firebase.initializeApp({
+  apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain: "dynopay-2513c.firebaseapp.com",
+  databaseURL: "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+});
+
+const auth = firebase.auth();
+auth.languageCode = "id";
+const db = firebase.database();
+const $ = id => document.getElementById(id);
+
+let currentUser = null, msgRef = null, messages = [], busy = false;
+
+/* ================= HELPERS ================= */
+function toast(text){
+  const t = $("toast");
+  t.textContent = text;
+  t.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove("show"), 2400);
+}
+const validEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+
+function setBad(id, msg){
+  const f = $("f-" + id);
+  f.classList.add("bad");
+  f.querySelector(".fe").textContent = msg;
+}
+function clearErrors(){
+  document.querySelectorAll(".field.bad").forEach(f => f.classList.remove("bad"));
+  $("alert").classList.remove("show");
+}
+function showAlert(text){
+  $("alertText").textContent = text;
+  $("alert").classList.add("show");
+}
+["newEmail","password"].forEach(id => $(id).addEventListener("input", () => {
+  $("f-" + id).classList.remove("bad");
+  $("alert").classList.remove("show");
+}));
+
+/* ================= AUTH ================= */
+auth.onAuthStateChanged(user => {
+  if(!user){
+    if(msgRef) msgRef.off();
+    location.href = ROUTES.login;
+    return;
+  }
+  currentUser = user;
+  $("currentEmail").value = user.email || "";
+  $("profileEmail").textContent = user.email || "-";
+  loadProfile(user);
+  loadMessages(user.uid);
+});
+
+function loadProfile(user){
+  db.ref("users/" + user.uid).once("value").then(snap => {
+    if(!snap.exists()) return;
+    const d = snap.val();
+    const nama = d.nama || "Artist";
+    const l = nama.trim().charAt(0).toUpperCase() || "A";
+    $("profileName").textContent = nama;
+    $("avatarLetter").textContent = l;
+    $("popAvatar").textContent = l;
+
+    // Sinkronkan email di database jika email Auth sudah berganti (setelah verifikasi)
+    if(user.email && d.email && d.email.toLowerCase() !== user.email.toLowerCase()){
+      db.ref("users/" + user.uid + "/email").set(user.email)
+        .catch(e => console.warn("Email di database tidak bisa disinkronkan:", e));
+    }
+  }).catch(e => console.error("Gagal memuat profil:", e));
+}
+
+/* ================= PASSWORD UI ================= */
+$("eye").addEventListener("click", () => {
+  const p = $("password");
+  const show = p.type === "password";
+  p.type = show ? "text" : "password";
+  $("eye").setAttribute("aria-pressed", String(show));
+  $("eye").setAttribute("aria-label", show ? "Sembunyikan password" : "Tampilkan password");
+  $("eye").innerHTML = '<svg class="i"><use href="#' + (show ? "i-eye-off" : "i-eye") + '"/></svg>';
+  p.focus();
+});
+function capsCheck(e){
+  if(typeof e.getModifierState === "function") $("caps").classList.toggle("show", e.getModifierState("CapsLock"));
+}
+$("password").addEventListener("keydown", capsCheck);
+$("password").addEventListener("keyup", capsCheck);
+$("password").addEventListener("blur", () => $("caps").classList.remove("show"));
+
+/* ================= CHANGE EMAIL ================= */
+function setLoading(on){
+  busy = on;
+  $("saveBtn").disabled = on;
+  $("saveBtn").classList.toggle("loading", on);
+  $("saveText").textContent = on ? "Memproses…" : "Kirim link verifikasi";
+}
+
+$("form").addEventListener("submit", e => { e.preventDefault(); changeEmail(); });
+
+async function changeEmail(){
+  if(busy) return;
+  const user = auth.currentUser;
+  if(!user){ location.href = ROUTES.login; return; }
+
+  clearErrors();
+
+  const newEmail = $("newEmail").value.trim();
+  const password = $("password").value; // tidak di-trim
+
+  let first = null;
+  const bad = (id, m) => { setBad(id, m); if(!first) first = id; };
+
+  if(!newEmail) bad("newEmail", "Masukkan email baru terlebih dahulu.");
+  else if(!validEmail(newEmail)) bad("newEmail", "Format email tidak valid.");
+  else if(newEmail.toLowerCase() === (user.email || "").toLowerCase()) bad("newEmail", "Email baru sama dengan email saat ini.");
+
+  if(!password) bad("password", "Masukkan password akun kamu.");
+
+  if(first){ $(first).focus(); return; }
+
+  setLoading(true);
+
+  try{
+    // Re-authentication: memastikan perubahan dilakukan pemilik akun
+    const cred = firebase.auth.EmailAuthProvider.credential(user.email, password);
+    await user.reauthenticateWithCredential(cred);
+
+    // Kirim link verifikasi ke email baru. Email Auth baru berubah setelah link diklik.
+    await user.verifyBeforeUpdateEmail(newEmail);
+
+    $("sentEmail").textContent = newEmail;
+    $("formCard").hidden = true;
+    $("sentCard").hidden = false;
+    $("newEmail").value = "";
+    $("password").value = "";
+    setLoading(false);
+
+  }catch(err){
+    console.error("Ganti email gagal:", err.code, err.message);
+
+    switch(err.code){
+      case "auth/wrong-password":
+      case "auth/invalid-credential":
+        setBad("password", "Password saat ini salah."); $("password").focus(); break;
+      case "auth/email-already-in-use":
+        setBad("newEmail", "Email tersebut sudah digunakan oleh akun lain."); $("newEmail").focus(); break;
+      case "auth/invalid-email":
+        setBad("newEmail", "Format email tidak valid."); $("newEmail").focus(); break;
+      case "auth/requires-recent-login":
+      case "auth/invalid-user-token":
+      case "auth/user-token-expired":
+        showAlert("Sesi login sudah tidak valid. Silakan logout, login kembali, lalu coba lagi."); break;
+      case "auth/user-not-found":
+        showAlert("Akun tidak ditemukan."); break;
+      case "auth/operation-not-allowed":
+        showAlert("Perubahan email belum diizinkan di pengaturan Firebase. Hubungi support."); break;
+      case "auth/network-request-failed":
+        showAlert("Koneksi ke server gagal. Periksa koneksi internet kamu."); break;
+      case "auth/too-many-requests":
+        showAlert("Terlalu banyak percobaan. Coba lagi beberapa saat."); break;
+      default:
+        showAlert("Gagal memproses perubahan email. Silakan coba lagi.");
+    }
+    setLoading(false);
+  }
+}
+
+$("againBtn").addEventListener("click", () => {
+  $("sentCard").hidden = true;
+  $("formCard").hidden = false;
+  $("newEmail").focus();
+});
+
+/* ================= PROFILE POPUP ================= */
+const popup = $("profilePopup"), profileBtn = $("profileBtn");
+function setProfile(open){
+  popup.classList.toggle("show", open);
+  profileBtn.setAttribute("aria-expanded", String(open));
+}
+profileBtn.addEventListener("click", e => { e.stopPropagation(); setProfile(!popup.classList.contains("show")); });
+document.addEventListener("click", e => { if(!popup.contains(e.target) && !profileBtn.contains(e.target)) setProfile(false); });
+$("logoutBtn").addEventListener("click", () => {
+  auth.signOut()
+    .then(() => { location.href = ROUTES.login; })
+    .catch(e => { console.error("Logout gagal:", e); toast("Logout gagal, coba lagi."); });
+});
+
+/* ================= MESSAGES ================= */
+function loadMessages(uid){
+  msgRef = db.ref("messages_inbox/" + uid);
+  msgRef.on("value", snap => {
+    messages = [];
+    snap.forEach(i => { const m = i.val(); if(m) messages.push({ ...m, key:i.key }); });
+    messages.reverse();
+    messages.sort((a, b) => (a.read ? 1 : 0) - (b.read ? 1 : 0));
+    renderBadge();
+    renderDrawer();
+  }, e => console.error("Gagal memuat notifikasi:", e));
+}
+function renderBadge(){
+  const n = messages.filter(m => !m.read).length;
+  const b = $("notifBadge");
+  b.style.display = n > 0 ? "flex" : "none";
+  b.textContent = n > 99 ? "99+" : n;
+  $("markAll").disabled = n === 0;
+}
+function renderDrawer(){
+  const list = $("drawerList");
+  list.innerHTML = "";
+  if(!messages.length){
+    list.innerHTML = '<div class="d-empty"><svg class="i"><use href="#i-check"/></svg>Belum ada notifikasi.</div>';
+    return;
+  }
+  messages.slice(0, 50).forEach(m => {
+    const item = document.createElement("div");
+    item.className = "d-item " + (m.read ? "read" : "unread");
+    item.innerHTML = '<div class="row"><span class="dot"></span><div><strong></strong><p></p></div></div>';
+    item.querySelector("strong").textContent = m.subject || "-";
+    item.querySelector("p").textContent = m.body || "-";
+    if(!m.read){
+      const mark = document.createElement("button");
+      mark.type = "button";
+      mark.className = "mark";
+      mark.innerHTML = '<svg class="i"><use href="#i-check"/></svg>Tandai dibaca';
+      mark.addEventListener("click", () => markRead(m.key));
+      item.querySelector(".row > div").appendChild(mark);
+    }
+    list.appendChild(item);
+  });
+}
+function markRead(key){
+  if(!currentUser) return;
+  db.ref("messages_inbox/" + currentUser.uid + "/" + key + "/read").set(true).catch(() => toast("Gagal menandai pesan."));
+}
+$("markAll").addEventListener("click", () => {
+  if(!currentUser) return;
+  const u = {};
+  messages.forEach(m => { if(!m.read) u[m.key + "/read"] = true; });
+  if(!Object.keys(u).length) return;
+  db.ref("messages_inbox/" + currentUser.uid).update(u)
+    .then(() => toast("Semua pesan ditandai dibaca."))
+    .catch(() => toast("Gagal menandai pesan."));
+});
+
+/* ================= DRAWER ================= */
+const drawer = $("drawer"), overlay = $("overlay");
+function openDrawer(){
+  setProfile(false);
+  drawer.classList.add("show");
+  overlay.classList.add("show");
+  drawer.setAttribute("aria-hidden", "false");
+  document.body.classList.add("lock");
+}
+function closeDrawer(){
+  drawer.classList.remove("show");
+  overlay.classList.remove("show");
+  drawer.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("lock");
+}
+$("notifBtn").addEventListener("click", openDrawer);
+$("drawerClose").addEventListener("click", closeDrawer);
+overlay.addEventListener("click", closeDrawer);
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape"){ closeDrawer(); setProfile(false); }
+});
+
+/* ================= TOPBAR SCROLL ================= */
+const topbar = $("topbar");
+function onScroll(){ topbar.classList.toggle("scrolled", window.scrollY > 6); }
+onScroll();
+window.addEventListener("scroll", onScroll, { passive:true });
+</script>
+
+</body>
+</html>
