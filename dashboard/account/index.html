@@ -63,13 +63,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .has-img{background-size:cover;background-position:center;background-repeat:no-repeat;color:transparent}
 .has-img .av-letter{visibility:hidden}
 .big-av,.avatar-btn,.pop-info .avatar{background-size:cover;background-position:center;background-repeat:no-repeat}
-.av-edit{position:absolute;right:-6px;bottom:-6px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;border:2px solid var(--dark);display:flex;align-items:center;justify-content:center;transition:transform .15s}
-.av-edit:active{transform:scale(.9)}
-.av-edit .i{width:14px;height:14px}
-.av-del{display:none;margin-top:8px;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.1);color:#ffb4b4;font-size:12px;font-weight:600;transition:background .2s}
-.av-del:hover{background:rgba(255,255,255,.18)}
-.av-del.show{display:inline-flex}
-.av-del .i{width:13px;height:13px}
 .hero h2{font-size:clamp(20px,4vw,26px);font-weight:800;letter-spacing:-.03em;line-height:1.15;overflow-wrap:anywhere}
 .hero p{margin-top:3px;font-size:13px;color:rgba(255,255,255,.55)}
 .panel{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:clamp(14px,2.4vw,24px);animation:up .6s var(--ease) .08s both}
@@ -251,13 +244,10 @@ body{padding-bottom:40px;padding-left:var(--side)}
         <div class="hero-top">
           <div class="big-av" id="heroAvatar">
             <span class="av-letter" id="heroLetter">A</span>
-            <button class="av-edit" id="avBtn" type="button" aria-label="Ganti foto profil"><svg class="i"><use href="#i-camera"/></svg></button>
-            <input type="file" id="avInput" accept="image/*" hidden>
           </div>
           <div>
             <h2 id="heroName">Memuat…</h2>
             <p>Dynotic User</p>
-            <button class="av-del" id="avDel" type="button"><svg class="i"><use href="#i-x"/></svg>Hapus foto</button>
           </div>
         </div>
       </section>
@@ -341,36 +331,7 @@ function setAvatar(l, foto){
     el.style.backgroundImage = foto ? 'url("' + foto + '")' : "";
     el.classList.toggle("has-img", !!foto);
   });
-  $("avDel").classList.toggle("show", !!foto);
 }
-$("avBtn").addEventListener("click", () => $("avInput").click());
-$("avInput").addEventListener("change", e => {
-  const f = e.target.files[0]; e.target.value = "";
-  if(!f) return;
-  if(!f.type.startsWith("image/")) return toast("File harus berupa gambar.");
-  const url = URL.createObjectURL(f), img = new Image();
-  img.onload = () => {
-    const s = 512, c = document.createElement("canvas"), m = Math.min(img.width, img.height);
-    c.width = c.height = s;
-    const ctx = c.getContext("2d");
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = "high";
-    ctx.drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, s, s);
-    URL.revokeObjectURL(url);
-    const data = c.toDataURL("image/jpeg", .9);
-    db.ref("users/" + user.uid + "/foto").set(data)
-      .then(() => { setAvatar(curLetter, data); toast("Foto profil diperbarui."); })
-      .catch(() => toast("Gagal menyimpan foto."));
-  };
-  img.onerror = () => { URL.revokeObjectURL(url); toast("Gambar tidak bisa dibaca."); };
-  img.src = url;
-});
-$("avDel").addEventListener("click", () => {
-  if(!confirm("Hapus foto profil?")) return;
-  db.ref("users/" + user.uid + "/foto").remove()
-    .then(() => { setAvatar(curLetter, ""); toast("Foto profil dihapus."); })
-    .catch(() => toast("Gagal menghapus foto."));
-});
 
 function loadProfile(){
   db.ref("users/" + user.uid).once("value").then(snap => {
