@@ -83,16 +83,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 .head h1{margin-top:2px;font-size:clamp(26px,5vw,36px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
 .head .new{display:none}
 
-/* ================= STATS ================= */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.stat{padding:16px 16px 14px;background:var(--paper);border:1px solid var(--line);border-radius:20px;animation:up .6s var(--ease) both}
-.stat small{display:block;font-size:12px;font-weight:500;color:var(--muted)}
-.stat strong{display:block;margin-top:6px;font-size:clamp(24px,4vw,32px);font-weight:800;letter-spacing:-.04em;line-height:1}
-.stat.dark{background:var(--dark);border-color:var(--dark);color:#fff;position:relative;overflow:hidden;isolation:isolate}
-.stat.dark::after{content:"";position:absolute;width:140px;height:140px;border-radius:50%;right:-50px;top:-60px;background:radial-gradient(circle,rgba(119,114,168,.6),transparent 70%);z-index:-1}
-.stat.dark small{color:rgba(255,255,255,.6)}
-.s2{animation-delay:.06s}.s3{animation-delay:.12s}.s4{animation-delay:.18s}
-
 /* ================= PANEL ================= */
 .panel{margin-top:16px;background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:clamp(14px,2.4vw,24px);animation:up .6s var(--ease) .1s both}
 
@@ -262,7 +252,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 /* ================= TABLET / MOBILE ================= */
 @media(max-width:700px){
   .wrap{padding:0 14px}
-  .stats{grid-template-columns:repeat(2,1fr)}
   .panel{border-radius:22px}
   .toolbar{flex-direction:column}
   .sort select{width:100%}
@@ -398,14 +387,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
       <svg class="i"><use href="#i-plus"/></svg>New Release
     </a>
   </div>
-
-  <!-- STATS -->
-  <section class="stats" aria-label="Ringkasan rilisan">
-    <div class="stat dark"><small>Total releases</small><strong id="stTotal">–</strong></div>
-    <div class="stat s2"><small>Live</small><strong id="stLive">–</strong></div>
-    <div class="stat s3"><small>In review</small><strong id="stReview">–</strong></div>
-    <div class="stat s4"><small>Rejected</small><strong id="stRejected">–</strong></div>
-  </section>
 
   <!-- PANEL -->
   <section class="panel">
@@ -690,7 +671,6 @@ function loadReleases(uid){
     });
 
     loaded = true;
-    updateStats();
     renderChips();
     applyFilters(false);
 
@@ -716,17 +696,10 @@ function renderSkeleton(){
   $("releaseList").innerHTML = html;
 }
 
-/* ================= STATS & CHIPS ================= */
+/* ================= CHIPS ================= */
 
 function countBy(status){
   return allReleases.filter(r => r._status === status).length;
-}
-
-function updateStats(){
-  $("stTotal").textContent = allReleases.length;
-  $("stLive").textContent = countBy("live");
-  $("stReview").textContent = countBy("proposal") + countBy("process");
-  $("stRejected").textContent = countBy("rejected");
 }
 
 function renderChips(){
