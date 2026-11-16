@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Settings | Dynotic Distribution</title>
+<title>Account | Dynotic Distribution</title>
 <meta name="theme-color" content="#f3f3f8">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" href="https://dynoticcollective.com/assets/favicon.png">
@@ -51,41 +51,31 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .badge{position:absolute;top:-5px;right:-5px;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--red);border:2px solid var(--bg);color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center}
 .avatar-btn{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line)}
 .wrap{width:100%;max-width:960px;margin:0 auto;padding:6px 16px 0}
-.head{padding:10px 2px 14px}
+.head{padding:10px 2px 18px}
 .head small{display:block;font-size:13px;color:var(--muted);font-weight:500}
 .head h1{margin-top:2px;font-size:clamp(26px,5vw,36px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
-
-/* SETTINGS LAYOUT */
-.set{display:grid;grid-template-columns:1fr;gap:14px;align-items:start}
-.menu{display:flex;gap:8px;overflow-x:auto;padding:2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.menu::-webkit-scrollbar{display:none}
-.m-it{flex-shrink:0;display:inline-flex;align-items:center;gap:10px;height:42px;padding:0 16px;border-radius:999px;background:var(--paper);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap;transition:background .2s,color .2s,border-color .2s}
-.m-it:hover{border-color:#cfcfdb;color:var(--ink)}
-.m-it.active{background:var(--ink);border-color:var(--ink);color:#fff}
-.m-it .i{width:17px;height:17px}
-.soon{font-size:9px;font-weight:700;padding:3px 7px;border-radius:999px;background:#eeedf7;color:var(--accent)}
-.m-it.active .soon{background:rgba(255,255,255,.18);color:#fff}
-.pane{display:none;flex-direction:column;gap:14px}
-.pane.show{display:flex;animation:up .4s var(--ease) both}
-
-.hero{position:relative;overflow:hidden;isolation:isolate;background:var(--dark);color:#fff;border-radius:26px;padding:clamp(20px,3vw,28px)}
-.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none}
-.hero::before{width:300px;height:300px;background:rgba(119,114,168,.6);top:-140px;right:-70px}
-.hero::after{width:260px;height:260px;background:rgba(79,70,160,.4);bottom:-150px;left:-70px}
+.cols{display:grid;grid-template-columns:1fr;gap:16px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:16px}
+.hero{position:relative;overflow:hidden;isolation:isolate;background:var(--dark);color:#fff;border-radius:26px;padding:clamp(20px,3vw,28px);animation:up .6s var(--ease) both}
+.hero::after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-80px;top:-110px;background:radial-gradient(circle,rgba(119,114,168,.55),transparent 70%);z-index:-1}
 .hero-top{display:flex;align-items:center;gap:16px}
-.big-av{width:64px;height:64px;border-radius:20px;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;flex-shrink:0}
+.big-av{position:relative;width:64px;height:64px;border-radius:20px;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;flex-shrink:0}
+.has-img{background-size:cover;background-position:center;background-repeat:no-repeat;color:transparent}
+.has-img .av-letter{visibility:hidden}
+.av-edit{position:absolute;right:-6px;bottom:-6px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;border:2px solid var(--dark);display:flex;align-items:center;justify-content:center;transition:transform .15s}
+.av-edit:active{transform:scale(.9)}
+.av-edit .i{width:14px;height:14px}
 .hero h2{font-size:clamp(20px,4vw,26px);font-weight:800;letter-spacing:-.03em;line-height:1.15;overflow-wrap:anywhere}
 .hero p{margin-top:3px;font-size:13px;color:rgba(255,255,255,.55)}
-.panel{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:clamp(14px,2.4vw,22px)}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:clamp(14px,2.4vw,24px);animation:up .6s var(--ease) .08s both}
 .ph{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
 .ph h3{font-size:16px;font-weight:700;letter-spacing:-.02em}
-.ph p{margin-top:3px;font-size:13px;color:var(--muted);line-height:1.5}
 .item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
-.item:last-child{border-bottom:0;padding-bottom:0}
+.item:last-child{border-bottom:0}
 .ico{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#ebeaf6,#dcdaee);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .ico .i{width:20px;height:20px}
 .ib{flex:1;min-width:0}
-.ib small{display:block;font-size:11px;font-weight:600;color:#a3a5b0}
+.ib small{display:block;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#a3a5b0}
 .ib span{display:block;margin-top:3px;font-size:14px;font-weight:600;overflow-wrap:anywhere}
 .mono{font-variant-numeric:tabular-nums}
 .act{width:40px;height:40px;border-radius:12px;border:1.5px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .2s,transform .15s}
@@ -97,33 +87,17 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .empty .ic .i{width:24px;height:24px}
 .empty h4{font-size:16px;font-weight:700}
 .empty p{max-width:300px;font-size:13px;line-height:1.7;color:var(--muted)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:44px;padding:0 20px;border-radius:999px;font-size:13px;font-weight:700;background:var(--ink);color:#fff;transition:transform .25s var(--ease),box-shadow .25s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:46px;padding:0 22px;border-radius:999px;font-size:13px;font-weight:700;background:var(--ink);color:#fff;margin-top:12px;transition:transform .25s var(--ease),box-shadow .25s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(20,20,26,.2)}
-.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
 .btn .i{width:16px;height:16px}
-.btn.line{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
-.btn.line:hover{box-shadow:none;border-color:#cfcfdb}
-.btn.danger{background:#fff;color:#d83a3a;border:1.5px solid #f3c9c9}
-.btn.danger:hover{box-shadow:none;background:#fff5f5}
-.empty .btn{margin-top:12px}
-.link{display:flex;align-items:center;gap:14px;width:100%;padding:14px;background:#fff;border:1px solid var(--line);border-radius:20px;text-align:left;transition:transform .3s var(--ease),box-shadow .3s,border-color .3s}
+.link{display:flex;align-items:center;gap:14px;width:100%;padding:14px;margin-top:10px;background:#fff;border:1px solid var(--line);border-radius:20px;text-align:left;transition:transform .3s var(--ease),box-shadow .3s,border-color .3s}
+.link:first-of-type{margin-top:0}
 .link:hover{border-color:#d3d1e6;box-shadow:0 16px 34px rgba(20,20,40,.08);transform:translateY(-2px)}
 .link b{display:block;font-size:15px}
 .link small{display:block;margin-top:2px;font-size:13px;color:var(--muted)}
 .link.out{background:#fff6f6;border-color:#f3d6d8;color:#d83a3a}
 .link.out .ico{background:#ffe6e6;color:#d83a3a}
 .link.out small{color:#b57474}
-
-/* SESSIONS */
-.sess-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px}
-.sess-head .btn{height:40px;padding:0 16px}
-.sess{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
-.sess:last-child{border-bottom:0;padding-bottom:0}
-.sess b{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:14px;font-weight:700}
-.chip{font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;background:#e8f8ef;color:#12935b}
-.sess p{margin-top:4px;font-size:12.5px;line-height:1.7;color:var(--muted)}
-.sess p span{white-space:nowrap}
-
 .bottom{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);width:calc(100% - 28px);max-width:540px;height:70px;padding:0 8px;background:rgba(13,13,18,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:26px;box-shadow:0 18px 40px rgba(13,13,18,.3);display:flex;align-items:center;justify-content:space-around;z-index:70}
 .b-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:100%;font-size:10px;font-weight:500;color:rgba(255,255,255,.5);transition:color .2s,transform .15s}
 .b-item .i{width:20px;height:20px}
@@ -171,18 +145,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .d-empty .ic{width:46px;height:46px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--accent)}
 .toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @media(min-width:1000px){
 body{padding-bottom:40px;padding-left:var(--side)}
 .sidebar{display:flex}.bottom{display:none}
 .topbar{height:78px;padding:0 36px}.logo-m{display:none}.page-title{display:block}
 .wrap{padding:6px 36px 0}.pop{top:76px;right:34px}.toast{bottom:30px}
-.set{grid-template-columns:230px minmax(0,1fr);gap:20px}
-.menu{flex-direction:column;overflow:visible;position:sticky;top:96px;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:8px;gap:2px}
-.m-it{height:46px;border:0;border-radius:14px;background:none;width:100%}
-.m-it:hover{background:var(--bg)}
-.m-it.active{background:var(--ink)}
-.m-it .soon{margin-left:auto}
+.cols{grid-template-columns:1fr 1fr}
 }
 @media(max-width:700px){
 .wrap{padding:0 14px}.panel,.hero{border-radius:22px}
@@ -216,11 +185,7 @@ body{padding-bottom:40px;padding-left:var(--side)}
 <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v3M3 5v14a2 2 0 0 0 2 2h14a1 1 0 0 0 1-1v-3"/><path d="M21 12v4h-4a2 2 0 0 1 0-4z"/></symbol>
 <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h4"/></symbol>
 <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
-<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
-<symbol id="i-team" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 21a7 7 0 0 1 14 0M16 4.5a3.5 3.5 0 0 1 0 7M18 21a7 7 0 0 0-3-5.7"/></symbol>
-<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.4 8.4 8 9.5 4.6-1.1 8-4.5 8-9.5V6z"/><path d="m9 12 2 2 4-4"/></symbol>
-<symbol id="i-device" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></symbol>
-<symbol id="i-desktop" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></symbol>
 </svg>
 
 <aside class="sidebar">
@@ -248,12 +213,12 @@ body{padding-bottom:40px;padding-left:var(--side)}
   <h2 class="page-title">Account</h2>
   <div class="top-actions">
     <button class="icon-btn" id="notifBtn" type="button" aria-label="Notifikasi"><svg class="i"><use href="#i-bell"/></svg><span class="badge" id="notifBadge">0</span></button>
-    <button class="avatar-btn" id="profileBtn" type="button" aria-label="Profil" aria-expanded="false"><span id="avatarLetter">A</span></button>
+    <button class="avatar-btn" id="profileBtn" type="button" aria-label="Profil" aria-expanded="false"><span class="av-letter" id="avatarLetter">A</span></button>
   </div>
 </header>
 
 <div class="pop" id="profilePopup" role="menu">
-  <div class="pop-info"><div class="avatar" id="popAvatar">A</div><div class="nm"><strong id="popName">Artist</strong><span id="popEmail">-</span></div></div>
+  <div class="pop-info"><div class="avatar" id="popAvatar"><span class="av-letter" id="popLetter">A</span></div><div class="nm"><strong id="popName">Artist</strong><span id="popEmail">-</span></div></div>
   <hr>
   <a href="https://app.dynoticcollective.com/account/" role="menuitem"><svg class="i"><use href="#i-gear"/></svg>Account Settings</a>
   <div class="lbl">Help</div>
@@ -273,42 +238,41 @@ body{padding-bottom:40px;padding-left:var(--side)}
 </aside>
 
 <main class="wrap">
-  <div class="head"><small>Artist account</small><h1>Settings</h1></div>
+  <div class="head"><small>Artist account</small><h1>Your account</h1></div>
 
-  <div class="set">
-    <nav class="menu" id="menu" role="tablist" aria-label="Settings">
-      <button class="m-it" type="button" role="tab" data-pane="profile"><svg class="i"><use href="#i-user"/></svg>Profile</button>
-      <button class="m-it" type="button" role="tab" data-pane="account"><svg class="i"><use href="#i-gear"/></svg>Account</button>
-      <button class="m-it" type="button" role="tab" data-pane="payout"><svg class="i"><use href="#i-wallet"/></svg>Payout</button>
-      <button class="m-it" type="button" role="tab" data-pane="team"><svg class="i"><use href="#i-team"/></svg>Team &amp; access<span class="soon">Soon</span></button>
-      <button class="m-it" type="button" role="tab" data-pane="notif"><svg class="i"><use href="#i-bell"/></svg>Notification<span class="soon">Soon</span></button>
-      <button class="m-it" type="button" role="tab" data-pane="security"><svg class="i"><use href="#i-shield"/></svg>Security</button>
-    </nav>
-
-    <div>
-      <!-- PROFILE -->
-      <section class="pane" id="pane-profile">
-        <div class="hero"><div class="hero-top">
-          <div class="big-av" id="heroAvatar">A</div>
-          <div><h2 id="heroName">Memuat…</h2><p>Dynotic User</p></div>
-        </div></div>
-        <div class="panel">
-          <div class="ph"><h3>Informasi profil</h3>
-            <a class="act" href="https://app.dynoticcollective.com/edit-account/" aria-label="Edit profil"><svg class="i"><use href="#i-edit"/></svg></a>
+  <div class="cols">
+    <div class="stack">
+      <section class="hero">
+        <div class="hero-top">
+          <div class="big-av" id="heroAvatar">
+            <span class="av-letter" id="heroLetter">A</span>
+            <button class="av-edit" id="avBtn" type="button" aria-label="Ganti foto profil"><svg class="i"><use href="#i-camera"/></svg></button>
+            <input type="file" id="avInput" accept="image/*" hidden>
           </div>
-          <div class="item"><div class="ico"><svg class="i"><use href="#i-user"/></svg></div><div class="ib"><small>Nama artis</small><span id="nameVal">Memuat…</span></div></div>
+          <div><h2 id="heroName">Memuat…</h2><p>Dynotic User</p></div>
         </div>
       </section>
 
-      <!-- ACCOUNT -->
-      <section class="pane" id="pane-account">
-        <div class="panel">
-          <div class="ph"><h3>Informasi akun</h3></div>
-          <div class="item"><div class="ico"><svg class="i"><use href="#i-mail"/></svg></div><div class="ib"><small>Email</small><span id="email">Memuat…</span></div></div>
-          <div class="item"><div class="ico"><svg class="i"><use href="#i-id"/></svg></div><div class="ib"><small>Account ID</small><span class="mono" id="uid">Memuat…</span></div>
-            <button class="act" id="copyUid" type="button" aria-label="Salin Account ID"><svg class="i"><use href="#i-copy"/></svg></button>
-          </div>
+      <section class="panel">
+        <div class="ph"><h3>Informasi akun</h3>
+          <a class="act" href="https://app.dynoticcollective.com/edit-account/" aria-label="Edit akun"><svg class="i"><use href="#i-edit"/></svg></a>
         </div>
+        <div class="item"><div class="ico"><svg class="i"><use href="#i-mail"/></svg></div><div class="ib"><small>Email</small><span id="email">Memuat…</span></div></div>
+        <div class="item"><div class="ico"><svg class="i"><use href="#i-id"/></svg></div><div class="ib"><small>Account ID</small><span class="mono" id="uid">Memuat…</span></div>
+          <button class="act" id="copyUid" type="button" aria-label="Salin Account ID"><svg class="i"><use href="#i-copy"/></svg></button>
+        </div>
+      </section>
+    </div>
+
+    <div class="stack">
+      <section class="panel">
+        <div class="ph"><h3>Detail pembayaran</h3>
+          <a class="act" href="https://app.dynoticcollective.com/edit-payment/" aria-label="Edit pembayaran"><svg class="i"><use href="#i-edit"/></svg></a>
+        </div>
+        <div id="payBox"><div class="item"><div class="ib"><span>Memuat…</span></div></div></div>
+      </section>
+
+      <section>
         <a class="link" href="https://app.dynoticcollective.com/change-password/">
           <div class="ico"><svg class="i"><use href="#i-lock"/></svg></div>
           <div style="flex:1"><b>Ganti password</b><small>Perbarui password akunmu.</small></div>
@@ -319,37 +283,6 @@ body{padding-bottom:40px;padding-left:var(--side)}
           <div style="flex:1"><b>Log out</b><small>Keluar dari akun Dynotic.</small></div>
           <svg class="i"><use href="#i-right"/></svg>
         </button>
-      </section>
-
-      <!-- PAYOUT -->
-      <section class="pane" id="pane-payout">
-        <div class="panel">
-          <div class="ph"><h3>Detail pembayaran</h3>
-            <a class="act" href="https://app.dynoticcollective.com/edit-payment/" aria-label="Edit pembayaran"><svg class="i"><use href="#i-edit"/></svg></a>
-          </div>
-          <div id="payBox"><div class="item"><div class="ib"><span>Memuat…</span></div></div></div>
-        </div>
-      </section>
-
-      <!-- TEAM -->
-      <section class="pane" id="pane-team">
-        <div class="panel"><div class="empty"><div class="ic"><svg class="i"><use href="#i-team"/></svg></div><h4>Team &amp; access segera hadir</h4><p>Undang anggota tim dan atur siapa yang boleh mengelola katalog dan pembayaran.</p></div></div>
-      </section>
-
-      <!-- NOTIFICATION -->
-      <section class="pane" id="pane-notif">
-        <div class="panel"><div class="empty"><div class="ic"><svg class="i"><use href="#i-bell"/></svg></div><h4>Pengaturan notifikasi segera hadir</h4><p>Pilih notifikasi apa saja yang ingin kamu terima lewat email.</p></div></div>
-      </section>
-
-      <!-- SECURITY -->
-      <section class="pane" id="pane-security">
-        <div class="panel">
-          <div class="sess-head">
-            <div class="ph" style="display:block;margin:0"><h3>Active sessions</h3><p>Devices currently signed in to your account.</p></div>
-            <button class="btn danger" id="signOutOthers" type="button" disabled>Sign out other devices</button>
-          </div>
-          <div id="sessList"><div class="empty"><p>Memuat…</p></div></div>
-        </div>
       </section>
     </div>
   </div>
@@ -370,7 +303,6 @@ body{padding-bottom:40px;padding-left:var(--side)}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
 const LOGIN = "https://app.dynoticcollective.com/login/";
-const SESSION_DAYS = 30;
 firebase.initializeApp({
   apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
   authDomain: "dynopay-2513c.firebaseapp.com",
@@ -379,54 +311,55 @@ firebase.initializeApp({
 const db = firebase.database();
 const $ = id => document.getElementById(id);
 const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c]));
-let user = null, messages = [], msgRef = null, sessRef = null, ownRef = null, payAccount = "", payShown = false, sessions = [], sid = "";
+let user = null, messages = [], msgRef = null, payAccount = "", payShown = false, curLetter = "A";
 
 function toast(t){ const el = $("toast"); el.textContent = t; el.classList.add("show"); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove("show"), 2200); }
 
-/* ================= SETTINGS MENU ================= */
-const PANES = ["profile","account","payout","team","notif","security"];
-function showPane(id){
-  if(!PANES.includes(id)) id = "profile";
-  PANES.forEach(p => $("pane-" + p).classList.toggle("show", p === id));
-  document.querySelectorAll(".m-it").forEach(b => {
-    const a = b.dataset.pane === id;
-    b.classList.toggle("active", a);
-    b.setAttribute("aria-selected", String(a));
-  });
-  const act = document.querySelector(".m-it.active");
-  if(act && act.scrollIntoView) act.scrollIntoView({ inline:"center", block:"nearest" });
-}
-document.querySelectorAll(".m-it").forEach(b => b.addEventListener("click", () => {
-  history.replaceState(null, "", "#" + b.dataset.pane);
-  showPane(b.dataset.pane);
-}));
-addEventListener("hashchange", () => showPane(location.hash.slice(1)));
-showPane(location.hash.slice(1));
-
-/* ================= AUTH ================= */
 firebase.auth().onAuthStateChanged(u => {
-  if(!u){
-    if(msgRef) msgRef.off();
-    if(sessRef) sessRef.off();
-    if(ownRef) ownRef.off();
-    location.href = LOGIN;
-    return;
-  }
+  if(!u){ if(msgRef) msgRef.off(); location.href = LOGIN; return; }
   user = u;
   $("email").textContent = u.email || "-";
   $("popEmail").textContent = u.email || "-";
   $("uid").textContent = u.uid;
   loadMessages();
   loadProfile();
-  startSession();
+});
+
+/* foto profil */
+function setAvatar(l, foto){
+  $("heroLetter").textContent = l; $("avatarLetter").textContent = l; $("popLetter").textContent = l;
+  [$("heroAvatar"), $("profileBtn"), $("popAvatar")].forEach(el => {
+    el.style.backgroundImage = foto ? 'url("' + foto + '")' : "";
+    el.classList.toggle("has-img", !!foto);
+  });
+}
+$("avBtn").addEventListener("click", () => $("avInput").click());
+$("avInput").addEventListener("change", e => {
+  const f = e.target.files[0]; e.target.value = "";
+  if(!f) return;
+  if(!f.type.startsWith("image/")) return toast("File harus berupa gambar.");
+  const url = URL.createObjectURL(f), img = new Image();
+  img.onload = () => {
+    const s = 256, c = document.createElement("canvas"), m = Math.min(img.width, img.height);
+    c.width = c.height = s;
+    c.getContext("2d").drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, s, s);
+    URL.revokeObjectURL(url);
+    const data = c.toDataURL("image/jpeg", .85);
+    db.ref("users/" + user.uid + "/foto").set(data)
+      .then(() => { setAvatar(curLetter, data); toast("Foto profil diperbarui."); })
+      .catch(() => toast("Gagal menyimpan foto."));
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); toast("Gambar tidak bisa dibaca."); };
+  img.src = url;
 });
 
 function loadProfile(){
   db.ref("users/" + user.uid).once("value").then(snap => {
     const d = snap.val() || {};
     const nama = d.nama || "-", l = (nama.trim().charAt(0) || "A").toUpperCase();
-    ["heroName","popName","nameVal"].forEach(id => $(id).textContent = nama);
-    ["heroAvatar","avatarLetter","popAvatar"].forEach(id => $(id).textContent = l);
+    curLetter = l;
+    $("heroName").textContent = nama; $("popName").textContent = nama;
+    setAvatar(l, d.foto);
     renderPayment(d.payment || {});
   }).catch(e => {
     console.error("Gagal memuat profil:", e);
@@ -435,12 +368,13 @@ function loadProfile(){
   });
 }
 
-/* ================= PAYOUT ================= */
 const mask = s => s.length > 4 ? "•".repeat(Math.min(s.length - 4, 8)) + s.slice(-4) : s;
+
 function renderPayment(p){
   let name = "", acc = "", icon = "wallet", isEmail = false;
   if(p.paypal && p.email){ name = "PayPal"; acc = p.email; isEmail = true; }
   else if(p.bank && p.account){ name = p.bank; acc = String(p.account); icon = "card"; }
+
   const box = $("payBox");
   if(!acc){
     box.innerHTML = '<div class="empty"><div class="ic"><svg class="i"><use href="#i-wallet"/></svg></div><h4>Belum ada metode pembayaran</h4><p>Tambahkan rekening atau PayPal supaya saldo bisa dicairkan.</p>' +
@@ -463,103 +397,16 @@ $("copyUid").addEventListener("click", () => {
   (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => toast("Account ID disalin.")).catch(() => toast("Gagal menyalin, salin manual."));
 });
 
-/* ================= ACTIVE SESSIONS ================= */
-function deviceInfo(){
-  const ua = navigator.userAgent;
-  const os = /Android/i.test(ua) ? "Android" : /iPhone|iPad|iPod/i.test(ua) ? "iOS" : /Windows/i.test(ua) ? "Windows" : /Mac OS X|Macintosh/i.test(ua) ? "Mac" : /Linux/i.test(ua) ? "Linux" : "Unknown";
-  const mobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
-  const br = /Edg\//.test(ua) ? "Edge" : /OPR\/|Opera/.test(ua) ? "Opera" : /SamsungBrowser/.test(ua) ? "Samsung Internet" : /Firefox|FxiOS/.test(ua) ? "Firefox" : /Chrome|CriOS/.test(ua) ? "Chrome" : /Safari/.test(ua) ? "Safari" : "Browser";
-  return { label: os + (mobile ? " device" : " computer") + " · " + br, mobile };
-}
-async function getIp(){
-  try{
-    const c = new AbortController(); setTimeout(() => c.abort(), 4000);
-    const r = await fetch("https://api.ipify.org?format=json", { signal:c.signal });
-    return (await r.json()).ip || "";
-  }catch(e){ return ""; }
-}
-function fmtDT(ms){
-  return new Date(ms).toLocaleString("en-US", { month:"short", day:"numeric", year:"numeric", hour:"numeric", minute:"2-digit" });
-}
-
-async function startSession(){
-  try{ sid = localStorage.getItem("dyn_sid") || ""; }catch(e){}
-  if(!sid){
-    sid = "s" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
-    try{ localStorage.setItem("dyn_sid", sid); }catch(e){}
-  }
-  ownRef = db.ref("sessions/" + user.uid + "/" + sid);
-  try{
-    const snap = await ownRef.once("value");
-    const now = Date.now();
-    const d = deviceInfo();
-    const ip = await getIp();
-    const base = { label: d.label, mobile: d.mobile, lastSeen: now };
-    if(ip) base.ip = ip;
-    if(snap.exists()){
-      await ownRef.update(base);
-    }else{
-      await ownRef.set({ ...base, createdAt: now, expiresAt: now + SESSION_DAYS * 864e5 });
-    }
-  }catch(e){ console.error("Gagal mencatat sesi:", e); }
-
-  /* jika sesi ini dihapus dari perangkat lain → keluar otomatis */
-  ownRef.on("value", s => {
-    if(!s.exists() && user){
-      firebase.auth().signOut().finally(() => { location.href = LOGIN; });
-    }
-  });
-
-  sessRef = db.ref("sessions/" + user.uid);
-  sessRef.on("value", snap => {
-    sessions = [];
-    snap.forEach(c => { const v = c.val(); if(v) sessions.push({ ...v, id:c.key }); });
-    const now = Date.now();
-    sessions = sessions.filter(s => !s.expiresAt || s.expiresAt > now);
-    sessions.sort((a, b) => (a.id === sid ? -1 : b.id === sid ? 1 : (b.createdAt || 0) - (a.createdAt || 0)));
-    renderSessions();
-  }, e => {
-    console.error("Gagal memuat sesi:", e);
-    $("sessList").innerHTML = '<div class="empty"><h4>Sesi gagal dimuat</h4><p>Periksa koneksi internet kamu lalu muat ulang halaman.</p></div>';
-  });
-}
-
-function renderSessions(){
-  const box = $("sessList");
-  if(!sessions.length){ box.innerHTML = '<div class="empty"><p>Belum ada sesi aktif.</p></div>'; }
-  else{
-    box.innerHTML = sessions.map(s =>
-      '<div class="sess"><div class="ico"><svg class="i"><use href="#i-' + (s.mobile ? "device" : "desktop") + '"/></svg></div><div class="ib">' +
-      '<b>' + esc(s.label || "Unknown device") + (s.id === sid ? '<span class="chip">This device</span>' : '') + '</b>' +
-      '<p><span>Signed in ' + esc(s.createdAt ? fmtDT(s.createdAt) : "-") + '</span>' + (s.ip ? ' <span>· IP ' + esc(s.ip) + '</span>' : '') + '<br>' +
-      '<span>Expires ' + esc(s.expiresAt ? fmtDT(s.expiresAt) : "-") + '</span></p></div></div>'
-    ).join("");
-  }
-  $("signOutOthers").disabled = sessions.filter(s => s.id !== sid).length === 0;
-}
-
-$("signOutOthers").addEventListener("click", () => {
-  const u = {};
-  sessions.forEach(s => { if(s.id !== sid) u[s.id] = null; });
-  if(!Object.keys(u).length) return;
-  if(!confirm("Keluarkan semua perangkat lain dari akunmu?")) return;
-  db.ref("sessions/" + user.uid).update(u)
-    .then(() => toast("Perangkat lain dikeluarkan."))
-    .catch(() => toast("Gagal mengeluarkan perangkat."));
-});
-
-/* ================= PROFIL POPUP & LOGOUT ================= */
+/* profil & logout */
 const popup = $("profilePopup"), profileBtn = $("profileBtn");
 function setProfile(o){ popup.classList.toggle("show", o); profileBtn.setAttribute("aria-expanded", String(o)); }
 profileBtn.addEventListener("click", e => { e.stopPropagation(); setProfile(!popup.classList.contains("show")); });
 document.addEventListener("click", e => { if(!popup.contains(e.target) && !profileBtn.contains(e.target)) setProfile(false); });
-document.querySelectorAll("[data-logout]").forEach(b => b.addEventListener("click", async () => {
-  try{ if(ownRef){ ownRef.off(); await ownRef.remove(); } }catch(e){}
-  try{ localStorage.removeItem("dyn_sid"); }catch(e){}
+document.querySelectorAll("[data-logout]").forEach(b => b.addEventListener("click", () => {
   firebase.auth().signOut().then(() => { location.href = LOGIN; }).catch(() => toast("Logout gagal, coba lagi."));
 }));
 
-/* ================= NOTIFIKASI ================= */
+/* notifikasi */
 function loadMessages(){
   msgRef = db.ref("messages_inbox/" + user.uid);
   msgRef.on("value", snap => {
