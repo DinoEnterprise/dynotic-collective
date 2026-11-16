@@ -21,7 +21,7 @@ body{background:var(--bg);color:var(--ink);min-height:100dvh;-webkit-font-smooth
 body.lock{overflow:hidden}
 a{color:inherit;text-decoration:none}
 button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
-a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
 .i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 
 /* SIDEBAR */
@@ -32,7 +32,8 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .side-nav a .i{width:19px;height:19px}
 .side-nav a:hover{background:rgba(255,255,255,.07);color:#fff}
 .side-nav a.active{background:rgba(255,255,255,.1);color:#fff;font-weight:700}
-.side-create{display:flex;align-items:center;justify-content:center;gap:9px;margin:0 0 18px;height:48px;border-radius:14px;background:#fff;color:var(--ink);font-size:14px;font-weight:700}
+.side-create{display:flex;align-items:center;justify-content:center;gap:9px;margin:0 0 18px;height:48px;border-radius:14px;background:#fff;color:var(--ink);font-size:14px;font-weight:700;transition:transform .25s var(--ease),box-shadow .25s}
+.side-create:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,255,255,.14)}
 .side-create .i{width:18px;height:18px}
 .side-foot{margin-top:auto;padding-top:20px}
 .side-help{padding:16px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
@@ -49,62 +50,91 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .topbar .logo-m img{height:30px;width:auto;max-width:170px;object-fit:contain;display:block}
 .page-title{display:none;font-size:20px;font-weight:800;letter-spacing:-.03em}
 .top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
-.icon-btn{position:relative;width:42px;height:42px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease)}
+.icon-btn{position:relative;width:42px;height:42px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),border-color .2s}
+.icon-btn:hover{border-color:#cfcfdb}
 .icon-btn:active{transform:scale(.93)}
 .icon-btn .i{width:19px;height:19px}
 .badge{position:absolute;top:-5px;right:-5px;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--red);border:2px solid var(--bg);color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center}
 .avatar-btn{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line)}
 
 /* LAYOUT */
-.wrap{width:100%;max-width:960px;margin:0 auto;padding:6px 16px 0}
+.wrap{width:100%;max-width:880px;margin:0 auto;padding:6px 16px 0}
 .crumb{display:inline-flex;align-items:center;gap:6px;margin:10px 2px 14px;font-size:13px;font-weight:600;color:var(--muted);transition:color .2s}
 .crumb:hover{color:var(--ink)}
 .crumb .i{width:16px;height:16px}
 
-/* HERO */
-.hero{display:flex;gap:22px;padding:clamp(16px,2.6vw,26px);background:var(--dark);color:#fff;border-radius:28px;position:relative;overflow:hidden;isolation:isolate;animation:up .6s var(--ease) both}
-.hero::after{content:"";position:absolute;width:340px;height:340px;border-radius:50%;right:-100px;top:-140px;background:radial-gradient(circle,rgba(119,114,168,.55),transparent 70%);z-index:-1}
+/* HERO (sama seperti wallet Home) */
+.hero{position:relative;overflow:hidden;isolation:isolate;display:flex;gap:24px;border-radius:28px;background:var(--dark);color:#fff;padding:clamp(22px,4vw,34px);animation:up .6s var(--ease) both}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none}
+.hero::before{width:360px;height:360px;background:rgba(119,114,168,.6);top:-160px;right:-80px}
+.hero::after{width:300px;height:300px;background:rgba(79,70,160,.4);bottom:-170px;left:-80px}
+.hero-grid{position:absolute;inset:0;z-index:-1;opacity:.25;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%)}
 .cover{width:190px;height:190px;border-radius:20px;background:linear-gradient(135deg,#2a2a36,#1b1b24);flex-shrink:0;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.4)}
 .cover img{width:100%;height:100%;object-fit:cover;display:block;filter:blur(12px);opacity:.5;transform:scale(1.08);transition:filter .4s,opacity .4s,transform .4s}
 .cover img.loaded{filter:none;opacity:1;transform:none}
 .h-body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:6px}
-.pill{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 11px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--c);background:color-mix(in srgb,var(--c) 16%,#0d0d12);border:1px solid color-mix(in srgb,var(--c) 40%,#0d0d12)}
-.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--c)}
+.pill{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;background:rgba(255,255,255,.1);color:#fff}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
 .pill.process::before{animation:blink 1.2s infinite}
-.h-title{font-size:clamp(24px,4.4vw,38px);font-weight:800;letter-spacing:-.04em;line-height:1.1;overflow-wrap:anywhere}
-.h-artist{font-size:15px;font-weight:500;color:rgba(255,255,255,.7);overflow-wrap:anywhere}
+.h-title{font-size:clamp(26px,5vw,40px);font-weight:800;letter-spacing:-.04em;line-height:1.1;overflow-wrap:anywhere}
+.h-artist{font-size:14px;font-weight:500;color:rgba(255,255,255,.65);overflow-wrap:anywhere}
 .h-artist b{color:#fff;font-weight:600}
+.h-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
 
-.grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
-.card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:clamp(16px,2.4vw,22px);animation:up .6s var(--ease) .08s both}
-.card h2{font-size:15px;font-weight:700;letter-spacing:-.01em;margin-bottom:14px}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:44px;padding:0 18px;border-radius:999px;font-size:13px;font-weight:700;background:var(--ink);color:#fff;transition:transform .25s var(--ease),box-shadow .25s,background .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(20,20,26,.2)}
+.btn:active{transform:scale(.96)}
+.btn .i{width:16px;height:16px}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.hero .btn{background:#fff;color:var(--ink)}
+.hero .btn:hover{box-shadow:0 10px 26px rgba(255,255,255,.16)}
+.hero .btn.ghost{background:rgba(255,255,255,.1);color:#fff}
+.hero .btn.ghost:hover{background:rgba(255,255,255,.18);box-shadow:none}
+.btn.line{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.btn.line:hover{box-shadow:none;border-color:#cfcfdb}
+.btn.full{width:100%;margin-top:10px}
 
 /* NOTE */
-.note{display:flex;gap:12px;align-items:flex-start;margin-top:12px;padding:14px 16px;border-radius:18px;background:color-mix(in srgb,var(--c) 9%,#fff);border:1px solid color-mix(in srgb,var(--c) 26%,#fff);font-size:13px;line-height:1.65;color:#3b3d49;animation:up .6s var(--ease) .04s both}
-.note .i{color:var(--c);margin-top:2px}
+.note{display:flex;gap:12px;align-items:flex-start;margin-top:12px;padding:14px 16px;border-radius:18px;background:#eeedf7;border:1px solid #d3d1e6;font-size:13px;line-height:1.65;color:#3b3d49}
+.note .i{color:var(--accent);margin-top:2px}
+
+/* CARD */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:clamp(16px,2.4vw,22px);margin-top:12px}
+.card h2{font-size:15px;font-weight:700;letter-spacing:-.01em;margin-bottom:14px}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.card-head h2{margin:0}
+.more{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--accent);padding:7px 12px;border-radius:999px;transition:background .2s}
+.more:hover{background:#e9e8f4}
+.more .i{width:14px;height:14px;transition:transform .25s}
+.more.open .i{transform:rotate(180deg)}
 
 /* INFO */
 .info{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 14px}
 .info div{min-width:0}
-.info small{display:block;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:#a3a5b0}
+.info small{display:block;font-size:11px;font-weight:600;color:#a3a5b0}
 .info span,.info button{display:block;margin-top:3px;font-size:14px;font-weight:500;color:var(--ink);overflow-wrap:anywhere;text-align:left}
 .info button{display:inline-flex;align-items:center;gap:7px}
 .info button .i{width:14px;height:14px;color:var(--muted)}
-.info button:hover .i{color:var(--ink)}
+.info .wide{grid-column:1/-1}
+.info-more{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.info-more.show{display:grid;animation:up .35s var(--ease) both}
+.trk{display:flex;gap:10px;padding:9px 0;font-size:14px;font-weight:500;border-bottom:1px solid var(--line)}
+.trk:last-child{border-bottom:0}
+.trk em{font-style:normal;color:#a3a5b0;width:20px;flex-shrink:0}
+.trk small{display:block;margin:0;color:var(--muted);font-weight:400;font-size:12px}
 
-/* BUTTONS */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:46px;padding:0 20px;border-radius:999px;font-size:13px;font-weight:700;background:var(--ink);color:#fff;transition:transform .25s var(--ease),box-shadow .25s}
-.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(20,20,26,.2)}
-.btn:active{transform:scale(.96)}
-.btn .i{width:16px;height:16px}
-.btn.line{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
-.btn.line:hover{box-shadow:none;border-color:#cfcfdb}
-.btn.danger{background:#fff;color:#d83a3a;border:1.5px solid #f3c9c9}
-.btn.danger:hover{box-shadow:none;background:#fff5f5}
-.btn.warn{background:#fff;color:#b87408;border:1.5px solid #f1d49b}
-.btn.warn:hover{box-shadow:none;background:#fffaf0}
-.acts{display:flex;flex-wrap:wrap;gap:10px}
-.acts .btn{flex:1 1 150px}
+/* TABS */
+.tabs{display:flex;gap:8px;margin-top:22px;overflow-x:auto;padding:2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:999px;background:var(--paper);border:1px solid var(--line);font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap;transition:background .2s,color .2s,border-color .2s}
+.tab:hover{border-color:#cfcfdb;color:var(--ink)}
+.tab.active{background:var(--ink);border-color:var(--ink);color:#fff}
+.tab .i{width:16px;height:16px}
+.soon{font-size:9px;font-weight:700;padding:3px 7px;border-radius:999px;background:#eeedf7;color:var(--accent)}
+.tab.active .soon{background:rgba(255,255,255,.18);color:#fff}
+.panel{margin-top:12px}
+.panel .card{margin-top:0}
 
 /* PLATFORMS */
 .plat{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
@@ -112,7 +142,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .plat:first-child{padding-top:0}
 .plat img{width:34px;height:34px;object-fit:contain;border-radius:9px;background:var(--bg);flex-shrink:0}
 .plat b{flex:1;min-width:0;font-size:14px;font-weight:600}
-.tag{height:24px;padding:0 10px;display:inline-flex;align-items:center;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--c);background:color-mix(in srgb,var(--c) 11%,#fff);border:1px solid color-mix(in srgb,var(--c) 28%,#fff)}
+.tag{height:24px;padding:0 10px;display:inline-flex;align-items:center;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--c);background:color-mix(in srgb,var(--c) 11%,#fff);border:1px solid color-mix(in srgb,var(--c) 28%,#fff)}
 
 /* SMARTLINK */
 .sl{display:flex;align-items:center;gap:8px;height:48px;padding:0 6px 0 14px;border-radius:15px;border:1.5px solid var(--line);background:#fafafd}
@@ -120,15 +150,13 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .sl button{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;transition:background .2s}
 .sl button:hover{background:var(--bg)}
 .sl button .i{width:17px;height:17px}
-.card .btn.full{width:100%;margin-top:10px}
 
-.empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:22px 10px}
+.empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:26px 10px}
 .empty .ic{width:50px;height:50px;border-radius:17px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--accent);margin-bottom:6px}
 .empty .ic .i{width:22px;height:22px}
 .empty h3{font-size:15px;font-weight:700}
 .empty p{max-width:300px;font-size:13px;line-height:1.7;color:var(--muted)}
-
-.sk{background:linear-gradient(90deg,#eeeef4,#f7f7fb,#eeeef4);background-size:200% 100%;animation:sh 1.3s linear infinite;border-radius:12px}
+.sk{background:linear-gradient(90deg,rgba(255,255,255,.08),rgba(255,255,255,.2),rgba(255,255,255,.08));background-size:200% 100%;animation:sh 1.3s linear infinite;border-radius:12px}
 
 /* BOTTOM NAV */
 .bottom{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);width:calc(100% - 28px);max-width:540px;height:70px;padding:0 8px;background:rgba(13,13,18,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:26px;box-shadow:0 18px 40px rgba(13,13,18,.3);display:flex;align-items:center;justify-content:space-around;z-index:70}
@@ -138,7 +166,8 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .b-item.active{color:#fff;font-weight:700}
 .b-item.active .i{color:var(--accent-2)}
 .b-create{flex:1;display:flex;align-items:center;justify-content:center}
-.b-create span{width:54px;height:54px;border-radius:18px;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;margin-top:-30px;border:5px solid var(--bg);box-sizing:content-box;box-shadow:0 10px 24px rgba(0,0,0,.2)}
+.b-create span{width:54px;height:54px;border-radius:18px;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;margin-top:-30px;border:5px solid var(--bg);box-sizing:content-box;box-shadow:0 10px 24px rgba(0,0,0,.2);transition:transform .2s var(--ease)}
+.b-create:active span{transform:scale(.9)}
 .b-create .i{width:23px;height:23px}
 
 /* PROFILE POPUP */
@@ -182,7 +211,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .d-item .mark .i{width:13px;height:13px}
 .d-empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:40px 20px;text-align:center;color:var(--muted);font-size:13px}
 
-/* CONFIRM MODAL */
+/* MODAL */
 .modal{position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(13,13,18,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
 .modal.show{opacity:1;visibility:visible}
 .m-box{width:100%;max-width:360px;padding:24px;background:var(--paper);border-radius:24px;text-align:center;transform:translateY(12px) scale(.97);transition:transform .3s var(--ease)}
@@ -209,22 +238,21 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   .topbar{height:78px;padding:0 36px}
   .topbar .logo-m{display:none}
   .page-title{display:block}
-  .wrap{padding:6px 36px 0}
+  .wrap{max-width:960px;padding:6px 36px 0}
   .pop{top:76px;right:34px}
   .toast{bottom:30px}
-  .grid{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:start}
-  .col{display:grid;gap:12px}
+  .info.cols3{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media(max-width:700px){
   .wrap{padding:0 14px}
   .hero{flex-direction:column;gap:18px;border-radius:24px}
   .cover{width:min(100%,240px);height:auto;aspect-ratio:1}
-  .card{border-radius:22px}
+  .h-acts .btn{flex:1 1 140px}
+  .card{border-radius:20px}
   .drawer{top:auto;width:100%;height:84dvh;border-radius:26px 26px 0 0;transform:translateY(102%)}
   .drawer.show{transform:none}
   .pop{right:12px;top:66px}
 }
-@media(min-width:701px) and (max-width:999px){.grid{grid-template-columns:1fr}.col{display:grid;gap:12px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -245,6 +273,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
   <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
@@ -253,9 +282,10 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></symbol>
   <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 21h16"/></symbol>
   <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9M9 20v-6h6v6"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M15 9.5a3 3 0 0 0-3-1.5c-1.7 0-3 .9-3 2s1.3 1.8 3 2 3 .9 3 2-1.3 2-3 2a3 3 0 0 1-3-1.5M12 6v2M12 16v2"/></symbol>
 </svg>
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
   <a href="https://app.dynoticcollective.com/home/" class="logo"><img src="https://dynoticcollective.com/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
   <a href="https://app.dynoticcollective.com/catalog/releases/create/" class="side-create"><svg class="i"><use href="#i-plus"/></svg>New Release</a>
@@ -278,19 +308,15 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   </div>
 </aside>
 
-<!-- TOPBAR -->
 <header class="topbar" id="topbar">
   <a href="https://app.dynoticcollective.com/home/" class="logo-m"><img src="https://dynoticcollective.com/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
   <h2 class="page-title">Catalog</h2>
   <div class="top-actions">
-    <button class="icon-btn" id="notifBtn" type="button" aria-label="Notifikasi">
-      <svg class="i"><use href="#i-bell"/></svg><span class="badge" id="notifBadge">0</span>
-    </button>
+    <button class="icon-btn" id="notifBtn" type="button" aria-label="Notifikasi"><svg class="i"><use href="#i-bell"/></svg><span class="badge" id="notifBadge">0</span></button>
     <button class="avatar-btn" id="profileBtn" type="button" aria-label="Profil" aria-expanded="false"><span id="avatarLetter">A</span></button>
   </div>
 </header>
 
-<!-- PROFILE POPUP -->
 <div class="pop" id="profilePopup" role="menu">
   <div class="pop-info">
     <div class="avatar" id="popAvatar">A</div>
@@ -305,7 +331,6 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <button class="opt logout" type="button" id="logoutBtn" role="menuitem"><svg class="i"><use href="#i-logout"/></svg>Logout</button>
 </div>
 
-<!-- NOTIFICATION DRAWER -->
 <div class="overlay" id="overlay"></div>
 <aside class="drawer" id="drawer" aria-label="Notifikasi" aria-hidden="true">
   <div class="d-head">
@@ -318,25 +343,21 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <div class="d-list" id="drawerList"></div>
 </aside>
 
-<!-- MAIN -->
 <main class="wrap">
-
   <a class="crumb" href="https://app.dynoticcollective.com/catalog/"><svg class="i"><use href="#i-left"/></svg>Kembali ke Catalog</a>
-
   <div id="view">
     <div class="hero">
+      <div class="hero-grid"></div>
       <div class="cover sk"></div>
       <div class="h-body">
-        <div class="sk" style="height:26px;width:90px;border-radius:999px"></div>
+        <div class="sk" style="height:28px;width:90px;border-radius:999px"></div>
         <div class="sk" style="height:34px;width:70%;margin-top:8px"></div>
         <div class="sk" style="height:16px;width:40%;margin-top:6px"></div>
       </div>
     </div>
   </div>
-
 </main>
 
-<!-- BOTTOM NAV -->
 <nav class="bottom" aria-label="Main navigation">
   <a href="https://app.dynoticcollective.com/home/" class="b-item"><svg class="i"><use href="#i-home"/></svg>Home</a>
   <a href="https://app.dynoticcollective.com/catalog/" class="b-item active"><svg class="i"><use href="#i-disc"/></svg>Catalog</a>
@@ -345,7 +366,6 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <a href="https://app.dynoticcollective.com/analytics/" class="b-item"><svg class="i"><use href="#i-chart"/></svg>Analytics</a>
 </nav>
 
-<!-- DELETE MODAL -->
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
   <div class="m-box">
     <div class="ic"><svg class="i"><use href="#i-trash"/></svg></div>
@@ -381,6 +401,13 @@ const PLATFORMS = {
   "META":"meta.png","SoundCloud":"soundcloud.png","Tencent":"tencent.png"
 };
 
+const TABS = [
+  { id:"analytics", label:"Release Analytics", icon:"i-chart", soon:true },
+  { id:"sales",     label:"Sales",             icon:"i-coin",  soon:true },
+  { id:"smartlink", label:"Smartlink",         icon:"i-link" },
+  { id:"stores",    label:"Store & Service",   icon:"i-store" }
+];
+
 firebase.initializeApp({
   apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
   authDomain: "dynopay-2513c.firebaseapp.com",
@@ -392,6 +419,7 @@ const $ = id => document.getElementById(id);
 const rid = new URLSearchParams(location.search).get("rid");
 
 let currentUser = null, releaseRef = null, msgRef = null, messages = [], current = null;
+let activeTab = "stores", moreOpen = false;
 
 /* ================= HELPERS ================= */
 function esc(v){
@@ -417,16 +445,18 @@ function copyText(text, msg){
     .then(() => toast(msg))
     .catch(() => toast("Gagal menyalin."));
 }
+const val = v => (v === undefined || v === null || v === "") ? "-" : v;
+const yesNo = v => v === true || v === "true" || v === "yes" || v === "explicit" ? "Ya" : (v === false || v === "false" || v === "no" ? "Tidak" : "-");
 
 /* ================= STATUS ================= */
 const STATUS_MAP = { proses:"process", processing:"process", process:"process", proposal:"proposal", schedule:"schedule", approved:"approved", live:"live", rejected:"rejected" };
 const STATUS_STYLE = {
-  proposal:{ label:"PROPOSAL", color:"#f59e0b", note:"Rilisan masih berupa proposal. Kamu masih bisa mengedit atau menghapusnya sebelum diajukan." },
-  process: { label:"PROCESS",  color:"#3b82f6", note:"Rilisan sedang ditinjau tim kami. Selama proses ini, rilisan dikunci dan tidak bisa diedit." },
-  schedule:{ label:"SCHEDULE", color:"#8b5cf6", note:"Rilisan sudah dijadwalkan dan sedang dikirim ke platform. Rilisan dikunci sampai tanggal rilis." },
-  approved:{ label:"APPROVED", color:"#10b981", note:"Rilisan disetujui dan akan tayang pada tanggal rilis." },
-  live:    { label:"LIVE",     color:"#22c55e", note:"Rilisan sudah tayang. Untuk menurunkan rilisan, ajukan takedown ke tim kami." },
-  rejected:{ label:"REJECTED", color:"#ef4444", note:"Rilisan ditolak. Periksa pesan di Notifikasi, perbaiki datanya, lalu ajukan kembali." }
+  proposal:{ label:"Proposal", color:"#f59e0b", note:"Rilisan masih berupa proposal. Kamu masih bisa mengedit atau menghapusnya sebelum diajukan." },
+  process: { label:"Process",  color:"#60a5fa", note:"Rilisan sedang ditinjau tim kami. Selama proses ini, rilisan dikunci dan tidak bisa diedit." },
+  schedule:{ label:"Schedule", color:"#a9a3f2", note:"Rilisan sudah dijadwalkan dan sedang dikirim ke platform. Rilisan dikunci sampai tanggal rilis." },
+  approved:{ label:"Approved", color:"#34d399", note:"Rilisan disetujui dan akan tayang pada tanggal rilis." },
+  live:    { label:"Live",     color:"#4ade80", note:"Rilisan sudah tayang. Untuk menurunkan rilisan, ajukan takedown ke tim kami." },
+  rejected:{ label:"Rejected", color:"#f87171", note:"Rilisan ditolak. Periksa pesan di Notifikasi, perbaiki datanya, lalu ajukan kembali." }
 };
 
 function parseDate(v){
@@ -444,9 +474,9 @@ function getStatus(r){
   }
   return s;
 }
-function statusInfo(s){ return STATUS_STYLE[s] || { label:String(s).toUpperCase(), color:"#858891", note:"" }; }
-function formatDate(r){
-  const d = parseDate(r.releaseDate || r.date);
+function statusInfo(s){ return STATUS_STYLE[s] || { label:String(s), color:"#9ca3af", note:"" }; }
+function fmtDate(v){
+  const d = parseDate(v);
   return d ? d.toLocaleDateString("id-ID", { year:"numeric", month:"long", day:"numeric" }) : "-";
 }
 
@@ -486,7 +516,6 @@ function showError(title, text){
 
 function loadRelease(uid){
   if(!rid){ showError("Rilisan tidak ditemukan", "Link rilisan tidak lengkap. Buka lagi dari halaman Catalog."); return; }
-
   releaseRef = db.ref("releases/" + uid + "/" + rid);
   releaseRef.on("value", snap => {
     const d = snap.val();
@@ -503,26 +532,37 @@ function loadRelease(uid){
   });
 }
 
-function render(d){
-  const status = getStatus(d);
-  const st = statusInfo(status);
+function emptyBox(icon, title, text){
+  return '<div class="empty"><div class="ic"><svg class="i"><use href="#' + icon + '"/></svg></div><h3>' + esc(title) + '</h3><p>' + esc(text) + '</p></div>';
+}
+
+/* daftar track: dukung array atau object */
+function tracksHtml(d){
+  let t = d.tracks || d.trackList;
+  if(!t) return "";
+  t = Array.isArray(t) ? t : Object.values(t);
+  t = t.filter(Boolean);
+  if(!t.length) return "";
+  return t.map((x, n) => {
+    const title = typeof x === "string" ? x : (x.title || x.name || "-");
+    const sub = typeof x === "object" ? [x.artist, x.isrc ? "ISRC " + x.isrc : ""].filter(Boolean).join(" · ") : "";
+    return '<div class="trk"><em>' + (n + 1) + '</em><div>' + esc(title) + (sub ? '<small>' + esc(sub) + '</small>' : '') + '</div></div>';
+  }).join("");
+}
+
+function panelHtml(d, status, smart){
+  if(activeTab === "analytics") return '<section class="card">' + emptyBox("i-chart", "Release Analytics segera hadir", "Statistik streaming dan pendengar untuk rilisan ini akan muncul di sini.") + '</section>';
+  if(activeTab === "sales") return '<section class="card">' + emptyBox("i-coin", "Sales segera hadir", "Rincian pendapatan per rilisan akan muncul di sini.") + '</section>';
+
+  if(activeTab === "smartlink"){
+    return '<section class="card"><h2>Smartlink</h2>' + (smart
+      ? '<div class="sl"><span>' + esc(smart) + '</span><button type="button" id="copySmart" aria-label="Salin smartlink"><svg class="i"><use href="#i-copy"/></svg></button></div>' +
+        '<a class="btn full" href="' + esc(smart) + '" target="_blank" rel="noopener noreferrer"><svg class="i"><use href="#i-ext"/></svg>Buka Smartlink</a>'
+      : emptyBox("i-link", "Smartlink belum tersedia", "Link akan muncul di sini setelah rilisan tayang.")) + '</section>';
+  }
+
+  /* stores */
   const raw = String(d.status || "").toLowerCase().trim();
-  const feat = d.featuring ? " · feat. " + esc(d.featuring) : "";
-  const smart = safeUrl(d.smartlink || "");
-
-  /* actions: aturan sama seperti sebelumnya */
-  const canEdit = status === "proposal" || status === "rejected";
-  const canTakedown = status === "live";
-  let actions = "";
-  if(canEdit){
-    actions += '<button class="btn" type="button" id="editBtn"><svg class="i"><use href="#i-edit"/></svg>Edit Release</button>';
-    actions += '<button class="btn danger" type="button" id="deleteBtn"><svg class="i"><use href="#i-trash"/></svg>Hapus</button>';
-  }
-  if(canTakedown){
-    actions += '<button class="btn warn" type="button" id="takedownBtn"><svg class="i"><use href="#i-down"/></svg>Request Takedown</button>';
-  }
-
-  /* platforms */
   const showPlat = ["approved","schedule","live"].includes(status) || raw === "approved";
   let plat = "";
   if(showPlat){
@@ -535,36 +575,72 @@ function render(d){
               '<b>' + esc(p) + '</b><span class="tag" style="--c:' + color + '">' + esc(String(s).toUpperCase()) + '</span></div>';
     });
   }
-  const platHtml = plat || '<div class="empty"><div class="ic"><svg class="i"><use href="#i-disc"/></svg></div><h3>Platform belum tersedia</h3><p>Status per platform muncul setelah rilisan disetujui.</p></div>';
+  return '<section class="card"><h2>Store &amp; Service</h2>' +
+    (plat || emptyBox("i-store", "Platform belum tersedia", "Status per platform muncul setelah rilisan disetujui.")) + '</section>';
+}
 
-  const smartHtml = smart
-    ? '<div class="sl"><span>' + esc(smart) + '</span><button type="button" id="copySmart" aria-label="Salin smartlink"><svg class="i"><use href="#i-copy"/></svg></button></div>' +
-      '<a class="btn full" href="' + esc(smart) + '" target="_blank" rel="noopener noreferrer"><svg class="i"><use href="#i-ext"/></svg>Buka Smartlink</a>'
-    : '<div class="empty"><div class="ic"><svg class="i"><use href="#i-link"/></svg></div><h3>Smartlink belum tersedia</h3><p>Link akan muncul di sini setelah rilisan tayang.</p></div>';
+function render(d){
+  const status = getStatus(d);
+  const st = statusInfo(status);
+  const feat = d.featuring ? " · feat. " + esc(d.featuring) : "";
+  const smart = safeUrl(d.smartlink || "");
+
+  const canEdit = status === "proposal" || status === "rejected";
+  const canTakedown = status === "live";
+
+  let acts = "";
+  if(canEdit){
+    acts += '<button class="btn" type="button" id="editBtn"><svg class="i"><use href="#i-edit"/></svg>Edit</button>';
+    acts += '<button class="btn ghost" type="button" id="deleteBtn"><svg class="i"><use href="#i-trash"/></svg>Hapus</button>';
+  }
+  acts += '<button class="btn ghost" type="button" id="takedownBtn"' + (canTakedown ? '' : ' disabled title="Takedown tersedia setelah rilisan tayang"') + '><svg class="i"><use href="#i-down"/></svg>Takedown</button>';
+
+  const tracks = tracksHtml(d);
+  const moreHtml =
+    '<div class="info info-more' + (moreOpen ? ' show' : '') + '" id="infoMore">' +
+      '<div><small>Tipe rilisan</small><span>' + esc(val(d.type || d.releaseType)) + '</span></div>' +
+      '<div><small>Versi</small><span>' + esc(val(d.version)) + '</span></div>' +
+      '<div><small>Bahasa</small><span>' + esc(val(d.language)) + '</span></div>' +
+      '<div><small>Explicit</small><span>' + esc(yesNo(d.explicit)) + '</span></div>' +
+      '<div><small>Komposer</small><span>' + esc(val(d.composer)) + '</span></div>' +
+      '<div><small>ISRC</small><span>' + esc(val(d.isrc)) + '</span></div>' +
+      '<div><small>℗ (P-line)</small><span>' + esc(val(d.pLine || d.pline)) + '</span></div>' +
+      '<div><small>© (C-line)</small><span>' + esc(val(d.cLine || d.cline)) + '</span></div>' +
+      '<div><small>Diajukan</small><span>' + esc(fmtDate(d.createdAt || d.submittedAt)) + '</span></div>' +
+      '<div><small>ID rilisan</small><span>' + esc(rid) + '</span></div>' +
+      (d.notes || d.description ? '<div class="wide"><small>Catatan</small><span>' + esc(d.notes || d.description) + '</span></div>' : '') +
+      (tracks ? '<div class="wide"><small>Daftar lagu</small>' + tracks + '</div>' : '') +
+    '</div>';
 
   $("view").innerHTML =
-    '<section class="hero">' +
+    '<section class="hero"><div class="hero-grid"></div>' +
       '<div class="cover"><img alt="Cover ' + esc(d.title || "") + '" id="coverImg"></div>' +
       '<div class="h-body">' +
         '<span class="pill ' + (status === "process" ? "process" : "") + '" style="--c:' + st.color + '">' + esc(st.label) + '</span>' +
         '<h1 class="h-title">' + esc(d.title || "-") + '</h1>' +
         '<div class="h-artist"><b>' + esc(d.artist || "-") + '</b>' + feat + '</div>' +
+        '<div class="h-acts">' + acts + '</div>' +
       '</div>' +
     '</section>' +
-    (st.note ? '<div class="note" style="--c:' + st.color + '"><svg class="i"><use href="#i-info"/></svg><span>' + esc(st.note) + '</span></div>' : '') +
-    '<div class="grid">' +
-      '<div class="col">' +
-        '<section class="card"><h2>Informasi rilisan</h2><div class="info">' +
-          '<div><small>Release date</small><span>' + esc(formatDate(d)) + '</span></div>' +
-          '<div><small>UPC</small>' + (d.ean ? '<button type="button" id="copyUpc">' + esc(d.ean) + '<svg class="i"><use href="#i-copy"/></svg></button>' : '<span>-</span>') + '</div>' +
-          '<div><small>Label</small><span>' + esc(d.label || "Dynotic") + '</span></div>' +
-          '<div><small>Genre</small><span>' + esc(d.genre || "-") + '</span></div>' +
-        '</div></section>' +
-        (actions ? '<section class="card"><h2>Aksi</h2><div class="acts">' + actions + '</div></section>' : '') +
-        '<section class="card"><h2>Smartlink</h2>' + smartHtml + '</section>' +
-      '</div>' +
-      '<section class="card"><h2>Platform</h2><div>' + platHtml + '</div></section>' +
-    '</div>';
+    (st.note ? '<div class="note"><svg class="i"><use href="#i-info"/></svg><span>' + esc(st.note) + '</span></div>' : '') +
+
+    '<section class="card"><div class="card-head"><h2>Informasi rilisan</h2>' +
+      '<button class="more' + (moreOpen ? ' open' : '') + '" type="button" id="moreBtn"><span>' + (moreOpen ? 'Sembunyikan' : 'Lihat lengkap') + '</span><svg class="i"><use href="#i-chev"/></svg></button></div>' +
+      '<div class="info">' +
+        '<div><small>Release date</small><span>' + esc(fmtDate(d.releaseDate || d.date)) + '</span></div>' +
+        '<div><small>UPC</small>' + (d.ean ? '<button type="button" id="copyUpc">' + esc(d.ean) + '<svg class="i"><use href="#i-copy"/></svg></button>' : '<span>-</span>') + '</div>' +
+        '<div><small>Label</small><span>' + esc(d.label || "Dynotic") + '</span></div>' +
+        '<div><small>Genre</small><span>' + esc(val(d.genre)) + '</span></div>' +
+      '</div>' + moreHtml +
+    '</section>' +
+
+    '<nav class="tabs" role="tablist" aria-label="Menu rilisan">' +
+      TABS.map(t =>
+        '<button class="tab' + (t.id === activeTab ? ' active' : '') + '" type="button" role="tab" aria-selected="' + (t.id === activeTab) + '" data-tab="' + t.id + '">' +
+        '<svg class="i"><use href="#' + t.icon + '"/></svg>' + esc(t.label) + (t.soon ? '<span class="soon">Soon</span>' : '') + '</button>'
+      ).join("") +
+    '</nav>' +
+    '<div class="panel" id="panel">' + panelHtml(d, status, smart) + '</div>';
 
   /* cover via JS agar URL tidak di-parse sebagai markup */
   const img = $("coverImg");
@@ -579,7 +655,25 @@ function render(d){
   on("copySmart", () => copyText(smart, "Smartlink disalin."));
   on("editBtn", () => { location.href = ROUTES.edit + "?rid=" + encodeURIComponent(rid); });
   on("deleteBtn", () => $("modal").classList.add("show"));
-  on("takedownBtn", () => takedown(d));
+  on("takedownBtn", () => { if(canTakedown) takedown(d); });
+  on("moreBtn", () => {
+    moreOpen = !moreOpen;
+    $("infoMore").classList.toggle("show", moreOpen);
+    $("moreBtn").classList.toggle("open", moreOpen);
+    $("moreBtn").firstElementChild.textContent = moreOpen ? "Sembunyikan" : "Lihat lengkap";
+  });
+
+  document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => {
+    activeTab = b.dataset.tab;
+    document.querySelectorAll(".tab").forEach(x => {
+      const a = x === b;
+      x.classList.toggle("active", a);
+      x.setAttribute("aria-selected", String(a));
+    });
+    $("panel").innerHTML = panelHtml(d, status, smart);
+    const cs = $("copySmart");
+    if(cs) cs.addEventListener("click", () => copyText(smart, "Smartlink disalin."));
+  }));
 }
 
 /* ================= DELETE ================= */
