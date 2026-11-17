@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Artist Page | Dynotic Distribution</title>
+<meta name="theme-color" content="#f3f3f8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f3f8;--paper:#fff;--ink:#14141a;--muted:#6f7280;--line:#e6e6ee;--dark:#0d0d12;--accent:#7772a8;--accent-2:#a9a3f2;--red:#d83a3a;--ease:cubic-bezier(.16,1,.3,1)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+.topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 16px;display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.icon-btn{width:42px;height:42px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease)}
+.icon-btn:active{transform:scale(.93)}
+.icon-btn .i{width:19px;height:19px}
+.topbar h1{font-size:20px;font-weight:800;letter-spacing:-.03em}
+
+.wrap{max-width:880px;margin:0 auto;padding:6px 16px 0}
+.intro{padding:6px 2px 18px}
+.intro h2{font-size:clamp(24px,5vw,32px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.intro p{margin-top:8px;font-size:13px;line-height:1.7;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 20px;border-radius:14px;background:var(--dark);color:#fff;font-size:14px;font-weight:700;transition:transform .25s var(--ease),opacity .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn:disabled{opacity:.5;cursor:default;transform:none}
+.btn.ghost{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+.btn .i{width:17px;height:17px}
+.btn.full{width:100%}
+
+.list{display:grid;gap:12px;margin-top:16px}
+.card{display:flex;align-items:center;gap:14px;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:22px;animation:up .5s var(--ease) both}
+.ph{width:56px;height:56px;border-radius:50%;background:var(--dark) center/cover no-repeat;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;flex-shrink:0}
+.card .mt{min-width:0;flex:1}
+.card strong{display:block;font-size:15px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card span.u{display:block;margin-top:2px;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card small{display:block;margin-top:4px;font-size:11px;color:var(--accent);font-weight:700}
+.acts{display:flex;gap:6px}
+.sm{width:38px;height:38px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center;transition:background .2s}
+.sm:hover{background:#e9e8f4}
+.sm .i{width:17px;height:17px}
+.sm.del{color:var(--red)}
+.empty{display:flex;flex-direction:column;align-items:center;gap:10px;padding:44px 20px;background:var(--paper);border:1px dashed #cfcfdb;border-radius:22px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
+.empty .ic{width:52px;height:52px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.empty .ic .i{width:23px;height:23px}
+
+/* editor sheet */
+.overlay{position:fixed;inset:0;background:rgba(13,13,18,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:300;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.overlay.show{opacity:1;visibility:visible}
+.sheet{position:fixed;right:0;top:0;bottom:0;width:480px;max-width:100%;background:var(--bg);z-index:310;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .4s var(--ease)}
+.sheet.show{transform:none}
+.s-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 12px;background:var(--paper);border-bottom:1px solid var(--line)}
+.s-head h3{font-size:18px;font-weight:800;letter-spacing:-.03em}
+.s-body{flex:1;overflow-y:auto;padding:18px 16px 24px;overscroll-behavior:contain}
+.s-foot{padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:var(--paper);border-top:1px solid var(--line);display:flex;gap:10px}
+.s-foot .btn{flex:1}
+.fld{margin-bottom:16px}
+.fld label{display:block;margin-bottom:6px;font-size:12px;font-weight:700;color:#4a4c58}
+.fld input,.fld textarea,.fld select{width:100%;padding:13px 14px;border-radius:14px;border:1px solid var(--line);background:var(--paper);font-size:14px;color:var(--ink)}
+.fld textarea{resize:vertical;min-height:84px;line-height:1.6}
+.fld .hint{margin-top:5px;font-size:11px;color:var(--muted);line-height:1.5}
+.slug{display:flex;align-items:center;border:1px solid var(--line);border-radius:14px;background:var(--paper);overflow:hidden}
+.slug span{padding:0 0 0 14px;font-size:13px;color:var(--muted);white-space:nowrap}
+.slug input{border:0;padding-left:2px;border-radius:0}
+.slug input:focus-visible{outline:none}
+.pic{display:flex;align-items:center;gap:14px}
+.pic .ph{width:72px;height:72px;font-size:26px}
+.pic .btns{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.pic .btns button{font-size:12px;font-weight:700;color:var(--accent);padding:4px 0}
+.pic .btns .rm{color:var(--red)}
+.lrow{display:grid;grid-template-columns:118px 1fr 38px;gap:8px;margin-bottom:8px}
+.lrow select,.lrow input{padding:12px 10px;border-radius:12px;border:1px solid var(--line);background:var(--paper);font-size:13px;min-width:0;width:100%}
+.lrow .sm{height:100%;min-height:44px;background:var(--paper);border:1px solid var(--line)}
+.sec-t{display:flex;align-items:center;justify-content:space-between;margin:22px 0 10px}
+.sec-t h4{font-size:14px;font-weight:700}
+.sec-t button{font-size:12px;font-weight:700;color:var(--accent);padding:6px 10px;border-radius:999px}
+.sec-t button:hover{background:#e9e8f4}
+
+/* preview */
+.prev{margin-top:6px;border-radius:26px;background:var(--dark);color:#fff;padding:26px 20px;text-align:center;position:relative;overflow:hidden;isolation:isolate}
+.prev::before{content:"";position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(119,114,168,.55);filter:blur(70px);top:-120px;left:50%;transform:translateX(-50%);z-index:-1}
+.prev .ph{width:84px;height:84px;margin:0 auto;border:3px solid rgba(255,255,255,.2);background-color:#2a2840;font-size:30px}
+.prev h5{margin-top:12px;font-size:20px;font-weight:800;letter-spacing:-.03em}
+.prev p{margin-top:6px;font-size:12px;line-height:1.6;color:rgba(255,255,255,.6);white-space:pre-wrap}
+.prev .ls{margin-top:16px;display:grid;gap:8px}
+.prev .ls div{padding:13px;border-radius:14px;background:rgba(255,255,255,.1);font-size:13px;font-weight:600}
+.pv-label{margin:4px 2px 10px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a3a5b0}
+
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%)}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+@media(max-width:700px){
+  .sheet{top:auto;width:100%;height:92dvh;border-radius:26px 26px 0 0;transform:translateY(102%)}
+  .sheet.show{transform:none}
+  .s-head{border-radius:26px 26px 0 0}
+  .lrow{grid-template-columns:104px 1fr 38px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1L5 6M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-userpage" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="12" cy="10" r="3"/><path d="M6.5 19c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5"/></symbol>
+</svg>
+
+<header class="topbar">
+  <a href="../home" class="icon-btn" aria-label="Kembali"><svg class="i"><use href="#i-back"/></svg></a>
+  <h1>Artist Page</h1>
+</header>
+
+<main class="wrap">
+  <div class="intro">
+    <h2>Link bio untuk artismu</h2>
+    <p>Buat halaman berisi semua link sosmed dan platform musik artis. Bagikan satu link ke fans supaya mereka mudah menemukan kamu di mana saja. Kamu bisa membuat lebih dari satu artist page.</p>
+  </div>
+
+  <button class="btn" id="newBtn" type="button"><svg class="i"><use href="#i-plus"/></svg>Buat Artist Page</button>
+  <div class="list" id="list"></div>
+</main>
+
+<div class="overlay" id="overlay"></div>
+<aside class="sheet" id="sheet" aria-hidden="true" aria-label="Editor Artist Page">
+  <div class="s-head">
+    <h3 id="sTitle">Artist Page Baru</h3>
+    <button class="sm" id="sClose" type="button" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="s-body">
+    <div class="fld">
+      <label>Foto artis</label>
+      <div class="pic">
+        <div class="ph" id="fPhoto"></div>
+        <div class="btns">
+          <button type="button" id="fPick">Pilih foto</button>
+          <button type="button" id="fRemove" class="rm" hidden>Hapus foto</button>
+        </div>
+        <input type="file" id="fFile" accept="image/*" hidden>
+      </div>
+    </div>
+    <div class="fld"><label for="fName">Nama artis</label><input id="fName" maxlength="40" placeholder="Nama panggung" autocomplete="off"></div>
+    <div class="fld">
+      <label for="fSlug">Link halaman</label>
+      <div class="slug"><span id="slugBase">/a/</span><input id="fSlug" maxlength="30" placeholder="nama-artis" autocomplete="off" autocapitalize="off"></div>
+      <div class="hint">Huruf kecil, angka, dan tanda minus. Harus unik.</div>
+    </div>
+    <div class="fld"><label for="fBio">Bio singkat</label><textarea id="fBio" maxlength="160" placeholder="Ceritakan sedikit tentang artis ini"></textarea></div>
+
+    <div class="sec-t"><h4>Link sosmed &amp; platform</h4><button type="button" id="addLink">+ Tambah</button></div>
+    <div id="links"></div>
+
+    <div class="sec-t"><h4>Pratinjau</h4></div>
+    <div class="prev" id="prev"></div>
+  </div>
+  <div class="s-foot">
+    <button class="btn ghost" id="sCancel" type="button">Batal</button>
+    <button class="btn" id="sSave" type="button">Simpan</button>
+  </div>
+</aside>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+const ROUTES = { login: "../login" };
+const PUBLIC_PATH = "/a/";      // halaman publik: domain + /a/{slug}
+const MAX_PAGES = 10, MAX_LINKS = 12;
+const PLATFORMS = ["Instagram","TikTok","YouTube","Spotify","Apple Music","YouTube Music","Facebook","X (Twitter)","WhatsApp","Website","Lainnya"];
+
+firebase.initializeApp({
+  apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain: "dynopay-2513c.firebaseapp.com",
+  databaseURL: "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+});
+const db = firebase.database();
+const $ = id => document.getElementById(id);
+
+let user = null, pages = [], listRef = null;
+let editing = null;   // {id, oldSlug} | null
+let draft = { photo:"", links:[] };
+let saving = false;
+
+function toast(t){
+  const el = $("toast"); el.textContent = t; el.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove("show"), 2400);
+}
+const cleanSlug = s => String(s||"").toLowerCase().replace(/[^a-z0-9-]/g,"").replace(/-+/g,"-").replace(/^-|-$/g,"").slice(0,30);
+function fixUrl(u){
+  u = String(u||"").trim();
+  if(!u) return "";
+  if(!/^https?:\/\//i.test(u)) u = "https://" + u;
+  try{ const p = new URL(u); return /^https?:$/.test(p.protocol) ? p.href : ""; }catch(e){ return ""; }
+}
+const pubUrl = slug => location.origin + PUBLIC_PATH + slug;
+
+/* ===== AUTH ===== */
+firebase.auth().onAuthStateChanged(u => {
+  if(!u){ if(listRef) listRef.off(); location.href = ROUTES.login; return; }
+  user = u;
+  listRef = db.ref("artist_pages/" + u.uid);
+  listRef.on("value", snap => {
+    pages = [];
+    snap.forEach(c => { const v = c.val(); if(v) pages.push({ ...v, id:c.key }); });
+    pages.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+    renderList();
+  }, err => { console.error(err); toast("Gagal memuat data. Coba muat ulang."); });
+});
+
+/* ===== LIST ===== */
+function initial(n){ return (String(n||"A").trim().charAt(0) || "A").toUpperCase(); }
+
+function setPhoto(el, photo, name){
+  el.style.backgroundImage = photo ? 'url("' + photo + '")' : "";
+  el.textContent = photo ? "" : initial(name);
+}
+
+function renderList(){
+  const box = $("list"); box.innerHTML = "";
+  if(!pages.length){
+    box.innerHTML = '<div class="empty"><div class="ic"><svg class="i"><use href="#i-userpage"/></svg></div>Belum ada Artist Page.<br>Buat satu supaya fans mudah menemukan semua link artismu.</div>';
+    return;
+  }
+  pages.forEach(p => {
+    const n = p.links ? p.links.length : 0;
+    const c = document.createElement("div"); c.className = "card";
+    c.innerHTML = '<div class="ph"></div><div class="mt"><strong></strong><span class="u"></span><small></small></div>' +
+      '<div class="acts"><button class="sm" data-a="copy" aria-label="Salin link" type="button"><svg class="i"><use href="#i-copy"/></svg></button>' +
+      '<button class="sm" data-a="edit" aria-label="Edit" type="button"><svg class="i"><use href="#i-edit"/></svg></button>' +
+      '<button class="sm del" data-a="del" aria-label="Hapus" type="button"><svg class="i"><use href="#i-trash"/></svg></button></div>';
+    setPhoto(c.querySelector(".ph"), p.photo, p.name);
+    c.querySelector("strong").textContent = p.name || "-";
+    c.querySelector(".u").textContent = PUBLIC_PATH + p.slug;
+    c.querySelector("small").textContent = n + " link";
+    c.querySelector('[data-a="copy"]').onclick = () => copyLink(p.slug);
+    c.querySelector('[data-a="edit"]').onclick = () => openEditor(p);
+    c.querySelector('[data-a="del"]').onclick = () => removePage(p);
+    box.appendChild(c);
+  });
+}
+
+async function copyLink(slug){
+  const url = pubUrl(slug);
+  try{ await navigator.clipboard.writeText(url); toast("Link disalin."); }
+  catch(e){ prompt("Salin link ini:", url); }
+}
+
+function removePage(p){
+  if(!confirm('Hapus Artist Page "' + p.name + '"? Link-nya tidak akan bisa dibuka lagi.')) return;
+  const up = {};
+  up["artist_pages/" + user.uid + "/" + p.id] = null;
+  up["artist_slugs/" + p.slug] = null;
+  db.ref().update(up).then(() => toast("Artist Page dihapus.")).catch(() => toast("Gagal menghapus."));
+}
+
+/* ===== EDITOR ===== */
+const sheet = $("sheet"), overlay = $("overlay");
+
+function openSheet(){ sheet.classList.add("show"); overlay.classList.add("show"); sheet.setAttribute("aria-hidden","false"); document.body.classList.add("lock"); }
+function closeSheet(){ sheet.classList.remove("show"); overlay.classList.remove("show"); sheet.setAttribute("aria-hidden","true"); document.body.classList.remove("lock"); }
+
+function openEditor(p){
+  editing = p ? { id:p.id, oldSlug:p.slug } : null;
+  draft = { photo: p && p.photo || "", links: p && p.links ? p.links.map(l => ({ ...l })) : [{ platform:"Instagram", url:"" }] };
+  $("sTitle").textContent = p ? "Edit Artist Page" : "Artist Page Baru";
+  $("fName").value = p ? p.name : "";
+  $("fSlug").value = p ? p.slug : "";
+  $("fBio").value = p && p.bio || "";
+  $("slugBase").textContent = location.host + PUBLIC_PATH;
+  renderLinks(); renderPhoto(); renderPrev();
+  openSheet();
+}
+
+function renderPhoto(){
+  setPhoto($("fPhoto"), draft.photo, $("fName").value);
+  $("fRemove").hidden = !draft.photo;
+}
+
+function renderLinks(){
+  const box = $("links"); box.innerHTML = "";
+  draft.links.forEach((l, idx) => {
+    const r = document.createElement("div"); r.className = "lrow";
+    const sel = document.createElement("select");
+    PLATFORMS.forEach(n => { const o = document.createElement("option"); o.value = o.textContent = n; if(n === l.platform) o.selected = true; sel.appendChild(o); });
+    const inp = document.createElement("input");
+    inp.type = "url"; inp.placeholder = "https://..."; inp.value = l.url; inp.inputMode = "url"; inp.autocapitalize = "off";
+    const del = document.createElement("button");
+    del.type = "button"; del.className = "sm del"; del.setAttribute("aria-label","Hapus link");
+    del.innerHTML = '<svg class="i"><use href="#i-x"/></svg>';
+    sel.onchange = () => { l.platform = sel.value; renderPrev(); };
+    inp.oninput = () => { l.url = inp.value; renderPrev(); };
+    del.onclick = () => { draft.links.splice(idx,1); renderLinks(); renderPrev(); };
+    r.append(sel, inp, del); box.appendChild(r);
+  });
+}
+
+function renderPrev(){
+  const box = $("prev"), name = $("fName").value.trim() || "Nama Artis", bio = $("fBio").value.trim();
+  box.innerHTML = '<div class="ph"></div><h5></h5><p></p><div class="ls"></div>';
+  setPhoto(box.querySelector(".ph"), draft.photo, name);
+  box.querySelector("h5").textContent = name;
+  box.querySelector("p").textContent = bio;
+  const ls = box.querySelector(".ls");
+  draft.links.filter(l => l.url.trim()).forEach(l => { const d = document.createElement("div"); d.textContent = l.platform; ls.appendChild(d); });
+}
+
+$("fName").addEventListener("input", () => {
+  if(!editing && !$("fSlug").dataset.touched) $("fSlug").value = cleanSlug($("fName").value);
+  renderPrev(); if(!draft.photo) renderPhoto();
+});
+$("fSlug").addEventListener("input", e => { e.target.dataset.touched = "1"; e.target.value = cleanSlug(e.target.value); });
+$("fBio").addEventListener("input", renderPrev);
+$("addLink").onclick = () => {
+  if(draft.links.length >= MAX_LINKS) return toast("Maksimal " + MAX_LINKS + " link.");
+  draft.links.push({ platform:"Instagram", url:"" }); renderLinks();
+};
+
+/* foto: kecilkan dulu (320px) lalu simpan sebagai data URL */
+$("fPick").onclick = () => $("fFile").click();
+$("fRemove").onclick = () => { draft.photo = ""; renderPhoto(); renderPrev(); };
+$("fFile").addEventListener("change", e => {
+  const f = e.target.files[0]; e.target.value = "";
+  if(!f) return;
+  if(!f.type.startsWith("image/")) return toast("File harus berupa gambar.");
+  const img = new Image(), url = URL.createObjectURL(f);
+  img.onload = () => {
+    const S = 320, side = Math.min(img.width, img.height);
+    const cv = document.createElement("canvas"); cv.width = cv.height = S;
+    cv.getContext("2d").drawImage(img, (img.width - side)/2, (img.height - side)/2, side, side, 0, 0, S, S);
+    URL.revokeObjectURL(url);
+    draft.photo = cv.toDataURL("image/jpeg", .82);
+    renderPhoto(); renderPrev();
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); toast("Gambar tidak bisa dibaca."); };
+  img.src = url;
+});
+
+/* ===== SAVE ===== */
+async function save(){
+  if(saving) return;
+  const name = $("fName").value.trim(), slug = cleanSlug($("fSlug").value), bio = $("fBio").value.trim();
+  if(!name) return toast("Nama artis wajib diisi.");
+  if(slug.length < 3) return toast("Link minimal 3 karakter.");
+
+  const links = [];
+  for(const l of draft.links){
+    if(!l.url.trim()) continue;
+    const u = fixUrl(l.url);
+    if(!u) return toast("Ada link yang tidak valid: " + l.platform);
+    links.push({ platform:l.platform, url:u });
+  }
+  if(!links.length) return toast("Tambahkan minimal satu link.");
+  if(!editing && pages.length >= MAX_PAGES) return toast("Maksimal " + MAX_PAGES + " Artist Page.");
+
+  saving = true; $("sSave").disabled = true; $("sSave").textContent = "Menyimpan…";
+  try{
+    const pid = editing ? editing.id : db.ref("artist_pages/" + user.uid).push().key;
+
+    // klaim slug (harus unik)
+    const claim = await db.ref("artist_slugs/" + slug).transaction(cur => {
+      if(cur === null) return { uid:user.uid, pid };
+      if(cur.uid === user.uid && cur.pid === pid) return cur;
+      return; // dipakai orang lain → batal
+    });
+    if(!claim.committed){ toast("Link sudah dipakai, coba yang lain."); return; }
+
+    const old = editing ? pages.find(p => p.id === pid) : null;
+    const data = { name, slug, bio, photo:draft.photo || "", links, createdAt: old && old.createdAt || Date.now(), updatedAt: Date.now() };
+    const up = {};
+    up["artist_pages/" + user.uid + "/" + pid] = data;
+    if(editing && editing.oldSlug !== slug) up["artist_slugs/" + editing.oldSlug] = null;
+    await db.ref().update(up);
+
+    toast("Artist Page disimpan.");
+    closeSheet();
+  }catch(e){
+    console.error(e); toast("Gagal menyimpan. Coba lagi.");
+  }finally{
+    saving = false; $("sSave").disabled = false; $("sSave").textContent = "Simpan";
+  }
+}
+
+$("newBtn").onclick = () => { $("fSlug").dataset.touched = ""; openEditor(null); };
+$("sSave").onclick = save;
+$("sClose").onclick = $("sCancel").onclick = closeSheet;
+overlay.onclick = closeSheet;
+document.addEventListener("keydown", e => { if(e.key === "Escape") closeSheet(); });
+</script>
+</body>
+</html>
