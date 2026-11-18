@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Artwork Generator | Dynotic Distribution</title>
+<meta name="theme-color" content="#f3f3f8">
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;0,900;1,500;1,600;1,700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f3f3f8;--paper:#fff;--ink:#14141a;--muted:#6f7280;--line:#e6e6ee;
+  --dark:#0d0d12;--accent:#7772a8;--accent-2:#a9a3f2;--ease:cubic-bezier(.16,1,.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:calc(40px + env(safe-area-inset-bottom))}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit;color:inherit}
+button{border:0;background:none;cursor:pointer}
+a:focus-visible,button:focus-visible,input:focus-visible,.drop:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* topbar */
+.topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
+.topbar.scrolled{border-bottom-color:var(--line)}
+.icon-btn{width:42px;height:42px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),border-color .2s}
+.icon-btn:hover{border-color:#cfcfdb}
+.icon-btn:active{transform:scale(.93)}
+.icon-btn .i{width:19px;height:19px}
+.page-title{font-size:20px;font-weight:800;letter-spacing:-.03em}
+
+.wrap{width:100%;max-width:1040px;margin:0 auto;padding:6px 16px 0}
+.layout{display:grid;gap:20px}
+
+/* preview */
+.stage{position:relative;overflow:hidden;isolation:isolate;border-radius:28px;background:var(--dark);padding:clamp(16px,3vw,26px)}
+.stage::before{content:"";position:absolute;width:320px;height:320px;border-radius:50%;filter:blur(70px);background:rgba(119,114,168,.55);top:-140px;right:-80px;z-index:-1}
+.stage canvas{display:block;width:100%;aspect-ratio:1;border-radius:14px;background:#000;box-shadow:0 24px 50px -14px rgba(0,0,0,.6)}
+.stage-foot{margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:rgba(255,255,255,.55);font-size:12px}
+.stage-foot b{color:#fff;font-weight:600}
+
+/* panel */
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:18px}
+.panel+.panel{margin-top:14px}
+.panel h2{font-size:15px;font-weight:700;letter-spacing:-.01em;margin-bottom:12px}
+.field{display:block;margin-bottom:12px}
+.field span{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.field input{width:100%;height:48px;padding:0 14px;border-radius:14px;border:1px solid var(--line);background:var(--bg);font-size:14px;transition:border-color .2s,background .2s}
+.field input:focus{outline:none;border-color:var(--accent);background:#fff}
+.drop{display:flex;align-items:center;gap:12px;width:100%;padding:14px;border:1.5px dashed #cfcfdb;border-radius:16px;background:var(--bg);text-align:left;transition:border-color .2s,background .2s}
+.drop:hover{border-color:var(--accent);background:#eeedf7}
+.drop .ic{width:44px;height:44px;border-radius:14px;background:var(--dark);color:#fff;display:flex;align-items:center;justify-content:center}
+.drop strong{display:block;font-size:14px;font-weight:700}
+.drop small{display:block;font-size:12px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:230px}
+
+/* template picker */
+.tpls{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tpl{position:relative;display:flex;flex-direction:column;gap:6px;text-align:center;font-size:11px;font-weight:600;color:var(--muted)}
+.tpl canvas{width:100%;aspect-ratio:1;border-radius:12px;display:block;border:2px solid transparent;outline:1px solid var(--line);transition:transform .25s var(--ease),border-color .2s}
+.tpl:hover canvas{transform:translateY(-2px)}
+.tpl.on{color:var(--ink)}
+.tpl.on canvas{border-color:var(--ink);outline-color:transparent}
+
+/* actions */
+.acts{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;height:52px;border-radius:16px;font-size:14px;font-weight:700;transition:transform .2s var(--ease),box-shadow .25s}
+.btn:active{transform:scale(.97)}
+.btn .i{width:18px;height:18px}
+.btn.pri{background:var(--dark);color:#fff}
+.btn.pri:hover{box-shadow:0 12px 28px rgba(13,13,18,.25)}
+.btn.sec{background:var(--paper);border:1px solid var(--line)}
+.btn.sec:hover{border-color:#cfcfdb}
+.btn:disabled{opacity:.5;cursor:wait}
+.swatches{display:flex;flex-wrap:wrap;gap:8px}
+.sw{width:30px;height:30px;border-radius:50%;border:3px solid var(--paper);box-shadow:0 0 0 1px var(--line);transition:transform .2s var(--ease)}
+.sw:hover{transform:scale(1.1)}
+.sw.on{box-shadow:0 0 0 2px var(--ink)}
+
+.toast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(min-width:1000px){
+  .topbar{height:78px;padding:0 36px}
+  .wrap{padding:6px 36px 0}
+  .layout{grid-template-columns:minmax(0,1fr) 400px;align-items:start;gap:24px}
+  .stage{position:sticky;top:90px}
+  .acts{grid-template-columns:1fr 1fr}
+  .tpls{grid-template-columns:repeat(4,1fr)}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></symbol>
+</svg>
+
+<header class="topbar" id="topbar">
+  <a href="../home" class="icon-btn" aria-label="Kembali ke Home"><svg class="i"><use href="#i-back"/></svg></a>
+  <h1 class="page-title">Artwork Generator</h1>
+</header>
+
+<main class="wrap">
+  <div class="layout">
+
+    <section class="stage" aria-label="Preview">
+      <canvas id="canvas" width="1000" height="1000"></canvas>
+      <div class="stage-foot"><span>Preview</span><span>Hasil download <b>3000 × 3000 px</b></span></div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <h2>Detail rilisan</h2>
+        <label class="field"><span>Judul lagu</span><input id="title" placeholder="Contoh: Malam Terakhir" autocomplete="off" maxlength="60"></label>
+        <label class="field"><span>Nama artist</span><input id="artist" placeholder="Contoh: Dynotic" autocomplete="off" maxlength="40"></label>
+        <span class="field" style="margin-bottom:0"><span>Foto cover</span></span>
+        <button class="drop" id="drop" type="button">
+          <div class="ic"><svg class="i"><use href="#i-upload"/></svg></div>
+          <div><strong>Upload foto</strong><small id="fileName">Belum ada file · otomatis di-crop persegi</small></div>
+        </button>
+        <input type="file" id="imgInput" accept="image/*" hidden>
+      </div>
+
+      <div class="panel" id="extraPanel" hidden>
+        <h2>Info tambahan</h2>
+        <div id="extraFields"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Template</h2>
+        <div class="tpls" id="tpls"></div>
+      </div>
+
+      <div class="panel">
+        <h2>Warna aksen</h2>
+        <div class="swatches" id="swatches"></div>
+      </div>
+
+      <div class="acts">
+        <button class="btn sec" id="genBtn" type="button"><svg class="i"><use href="#i-spark"/></svg>Generate ulang</button>
+        <button class="btn pri" id="dlBtn" type="button"><svg class="i"><use href="#i-download"/></svg>Download JPG</button>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const canvas = $("canvas"), ctx = canvas.getContext("2d");
+
+const LC = ["label","code","year"];
+const TEMPLATES = [
+  {id:"classic", name:"Classic"},
+  {id:"center",  name:"Center"},
+  {id:"idcard",  name:"ID Card", f:["label","code"]},
+  {id:"polaroid",name:"Polaroid"},
+  {id:"fade",    name:"Fade"},
+  {id:"bar",     name:"Color Bar"},
+  {id:"vinyl",   name:"Vinyl"},
+  {id:"bigtype", name:"Big Type"},
+  {id:"noir",    name:"Noir",     f:["label","year"]},
+  {id:"gallery", name:"Gallery",  f:LC},
+  {id:"ticket",  name:"Ticket",   f:LC},
+  {id:"duotone", name:"Duotone",  f:LC},
+  {id:"swiss",   name:"Swiss",    f:["label","code","year","type"]},
+  {id:"neon",    name:"Neon",     f:["label","year"]},
+  {id:"stamp",   name:"Stamp",    f:LC},
+  {id:"magazine",name:"Magazine", f:LC},
+  {id:"cassette",name:"Cassette", f:LC},
+  {id:"film",    name:"Film",     f:LC},
+  {id:"luxe",    name:"Luxe Gold",f:["label","year"]},
+  {id:"outline", name:"Outline",  f:["label","year"]}
+];
+const FIELDS = {
+  label:{n:"Nama label",ph:"Dynotic Distribution"},
+  code:{n:"Kode ID",ph:"DYN-0001"},
+  year:{n:"Tahun",ph:"2026"},
+  type:{n:"Tipe rilisan",ph:"Single"}
+};
+const COLORS = ["#a9a3f2","#ff6b6b","#fbbf24","#38bdf8","#34d399","#f472b6","#ffffff"];
+
+const S = { tpl:"classic", accent:COLORS[0], flip:false, img:null, codeDirty:false, vals:{label:"Dynotic Distribution",code:"DYN-0001",year:"2026",type:"Single"} };
+
+/* ---------- helpers ---------- */
+function toast(t){
+  const el = $("toast"); el.textContent = t; el.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove("show"), 2200);
+}
+
+function rr(c,x,y,w,h,r){
+  c.beginPath();
+  c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r);
+  c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath();
+}
+
+/* gambar di-crop persegi (cover) ke area x,y,w,h */
+function cover(c,x,y,w,h){
+  const im = S.img;
+  if(!im){
+    const g = c.createLinearGradient(x,y,x+w,y+h);
+    g.addColorStop(0,"#1c1b2e"); g.addColorStop(1,S.accent);
+    c.fillStyle = g; c.fillRect(x,y,w,h); return;
+  }
+  const s = Math.max(w/im.width, h/im.height), sw = w/s, sh = h/s;
+  c.drawImage(im,(im.width-sw)/2,(im.height-sh)/2,sw,sh,x,y,w,h);
+}
+
+/* teks auto-fit lebar; return ukuran akhir */
+const SERIF = "'Playfair Display', Georgia, serif";
+const SP = s => String(s).toUpperCase().split("").join("\u200A");
+function T(c,txt,x,y,size,weight,color,align,maxW,fam){
+  fam = fam || "Outfit, sans-serif";
+  txt = String(txt);
+  let s = size;
+  c.font = weight+" "+s+"px "+fam;
+  while(c.measureText(txt).width > maxW && s > 18){ s -= 2; c.font = weight+" "+s+"px "+fam; }
+  c.fillStyle = color; c.textAlign = align; c.textBaseline = "alphabetic";
+  c.fillText(txt,x,y); return s;
+}
+
+function TO(c,txt,x,y,size,maxW){
+  let s = size; c.font = "800 "+s+"px Outfit, sans-serif";
+  while(c.measureText(txt).width > maxW && s > 24){ s -= 2; c.font = "800 "+s+"px Outfit, sans-serif"; }
+  c.textAlign = "center"; c.lineJoin = "round";
+  c.strokeStyle = "#0d0d12"; c.lineWidth = 11; c.strokeText(txt,x,y);
+  c.strokeStyle = "#fff"; c.lineWidth = 3; c.strokeText(txt,x,y);
+}
+
+function lum(hex){
+  const n = parseInt(hex.slice(1),16);
+  return (0.299*(n>>16) + 0.587*((n>>8)&255) + 0.114*(n&255))/255;
+}
+const onAccent = () => lum(S.accent) > .6 ? "#14141a" : "#ffffff";
+
+function dim(c,a){ c.fillStyle = "rgba(0,0,0,"+a+")"; c.fillRect(0,0,1000,1000); }
+
+function barcode(c,x,y,w,h,color){
+  let cx = x, i = 0;
+  while(cx < x+w){
+    const code = (S.vals.code+"DYNOTIC").charCodeAt(i % (S.vals.code.length+7)) + i*7;
+    const bw = 2 + (code % 4);
+    c.fillStyle = color; c.fillRect(cx,y,bw,h);
+    cx += bw + 2 + (code % 3); i++;
+  }
+}
+
+/* ---------- templates (koordinat 1000 × 1000) ---------- */
+const DRAW = {
+
+  classic(c,t,a){
+    cover(c,0,0,1000,1000); dim(c,.45);
+    const L = !S.flip, x = L ? 70 : 930, al = L ? "left" : "right";
+    c.fillStyle = S.accent; c.fillRect(L ? 70 : 930-90, 700, 90, 8);
+    T(c,t,x,800,92,"800","#fff",al,860);
+    T(c,a,x,860,42,"400","rgba(255,255,255,.8)",al,860);
+  },
+
+  center(c,t,a){
+    cover(c,0,0,1000,1000); dim(c,.52);
+    T(c,t,500,490,100,"800","#fff","center",840);
+    c.fillStyle = S.accent; c.fillRect(440,525,120,6);
+    T(c,a,500,600,44,"400","rgba(255,255,255,.85)","center",840);
+    if(S.flip){ c.strokeStyle = S.accent; c.lineWidth = 6; rr(c,50,50,900,900,24); c.stroke(); }
+  },
+
+  idcard(c,t,a,V){
+    cover(c,0,0,1000,1000); dim(c,.65);
+    c.save(); c.shadowColor = "rgba(0,0,0,.45)"; c.shadowBlur = 50; c.shadowOffsetY = 20;
+    c.fillStyle = "#fff"; rr(c,110,130,780,740,38); c.fill(); c.restore();
+    c.save(); rr(c,110,130,780,740,38); c.clip();
+    c.fillStyle = S.accent; c.fillRect(110,130,780,76);
+    T(c,V.label.toUpperCase(),150,178,26,"700",onAccent(),"left",520);
+    T(c,"ID "+V.code,850,178,26,"600",onAccent(),"right",200);
+    c.restore();
+    c.save(); rr(c,150,236,700,300,24); c.clip(); cover(c,150,236,700,300); c.restore();
+    T(c,"ARTIST",150,588,22,"600","#8a8d9b","left",300);
+    T(c,a,150,646,58,"800","#14141a","left",700);
+    T(c,"TRACK",150,700,22,"600","#8a8d9b","left",300);
+    T(c,t,150,748,44,"600","#14141a","left",700);
+    barcode(c,150,784,420,56,"#14141a");
+    c.fillStyle = S.accent; rr(c,700,784,150,56,14); c.fill();
+    T(c,"VERIFIED",775,820,22,"700",onAccent(),"center",130);
+  },
+
+  polaroid(c,t,a){
+    c.fillStyle = S.flip ? S.accent : "#e9e8f0"; c.fillRect(0,0,1000,1000);
+    c.save(); c.shadowColor = "rgba(0,0,0,.3)"; c.shadowBlur = 40; c.shadowOffsetY = 16;
+    c.fillStyle = "#fff"; rr(c,70,70,860,860,18); c.fill(); c.restore();
+    cover(c,105,105,790,640);
+    T(c,t,500,825,70,"700","#14141a","center",760);
+    T(c,a,500,884,38,"400","#6f7280","center",760);
+  },
+
+  fade(c,t,a){
+    cover(c,0,0,1000,1000);
+    const g = c.createLinearGradient(0,380,0,1000);
+    g.addColorStop(0,"rgba(0,0,0,0)"); g.addColorStop(1,"rgba(0,0,0,.92)");
+    c.fillStyle = g; c.fillRect(0,0,1000,1000);
+    const al = S.flip ? "center" : "left", x = S.flip ? 500 : 70;
+    c.fillStyle = S.accent; c.fillRect(S.flip ? 450 : 70,740,100,8);
+    T(c,t,x,830,88,"800","#fff",al,860);
+    T(c,a,x,895,42,"400","rgba(255,255,255,.78)",al,860);
+  },
+
+  bar(c,t,a){
+    cover(c,0,0,1000,1000);
+    c.fillStyle = S.accent; c.fillRect(0,700,1000,300);
+    const ink = onAccent();
+    T(c,t,70,830,84,"800",ink,"left",860);
+    T(c,a,70,900,40,"500",ink,"left",860);
+    if(S.flip){ c.fillStyle = S.accent; c.fillRect(0,0,1000,60); }
+  },
+
+  vinyl(c,t,a){
+    cover(c,0,0,1000,1000); dim(c,.6);
+    c.strokeStyle = "rgba(255,255,255,.25)"; c.lineWidth = 3;
+    c.beginPath(); c.arc(500,430,372,0,Math.PI*2); c.stroke();
+    c.save(); c.beginPath(); c.arc(500,430,350,0,Math.PI*2); c.clip(); cover(c,150,80,700,700);
+    for(let r=130; r<350; r+=22){ c.strokeStyle = "rgba(0,0,0,.18)"; c.lineWidth = 2; c.beginPath(); c.arc(500,430,r,0,Math.PI*2); c.stroke(); }
+    c.restore();
+    c.fillStyle = S.accent; c.beginPath(); c.arc(500,430,120,0,Math.PI*2); c.fill();
+    c.fillStyle = "#0d0d12"; c.beginPath(); c.arc(500,430,18,0,Math.PI*2); c.fill();
+    T(c,t,500,892,76,"800","#fff","center",860);
+    T(c,a,500,950,38,"400","rgba(255,255,255,.75)","center",860);
+  },
+
+  bigtype(c,t,a){
+    cover(c,0,0,1000,1000); dim(c,.4);
+    T(c,a.toUpperCase(),70,110,40,"600","#fff","left",860);
+    c.fillStyle = S.accent; c.fillRect(70,134,120,8);
+    const words = t.toUpperCase().split(/\s+/), lines = [];
+    let cur = "";
+    c.font = "800 150px Outfit, sans-serif";
+    words.forEach(w => {
+      const test = cur ? cur+" "+w : w;
+      if(c.measureText(test).width > 860 && cur){ lines.push(cur); cur = w; } else cur = test;
+    });
+    lines.push(cur);
+    const shown = lines.slice(-4), lh = 150;
+    const y0 = 930 - (shown.length-1)*lh;
+    shown.forEach((l,i) => T(c,l,70,y0+i*lh,150,"800",i === shown.length-1 && S.flip ? S.accent : "#fff","left",860));
+  },
+
+  noir(c,t,a,V){
+    cover(c,0,0,1000,1000);
+    const g = c.createRadialGradient(500,500,220,500,500,740);
+    g.addColorStop(0,"rgba(0,0,0,.25)"); g.addColorStop(1,"rgba(0,0,0,.9)");
+    c.fillStyle = g; c.fillRect(0,0,1000,1000);
+    c.strokeStyle = S.accent; c.lineWidth = 2; c.strokeRect(40,40,920,920);
+    c.lineWidth = 1; c.strokeRect(54,54,892,892);
+    T(c,SP(V.label),500,125,24,"500",S.accent,"center",780);
+    T(c,t,500,790,104,"italic 700","#fff","center",780,SERIF);
+    c.fillStyle = S.accent; c.fillRect(470,826,60,2);
+    T(c,a,500,884,36,"400","rgba(255,255,255,.82)","center",780);
+    T(c,V.year,500,928,22,"500",S.accent,"center",300);
+  },
+
+  gallery(c,t,a,V){
+    c.fillStyle = "#efece5"; c.fillRect(0,0,1000,1000);
+    c.save(); c.shadowColor = "rgba(40,30,20,.25)"; c.shadowBlur = 36; c.shadowOffsetY = 14;
+    c.fillStyle = "#fbfaf6"; c.fillRect(120,90,760,660); c.restore();
+    cover(c,175,145,650,550);
+    c.fillStyle = S.accent; c.beginPath(); c.arc(842,722,9,0,7); c.fill();
+    c.fillStyle = "#14141a"; c.fillRect(120,800,760,2);
+    T(c,t,120,872,62,"italic 500","#14141a","left",540,SERIF);
+    T(c,a,120,925,30,"400","#6f7280","left",540);
+    T(c,V.label,880,858,24,"600","#14141a","right",280);
+    T(c,"No. "+V.code,880,898,22,"400","#6f7280","right",280);
+    T(c,V.year,880,934,22,"400","#6f7280","right",280);
+  },
+
+  ticket(c,t,a,V){
+    cover(c,0,0,1000,1000); dim(c,.55);
+    c.save(); c.shadowColor = "rgba(0,0,0,.5)"; c.shadowBlur = 50; c.shadowOffsetY = 20;
+    c.fillStyle = "#f5f2ea"; rr(c,70,260,860,480,28); c.fill(); c.restore();
+    c.save(); rr(c,70,260,860,480,28); c.clip();
+    c.fillStyle = S.accent; c.fillRect(70,260,860,64); c.restore();
+    T(c,SP(V.label),110,303,26,"700",onAccent(),"left",540);
+    T(c,"ADMIT ONE",890,303,26,"700",onAccent(),"right",200);
+    T(c,t,110,480,88,"800","#14141a","left",540);
+    T(c,a,110,545,40,"500","#6f7280","left",540);
+    T(c,V.year,110,690,26,"600","#14141a","left",300);
+    c.strokeStyle = "#b9b5a8"; c.lineWidth = 3; c.setLineDash([10,10]);
+    c.beginPath(); c.moveTo(700,290); c.lineTo(700,710); c.stroke(); c.setLineDash([]);
+    c.save(); c.translate(815,500); c.rotate(-Math.PI/2); barcode(c,-150,-34,300,68,"#14141a"); c.restore();
+    T(c,V.code,815,700,24,"700","#14141a","center",200);
+    [[700,260],[700,740]].forEach(p => { c.save(); c.beginPath(); c.arc(p[0],p[1],24,0,7); c.clip(); cover(c,0,0,1000,1000); dim(c,.55); c.restore(); });
+  },
+
+  duotone(c,t,a,V){
+    cover(c,0,0,1000,1000);
+    c.globalCompositeOperation = "multiply"; c.fillStyle = S.accent; c.fillRect(0,0,1000,1000);
+    c.globalCompositeOperation = "source-over"; dim(c,.12);
+    c.fillStyle = "#0d0d12"; c.fillRect(0,0,1000,150); c.fillRect(0,840,1000,160);
+    T(c,V.label.toUpperCase(),60,98,52,"800","#fff","left",640);
+    T(c,V.code,940,96,28,"600",S.accent,"right",260);
+    T(c,t.toUpperCase(),60,800,140,"800","#fff","left",880);
+    T(c,a,60,925,46,"500","#fff","left",700);
+    T(c,V.year,940,925,30,"500",S.accent,"right",200);
+  },
+
+  swiss(c,t,a,V){
+    c.fillStyle = "#f2f1ed"; c.fillRect(0,0,1000,1000);
+    c.save(); rr(c,440,60,500,640,6); c.clip(); cover(c,440,60,500,640); c.restore();
+    c.fillStyle = S.accent; c.beginPath(); c.arc(215,540,110,0,7); c.fill();
+    [["Label",V.label],["Tipe",V.type],["Tahun",V.year],["ID",V.code]].forEach((r,i) => {
+      const y = 95 + i*78;
+      T(c,r[0],60,y,18,"600","#8a8d9b","left",340);
+      T(c,r[1],60,y+30,26,"600","#14141a","left",340);
+    });
+    c.fillStyle = "#14141a"; c.fillRect(60,745,880,3);
+    T(c,t,60,870,118,"800","#14141a","left",880);
+    T(c,a,60,935,42,"500","#14141a","left",700);
+  },
+
+  neon(c,t,a,V){
+    cover(c,0,0,1000,1000); dim(c,.68);
+    const col = S.accent;
+    c.save(); c.shadowColor = col; c.shadowBlur = 36; c.strokeStyle = col; c.lineWidth = 6;
+    rr(c,70,70,860,860,56); c.stroke(); c.stroke(); c.restore();
+    c.save(); c.shadowColor = col; c.shadowBlur = 30;
+    T(c,SP(V.label),500,170,26,"600",col,"center",700);
+    T(c,t,500,520,118,"800","#fff","center",780);
+    T(c,a,500,600,42,"500",col,"center",780);
+    c.restore();
+    T(c,V.year,500,880,24,"500","rgba(255,255,255,.7)","center",300);
+  },
+
+  stamp(c,t,a,V){
+    const paper = S.flip ? "#d9d3c4" : "#ece6d8";
+    c.fillStyle = paper; c.fillRect(0,0,1000,1000);
+    c.save(); c.shadowColor = "rgba(60,40,20,.3)"; c.shadowBlur = 30; c.shadowOffsetY = 12;
+    c.fillStyle = "#fffdf8"; c.fillRect(150,70,700,820); c.restore();
+    c.fillStyle = paper;
+    for(let x=150; x<=850; x+=35){ c.beginPath(); c.arc(x,70,11,0,7); c.fill(); c.beginPath(); c.arc(x,890,11,0,7); c.fill(); }
+    for(let y=70; y<=890; y+=35){ c.beginPath(); c.arc(150,y,11,0,7); c.fill(); c.beginPath(); c.arc(850,y,11,0,7); c.fill(); }
+    cover(c,195,115,610,560);
+    c.strokeStyle = "#14141a"; c.lineWidth = 2; c.strokeRect(195,115,610,560);
+    T(c,t,500,762,62,"italic 700","#14141a","center",560,SERIF);
+    T(c,a,500,812,30,"400","#6f7280","center",560);
+    T(c,V.label+" · "+V.code,500,858,20,"500","#8a8d9b","center",560);
+    c.save(); c.translate(745,215); c.rotate(-.26);
+    c.strokeStyle = "rgba(255,255,255,.85)"; c.lineWidth = 5; c.beginPath(); c.arc(0,0,82,0,7); c.stroke();
+    c.lineWidth = 2; c.beginPath(); c.arc(0,0,68,0,7); c.stroke();
+    T(c,V.year,0,12,36,"800","rgba(255,255,255,.9)","center",110);
+    c.restore();
+  },
+
+  magazine(c,t,a,V){
+    cover(c,0,0,1000,1000);
+    let g = c.createLinearGradient(0,0,0,360); g.addColorStop(0,"rgba(0,0,0,.65)"); g.addColorStop(1,"rgba(0,0,0,0)");
+    c.fillStyle = g; c.fillRect(0,0,1000,360);
+    g = c.createLinearGradient(0,520,0,1000); g.addColorStop(0,"rgba(0,0,0,0)"); g.addColorStop(1,"rgba(0,0,0,.85)");
+    c.fillStyle = g; c.fillRect(0,520,1000,480);
+    T(c,V.label.toUpperCase(),500,200,170,"900","#fff","center",880,SERIF);
+    c.fillStyle = "#fff"; c.fillRect(60,226,880,2);
+    T(c,"ISSUE "+V.code,60,262,22,"600","#fff","left",500);
+    T(c,V.year,940,262,22,"600","#fff","right",300);
+    c.fillStyle = S.accent; rr(c,60,740,240,48,24); c.fill();
+    T(c,"NEW RELEASE",180,772,20,"700",onAccent(),"center",210);
+    T(c,t,60,870,110,"800","#fff","left",880);
+    T(c,a,60,935,42,"500","rgba(255,255,255,.85)","left",880);
+  },
+
+  cassette(c,t,a,V){
+    cover(c,0,0,1000,1000); dim(c,.7);
+    c.save(); c.shadowColor = "rgba(0,0,0,.55)"; c.shadowBlur = 50; c.shadowOffsetY = 24;
+    c.fillStyle = "#1b1b22"; rr(c,110,250,780,500,36); c.fill(); c.restore();
+    c.fillStyle = "#f3efe4"; rr(c,150,285,700,260,16); c.fill();
+    c.save(); rr(c,150,285,700,260,16); c.clip(); c.fillStyle = S.accent; c.fillRect(150,285,700,62); c.restore();
+    T(c,V.label,180,327,26,"700",onAccent(),"left",460);
+    T(c,V.code,820,327,26,"600",onAccent(),"right",240);
+    T(c,t,180,435,60,"italic 600","#14141a","left",640,SERIF);
+    T(c,a,180,490,32,"500","#6f7280","left",640);
+    c.fillStyle = "#0b0b10"; rr(c,290,580,420,110,55); c.fill();
+    [[375,635],[625,635]].forEach(p => {
+      c.fillStyle = "#e9e9ee"; c.beginPath(); c.arc(p[0],p[1],40,0,7); c.fill();
+      c.fillStyle = "#0b0b10"; c.beginPath(); c.arc(p[0],p[1],15,0,7); c.fill();
+    });
+    c.fillStyle = "#3a3a45";
+    [[145,280],[855,280],[145,720],[855,720]].forEach(p => { c.beginPath(); c.arc(p[0],p[1],8,0,7); c.fill(); });
+    T(c,V.year,500,850,26,"500","rgba(255,255,255,.7)","center",300);
+  },
+
+  film(c,t,a,V){
+    c.fillStyle = "#0a0a0a"; c.fillRect(0,0,1000,1000);
+    c.fillStyle = "#d9d6cc";
+    for(let x=24; x<1000; x+=56){ rr(c,x,34,30,38,7); c.fill(); rr(c,x,928,30,38,7); c.fill(); }
+    T(c,V.label.toUpperCase()+"    ▸ 14A    "+V.code,60,120,24,"600","#f5a524","left",880);
+    c.save(); rr(c,60,140,880,650,6); c.clip(); cover(c,60,140,880,650); c.restore();
+    T(c,t,60,860,58,"700","#f5a524","left",640);
+    T(c,a,60,905,30,"400","#d9d6cc","left",640);
+    T(c,V.year,940,905,30,"600","#f5a524","right",260);
+  },
+
+  luxe(c,t,a,V){
+    cover(c,0,0,1000,1000); dim(c,.68);
+    const gold = c.createLinearGradient(0,0,1000,1000);
+    gold.addColorStop(0,"#f6e3a1"); gold.addColorStop(.4,"#c9a34a"); gold.addColorStop(.7,"#f9e9b4"); gold.addColorStop(1,"#a57c28");
+    const dm = (x,y,s) => { c.beginPath(); c.moveTo(x,y-s); c.lineTo(x+s,y); c.lineTo(x,y+s); c.lineTo(x-s,y); c.closePath(); c.fill(); };
+    c.strokeStyle = gold; c.lineWidth = 3; c.strokeRect(50,50,900,900);
+    c.lineWidth = 1; c.strokeRect(66,66,868,868);
+    c.fillStyle = gold; [[50,50],[950,50],[50,950],[950,950]].forEach(p => dm(p[0],p[1],16));
+    T(c,SP(V.label),500,170,26,"500",gold,"center",760);
+    c.fillStyle = gold; c.fillRect(350,198,110,2); c.fillRect(540,198,110,2); dm(500,199,9);
+    T(c,t,500,530,112,"italic 700",gold,"center",780,SERIF);
+    T(c,SP(a),500,615,32,"400","rgba(255,255,255,.88)","center",780);
+    T(c,V.year,500,895,24,"500",gold,"center",300);
+  },
+
+  outline(c,t,a,V){
+    const dark = S.flip, bg = dark ? "#0d0d12" : S.accent, ink = dark ? "#fff" : onAccent();
+    c.fillStyle = bg; c.fillRect(0,0,1000,1000);
+    c.save(); c.beginPath(); c.arc(500,430,300,0,7); c.clip(); cover(c,200,130,600,600); c.restore();
+    c.strokeStyle = ink; c.lineWidth = 3; c.beginPath(); c.arc(500,430,326,0,7); c.stroke();
+    T(c,SP(V.label),500,90,24,"600",ink,"center",800);
+    TO(c,t.toUpperCase(),500,500,190,880);
+    T(c,a,500,880,46,"600",ink,"center",800);
+    T(c,V.year,500,935,24,"500",ink,"center",300);
+  }
+
+};
+
+/* ---------- render ---------- */
+function render(c,size,id,title,artist){
+  c.save(); c.setTransform(1,0,0,1,0,0);
+  c.scale(size/1000,size/1000);
+  c.clearRect(0,0,1000,1000);
+  DRAW[id](c, title || "Judul Lagu", artist || "Nama Artist", S.vals);
+  c.restore();
+}
+
+function drawMain(){
+  render(ctx,1000,S.tpl,$("title").value.trim(),$("artist").value.trim());
+  drawThumbs();
+}
+
+/* ---------- UI: template + warna ---------- */
+const tplEl = $("tpls");
+TEMPLATES.forEach(t => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "tpl"; b.dataset.id = t.id;
+  b.innerHTML = '<canvas width="200" height="200"></canvas><span>'+t.name+'</span>';
+  b.addEventListener("click", () => { S.tpl = t.id; markTpl(); buildFields(); drawMain(); });
+  tplEl.appendChild(b);
+});
+function markTpl(){ tplEl.querySelectorAll(".tpl").forEach(b => b.classList.toggle("on", b.dataset.id === S.tpl)); }
+function drawThumbs(){
+  const ti = $("title").value.trim(), ar = $("artist").value.trim();
+  tplEl.querySelectorAll(".tpl").forEach(b => render(b.querySelector("canvas").getContext("2d"),200,b.dataset.id,ti,ar));
+}
+
+const swEl = $("swatches");
+COLORS.forEach(col => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "sw"; b.style.background = col; b.dataset.c = col;
+  b.setAttribute("aria-label","Warna "+col);
+  b.addEventListener("click", () => { S.accent = col; markSw(); drawMain(); });
+  swEl.appendChild(b);
+});
+function markSw(){ swEl.querySelectorAll(".sw").forEach(b => b.classList.toggle("on", b.dataset.c === S.accent)); }
+
+/* generate ulang: acak warna, layout, dan nomor ID */
+$("genBtn").addEventListener("click", () => {
+  const others = COLORS.filter(c => c !== S.accent);
+  S.accent = others[Math.floor(Math.random()*others.length)];
+  S.flip = !S.flip;
+  if(!S.codeDirty){ S.vals.code = "DYN-" + String(1000 + Math.floor(Math.random()*9000)); syncFields(); }
+  markSw(); drawMain();
+});
+
+/* ---------- kolom tambahan (muncul sesuai template) ---------- */
+function buildFields(){
+  const t = TEMPLATES.find(x => x.id === S.tpl), box = $("extraFields");
+  box.innerHTML = "";
+  $("extraPanel").hidden = !(t.f && t.f.length);
+  (t.f || []).forEach(k => {
+    const l = document.createElement("label"); l.className = "field";
+    l.innerHTML = '<span></span><input autocomplete="off" maxlength="40">';
+    l.querySelector("span").textContent = FIELDS[k].n;
+    const inp = l.querySelector("input");
+    inp.dataset.k = k; inp.placeholder = FIELDS[k].ph; inp.value = S.vals[k];
+    inp.addEventListener("input", () => { S.vals[k] = inp.value; if(k === "code") S.codeDirty = true; drawMain(); });
+    box.appendChild(l);
+  });
+}
+function syncFields(){ $("extraFields").querySelectorAll("input").forEach(i => { i.value = S.vals[i.dataset.k]; }); }
+
+/* ---------- upload ---------- */
+$("drop").addEventListener("click", () => $("imgInput").click());
+$("imgInput").addEventListener("change", e => {
+  const f = e.target.files[0];
+  if(!f) return;
+  $("fileName").textContent = f.name;
+  const url = URL.createObjectURL(f), im = new Image();
+  im.onload = () => { S.img = im; drawMain(); };
+  im.onerror = () => toast("Gambar tidak bisa dibuka. Coba file lain.");
+  im.src = url;
+});
+$("title").addEventListener("input", drawMain);
+$("artist").addEventListener("input", drawMain);
+
+/* ---------- download 3000 x 3000 ---------- */
+$("dlBtn").addEventListener("click", () => {
+  const btn = $("dlBtn"); btn.disabled = true;
+  const ex = document.createElement("canvas"); ex.width = ex.height = 3000;
+  render(ex.getContext("2d"),3000,S.tpl,$("title").value.trim(),$("artist").value.trim());
+  ex.toBlob(blob => {
+    btn.disabled = false;
+    if(!blob){ toast("Gagal membuat gambar. Coba lagi."); return; }
+    const name = ($("title").value.trim() || "artwork").replace(/[^\w\-]+/g,"_");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = name + "_cover.jpg";
+    a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    toast("Artwork 3000×3000 diunduh.");
+  }, "image/jpeg", 0.95);
+});
+
+/* ---------- topbar ---------- */
+const topbar = $("topbar");
+const onScroll = () => topbar.classList.toggle("scrolled", window.scrollY > 6);
+onScroll(); window.addEventListener("scroll", onScroll, {passive:true});
+
+/* ---------- init (tunggu font Outfit agar teks canvas tidak fallback) ---------- */
+markTpl(); markSw(); buildFields(); drawMain();
+if(document.fonts){
+  Promise.all(["400","500","600","700","800"].map(w => document.fonts.load(w+" 40px Outfit")).concat(["italic 500","italic 600","italic 700","900"].map(w => document.fonts.load(w+" 40px 'Playfair Display'"))))
+    .then(drawMain).catch(() => {});
+}
+</script>
+</body>
+</html>
