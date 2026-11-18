@@ -446,7 +446,6 @@ function copyText(text, msg){
     .catch(() => toast("Gagal menyalin."));
 }
 const val = v => (v === undefined || v === null || v === "") ? "-" : v;
-const yesNo = v => v === true || v === "true" || v === "yes" || v === "explicit" ? "Ya" : (v === false || v === "false" || v === "no" ? "Tidak" : "-");
 
 /* ================= STATUS ================= */
 const STATUS_MAP = { proses:"process", processing:"process", process:"process", proposal:"proposal", schedule:"schedule", approved:"approved", live:"live", rejected:"rejected" };
@@ -459,8 +458,13 @@ const STATUS_STYLE = {
   rejected:{ label:"Rejected", color:"#f87171", note:"Rilisan ditolak. Periksa pesan di Notifikasi, perbaiki datanya, lalu ajukan kembali." }
 };
 
+/* mendukung string tanggal (YYYY-MM-DD) maupun timestamp angka (field "time") */
 function parseDate(v){
   if(!v) return null;
+  if(typeof v === "number" || /^\d{12,}$/.test(String(v))){
+    const t = new Date(Number(v));
+    return isNaN(t.getTime()) ? null : t;
+  }
   const s = String(v);
   const d = new Date(s + (s.length === 10 ? "T00:00:00" : ""));
   return isNaN(d.getTime()) ? null : d;
@@ -596,19 +600,29 @@ function render(d){
   acts += '<button class="btn ghost" type="button" id="takedownBtn"' + (canTakedown ? '' : ' disabled title="Takedown tersedia setelah rilisan tayang"') + '><svg class="i"><use href="#i-down"/></svg>Takedown</button>';
 
   const tracks = tracksHtml(d);
+
+  /* field mengikuti data yang disimpan form submit: fullname (array), producer, spotifyUrl, appleUrl, time */
+  const names = Array.isArray(d.fullname) ? d.fullname : (d.fullname ? Object.values(d.fullname) : []);
+  const typeLabel = { single:"Single", ep:"EP", album:"Album" }[String(d.releaseType || "").toLowerCase()] || d.releaseType;
+  const lnk = u => {
+    const s = safeUrl(u || "");
+    return s ? '<a href="' + esc(s) + '" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600">Buka link</a>' : "";
+  };
+  const cell = (l, v, wide) => (v === undefined || v === null || v === "") ? "" :
+    '<div' + (wide ? ' class="wide"' : '') + '><small>' + l + '</small><span>' + v + '</span></div>';
+
   const moreHtml =
     '<div class="info info-more' + (moreOpen ? ' show' : '') + '" id="infoMore">' +
-      '<div><small>Tipe rilisan</small><span>' + esc(val(d.type || d.releaseType)) + '</span></div>' +
-      '<div><small>Versi</small><span>' + esc(val(d.version)) + '</span></div>' +
-      '<div><small>Bahasa</small><span>' + esc(val(d.language)) + '</span></div>' +
-      '<div><small>Explicit</small><span>' + esc(yesNo(d.explicit)) + '</span></div>' +
-      '<div><small>Komposer</small><span>' + esc(val(d.composer)) + '</span></div>' +
-      '<div><small>ISRC</small><span>' + esc(val(d.isrc)) + '</span></div>' +
-      '<div><small>℗ (P-line)</small><span>' + esc(val(d.pLine || d.pline)) + '</span></div>' +
-      '<div><small>© (C-line)</small><span>' + esc(val(d.cLine || d.cline)) + '</span></div>' +
-      '<div><small>Diajukan</small><span>' + esc(fmtDate(d.createdAt || d.submittedAt)) + '</span></div>' +
-      '<div><small>ID rilisan</small><span>' + esc(rid) + '</span></div>' +
-      (d.notes || d.description ? '<div class="wide"><small>Catatan</small><span>' + esc(d.notes || d.description) + '</span></div>' : '') +
+      cell("Tipe rilisan", esc(val(typeLabel))) +
+      cell("Versi", esc(d.version || "")) +
+      cell("Composer &amp; Lyrics", esc(names.join(", ")), true) +
+      cell("Producer", esc(d.producer || "")) +
+      cell("ISRC", esc(d.isrc || "")) +
+      cell("Spotify", lnk(d.spotifyUrl)) +
+      cell("Apple Music", lnk(d.appleUrl)) +
+      cell("Diajukan", esc(fmtDate(d.time || d.createdAt || d.submittedAt))) +
+      cell("ID rilisan", esc(rid)) +
+      cell("Catatan", esc(d.notes || d.description || ""), true) +
       (tracks ? '<div class="wide"><small>Daftar lagu</small>' + tracks + '</div>' : '') +
     '</div>';
 
