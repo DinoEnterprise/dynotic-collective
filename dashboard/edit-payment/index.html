@@ -120,6 +120,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .saved .ic .i{width:21px;height:21px}
 .saved strong{display:block;font-size:14px;font-weight:700;overflow-wrap:anywhere}
 .saved span{display:block;margin-top:2px;font-size:12px;color:var(--muted)}
+.saved span.warn{color:#b45309;font-weight:600}
 .empty{font-size:13px;line-height:1.7;color:var(--muted);text-align:center;padding:10px 6px}
 .notes{list-style:none;display:grid;gap:12px;margin-top:16px}
 .notes li{display:flex;gap:11px;font-size:13px;line-height:1.65;color:#4a4c58}
@@ -361,10 +362,11 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
             <div class="hint">Hanya angka, tanpa spasi atau tanda hubung.</div>
           </div>
           <div class="field" id="f-bankHolder">
-            <label for="bankHolder">Nama pemilik rekening <em>(opsional)</em></label>
+            <label for="bankHolder">Nama pemilik rekening</label>
             <div class="input"><svg class="i lead"><use href="#i-user"/></svg>
               <input id="bankHolder" type="text" placeholder="Sesuai buku tabungan" autocomplete="off" maxlength="60"></div>
             <div class="fe"></div>
+            <div class="hint">Wajib diisi, harus sesuai nama di buku tabungan.</div>
           </div>
           <datalist id="bankList">
             <option value="BCA"><option value="Mandiri"><option value="BNI"><option value="BRI"><option value="CIMB Niaga">
@@ -522,10 +524,13 @@ function clearErrors(){
 
 function readForm(){
   if(method === "paypal") return { type:"paypal", email:$("paypalEmail").value.trim() };
-  const d = { type:"bank", bank:$("bankName").value.trim(), account:$("bankAccount").value.replace(/\D/g, "") };
-  const holder = $("bankHolder").value.trim();
-  if(holder) d.holder = holder;
-  return d;
+  /* nama pemilik rekening wajib: selalu ikut disimpan */
+  return {
+    type:"bank",
+    bank:$("bankName").value.trim(),
+    account:$("bankAccount").value.replace(/\D/g, ""),
+    holder:$("bankHolder").value.trim().replace(/\s+/g, " ")
+  };
 }
 
 function sameAsSaved(d){
@@ -566,6 +571,8 @@ function validate(d){
     else if(d.bank.length < 2) bad("bankName", "Nama bank terlalu pendek.");
     if(!d.account) bad("bankAccount", "Nomor rekening wajib diisi.");
     else if(d.account.length < 6 || d.account.length > 20) bad("bankAccount", "Nomor rekening harus 6–20 digit.");
+    if(!d.holder) bad("bankHolder", "Nama pemilik rekening wajib diisi.");
+    else if(d.holder.length < 3) bad("bankHolder", "Nama pemilik rekening terlalu pendek.");
   }
   if(first){ $(first).focus(); return false; }
   return true;
@@ -576,7 +583,7 @@ function summary(d){
   if(!d) return "";
   return d.type === "paypal"
     ? "PayPal · " + d.email
-    : (d.bank || "Bank") + " · " + d.account + (d.holder ? " · " + d.holder : "");
+    : (d.bank || "Bank") + " · " + d.account + " · " + d.holder;
 }
 
 function renderSaved(){
@@ -588,10 +595,12 @@ function renderSaved(){
   const isPay = saved.type === "paypal";
   const title = isPay ? "PayPal" : (saved.bank || "Bank Transfer");
   const sub = isPay ? maskEmail(saved.email) : maskAcc(saved.account) + (saved.holder ? " · " + saved.holder : "");
+  const warn = (!isPay && !saved.holder) ? "Nama pemilik rekening belum diisi. Lengkapi lalu simpan." : "";
   const upd = saved.updatedAt ? "Diperbarui " + fmtDate(saved.updatedAt) : "";
   box.innerHTML =
     '<div class="saved"><div class="ic"><svg class="i"><use href="#' + (isPay ? "i-wallet" : "i-bank") + '"/></svg></div>' +
     '<div style="min-width:0"><strong>' + esc(title) + '</strong><span>' + esc(sub) + '</span>' +
+    (warn ? '<span class="warn">' + esc(warn) + '</span>' : '') +
     (upd ? '<span>' + esc(upd) + '</span>' : '') + '</div></div>';
 }
 
