@@ -404,7 +404,7 @@ firebase.auth().onAuthStateChanged(u => {
   if(started) return;
   started = true; user = u;
   $("profileEmail").textContent = u.email || "-";
-  loadUser(); loadMessages(); loadRoyalty();
+  loadUser(); loadPayout(); loadMessages(); loadRoyalty();
   render();
 });
 
@@ -415,40 +415,35 @@ function loadUser(){
     const d = snap.val() || {};
     const nama = d.nama || "Artist", l = nama.trim().charAt(0).toUpperCase() || "A";
     $("profileName").textContent = nama; $("avatarLetter").textContent = l; $("popAvatar").textContent = l;
-    showPayout(d, nama);
+    profileNama = nama; renderPayout();
   }, () => {});
 }
 
-/* ---------- metode pembayaran (dibaca dari profil member) ---------- */
-const BANK_CODE = [["seabank",535],["sea bank",535],["bca",14],["mandiri",8],["bni",9],["bri",2],["bsi",451],["syariah indonesia",451],["jago",542],["cimb",22],["permata",13],["danamon",11],["btpn",213],["jenius",213],["ocbc",28],["maybank",16],["mega",426],["btn",200],["muamalat",147]];
-function findPayout(d){
-  const pools = [d];
-  Object.keys(d).forEach(k => { const v = d[k]; if(v && typeof v === "object" && !Array.isArray(v)) pools.push(v); });
-  const pick = (inc, exc, ok) => {
-    for(const o of pools) for(const k of Object.keys(o)){
-      const v = o[k];
-      if(inc.test(k) && !(exc && exc.test(k)) && (typeof v === "string" || typeof v === "number") && String(v).trim() && (!ok || ok.test(String(v)))) return String(v).trim();
-    }
-    return "";
-  };
-  return {
-    bank: pick(/bank/i, /code|kode|number|no_?rek|norek|rek|holder|atas|account|akun|^no/i),
-    code: pick(/bank_?code|kode_?bank/i, null, /^\d{2,4}$/),
-    no: pick(/no_?rek|norek|nomor|account_?n|acc_?n|rekening|ewallet|wallet/i, /nama|name|holder|atas|bank_?name/i, /\d{5,}/),
-    holder: pick(/holder|atas_?nama|nama_?rek|account_?name|acc_?name|pemilik/i)
-  };
+/* ---------- metode pembayaran (users/{uid}/payment, diisi di halaman Edit Payment) ---------- */
+let payInfo = null, payLoaded = false, profileNama = "";
+const maskAcc = a => { const d = String(a || "").replace(/\D/g, ""); return d ? "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022 " + d.slice(-4) : ""; };
+const maskEmail = e => { const x = String(e || "").split("@"); return x[1] ? x[0].slice(0, 2) + "\u2022\u2022\u2022@" + x[1] : (e || ""); };
+function renderPayout(){
+  if(!payLoaded) return;
+  $("payout").style.display = "flex";
+  const p = payInfo;
+  if(!p){
+    $("poNo").textContent = "Belum diatur";
+    $("poName").textContent = "Tambahkan rekening di menu Account agar royalti bisa dibayarkan.";
+    $("poBank").textContent = ""; return;
+  }
+  if(p.type === "bank"){
+    $("poNo").textContent = maskAcc(p.account) || "-";
+    $("poName").textContent = p.holder || profileNama || "";
+    $("poBank").textContent = p.bank || "Bank Transfer";
+  } else {
+    $("poNo").textContent = maskEmail(p.email) || "-";
+    $("poName").textContent = profileNama || "";
+    $("poBank").textContent = "PayPal";
+  }
 }
-function showPayout(d, fallbackName){
-  const o = findPayout(d || {}), digits = o.no.replace(/\D/g, "");
-  const box = $("payout");
-  if(!digits && !o.bank){ box.style.display = "none"; return; }
-  let code = o.code;
-  if(!code){ const b = o.bank.toLowerCase(), m = BANK_CODE.find(x => b.includes(x[0])); if(m) code = String(m[1]).padStart(3, "0"); }
-  const masked = digits ? "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022 " + digits.slice(-4) : "";
-  $("poNo").textContent = [code, masked].filter(Boolean).join(" \u00b7 ") || o.bank;
-  $("poName").textContent = o.holder || fallbackName || "";
-  $("poBank").textContent = (code || masked) ? o.bank : "";
-  box.style.display = "flex";
+function loadPayout(){
+  listen(db.ref("users/" + user.uid + "/payment"), s => { payInfo = s.val() || null; payLoaded = true; renderPayout(); }, () => {});
 }
 
 function loadRoyalty(){
