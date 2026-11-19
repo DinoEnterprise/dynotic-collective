@@ -63,6 +63,14 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{ou
 .bal small{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,.6);font-weight:500}
 .bal small .i{width:16px;height:16px}
 .bal strong{display:block;margin-top:10px;font-size:clamp(30px,6vw,44px);font-weight:800;letter-spacing:-.04em;line-height:1;overflow-wrap:anywhere}
+.payout{display:flex;align-items:center;gap:12px;margin-top:16px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)}
+.payout .pi{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.payout .pi .i{width:18px;height:18px}
+.payout small{display:block;font-size:11px;font-weight:500;color:rgba(255,255,255,.5)}
+.payout b{display:block;margin-top:2px;font-size:14px;font-weight:700;letter-spacing:.01em;overflow-wrap:anywhere}
+.payout em{display:block;margin-top:1px;font-style:normal;font-size:12px;color:rgba(255,255,255,.7);overflow-wrap:anywhere}
+#stats:not(:empty){margin-bottom:16px}
+.rg.two{grid-template-columns:repeat(2,1fr)}
 .bal p{margin-top:8px;font-size:12px;line-height:1.6;color:rgba(255,255,255,.5)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:46px;padding:0 22px;border-radius:999px;font-size:13px;font-weight:700;background:var(--ink);color:#fff;transition:transform .25s var(--ease),box-shadow .25s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(20,20,26,.2)}
@@ -305,6 +313,7 @@ body{padding-bottom:40px;padding-left:var(--side)}
     <small><svg class="i"><use href="#i-wallet"/></svg>Saldo tersedia</small>
     <strong id="balAmount">Rp0</strong>
     <p id="balNote">Royalti yang sudah diinput admin dan belum dibayar. Minimum payout Rp100.000.</p>
+    <div class="payout" id="payout" style="display:none"><div class="pi"><svg class="i"><use href="#i-wallet"/></svg></div><div><small>Pembayaran dikirim ke</small><b id="poNo"></b><em id="poName"></em><em id="poBank"></em></div></div>
   </section>
 
   <section class="panel">
@@ -320,6 +329,7 @@ body{padding-bottom:40px;padding-left:var(--side)}
       <div class="fsel"><label for="fTo">Sampai periode</label><select id="fTo"></select></div>
       <button class="btn line" id="fReset" type="button">Reset</button>
     </div>
+    <div id="stats"></div>
     <div id="list" class="list"></div>
     <div id="pager"></div>
   </section>
@@ -405,7 +415,40 @@ function loadUser(){
     const d = snap.val() || {};
     const nama = d.nama || "Artist", l = nama.trim().charAt(0).toUpperCase() || "A";
     $("profileName").textContent = nama; $("avatarLetter").textContent = l; $("popAvatar").textContent = l;
+    showPayout(d, nama);
   }, () => {});
+}
+
+/* ---------- metode pembayaran (dibaca dari profil member) ---------- */
+const BANK_CODE = [["seabank",535],["sea bank",535],["bca",14],["mandiri",8],["bni",9],["bri",2],["bsi",451],["syariah indonesia",451],["jago",542],["cimb",22],["permata",13],["danamon",11],["btpn",213],["jenius",213],["ocbc",28],["maybank",16],["mega",426],["btn",200],["muamalat",147]];
+function findPayout(d){
+  const pools = [d];
+  Object.keys(d).forEach(k => { const v = d[k]; if(v && typeof v === "object" && !Array.isArray(v)) pools.push(v); });
+  const pick = (inc, exc, ok) => {
+    for(const o of pools) for(const k of Object.keys(o)){
+      const v = o[k];
+      if(inc.test(k) && !(exc && exc.test(k)) && (typeof v === "string" || typeof v === "number") && String(v).trim() && (!ok || ok.test(String(v)))) return String(v).trim();
+    }
+    return "";
+  };
+  return {
+    bank: pick(/bank/i, /code|kode|number|no_?rek|norek|rek|holder|atas|account|akun|^no/i),
+    code: pick(/bank_?code|kode_?bank/i, null, /^\d{2,4}$/),
+    no: pick(/no_?rek|norek|nomor|account_?n|acc_?n|rekening|ewallet|wallet/i, /nama|name|holder|atas|bank_?name/i, /\d{5,}/),
+    holder: pick(/holder|atas_?nama|nama_?rek|account_?name|acc_?name|pemilik/i)
+  };
+}
+function showPayout(d, fallbackName){
+  const o = findPayout(d || {}), digits = o.no.replace(/\D/g, "");
+  const box = $("payout");
+  if(!digits && !o.bank){ box.style.display = "none"; return; }
+  let code = o.code;
+  if(!code){ const b = o.bank.toLowerCase(), m = BANK_CODE.find(x => b.includes(x[0])); if(m) code = String(m[1]).padStart(3, "0"); }
+  const masked = digits ? "\u2022\u2022\u2022\u2022 \u2022\u2022\u2022\u2022 " + digits.slice(-4) : "";
+  $("poNo").textContent = [code, masked].filter(Boolean).join(" \u00b7 ") || o.bank;
+  $("poName").textContent = o.holder || fallbackName || "";
+  $("poBank").textContent = (code || masked) ? o.bank : "";
+  box.style.display = "flex";
 }
 
 function loadRoyalty(){
@@ -428,7 +471,7 @@ function loadRoyalty(){
 const inRange = pk => !!pk && (!from || pk >= from) && (!to || pk <= to);
 
 /* all = true: abaikan filter periode & pencarian (dipakai untuk saldo tersedia) */
-function royaltyData(all){
+function royaltyData(all, ns){
   const arts = [], entries = []; let total = 0, paid = 0, latest = "";
   Object.keys(earn || {}).forEach(id => {
     const src = earn[id] || {};
@@ -438,7 +481,7 @@ function royaltyData(all){
       .sort((a, b) => a.pk < b.pk ? 1 : a.pk > b.pk ? -1 : a.at - b.at);
     if(!months.length) return;
     const name = months[0].name || id;
-    if(!all && q && !name.toLowerCase().includes(q)) return;
+    if(!all && !ns && q && !name.toLowerCase().includes(q)) return;
     const t = months.reduce((s, m) => s + m.amount, 0);
     const p = months.filter(m => m.paid).reduce((s, m) => s + m.amount, 0);
     const cnt = {}; months.forEach(m => { cnt[m.pk] = (cnt[m.pk] || 0) + 1; });
@@ -543,6 +586,8 @@ function render(){
   $("pager").innerHTML = "";
   list.style.display = "";
   $("filterBar").style.display = tab === "info" ? "none" : "";
+  document.querySelector(".fsearch").style.display = tab === "royalty" ? "none" : "";
+  $("stats").innerHTML = "";
   updateTop();
 
   if(tab === "info"){
@@ -560,7 +605,7 @@ function render(){
 
   if(!(loaded.earn && loaded.recap && loaded.pay)){ list.innerHTML = '<div class="sk"></div>'.repeat(4); return; }
   fillFilter();
-  if(tab === "royalty") return viewRoyalty(list);
+  if(tab === "royalty") return viewRevIn(list);
   if(tab === "artists") return viewArtists(list);
   viewPayments(list);
 }
@@ -568,30 +613,37 @@ function render(){
 const loadError = () => emptyBox("alert", "Gagal memuat data", "Periksa koneksi internet kamu lalu muat ulang halaman.");
 const filtered = () => !!(from || to || q);
 
-function viewRoyalty(list){
-  list.style.display = "block";
-  if(earn === null && recaps === null){ list.innerHTML = loadError(); return; }
-  const d = royaltyData();
-  let h = '<div class="rg">' + [["Total earnings", rupiah(d.total)], ["Total dibayar", rupiah(d.paid)],
-    ["Belum dibayar", rupiah(d.unpaid)], ["Jumlah artis", d.arts.length]]
-    .map(x => '<div class="stat"><small>' + x[0] + '</small><strong>' + esc(x[1]) + '</strong></div>').join("") + '</div>';
-  h += '<p class="help">Periode: ' + esc(rangeLabel()) + (q ? ". Artis: &ldquo;" + esc(q) + "&rdquo;" : "") + (d.latest ? ". Data terbaru: " + esc(plabel(d.latest)) : "") + '.</p>';
-
+function viewRevIn(list){
+  if(earn !== null){
+    const d = royaltyData(false, true);
+    $("stats").innerHTML = '<div class="rg two"><div class="stat"><small>Revenue In</small><strong>' + esc(rupiah(d.total)) + '</strong></div>' +
+      '<div class="stat"><small>Revenue Out</small><strong>' + esc(rupiah(d.paid)) + '</strong></div></div>' +
+      '<p class="help">Periode: ' + esc(rangeLabel()) + (d.latest ? ". Data terbaru: " + esc(plabel(d.latest)) : "") + '.</p>';
+  }
+  if(recaps === null){ list.style.display = "block"; list.innerHTML = loadError(); return; }
   const rc = (recaps || []).filter(r => !r.periodKey || inRange(r.periodKey));
-  h += '<div class="rsec">Revenue recap</div>';
-  if(rc.length) h += '<div class="rlist">' + rc.map((r, n) =>
+  if(!rc.length){
+    list.style.display = "block";
+    list.innerHTML = (from || to)
+      ? emptyBox("file", "Tidak ada rekap", "Belum ada rekap pada periode yang dipilih. Ubah atau reset filter periode.")
+      : emptyBox("file", "Belum ada rekap", "File rekap revenue dari tim Dynotic akan muncul di sini.");
+    return;
+  }
+  const items = pageOf(rc);
+  list.innerHTML = items.map((r, n) =>
     '<div class="row"><div class="ico"><svg class="i"><use href="#i-file"/></svg></div><div class="rb"><div class="rt">' + esc(r.title) +
     '</div><div class="rs">' + esc(r.periodLabel || plabel(r.periodKey)) + '</div></div><div class="side"><button class="act" type="button" data-rc="' + n +
-    '" aria-label="Unduh rekap"><svg class="i"><use href="#i-down"/></svg></button></div></div>').join("") + '</div>';
-  else h += '<p class="help">Belum ada file rekap untuk periode ini.</p>';
-
-  list.innerHTML = h;
-  list.querySelectorAll("[data-rc]").forEach(b => b.addEventListener("click", () => safeOpen(rc[b.dataset.rc].url)));
+    '" aria-label="Unduh rekap"><svg class="i"><use href="#i-down"/></svg></button></div></div>').join("");
+  list.querySelectorAll("[data-rc]").forEach(b => b.addEventListener("click", () => safeOpen(items[b.dataset.rc].url)));
 }
 
 function viewArtists(list){
   if(earn === null){ list.style.display = "block"; list.innerHTML = loadError(); return; }
-  const rows = royaltyData().entries;
+  const d = royaltyData(), rows = d.entries;
+  $("stats").innerHTML = '<div class="rg">' + [["Total earnings", rupiah(d.total)], ["Total dibayar", rupiah(d.paid)],
+    ["Belum dibayar", rupiah(d.unpaid)], ["Jumlah artis", d.arts.length]]
+    .map(x => '<div class="stat"><small>' + x[0] + '</small><strong>' + esc(x[1]) + '</strong></div>').join("") + '</div>' +
+    '<p class="help">Periode: ' + esc(rangeLabel()) + (q ? ". Artis: &ldquo;" + esc(q) + "&rdquo;" : "") + (d.latest ? ". Data terbaru: " + esc(plabel(d.latest)) : "") + '.</p>';
   if(!rows.length){
     list.style.display = "block";
     list.innerHTML = q ? emptyBox("users", "Artis tidak ditemukan", "Tidak ada artis dengan nama itu pada periode yang dipilih. Ubah kata kunci atau reset filter.")
