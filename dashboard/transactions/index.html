@@ -208,6 +208,48 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{ou
 .kv b{font-weight:600;text-align:right;overflow-wrap:anywhere}
 .toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* ===== premium polish ===== */
+.panel{background:#fff;border:1px solid rgba(20,20,40,.06);box-shadow:0 1px 2px rgba(20,20,40,.04),0 28px 56px -28px rgba(20,20,40,.18)}
+.tabs{padding:5px;gap:4px;background:#ececf4;border-radius:20px;box-shadow:inset 0 1px 3px rgba(20,20,40,.07)}
+.tab{height:44px;border-radius:15px;letter-spacing:-.005em}
+.tab.active{background:linear-gradient(180deg,#25252e,#0d0d12);box-shadow:0 10px 22px -8px rgba(13,13,18,.55),inset 0 1px 0 rgba(255,255,255,.14)}
+.fsel label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:#8a8d9a}
+.fsel select,.fsel input{height:48px;border-radius:15px;background-color:#f7f7fb;border-color:#ebebf3;transition:border-color .2s,box-shadow .2s,background-color .2s}
+.fsel select:hover,.fsel input:hover{border-color:#d6d6e4}
+.fsel select:focus,.fsel input:focus{box-shadow:0 0 0 4px rgba(119,114,168,.14)}
+.filter .btn.line{border-radius:15px;font-weight:700}
+.stat{position:relative;overflow:hidden;padding:18px 18px 16px;border-radius:22px;border:1px solid #ececf4;background:linear-gradient(180deg,#fff,#f9f9fd);box-shadow:0 14px 28px -22px rgba(20,20,40,.35)}
+.stat small{display:flex;align-items:center;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a8d9a}
+.stat small .d{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--c);margin-right:8px;box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 20%,transparent)}
+.stat strong{margin-top:10px;font-size:clamp(18px,4.8vw,26px);letter-spacing:-.045em}
+.stat.hero{background:linear-gradient(135deg,#1a1a24,#0d0d12);border-color:transparent;color:#fff;box-shadow:0 22px 36px -22px rgba(13,13,18,.75)}
+.stat.hero small{color:rgba(255,255,255,.55)}
+.stat.hero::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;right:-50px;top:-70px;background:radial-gradient(circle,rgba(169,163,242,.4),transparent 70%);pointer-events:none}
+.rg.two .stat strong{font-size:clamp(20px,5.4vw,30px)}
+.help{font-size:12px;color:#8a8d9a}
+.row{position:relative;padding:16px;border-radius:22px;border:1px solid #ececf4;background:linear-gradient(180deg,#fff,#fcfcff);box-shadow:0 14px 28px -24px rgba(20,20,40,.4);transition:transform .3s var(--ease),box-shadow .3s,border-color .3s}
+.row:hover{border-color:#d9d7ee;box-shadow:0 22px 40px -22px rgba(60,55,120,.35);transform:translateY(-2px)}
+.ico{background:linear-gradient(145deg,#f1f0fb,#dedcf1);box-shadow:inset 0 0 0 1px rgba(119,114,168,.14),0 8px 16px -10px rgba(119,114,168,.6)}
+.rt{font-size:15px;font-weight:700;letter-spacing:-.015em}
+.rs{font-size:12.5px;line-height:1.55}
+.amt{margin-top:7px;font-size:18px;font-weight:800;letter-spacing:-.035em;font-variant-numeric:tabular-nums}
+.side>svg.i{width:30px;height:30px;padding:8px;border-radius:50%;background:var(--bg);color:var(--muted);transition:background .2s,color .2s}
+.row:hover .side>svg.i{background:var(--ink);color:#fff}
+.pill{height:26px;font-size:10px;letter-spacing:.07em;box-shadow:0 4px 10px -6px color-mix(in srgb,var(--c) 70%,transparent)}
+.act{border-radius:13px;background:#f7f7fb;border-color:#ebebf3;transition:background .2s,color .2s,border-color .2s}
+.act:not(:disabled):hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pager{width:fit-content;margin:22px auto 0;padding:6px;gap:6px;border:0;border-radius:999px;background:#f0f0f6}
+.pager button{width:40px;height:40px;border:0;border-radius:50%;background:#fff;box-shadow:0 6px 14px -8px rgba(20,20,40,.5)}
+.pager button:not(:disabled):hover{background:var(--ink);color:#fff}
+.pager span{padding:0 6px;color:var(--ink);font-weight:700}
+.empty .ic{width:64px;height:64px;border-radius:22px;background:linear-gradient(145deg,#f1f0fb,#e2e0f3);box-shadow:inset 0 0 0 1px rgba(119,114,168,.14)}
+.empty h3{letter-spacing:-.025em}
+.info li{border-radius:22px;border-color:#ececf4;background:linear-gradient(180deg,#fff,#fcfcff);box-shadow:0 14px 28px -24px rgba(20,20,40,.4)}
+.dd{border-radius:18px;border-color:#ececf4;box-shadow:0 24px 48px -16px rgba(20,20,40,.28)}
+.opt b{letter-spacing:-.01em}
+.sheet{border-radius:28px}
+.kv b{font-variant-numeric:tabular-nums}
+.sk{height:92px;border-radius:20px}
 @keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 @keyframes sh{to{background-position:-200% 0}}
 @media(min-width:1000px){
@@ -501,8 +543,7 @@ function paymentRows(){
   return (pays || []).filter(p => {
     if(p.status === "FAILED") return false;
     const pf = p.periodFrom || "", pt = p.periodTo || p.periodFrom || "9999-12";
-    if(!((!from || pt >= from) && (!to || pf <= to))) return false;
-    return !q || Object.values(p.items || {}).some(i => String(i.artistName || "").toLowerCase().includes(q));
+    return (!from || pt >= from) && (!to || pf <= to);
   });
 }
 
@@ -581,7 +622,7 @@ function render(){
   $("pager").innerHTML = "";
   list.style.display = "";
   $("filterBar").style.display = tab === "info" ? "none" : "";
-  document.querySelector(".fsearch").style.display = tab === "royalty" ? "none" : "";
+  document.querySelector(".fsearch").style.display = tab === "artists" ? "" : "none";
   $("stats").innerHTML = "";
   updateTop();
 
@@ -611,8 +652,8 @@ const filtered = () => !!(from || to || q);
 function viewRevIn(list){
   if(earn !== null){
     const d = royaltyData(false, true);
-    $("stats").innerHTML = '<div class="rg two"><div class="stat"><small>Revenue In</small><strong>' + esc(rupiah(d.total)) + '</strong></div>' +
-      '<div class="stat"><small>Revenue Out</small><strong>' + esc(rupiah(d.paid)) + '</strong></div></div>' +
+    $("stats").innerHTML = '<div class="rg two"><div class="stat hero"><small><i class="d" style="--c:#22c55e"></i>Revenue In</small><strong>' + esc(rupiah(d.total)) + '</strong></div>' +
+      '<div class="stat"><small><i class="d" style="--c:#7772a8"></i>Revenue Out</small><strong>' + esc(rupiah(d.paid)) + '</strong></div></div>' +
       '<p class="help">Periode: ' + esc(rangeLabel()) + (d.latest ? ". Data terbaru: " + esc(plabel(d.latest)) : "") + '.</p>';
   }
   if(recaps === null){ list.style.display = "block"; list.innerHTML = loadError(); return; }
@@ -637,7 +678,7 @@ function viewArtists(list){
   const d = royaltyData(), rows = d.entries;
   $("stats").innerHTML = '<div class="rg">' + [["Total earnings", rupiah(d.total)], ["Total dibayar", rupiah(d.paid)],
     ["Belum dibayar", rupiah(d.unpaid)], ["Jumlah artis", d.arts.length]]
-    .map(x => '<div class="stat"><small>' + x[0] + '</small><strong>' + esc(x[1]) + '</strong></div>').join("") + '</div>' +
+    .map((x, n) => '<div class="stat' + (n === 0 ? ' hero' : '') + '"><small><i class="d" style="--c:' + ["#a9a3f2", "#22c55e", "#f59e0b", "#7772a8"][n] + '"></i>' + x[0] + '</small><strong>' + esc(x[1]) + '</strong></div>').join("") + '</div>' +
     '<p class="help">Periode: ' + esc(rangeLabel()) + (q ? ". Artis: &ldquo;" + esc(q) + "&rdquo;" : "") + (d.latest ? ". Data terbaru: " + esc(plabel(d.latest)) : "") + '.</p>';
   if(!rows.length){
     list.style.display = "block";
@@ -660,8 +701,8 @@ function viewPayments(list){
   const rows = paymentRows();
   if(!rows.length){
     list.style.display = "block";
-    list.innerHTML = filtered()
-      ? emptyBox("receipt", "Tidak ada pembayaran", "Tidak ada pembayaran yang cocok dengan filter atau pencarian. Ubah atau reset filter.")
+    list.innerHTML = (from || to)
+      ? emptyBox("receipt", "Tidak ada pembayaran", "Belum ada pembayaran pada periode yang dipilih. Ubah atau reset filter periode.")
       : emptyBox("receipt", "Belum ada pembayaran", "Riwayat pembayaran royalti dari admin akan muncul di sini.");
     return;
   }
