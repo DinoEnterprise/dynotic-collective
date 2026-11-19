@@ -93,6 +93,14 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible{ou
 .fsel select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236f7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px}
 .fsel select:focus,.fsel input:focus{border-color:var(--ink);background-color:#fff}
 .fsearch{grid-column:1/-1}
+.picker{position:relative}
+.dd{display:none;position:absolute;left:0;right:0;top:100%;margin-top:6px;max-height:260px;overflow-y:auto;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 40px rgba(20,20,40,.14);z-index:40;padding:6px}
+.dd.show{display:block}
+.opt{display:block;width:100%;text-align:left;padding:10px 12px;border-radius:11px}
+.opt:hover{background:var(--bg)}
+.opt b{display:block;font-size:14px}
+.opt span{font-size:12px;color:var(--muted);font-weight:500}
+.dd .none{padding:14px 12px;font-size:13px;color:var(--muted)}
 .filter .btn{height:46px;padding:0 18px}
 /* list */
 .list{display:grid;grid-template-columns:1fr;gap:12px}
@@ -307,7 +315,7 @@ body{padding-bottom:40px;padding-left:var(--side)}
       <button class="tab" role="tab" data-tab="info"><svg class="i"><use href="#i-book"/></svg>Ketentuan</button>
     </div>
     <div class="filter" id="filterBar">
-      <div class="fsel fsearch"><label for="fQ">Cari nama artis</label><input type="search" id="fQ" placeholder="Ketik nama artis..." autocomplete="off"></div>
+      <div class="fsel fsearch"><label for="fQ">Cari nama artis</label><div class="picker"><input type="search" id="fQ" placeholder="Ketik atau pilih nama artis..." autocomplete="off"><div class="dd" id="qDd"></div></div></div>
       <div class="fsel"><label for="fFrom">Dari periode</label><select id="fFrom"></select></div>
       <div class="fsel"><label for="fTo">Sampai periode</label><select id="fTo"></select></div>
       <button class="btn line" id="fReset" type="button">Reset</button>
@@ -421,7 +429,7 @@ const inRange = pk => !!pk && (!from || pk >= from) && (!to || pk <= to);
 
 /* all = true: abaikan filter periode & pencarian (dipakai untuk saldo tersedia) */
 function royaltyData(all){
-  const arts = []; let total = 0, paid = 0, latest = "";
+  const arts = [], entries = []; let total = 0, paid = 0, latest = "";
   Object.keys(earn || {}).forEach(id => {
     const src = earn[id] || {};
     const months = Object.keys(src).filter(k => isEntry(k, src[k]))
@@ -433,11 +441,14 @@ function royaltyData(all){
     if(!all && q && !name.toLowerCase().includes(q)) return;
     const t = months.reduce((s, m) => s + m.amount, 0);
     const p = months.filter(m => m.paid).reduce((s, m) => s + m.amount, 0);
+    const cnt = {}; months.forEach(m => { cnt[m.pk] = (cnt[m.pk] || 0) + 1; });
+    const ix = {}; months.forEach(m => { ix[m.pk] = (ix[m.pk] || 0) + 1; entries.push({ ...m, aid:id, name, idx:ix[m.pk], of:cnt[m.pk] }); });
     arts.push({ id, name, months, pc:new Set(months.map(m => m.pk)).size, total:t, paid:p, unpaid:t - p });
     total += t; paid += p; if(months[0].pk > latest) latest = months[0].pk;
   });
   arts.sort((a, b) => a.name.localeCompare(b.name));
-  return { arts, total, paid, unpaid:total - paid, latest };
+  entries.sort((a, b) => a.name.localeCompare(b.name) || (a.pk < b.pk ? 1 : a.pk > b.pk ? -1 : a.idx - b.idx));
+  return { arts, entries, total, paid, unpaid:total - paid, latest };
 }
 
 function periods(){
@@ -471,7 +482,32 @@ function fillFilter(){
 $("fFrom").addEventListener("change", e => { from = e.target.value; if(from && to && to < from) to = from; page = 1; render(); });
 $("fTo").addEventListener("change", e => { to = e.target.value; if(from && to && to < from) from = to; page = 1; render(); });
 $("fQ").addEventListener("input", e => { q = e.target.value.toLowerCase().trim(); page = 1; render(); });
-$("fReset").addEventListener("click", () => { from = ""; to = ""; q = ""; $("fQ").value = ""; page = 1; render(); });
+$("fReset").addEventListener("click", () => { from = ""; to = ""; q = ""; $("fQ").value = ""; $("qDd").classList.remove("show"); page = 1; render(); });
+
+/* saran nama artis: muncul saat kolom cari disentuh/diketik, tap untuk memilih */
+function artistNames(){
+  const m = {};
+  Object.keys(earn || {}).forEach(id => Object.keys(earn[id] || {}).forEach(k => {
+    const e = earn[id][k]; if(!isEntry(k, e)) return;
+    const n = e.artistName || id; m[n] = (m[n] || 0) + 1;
+  }));
+  return Object.keys(m).sort((a, b) => a.localeCompare(b)).map(n => ({ n, c:m[n] }));
+}
+function showSuggest(){
+  const v = $("fQ").value.toLowerCase().trim();
+  const r = artistNames().filter(x => !v || x.n.toLowerCase().includes(v)).slice(0, 30);
+  $("qDd").innerHTML = r.length ? r.map(x => '<button type="button" class="opt" data-n="' + esc(x.n) + '"><b>' + esc(x.n) + '</b><span>' + x.c + ' entri</span></button>').join("")
+    : '<div class="none">Artis tidak ditemukan</div>';
+  $("qDd").classList.add("show");
+}
+$("fQ").addEventListener("focus", showSuggest);
+$("fQ").addEventListener("input", showSuggest);
+$("qDd").addEventListener("click", e => {
+  const b = e.target.closest(".opt"); if(!b) return;
+  $("fQ").value = b.dataset.n; q = b.dataset.n.toLowerCase(); page = 1;
+  $("qDd").classList.remove("show"); render();
+});
+document.addEventListener("click", e => { if(!e.target.closest(".picker")) $("qDd").classList.remove("show"); });
 
 /* ---------- render ---------- */
 function emptyBox(icon, title, text){
@@ -483,7 +519,7 @@ function updateTop(){
     const d = royaltyData(true);
     $("balAmount").textContent = rupiah(d.unpaid);
     $("balNote").textContent = (d.unpaid >= MIN_PAYOUT ? "Sudah memenuhi minimum payout " : "Belum memenuhi minimum payout ") + rupiah(MIN_PAYOUT) + ". Dibayarkan otomatis oleh admin.";
-    $("cArt").textContent = d.arts.length;
+    $("cArt").textContent = d.entries.length;
   }
   if(loaded.pay) $("cPay").textContent = (pays || []).filter(p => p.status !== "FAILED").length;
 }
@@ -555,20 +591,20 @@ function viewRoyalty(list){
 
 function viewArtists(list){
   if(earn === null){ list.style.display = "block"; list.innerHTML = loadError(); return; }
-  const arts = royaltyData().arts;
-  if(!arts.length){
+  const rows = royaltyData().entries;
+  if(!rows.length){
     list.style.display = "block";
     list.innerHTML = q ? emptyBox("users", "Artis tidak ditemukan", "Tidak ada artis dengan nama itu pada periode yang dipilih. Ubah kata kunci atau reset filter.")
       : filtered() ? emptyBox("wallet", "Tidak ada royalty", "Belum ada royalty pada periode yang dipilih. Ubah atau reset filter periode.")
       : emptyBox("wallet", "Belum ada royalty", "Royalty artis yang diinput tim Dynotic akan muncul di sini.");
     return;
   }
-  const items = pageOf(arts);
-  list.innerHTML = items.map(a =>
-    '<button class="row" type="button" data-art="' + esc(a.id) + '"><div class="ico"><svg class="i"><use href="#i-disc"/></svg></div><div class="rb"><div class="rt">' + esc(a.name) +
-    '</div><div class="rs">' + a.pc + ' periode' + (a.months.length > a.pc ? ', ' + a.months.length + ' entri' : '') + ', terbaru ' + esc(plabel(a.months[0].pk)) + '</div><div class="amt">' + esc(rupiah(a.total)) + '</div>' +
-    '<div class="rs">' + (a.unpaid > 0 ? 'Belum dibayar ' + esc(rupiah(a.unpaid)) : 'Sudah dibayar penuh') + '</div></div>' +
-    '<div class="side">' + artStatus(a) + '<svg class="i"><use href="#i-right"/></svg></div></button>').join("");
+  const items = pageOf(rows);
+  list.innerHTML = items.map(e =>
+    '<button class="row" type="button" data-art="' + esc(e.aid) + '"><div class="ico"><svg class="i"><use href="#i-disc"/></svg></div><div class="rb"><div class="rt">' + esc(e.name) +
+    '</div><div class="rs">' + esc(plabel(e.pk)) + (e.of > 1 ? ' \u2022 Entri ' + e.idx + ' dari ' + e.of : '') + (e.note ? ' \u2022 ' + esc(e.note) : '') + '</div><div class="amt">' + esc(rupiah(e.amount)) + '</div>' +
+    (e.at ? '<div class="rs">Diinput ' + esc(dayLabel(e.at)) + '</div>' : '') + '</div>' +
+    '<div class="side">' + (e.paid ? cpill("DIBAYAR", "#22c55e") : cpill("BELUM DIBAYAR", "#f59e0b")) + '<svg class="i"><use href="#i-right"/></svg></div></button>').join("");
   list.querySelectorAll("[data-art]").forEach(b => b.addEventListener("click", () => openArtist(b.dataset.art)));
 }
 
