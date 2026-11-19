@@ -783,6 +783,77 @@ function openArtist(id){
 }
 })();
 </script>
+ <!-- Riwayat pembayaran + Download PDF di tab Royalty (halaman Transactions member).
+     Tempel blok <script> ini SETELAH blok tab Royalty, tepat sebelum </body>. -->
+<script>
+(function(){
+let pays = null, started = false;
+const baseRender = render;
+
+firebase.auth().onAuthStateChanged(u => {
+  if(!u || started) return;
+  started = true;
+  listen(db.ref("royalty_payments").orderByChild("uid").equalTo(u.uid), s => {
+    pays = []; s.forEach(c => { const p = c.val(); if(p) pays.push({ ...p, k:c.key }); });
+    pays.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); render();
+  }, () => { pays = null; });
+});
+
+render = function(){
+  baseRender();
+  if(tab !== "royalty" || !pays) return;
+  const list = $("list"); if(!list.querySelector(".rg")) return;
+  const rows = pays.filter(p => p.status !== "FAILED");
+  let h = '<div class="rsec">Riwayat pembayaran</div>';
+  h += rows.length ? '<div class="rlist">' + rows.map((p, n) =>
+    '<div class="row"><div class="ico"><svg class="i"><use href="#i-receipt"/></svg></div><div class="rb"><div class="rt">' + esc(p.txNo) + '</div><div class="rs">' +
+    esc(new Date(p.paidAt || p.createdAt).toLocaleDateString("id-ID", { day:"numeric", month:"long", year:"numeric" })) + ', ' + Object.keys(p.items || {}).length + ' artis</div><div class="amt">' + esc(rupiah(p.total)) +
+    '</div></div><div class="side">' + pill(p.status) + (p.status === "SUCCESS" ? '<button class="act" type="button" data-pdf="' + n + '" aria-label="Download PDF"><svg class="i"><use href="#i-down"/></svg></button>' : "") + '</div></div>').join("") + '</div>'
+    : '<p class="help">Belum ada pembayaran.</p>';
+  list.insertAdjacentHTML("beforeend", h);
+  list.querySelectorAll("[data-pdf]").forEach(b => b.addEventListener("click", async () => {
+    try { await statementPdf(rows[b.dataset.pdf]); } catch(e){ console.error(e); toast("PDF gagal dibuat."); }
+  }));
+};
+
+function pdfLib(){
+  return window.jspdf ? Promise.resolve() : new Promise((ok, no) => {
+    const s = document.createElement("script");
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"; s.onload = ok; s.onerror = no; document.head.appendChild(s);
+  });
+}
+async function statementPdf(p){
+  await pdfLib();
+  const d = new window.jspdf.jsPDF({ unit:"mm", format:"a4" }), M = 18, R = 192; let y = 22;
+  const money = v => "Rp" + Number(v || 0).toLocaleString("id-ID");
+  const lab = pk => new Date(pk + "-01T00:00:00").toLocaleDateString("id-ID", { month:"long", year:"numeric" });
+  const day = t => new Date(t).toLocaleDateString("id-ID", { day:"numeric", month:"long", year:"numeric" });
+  d.setFont("helvetica", "bold"); d.setFontSize(18); d.text("Royalty Payment Statement", M, y);
+  d.setFont("helvetica", "normal"); d.setFontSize(10); d.setTextColor(110); d.text(p.company || "Dynotic Distribution", R, y, { align:"right" });
+  y += 6; d.setDrawColor(20); d.setLineWidth(.6); d.line(M, y, R, y); y += 9;
+  [["Akun member", p.memberName], ["Nomor transaksi", p.txNo], ["Tanggal pembayaran", day(p.paidAt)],
+   ["Periode pembayaran", lab(p.periodFrom) + (p.periodFrom === p.periodTo ? "" : " - " + lab(p.periodTo))],
+   ["Status pembayaran", "SUCCESS"], ["Total pembayaran", money(p.total)]].forEach(r => {
+    d.setFont("helvetica", "normal"); d.setTextColor(110); d.text(r[0], M, y);
+    d.setFont("helvetica", "bold"); d.setTextColor(20); d.text(String(r[1] || "-"), M + 55, y); y += 6.5;
+  });
+  y += 6;
+  Object.values(p.items || {}).forEach(a => {
+    const pk = Object.keys(a.periods).sort();
+    if(y + 20 + pk.length * 6.5 > 275){ d.addPage(); y = 22; }
+    d.setFont("helvetica", "bold"); d.setFontSize(12); d.setTextColor(20); d.text(a.artistName, M, y); y += 3;
+    d.setDrawColor(210); d.setLineWidth(.2); d.line(M, y, R, y); y += 6.5; d.setFontSize(10);
+    d.setFont("helvetica", "normal");
+    pk.forEach(k => { d.text(lab(k), M, y); d.text(money(a.periods[k]), R, y, { align:"right" }); y += 6.5; });
+    d.setFont("helvetica", "bold"); d.text("Total dibayarkan", M, y); d.text(money(a.total), R, y, { align:"right" }); y += 12;
+  });
+  d.setFont("helvetica", "normal"); d.setFontSize(8); d.setTextColor(130);
+  d.text("Dokumen dibuat " + day(Date.now()) + " dari data transaksi " + p.txNo + ". Nominal adalah hak final artis setelah pembagian royalty.", M, 288);
+  d.save("Royalty-Statement-" + p.txNo + ".pdf");
+}
+})();
+</script>
+ 
  
 </body>
 </html>
