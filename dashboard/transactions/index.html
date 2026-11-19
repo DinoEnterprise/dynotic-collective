@@ -651,5 +651,138 @@ const topbar = $("topbar");
 const onScroll = () => topbar.classList.toggle("scrolled", scrollY > 6);
 onScroll(); addEventListener("scroll", onScroll, { passive:true });
 </script>
+ <!-- Tab Royalty untuk halaman Transactions.
+     Tempel blok <script> ini SETELAH script utama, tepat sebelum </body>. Tidak ada kode lama yang diubah. -->
+<script>
+(function(){
+const MIN_PAYOUT = 100000;
+let earn = {}, recaps = [], earnLoaded = false, recapLoaded = false, started = false;
+
+/* ---------- gaya ---------- */
+const css = document.createElement("style");
+css.textContent =
+".rg{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}" +
+".rg .stat{animation:none}" +
+".rg .stat strong{font-size:clamp(17px,4.6vw,24px);overflow-wrap:anywhere}" +
+".rsec{margin:20px 2px 10px;font-size:14px;font-weight:700}" +
+".rlist{display:grid;grid-template-columns:1fr;gap:12px}" +
+"@media(min-width:1000px){.rlist{grid-template-columns:repeat(2,minmax(0,1fr))}}";
+document.head.appendChild(css);
+
+/* ---------- tab dan judul modal ---------- */
+const detailTitle = document.querySelector("#detailModal .sh-head h3");
+detailTitle.id = "detailTitle";
+
+const infoTab = document.querySelector('.tab[data-tab="info"]');
+const rtab = document.createElement("button");
+rtab.className = "tab"; rtab.setAttribute("role", "tab"); rtab.dataset.tab = "royalty";
+rtab.innerHTML = '<svg class="i"><use href="#i-wallet"/></svg>Royalty';
+infoTab.parentNode.insertBefore(rtab, infoTab);
+rtab.addEventListener("click", () => {
+  tab = "royalty"; page = 1;
+  document.querySelectorAll(".tab").forEach(x => { const on = x === rtab; x.classList.toggle("active", on); x.setAttribute("aria-selected", String(on)); });
+  rtab.scrollIntoView({ inline:"center", block:"nearest", behavior:"smooth" });
+  render();
+});
+
+/* ---------- sambungkan ke render dan detail yang sudah ada ---------- */
+const baseRender = render;
+render = function(){
+  if(tab !== "royalty") return baseRender();
+  $("pager").innerHTML = "";
+  const list = $("list"); list.style.display = "";
+  renderRoyalty(list);
+};
+const baseDetail = openDetail;
+openDetail = function(r){ detailTitle.textContent = "Detail pengajuan"; baseDetail(r); };
+
+/* ---------- data ---------- */
+const plabel = pk => /^\d{4}-\d{2}$/.test(pk) ? new Date(pk + "-01T00:00:00").toLocaleDateString("id-ID", { month:"long", year:"numeric" }) : (pk || "-");
+const cpill = (t, c) => '<span class="pill" style="--c:' + c + '">' + esc(t) + '</span>';
+
+firebase.auth().onAuthStateChanged(u => {
+  if(!u || started) return;
+  started = true;
+  listen(db.ref("royalty_earnings/" + u.uid), s => { earn = s.val() || {}; earnLoaded = true; render(); },
+    () => { earn = null; earnLoaded = true; render(); });
+  listen(db.ref("royalty_recaps/" + u.uid), s => {
+    recaps = [];
+    s.forEach(c => { const r = c.val(); if(r) recaps.push({ ...r, _key:c.key }); });
+    recaps.sort((a, b) => (b.uploadedAt || 0) - (a.uploadedAt || 0));
+    recapLoaded = true; render();
+  }, () => { recaps = null; recapLoaded = true; render(); });
+});
+
+function royaltyData(){
+  const arts = []; let total = 0, paid = 0, latest = "";
+  Object.keys(earn || {}).forEach(id => {
+    const months = Object.values(earn[id] || {}).filter(e => e && typeof e === "object")
+      .map(e => ({ pk:e.periodKey, amount:Number(e.amount || 0), paid:!!e.paymentId, name:e.artistName }))
+      .sort((a, b) => a.pk < b.pk ? 1 : -1);
+    if(!months.length) return;
+    const t = months.reduce((s, m) => s + m.amount, 0);
+    const p = months.filter(m => m.paid).reduce((s, m) => s + m.amount, 0);
+    arts.push({ id, name:months[0].name || id, months, total:t, paid:p, unpaid:t - p });
+    total += t; paid += p; if(months[0].pk > latest) latest = months[0].pk;
+  });
+  arts.sort((a, b) => a.name.localeCompare(b.name));
+  return { arts, total, paid, unpaid:total - paid, latest };
+}
+
+function safeOpen(url){
+  try {
+    const u = new URL(url, location.href);
+    if(!/^https?:$/.test(u.protocol)) throw 0;
+    window.open(u.href, "_blank", "noopener,noreferrer");
+  } catch(e){ toast("Tautan file tidak valid."); }
+}
+
+/* ---------- tampilan ---------- */
+function renderRoyalty(list){
+  if(!earnLoaded || !recapLoaded){ list.innerHTML = '<div class="sk"></div>'.repeat(4); return; }
+  list.style.display = "block";
+  if(earn === null && recaps === null){
+    list.innerHTML = emptyBox("alert", "Gagal memuat data", "Periksa koneksi internet kamu lalu muat ulang halaman."); return;
+  }
+  const d = royaltyData(), ok = d.unpaid >= MIN_PAYOUT;
+  let h = '<div class="rg">' + [["Total earnings", rupiah(d.total)], ["Total dibayar", rupiah(d.paid)],
+    ["Belum dibayar", rupiah(d.unpaid)], ["Jumlah artis", d.arts.length]]
+    .map(x => '<div class="stat"><small>' + x[0] + '</small><strong>' + esc(x[1]) + '</strong></div>').join("") + '</div>';
+  if(d.arts.length) h += '<p class="help">' + (d.latest ? "Periode terbaru: " + esc(plabel(d.latest)) + ". " : "") +
+    (ok ? "Saldo royalty sudah memenuhi minimum payout " : "Minimum payout ") + rupiah(MIN_PAYOUT) + ".</p>";
+
+  h += '<div class="rsec">Revenue recap</div>';
+  if(recaps && recaps.length) h += '<div class="rlist">' + recaps.map((r, n) =>
+    '<div class="row"><div class="ico"><svg class="i"><use href="#i-file"/></svg></div><div class="rb"><div class="rt">' + esc(r.title) +
+    '</div><div class="rs">' + esc(r.periodLabel || plabel(r.periodKey)) + '</div></div><div class="side"><button class="act" type="button" data-rc="' + n +
+    '" aria-label="Unduh rekap"><svg class="i"><use href="#i-down"/></svg></button></div></div>').join("") + '</div>';
+  else h += '<p class="help">Belum ada file rekap untuk akunmu.</p>';
+
+  h += '<div class="rsec">Artist earnings</div>';
+  if(d.arts.length) h += '<div class="rlist">' + d.arts.map(a =>
+    '<button class="row" type="button" data-art="' + esc(a.id) + '"><div class="ico"><svg class="i"><use href="#i-disc"/></svg></div><div class="rb"><div class="rt">' + esc(a.name) +
+    '</div><div class="rs">' + a.months.length + ' periode, terbaru ' + esc(plabel(a.months[0].pk)) + '</div><div class="amt">' + esc(rupiah(a.unpaid)) +
+    '</div></div><div class="side">' + (a.unpaid === 0 ? cpill("LUNAS", "#22c55e") : a.unpaid >= MIN_PAYOUT ? cpill("MEMENUHI MINIMUM", "#10b981") : cpill("AKUMULASI", "#f59e0b")) +
+    '<svg class="i"><use href="#i-right"/></svg></div></button>').join("") + '</div>';
+  else h += emptyBox("wallet", "Belum ada royalty", "Royalty artis yang diinput tim Dynotic akan muncul di sini.");
+
+  list.innerHTML = h;
+  list.querySelectorAll("[data-rc]").forEach(b => b.addEventListener("click", () => safeOpen(recaps[b.dataset.rc].url)));
+  list.querySelectorAll("[data-art]").forEach(b => b.addEventListener("click", () => openArtist(b.dataset.art)));
+}
+
+function openArtist(id){
+  const a = royaltyData().arts.find(x => x.id === id); if(!a) return;
+  const row = (k, v) => '<div class="kv"><span>' + k + '</span><b>' + v + '</b></div>';
+  detailTitle.textContent = a.name;
+  $("detailBody").innerHTML = row("Total akumulasi", esc(rupiah(a.total))) + row("Sudah dibayar", esc(rupiah(a.paid))) +
+    row("Belum dibayar", esc(rupiah(a.unpaid))) + row("Minimum payout", a.unpaid >= MIN_PAYOUT ? "Terpenuhi" : "Belum terpenuhi") +
+    '<div class="rs" style="margin:16px 0 2px;font-weight:700;color:var(--ink)">Pendapatan per periode</div>' +
+    a.months.map(m => row(esc(plabel(m.pk)), esc(rupiah(m.amount)) + (m.paid ? " (dibayar)" : ""))).join("");
+  openModal("detailModal");
+}
+})();
+</script>
+ 
 </body>
 </html>
