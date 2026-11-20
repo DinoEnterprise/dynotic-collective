@@ -436,6 +436,15 @@ function renderPayout(){
     $("poNo").textContent = maskAcc(p.account) || "-";
     $("poName").textContent = p.holder || profileNama || "";
     $("poBank").textContent = p.bank || "Bank Transfer";
+  } else if(p.type === "ewallet"){
+    $("poNo").textContent = maskAcc(p.account) || "-";
+    $("poName").textContent = p.holder || profileNama || "";
+    $("poBank").textContent = p.provider || "E-Wallet";
+  } else if(p.type === "usdt"){
+    const a = String(p.address || "");
+    $("poNo").textContent = a.length > 10 ? a.slice(0, 4) + "\u2022\u2022\u2022\u2022" + a.slice(-4) : (a || "-");
+    $("poName").textContent = profileNama || "";
+    $("poBank").textContent = "USDT \u00b7 " + (p.network || "");
   } else {
     $("poNo").textContent = maskEmail(p.email) || "-";
     $("poName").textContent = profileNama || "";
