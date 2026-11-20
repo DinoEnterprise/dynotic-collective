@@ -80,6 +80,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .act:hover{border-color:var(--ink)}
 .act:active{transform:scale(.92)}
 .act .i{width:17px;height:17px}
+.warnrow{margin-top:8px;padding:12px 14px;border-radius:14px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;font-size:12px;line-height:1.6;font-weight:600}
+.warnrow a{display:inline-block;margin-left:4px;text-decoration:underline}
 .empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:34px 20px}
 .empty .ic{width:56px;height:56px;border-radius:18px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--accent);margin-bottom:6px}
 .empty .ic .i{width:24px;height:24px}
@@ -182,6 +184,8 @@ body{padding-bottom:40px;padding-left:var(--side)}
 <symbol id="i-id" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="9" cy="12" r="2.5"/><path d="M14 10h5M14 14h4"/></symbol>
 <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v3M3 5v14a2 2 0 0 0 2 2h14a1 1 0 0 0 1-1v-3"/><path d="M21 12v4h-4a2 2 0 0 1 0-4z"/></symbol>
 <symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h4"/></symbol>
+<symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .8-3 2s1.3 1.8 3 2 3 .8 3 2-1.3 2-3 2c-1.4 0-2.5-.6-3-1.6M12 6v2m0 8v2"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></symbol>
 <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
 <symbol id="i-camera" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></symbol>
 </svg>
@@ -302,6 +306,7 @@ body{padding-bottom:40px;padding-left:var(--side)}
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
 const LOGIN = "https://app.dynoticcollective.com/login/";
+const EDIT_PAY = "https://app.dynoticcollective.com/edit-payment/";
 firebase.initializeApp({
   apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
   authDomain: "dynopay-2513c.firebaseapp.com",
@@ -348,25 +353,40 @@ function loadProfile(){
   });
 }
 
+/* ---------- detail pembayaran (users/{uid}/payment, diisi di Edit Payment) ---------- */
+const NETN = { TRC20:"TRON (TRC20)", BEP20:"BNB Smart Chain (BEP20)", ERC20:"Ethereum (ERC20)", POLYGON:"Polygon", SOLANA:"Solana" };
 const mask = s => s.length > 4 ? "•".repeat(Math.min(s.length - 4, 8)) + s.slice(-4) : s;
+const maskAddr = s => s.length > 10 ? s.slice(0, 4) + "••••" + s.slice(-4) : s;
 
 function renderPayment(p){
-  let name = "", acc = "", icon = "wallet", isEmail = false;
-  if(p.paypal && p.email){ name = "PayPal"; acc = p.email; isEmail = true; }
-  else if(p.bank && p.account){ name = p.bank; acc = String(p.account); icon = "card"; }
+  let method = "", acc = "", holder = "", icon = "wallet", kind = "", warn = "", masker = mask;
+  if(p.type === "usdt" && p.address){
+    kind = "usdt"; method = "USDT · " + (NETN[p.network] || p.network || ""); acc = String(p.address); icon = "coin"; masker = maskAddr;
+  }else if(p.type === "ewallet" && p.account){
+    kind = "ewallet"; method = "E-Wallet · " + (p.provider || ""); acc = String(p.account); holder = p.holder || ""; icon = "wallet";
+  }else if((p.type === "bank" || !p.type) && p.bank && p.account){
+    kind = "bank"; method = "Bank · " + p.bank + (p.code ? " (" + p.code + ")" : ""); acc = String(p.account); holder = p.holder || ""; icon = "card";
+    if(!holder) warn = "Nama pemilik rekening belum diisi.";
+  }else if((p.type === "paypal" || p.paypal) && p.email){
+    kind = "paypal"; method = "PayPal (lama)"; acc = String(p.email); icon = "wallet"; masker = x => x;
+    warn = "PayPal sudah tidak tersedia. Ganti ke USDT, Bank, atau E-Wallet.";
+  }
 
   const box = $("payBox");
   if(!acc){
-    box.innerHTML = '<div class="empty"><div class="ic"><svg class="i"><use href="#i-wallet"/></svg></div><h4>Belum ada metode pembayaran</h4><p>Tambahkan rekening atau PayPal supaya saldo bisa dicairkan.</p>' +
-      '<a class="btn" href="https://app.dynoticcollective.com/edit-payment/"><svg class="i"><use href="#i-plus"/></svg>Tambah metode</a></div>';
+    box.innerHTML = '<div class="empty"><div class="ic"><svg class="i"><use href="#i-wallet"/></svg></div><h4>Belum ada metode pembayaran</h4><p>Tambahkan rekening bank, e-wallet, atau wallet USDT supaya saldo bisa dicairkan.</p>' +
+      '<a class="btn" href="' + EDIT_PAY + '"><svg class="i"><use href="#i-plus"/></svg>Tambah metode</a></div>';
     return;
   }
-  payAccount = acc; payShown = isEmail;
+  payAccount = acc; payShown = kind === "paypal";
+  const label = kind === "usdt" ? "Alamat wallet" : kind === "paypal" ? "Email" : kind === "ewallet" ? "Nomor" : "Nomor rekening";
   box.innerHTML =
-    '<div class="item"><div class="ico"><svg class="i"><use href="#i-' + icon + '"/></svg></div><div class="ib"><small>Metode</small><span>' + esc(name) + '</span></div></div>' +
-    '<div class="item"><div class="ico"><svg class="i"><use href="#i-card"/></svg></div><div class="ib"><small>Akun</small><span class="mono" id="payAcc"></span></div>' +
-    (isEmail ? "" : '<button class="act" id="payEye" type="button" aria-label="Tampilkan nomor rekening"><svg class="i"><use href="#i-eye"/></svg></button>') + '</div>';
-  const show = () => { $("payAcc").textContent = payShown ? payAccount : mask(payAccount); };
+    '<div class="item"><div class="ico"><svg class="i"><use href="#i-' + icon + '"/></svg></div><div class="ib"><small>Metode</small><span>' + esc(method) + '</span></div></div>' +
+    '<div class="item"><div class="ico"><svg class="i"><use href="#i-card"/></svg></div><div class="ib"><small>' + label + '</small><span class="mono" id="payAcc"></span></div>' +
+    (kind === "paypal" ? "" : '<button class="act" id="payEye" type="button" aria-label="Tampilkan ' + label.toLowerCase() + '"><svg class="i"><use href="#i-eye"/></svg></button>') + '</div>' +
+    ((kind === "bank" || kind === "ewallet") ? '<div class="item"><div class="ico"><svg class="i"><use href="#i-user"/></svg></div><div class="ib"><small>Nama pemilik</small><span>' + (holder ? esc(holder) : '<em style="font-style:normal;color:#b45309">Belum diisi</em>') + '</span></div></div>' : '') +
+    (warn ? '<div class="warnrow">' + esc(warn) + '<a href="' + EDIT_PAY + '">' + (kind === "paypal" ? "Ganti metode" : "Lengkapi") + '</a></div>' : '');
+  const show = () => { $("payAcc").textContent = payShown ? payAccount : masker(payAccount); };
   show();
   const eye = $("payEye");
   if(eye) eye.addEventListener("click", () => { payShown = !payShown; show(); });
