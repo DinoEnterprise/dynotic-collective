@@ -70,8 +70,8 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .card h2{font-size:15px;font-weight:700;letter-spacing:-.01em;margin-bottom:14px}
 
 /* METHOD */
-.seg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.opt{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:14px;border-radius:18px;border:1.5px solid var(--line);background:#fff;text-align:left;transition:border-color .2s,background .2s,transform .2s var(--ease)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.opt{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:12px;border-radius:18px;border:1.5px solid var(--line);background:#fff;text-align:left;transition:border-color .2s,background .2s,transform .2s var(--ease)}
 .opt:hover{border-color:#cfcfdb}
 .opt:active{transform:scale(.98)}
 .opt .ic{width:38px;height:38px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--accent);transition:background .2s,color .2s}
@@ -95,7 +95,11 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .input input:hover{border-color:#cfcfdb}
 .input input:focus{border-color:var(--ink);background:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.14)}
 .input:focus-within .lead{color:var(--ink)}
-.field.bad .input input{border-color:#e05757}
+.input select{width:100%;height:52px;padding:0 40px 0 44px;border-radius:15px;border:1.5px solid var(--line);background:#fafafd;font-size:16px;color:var(--ink);outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236f7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;transition:border-color .2s,box-shadow .2s,background-color .2s}
+.input select:hover{border-color:#cfcfdb}
+.input select:focus{border-color:var(--ink);background-color:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.14)}
+.input input[readonly]{background:#f1f1f7;color:var(--muted);cursor:not-allowed}
+.field.bad .input input,.field.bad .input select{border-color:#e05757}
 .fe{display:none;margin-top:7px;font-size:12px;font-weight:500;color:#d13a3a}
 .field.bad .fe{display:block}
 .hint{margin-top:7px;font-size:12px;line-height:1.5;color:var(--muted)}
@@ -209,6 +213,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   .toast{bottom:30px}
   .grid{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);align-items:start}
 }
+@media(max-width:520px){.opt div span{display:none}.opt{padding:11px}.opt strong{font-size:13px}}
 @media(max-width:700px){
   .wrap{padding:0 14px}
   .card{border-radius:22px}
@@ -242,6 +247,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
   <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .8-3 2s1.3 1.8 3 2 3 .8 3 2-1.3 2-3 2c-1.4 0-2.5-.6-3-1.6M12 6v2m0 8v2"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
 </svg>
 
@@ -323,27 +329,37 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
       <h2>Metode pembayaran</h2>
 
       <div class="seg" role="radiogroup" aria-label="Metode pembayaran">
-        <button type="button" class="opt" role="radio" aria-checked="true" data-method="paypal">
+        <button type="button" class="opt" role="radio" aria-checked="true" data-method="usdt">
           <span class="tick"><svg class="i"><use href="#i-check"/></svg></span>
-          <span class="ic"><svg class="i"><use href="#i-wallet"/></svg></span>
-          <div><strong>PayPal</strong><span>Terima lewat email PayPal</span></div>
+          <span class="ic"><svg class="i"><use href="#i-coin"/></svg></span>
+          <div><strong>USDT</strong><span>Kripto stablecoin</span></div>
         </button>
         <button type="button" class="opt" role="radio" aria-checked="false" data-method="bank">
           <span class="tick"><svg class="i"><use href="#i-check"/></svg></span>
           <span class="ic"><svg class="i"><use href="#i-bank"/></svg></span>
-          <div><strong>Bank Transfer</strong><span>Transfer ke rekening bank</span></div>
+          <div><strong>Bank</strong><span>Transfer rekening</span></div>
+        </button>
+        <button type="button" class="opt" role="radio" aria-checked="false" data-method="ewallet">
+          <span class="tick"><svg class="i"><use href="#i-check"/></svg></span>
+          <span class="ic"><svg class="i"><use href="#i-wallet"/></svg></span>
+          <div><strong>E-Wallet</strong><span>GoPay, OVO, DANA</span></div>
         </button>
       </div>
 
       <form id="form" novalidate>
 
-        <div id="paypalFields">
-          <div class="field" id="f-paypalEmail">
-            <label for="paypalEmail">Email PayPal</label>
-            <div class="input"><svg class="i lead"><use href="#i-mail"/></svg>
-              <input id="paypalEmail" type="email" placeholder="nama@email.com" autocomplete="off" inputmode="email" autocapitalize="none" spellcheck="false"></div>
+        <div id="usdtFields">
+          <div class="field" id="f-usdtNet">
+            <label for="usdtNet">Jaringan</label>
+            <div class="input"><svg class="i lead"><use href="#i-hash"/></svg><select id="usdtNet"></select></div>
             <div class="fe"></div>
-            <div class="hint">Pastikan email ini terhubung dengan akun PayPal aktif.</div>
+          </div>
+          <div class="field" id="f-usdtAddr">
+            <label for="usdtAddr">Alamat wallet USDT</label>
+            <div class="input"><svg class="i lead"><use href="#i-coin"/></svg>
+              <input id="usdtAddr" type="text" placeholder="Tempel alamat wallet" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="64"></div>
+            <div class="fe"></div>
+            <div class="hint">Pastikan jaringan dan alamat benar. Salah jaringan bisa membuat dana hilang.</div>
           </div>
         </div>
 
@@ -351,8 +367,15 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
           <div class="field" id="f-bankName">
             <label for="bankName">Nama bank</label>
             <div class="input"><svg class="i lead"><use href="#i-bank"/></svg>
-              <input id="bankName" type="text" list="bankList" placeholder="BCA, Mandiri, BNI…" autocomplete="off" maxlength="40"></div>
+              <input id="bankName" type="text" list="bankList" placeholder="Ketik atau pilih bank" autocomplete="off" maxlength="50"></div>
             <div class="fe"></div>
+          </div>
+          <div class="field" id="f-bankCode">
+            <label for="bankCode">Kode bank</label>
+            <div class="input"><svg class="i lead"><use href="#i-hash"/></svg>
+              <input id="bankCode" type="text" inputmode="numeric" placeholder="Terisi otomatis" autocomplete="off" maxlength="4" readonly></div>
+            <div class="fe"></div>
+            <div class="hint">Terisi otomatis saat bank dipilih dari daftar.</div>
           </div>
           <div class="field" id="f-bankAccount">
             <label for="bankAccount">Nomor rekening</label>
@@ -368,11 +391,29 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
             <div class="fe"></div>
             <div class="hint">Wajib diisi, harus sesuai nama di buku tabungan.</div>
           </div>
-          <datalist id="bankList">
-            <option value="BCA"><option value="Mandiri"><option value="BNI"><option value="BRI"><option value="CIMB Niaga">
-            <option value="Permata"><option value="Danamon"><option value="BSI"><option value="Bank Jago"><option value="SeaBank">
-            <option value="Jenius (BTPN)"><option value="OCBC"><option value="Maybank"><option value="Panin"><option value="Mega">
-          </datalist>
+          <datalist id="bankList"></datalist>
+        </div>
+
+        <div id="ewFields" hidden>
+          <div class="field" id="f-ewProvider">
+            <label for="ewProvider">E-Wallet</label>
+            <div class="input"><svg class="i lead"><use href="#i-wallet"/></svg><select id="ewProvider"></select></div>
+            <div class="fe"></div>
+          </div>
+          <div class="field" id="f-ewNumber">
+            <label for="ewNumber">Nomor terdaftar</label>
+            <div class="input"><svg class="i lead"><use href="#i-hash"/></svg>
+              <input id="ewNumber" type="text" placeholder="08123456789" autocomplete="off" inputmode="numeric" maxlength="16"></div>
+            <div class="fe"></div>
+            <div class="hint">Nomor HP yang terdaftar di akun e-wallet.</div>
+          </div>
+          <div class="field" id="f-ewHolder">
+            <label for="ewHolder">Nama pemilik akun</label>
+            <div class="input"><svg class="i lead"><use href="#i-user"/></svg>
+              <input id="ewHolder" type="text" placeholder="Sesuai nama di aplikasi" autocomplete="off" maxlength="60"></div>
+            <div class="fe"></div>
+            <div class="hint">Wajib diisi, harus sesuai nama akun e-wallet.</div>
+          </div>
         </div>
 
         <div class="acts">
@@ -446,7 +487,7 @@ const $ = id => document.getElementById(id);
 
 let currentUser = null, msgRef = null, messages = [];
 let saved = null;          // data payment di database (atau null)
-let method = "paypal";
+let method = "usdt";
 let loaded = false, saving = false, leaving = false;
 
 /* ================= HELPERS ================= */
@@ -467,6 +508,10 @@ function maskEmail(e){
   const [u, d] = String(e || "").split("@");
   if(!d) return e || "-";
   return u.slice(0, 2) + "•••@" + d;
+}
+function maskAddr(a){
+  a = String(a || "");
+  return a.length > 10 ? a.slice(0, 4) + "••••" + a.slice(-4) : a;
 }
 function maskAcc(a){
   a = String(a || "");
@@ -502,12 +547,45 @@ function loadProfile(uid){
   }).catch(e => console.error("Gagal memuat profil:", e));
 }
 
+/* ================= DATA ================= */
+const BANKS = [
+  ["BCA","014"],["Mandiri","008"],["BNI","009"],["BRI","002"],["BTN","200"],["BSI (Bank Syariah Indonesia)","451"],
+  ["CIMB Niaga","022"],["Permata","013"],["Danamon","011"],["Panin","019"],["OCBC NISP","028"],["Maybank Indonesia","016"],
+  ["Bank Mega","426"],["BTPN / Jenius","213"],["SeaBank","535"],["Bank Jago","542"],["Bank Neo Commerce","490"],
+  ["Allo Bank","567"],["blu by BCA Digital","501"],["Bank Raya","494"],["Bank Amar","531"],["Bank Aladin Syariah","947"],
+  ["Bank Muamalat","147"],["BTPN Syariah","547"],["KB Bukopin","441"],["Bank Sinarmas","153"],["Bank Mayapada","097"],
+  ["Bank Artha Graha","037"],["Bank Woori Saudara","212"],["Bank Victoria","566"],["Bank QNB Indonesia","167"],
+  ["Bank Shinhan","152"],["Bank Mestika","151"],["Bank Ina Perdana","513"],["Bank Index Selindo","555"],
+  ["UOB Indonesia","023"],["DBS Indonesia","046"],["HSBC Indonesia","087"],["Standard Chartered","050"],
+  ["Citibank","031"],["Bank Commonwealth","950"],["Bank Mizuho Indonesia","048"],["ICBC Indonesia","164"],
+  ["Bank DKI","111"],["BJB (Bank Jabar Banten)","110"],["BPD DIY","112"],["Bank Jateng","113"],["Bank Jatim","114"],
+  ["Bank Jambi","115"],["Bank Aceh Syariah","116"],["Bank Sumut","117"],["Bank Nagari","118"],["Bank Riau Kepri","119"],
+  ["Bank Sumsel Babel","120"],["Bank Lampung","121"],["Bank Kalsel","122"],["Bank Kalbar","123"],["Bank Kaltimtara","124"],
+  ["Bank Sulselbar","126"],["Bank SulutGo","127"],["Bank NTB Syariah","128"],["BPD Bali","129"],["Bank NTT","130"],
+  ["Bank Maluku Malut","131"],["Bank Papua","132"],["Bank Bengkulu","133"],["Bank Sulteng","134"],["Bank Sultra","135"]
+];
+const EWALLETS = ["GoPay","OVO","DANA","ShopeePay","LinkAja","Sakuku","iSaku"];
+const NETS = [["TRC20","TRON (TRC20)"],["BEP20","BNB Smart Chain (BEP20)"],["ERC20","Ethereum (ERC20)"],["POLYGON","Polygon"],["SOLANA","Solana"]];
+const ADDR = {
+  TRC20:/^T[1-9A-HJ-NP-Za-km-z]{33}$/,
+  BEP20:/^0x[0-9a-fA-F]{40}$/, ERC20:/^0x[0-9a-fA-F]{40}$/, POLYGON:/^0x[0-9a-fA-F]{40}$/,
+  SOLANA:/^[1-9A-HJ-NP-Za-km-z]{32,44}$/
+};
+const bankByName = n => BANKS.find(b => b[0].toLowerCase() === String(n || "").trim().toLowerCase());
+const bankCodeOf = n => { const b = bankByName(n); return b ? b[1] : ""; };
+const netLabel = v => { const n = NETS.find(x => x[0] === v); return n ? n[1] : (v || "USDT"); };
+
+$("bankList").innerHTML = BANKS.map(b => '<option value="' + esc(b[0]) + '" label="' + b[1] + '"></option>').join("");
+$("ewProvider").innerHTML = '<option value="">Pilih e-wallet</option>' + EWALLETS.map(w => '<option value="' + esc(w) + '">' + esc(w) + '</option>').join("");
+$("usdtNet").innerHTML = NETS.map(n => '<option value="' + n[0] + '">' + esc(n[1]) + '</option>').join("");
+
 /* ================= FORM ================= */
 function setMethod(m){
   method = m;
   document.querySelectorAll(".opt[role=radio]").forEach(b => b.setAttribute("aria-checked", String(b.dataset.method === m)));
-  $("paypalFields").hidden = m !== "paypal";
+  $("usdtFields").hidden = m !== "usdt";
   $("bankFields").hidden = m !== "bank";
+  $("ewFields").hidden = m !== "ewallet";
   clearErrors();
   updateDirty();
 }
@@ -522,24 +600,44 @@ function clearErrors(){
   document.querySelectorAll(".field.bad").forEach(f => f.classList.remove("bad"));
 }
 
+/* kode bank terisi otomatis dari daftar; bank di luar daftar boleh isi kode manual */
+function syncCode(){
+  const el = $("bankCode"), c = bankCodeOf($("bankName").value);
+  if(c){ el.value = c; el.readOnly = true; el.placeholder = "Terisi otomatis"; }
+  else { if(el.readOnly) el.value = ""; el.readOnly = false; el.placeholder = "Opsional, isi manual jika ada"; }
+}
+
 function readForm(){
-  if(method === "paypal") return { type:"paypal", email:$("paypalEmail").value.trim() };
-  /* nama pemilik rekening wajib: selalu ikut disimpan */
-  return {
-    type:"bank",
-    bank:$("bankName").value.trim(),
+  if(method === "usdt") return { type:"usdt", network:$("usdtNet").value, address:$("usdtAddr").value.trim() };
+  if(method === "ewallet") return {
+    type:"ewallet", provider:$("ewProvider").value,
+    account:$("ewNumber").value.replace(/\D/g, ""),
+    holder:$("ewHolder").value.trim().replace(/\s+/g, " ")
+  };
+  const typed = $("bankName").value.trim(), hit = bankByName(typed);
+  const d = {
+    type:"bank", bank:hit ? hit[0] : typed,
     account:$("bankAccount").value.replace(/\D/g, ""),
     holder:$("bankHolder").value.trim().replace(/\s+/g, " ")
   };
+  const code = hit ? hit[1] : $("bankCode").value.replace(/\D/g, "");
+  if(code) d.code = code;
+  return d;
 }
 
+const KEYS = ["type","bank","code","account","holder","network","address","provider","email"];
+function savedVal(k){
+  if(k === "code" && !saved.code) return bankCodeOf(saved.bank);
+  return saved[k] || "";
+}
 function sameAsSaved(d){
   if(!saved) return false;
-  const keys = ["type","email","bank","account","holder"];
-  return keys.every(k => (d[k] || "") === (saved[k] || ""));
+  return KEYS.every(k => (d[k] || "") === savedVal(k));
 }
 function isBlank(d){
-  return d.type === "paypal" ? !d.email : !d.bank && !d.account && !d.holder;
+  if(d.type === "usdt") return !d.address;
+  if(d.type === "ewallet") return !d.provider && !d.account && !d.holder;
+  return !d.bank && !d.account && !d.holder;
 }
 function updateDirty(){
   if(!loaded) return;
@@ -547,28 +645,36 @@ function updateDirty(){
   $("saveBtn").disabled = saving || sameAsSaved(d) || (!saved && isBlank(d));
 }
 
-["paypalEmail","bankName","bankAccount","bankHolder"].forEach(id => {
-  $(id).addEventListener("input", () => {
+["usdtNet","usdtAddr","bankName","bankCode","bankAccount","bankHolder","ewProvider","ewNumber","ewHolder"].forEach(id => {
+  ["input","change"].forEach(ev => $(id).addEventListener(ev, () => {
     $("f-" + id).classList.remove("bad");
+    if(id === "bankName") syncCode();
     updateDirty();
-  });
+  }));
 });
-$("bankAccount").addEventListener("input", e => {
+["bankAccount","ewNumber","bankCode"].forEach(id => $(id).addEventListener("input", e => {
   const v = e.target.value.replace(/[^\d]/g, "");
   if(v !== e.target.value) e.target.value = v;
-});
+}));
 
 function validate(d){
   clearErrors();
   let first = null;
   const bad = (id, m) => { setBad(id, m); if(!first) first = id; };
 
-  if(d.type === "paypal"){
-    if(!d.email) bad("paypalEmail", "Email PayPal wajib diisi.");
-    else if(!validEmail(d.email)) bad("paypalEmail", "Format email tidak valid.");
+  if(d.type === "usdt"){
+    if(!d.address) bad("usdtAddr", "Alamat wallet wajib diisi.");
+    else if(!(ADDR[d.network] || /./).test(d.address)) bad("usdtAddr", "Alamat tidak valid untuk jaringan " + netLabel(d.network) + ".");
+  }else if(d.type === "ewallet"){
+    if(!d.provider) bad("ewProvider", "Pilih e-wallet.");
+    if(!d.account) bad("ewNumber", "Nomor e-wallet wajib diisi.");
+    else if(d.account.length < 9 || d.account.length > 15) bad("ewNumber", "Nomor harus 9–15 digit.");
+    if(!d.holder) bad("ewHolder", "Nama pemilik akun wajib diisi.");
+    else if(d.holder.length < 3) bad("ewHolder", "Nama pemilik akun terlalu pendek.");
   }else{
     if(!d.bank) bad("bankName", "Nama bank wajib diisi.");
     else if(d.bank.length < 2) bad("bankName", "Nama bank terlalu pendek.");
+    if(d.code && !/^\d{3,4}$/.test(d.code)) bad("bankCode", "Kode bank 3–4 digit.");
     if(!d.account) bad("bankAccount", "Nomor rekening wajib diisi.");
     else if(d.account.length < 6 || d.account.length > 20) bad("bankAccount", "Nomor rekening harus 6–20 digit.");
     if(!d.holder) bad("bankHolder", "Nama pemilik rekening wajib diisi.");
@@ -581,9 +687,10 @@ function validate(d){
 /* ================= LOAD ================= */
 function summary(d){
   if(!d) return "";
-  return d.type === "paypal"
-    ? "PayPal · " + d.email
-    : (d.bank || "Bank") + " · " + d.account + " · " + d.holder;
+  if(d.type === "usdt") return "USDT · " + netLabel(d.network) + " · " + d.address;
+  if(d.type === "ewallet") return d.provider + " · " + d.account + " · " + d.holder;
+  if(d.type === "paypal") return "PayPal · " + d.email;
+  return (d.bank || "Bank") + (d.code ? " (" + d.code + ")" : "") + " · " + d.account + " · " + d.holder;
 }
 
 function renderSaved(){
@@ -592,13 +699,22 @@ function renderSaved(){
     box.innerHTML = '<div class="empty">Belum ada metode pembayaran tersimpan. Isi form untuk menambahkannya.</div>';
     return;
   }
-  const isPay = saved.type === "paypal";
-  const title = isPay ? "PayPal" : (saved.bank || "Bank Transfer");
-  const sub = isPay ? maskEmail(saved.email) : maskAcc(saved.account) + (saved.holder ? " · " + saved.holder : "");
-  const warn = (!isPay && !saved.holder) ? "Nama pemilik rekening belum diisi. Lengkapi lalu simpan." : "";
+  let icon = "i-bank", title = "", sub = "", warn = "";
+  if(saved.type === "usdt"){
+    icon = "i-coin"; title = "USDT"; sub = netLabel(saved.network) + " · " + maskAddr(saved.address);
+  }else if(saved.type === "ewallet"){
+    icon = "i-wallet"; title = saved.provider || "E-Wallet"; sub = maskAcc(saved.account) + (saved.holder ? " · " + saved.holder : "");
+  }else if(saved.type === "paypal"){
+    icon = "i-wallet"; title = "PayPal (lama)"; sub = maskEmail(saved.email);
+    warn = "PayPal sudah tidak tersedia. Ganti ke USDT, Bank, atau E-Wallet.";
+  }else{
+    title = (saved.bank || "Bank Transfer") + (saved.code ? " (" + saved.code + ")" : "");
+    sub = maskAcc(saved.account) + (saved.holder ? " · " + saved.holder : "");
+    if(!saved.holder) warn = "Nama pemilik rekening belum diisi. Lengkapi lalu simpan.";
+  }
   const upd = saved.updatedAt ? "Diperbarui " + fmtDate(saved.updatedAt) : "";
   box.innerHTML =
-    '<div class="saved"><div class="ic"><svg class="i"><use href="#' + (isPay ? "i-wallet" : "i-bank") + '"/></svg></div>' +
+    '<div class="saved"><div class="ic"><svg class="i"><use href="#' + icon + '"/></svg></div>' +
     '<div style="min-width:0"><strong>' + esc(title) + '</strong><span>' + esc(sub) + '</span>' +
     (warn ? '<span class="warn">' + esc(warn) + '</span>' : '') +
     (upd ? '<span>' + esc(upd) + '</span>' : '') + '</div></div>';
@@ -606,13 +722,24 @@ function renderSaved(){
 
 function fillForm(d){
   if(!d) return;
-  setMethod(d.type === "bank" ? "bank" : "paypal");
   if(d.type === "bank"){
+    setMethod("bank");
     $("bankName").value = d.bank || "";
+    syncCode();
+    if(!bankCodeOf(d.bank)) $("bankCode").value = d.code || "";
     $("bankAccount").value = d.account || "";
     $("bankHolder").value = d.holder || "";
+  }else if(d.type === "ewallet"){
+    setMethod("ewallet");
+    $("ewProvider").value = d.provider || "";
+    $("ewNumber").value = d.account || "";
+    $("ewHolder").value = d.holder || "";
+  }else if(d.type === "usdt"){
+    setMethod("usdt");
+    $("usdtNet").value = d.network || "TRC20";
+    $("usdtAddr").value = d.address || "";
   }else{
-    $("paypalEmail").value = d.email || "";
+    setMethod("usdt");     // PayPal lama: arahkan ke USDT, form dikosongkan
   }
 }
 
