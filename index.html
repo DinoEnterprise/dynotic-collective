@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>try{var t=localStorage.getItem("dc-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Dynotic Collective | Independent Music Community</title>
@@ -275,6 +276,34 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   .faq details p{padding:0 18px 18px}
 }
 
+/* ===== Language + theme toggles ===== */
+.tool{display:inline-flex;align-items:center;justify-content:center;height:38px;min-width:38px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.1);color:#fff;font-size:12px;font-weight:700;letter-spacing:.06em;transition:background .2s}
+.tool:hover{background:rgba(255,255,255,.2)}
+.tool .i{width:17px;height:17px}
+.tool-theme .i-moon{display:none}
+[data-theme="dark"] .tool-theme .i-sun{display:none}
+[data-theme="dark"] .tool-theme .i-moon{display:block}
+.sheet .s-tools{display:flex;gap:10px;padding-top:20px}
+.sheet .s-tools .tool{height:48px;flex:1}
+@media(max-width:620px){.nav-cta .tool{display:none}}
+@media(min-width:621px){.sheet .s-tools{display:none}}
+
+/* ===== Dark theme ===== */
+[data-theme="dark"]{
+  --bg:#0d0d12;--paper:#16161e;--ink:#f1f1f7;--muted:#9a9cab;--line:#262633;
+  --accent:#a9a3f2;--accent-2:#a9a3f2;color-scheme:dark;
+}
+[data-theme="dark"] .tile:hover,[data-theme="dark"] .value:hover,[data-theme="dark"] .link:hover,[data-theme="dark"] .faq details[open]{border-color:#3a3a4d}
+[data-theme="dark"] .tile:hover{box-shadow:0 22px 44px rgba(0,0,0,.4)}
+[data-theme="dark"] .tile:hover .ico{background:#232333}
+[data-theme="dark"] .tile.dark,[data-theme="dark"] .cta,[data-theme="dark"] footer{border:1px solid var(--line)}
+[data-theme="dark"] footer{border-bottom:0}
+[data-theme="dark"] .track span{background:var(--paper);color:#d5d6e0}
+[data-theme="dark"] .value .ck{background:var(--accent);color:#14141a}
+[data-theme="dark"] .btn-dark{background:#fff;color:#14141a}
+[data-theme="dark"] .btn-line{background:var(--paper)}
+[data-theme="dark"] .link .go{color:#6f7280}
+
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .rv,.intro{opacity:1!important;transform:none!important}
@@ -302,6 +331,8 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
   <symbol id="i-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></symbol>
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 14l2 2 4-4"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
 </svg>
 
 <header class="nav" id="nav">
@@ -318,6 +349,8 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
     </nav>
 
     <div class="nav-cta">
+      <button class="tool tool-lang" type="button" aria-label="Change language">EN</button>
+      <button class="tool tool-theme" type="button" aria-label="Toggle theme"><svg class="i i-sun"><use href="#i-sun"/></svg><svg class="i i-moon"><use href="#i-moon"/></svg></button>
       <a href="https://app.dynoticcollective.com/login" class="btn btn-ghost">Login</a>
       <a href="https://app.dynoticcollective.com/register" class="btn btn-light nav-join">Get Started</a>
       <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="sheet">
@@ -334,6 +367,11 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   <a class="s-link" href="#about">About <svg class="i"><use href="#i-arrow-r"/></svg></a>
   <a class="s-link" href="#faq">FAQ <svg class="i"><use href="#i-arrow-r"/></svg></a>
   <a class="s-link" href="#contact">Contact <svg class="i"><use href="#i-arrow-r"/></svg></a>
+
+  <div class="s-tools">
+    <button class="tool tool-lang" type="button" aria-label="Change language">EN</button>
+    <button class="tool tool-theme" type="button" aria-label="Toggle theme"><svg class="i i-sun"><use href="#i-sun"/></svg><svg class="i i-moon"><use href="#i-moon"/></svg></button>
+  </div>
 
   <div class="s-actions">
     <a href="https://app.dynoticcollective.com/register" class="btn btn-light">Get Started <svg class="i"><use href="#i-arrow-ur"/></svg></a>
@@ -748,6 +786,124 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   } else {
     document.querySelectorAll(".rv").forEach(function(el){ el.classList.add("show"); });
   }
+
+  /* ===== Language (EN/ID) + theme ===== */
+  var ID = {
+"Features":"Fitur","How it works":"Cara kerja","About":"Tentang","Contact":"Kontak",
+"Login":"Masuk","Get Started":"Mulai Sekarang","Login to Artist Portal":"Masuk ke Portal Artis",
+"Independent Music Community":"Komunitas Musik Independen",
+"Your Music. Your Journey.":"Musikmu. Perjalananmu.","Our Community.":"Komunitas Kita.",
+"A place where independent artists grow, share their work, and build their musical journey together. Simple, honest, and independent.":"Tempat artis independen bertumbuh, membagikan karya, dan membangun perjalanan bermusik bersama. Sederhana, jujur, dan independen.",
+"Discover Dynotic":"Kenali Dynotic",
+"Free distribution. Open for independent artists everywhere.":"Distribusi gratis. Terbuka untuk artis independen di mana saja.",
+"Reach listeners on":"Jangkau pendengar di",
+"What we offer":"Yang kami tawarkan","More than just music distribution.":"Lebih dari sekadar distribusi musik.",
+"A supportive environment where artists and their creative journeys matter.":"Lingkungan yang suportif, tempat artis dan perjalanan kreatifnya dihargai.",
+"Music Distribution":"Distribusi Musik",
+"Free music distribution to digital streaming platforms, helping artists reach listeners around the world.":"Distribusi musik gratis ke platform streaming digital, membantu artis menjangkau pendengar di seluruh dunia.",
+"Artist Community":"Komunitas Artis",
+"A collaborative space where independent artists connect, share experiences, and support one another.":"Ruang kolaboratif tempat artis independen terhubung, berbagi pengalaman, dan saling mendukung.",
+"Catalog Management":"Manajemen Katalog",
+"Organized tools to help you maintain and manage your distributed music.":"Alat terorganisir untuk merawat dan mengelola musik yang sudah didistribusikan.",
+"Artist Support":"Dukungan Artis",
+"Help with distribution questions, release issues, and other technical matters.":"Bantuan untuk pertanyaan distribusi, masalah rilis, dan kendala teknis lainnya.",
+"Royalty Information":"Informasi Royalti",
+"Original releases earn 80% royalties for the artist. Reports and revenue information are available in your dashboard.":"Rilisan original memberi artis royalti 80%. Laporan dan informasi pendapatan tersedia di dashboard.",
+"Independent Spirit":"Semangat Independen",
+"Supporting independent creativity through a community built on collaboration and mutual respect.":"Mendukung kreativitas independen lewat komunitas yang dibangun atas kolaborasi dan saling menghormati.",
+"Cover or remix licensed songs. Legally.":"Cover atau remix lagu berlisensi. Secara legal.",
+"Choose from the Dynotic Licensed Song list and release your own cover or remix with royalties already cleared.":"Pilih dari daftar Lagu Berlisensi Dynotic dan rilis cover atau remix-mu dengan royalti yang sudah beres.",
+"Pick a song from the licensed list, submit your cover or remix, and we handle the rest. Review time varies, with no official estimate.":"Pilih lagu dari daftar berlisensi, kirim cover atau remix-mu, sisanya kami urus. Waktu review bervariasi, tanpa estimasi resmi.",
+"60 / 30 / 10 split":"Pembagian 60 / 30 / 10",
+"60% to the artist, 30% to the rights holder, and 10% to Dynotic.":"60% untuk artis, 30% untuk pemegang hak, dan 10% untuk Dynotic.",
+"From sign-up to release, kept simple.":"Dari pendaftaran sampai rilis, dibuat sederhana.",
+"Create your account":"Buat akunmu","Sign up to join the Dynotic community and start your artist journey.":"Daftar untuk bergabung dengan komunitas Dynotic dan mulai perjalanan artismu.",
+"Log in to the portal":"Masuk ke portal","Sign in to your artist dashboard and set up your profile.":"Masuk ke dashboard artis dan atur profilmu.",
+"Create a release":"Buat rilisan","Upload your music and details, then submit it for distribution.":"Unggah musik dan detailnya, lalu kirim untuk distribusi.",
+"Track your catalog":"Pantau katalogmu","Manage your releases and follow your royalty information in one place.":"Kelola rilisan dan ikuti informasi royalti di satu tempat.",
+"About Dynotic":"Tentang Dynotic","Built around artists.":"Dibangun untuk artis.","Driven by music.":"Digerakkan oleh musik.",
+"Dynotic Collective is an independent music community focused on supporting artists and their musical projects. We believe that music should be a journey built through creativity, collaboration, and trust — not just numbers.":"Dynotic Collective adalah komunitas musik independen yang fokus mendukung artis dan proyek musik mereka. Kami percaya musik adalah perjalanan yang dibangun lewat kreativitas, kolaborasi, dan kepercayaan, bukan sekadar angka.",
+"Artist-centered":"Berpusat pada artis","Putting artists and their creative journey at the heart of our community.":"Menempatkan artis dan perjalanan kreatifnya di jantung komunitas kami.",
+"Simple & transparent":"Sederhana & transparan","Clear communication and a straightforward approach to working together.":"Komunikasi yang jelas dan cara kerja yang lugas.",
+"Independent by nature":"Independen sejak awal","A community that values independent creativity and collaboration.":"Komunitas yang menghargai kreativitas dan kolaborasi independen.",
+"Join us":"Bergabunglah","Ready to release your music?":"Siap merilis musikmu?",
+"Create your account, upload your first release, and become part of a community built around independent artists.":"Buat akun, unggah rilisan pertamamu, dan jadi bagian dari komunitas yang dibangun untuk artis independen.",
+"Quick answers.":"Jawaban singkat.",
+"Who can join Dynotic Collective?":"Siapa yang bisa bergabung di Dynotic Collective?",
+"Dynotic is open to independent artists. You must own or hold the rights to the music you release. Create an account to get started, and reach out to support if you need help.":"Dynotic terbuka untuk artis independen. Kamu harus memiliki atau memegang hak atas musik yang dirilis. Buat akun untuk memulai, dan hubungi support jika butuh bantuan.",
+"Is distribution free?":"Apakah distribusinya gratis?",
+"Yes. Music distribution through Dynotic is free. Original releases earn 80% royalties for the artist.":"Ya. Distribusi musik lewat Dynotic gratis. Rilisan original memberi artis royalti 80%.",
+"What can I do in the artist portal?":"Apa yang bisa dilakukan di portal artis?",
+"Set up your profile, create and submit releases for distribution, manage your catalog, and follow the royalty reports and revenue information available for your releases.":"Mengatur profil, membuat dan mengirim rilisan untuk distribusi, mengelola katalog, serta mengikuti laporan royalti dan informasi pendapatan rilisanmu.",
+"What is Cover to Master?":"Apa itu Cover to Master?",
+"A way to release covers or remixes of songs from the Dynotic Licensed Song list. Royalties are split 60% artist, 30% rights holder, 10% Dynotic.":"Cara merilis cover atau remix lagu dari daftar Lagu Berlisensi Dynotic. Royalti dibagi 60% artis, 30% pemegang hak, 10% Dynotic.",
+"How long until my release goes live?":"Berapa lama sampai rilisanku tayang?",
+"Original releases usually go live within 7-14 days, depending on each platform. Cover to Master submissions have no official estimate. Some are approved quickly, others take longer.":"Rilisan original biasanya tayang dalam 7-14 hari, tergantung tiap platform. Pengajuan Cover to Master tidak punya estimasi resmi. Ada yang disetujui cepat, ada yang lebih lama.",
+"Where can I see my royalties?":"Di mana saya bisa melihat royalti?",
+"Royalty reports and revenue information appear in your artist dashboard once received from the platforms. There is no fixed reporting schedule. For questions about a specific report or payment, reach out to support.":"Laporan royalti dan informasi pendapatan muncul di dashboard artis setelah diterima dari platform. Tidak ada jadwal laporan tetap. Untuk pertanyaan soal laporan atau pembayaran tertentu, hubungi support.",
+"How do I get help?":"Bagaimana cara mendapat bantuan?",
+"Email support@dynoticcollective.com or message us on Instagram at @dynoticcollective for distribution questions, release issues, and technical matters.":"Email support@dynoticcollective.com atau kirim pesan di Instagram @dynoticcollective untuk pertanyaan distribusi, masalah rilis, dan kendala teknis.",
+"Get in touch":"Hubungi kami","Let's stay connected.":"Tetap terhubung.",
+"Questions about Dynotic Collective, music distribution, or your existing catalog? Reach out through our official channels.":"Ada pertanyaan soal Dynotic Collective, distribusi musik, atau katalogmu? Hubungi lewat kanal resmi kami.",
+"Artist Portal":"Portal Artis","Access your artist dashboard":"Akses dashboard artismu",
+"An independent music community supporting artists and their creative journeys through collaboration, creativity, and mutual respect.":"Komunitas musik independen yang mendukung artis dan perjalanan kreatifnya lewat kolaborasi, kreativitas, dan saling menghormati.",
+"Explore":"Jelajahi","Privacy Policy":"Kebijakan Privasi","Terms of Service":"Ketentuan Layanan",
+"Dynotic Collective. All rights reserved.":"Dynotic Collective. Hak cipta dilindungi.",
+"Simple. Honest. Independent.":"Sederhana. Jujur. Independen."
+  };
+  var META = {
+    title:["Dynotic Collective | Independent Music Community","Dynotic Collective | Komunitas Musik Independen"],
+    desc:["A community built to support independent artists through music distribution, catalog management, and collaboration.","Komunitas untuk mendukung artis independen lewat distribusi musik, manajemen katalog, dan kolaborasi."]
+  };
+  function norm(s){ return s.replace(/\s+/g," ").trim(); }
+
+  var nodes = [];
+  var tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode:function(n){
+      var p = n.parentNode.nodeName;
+      if(p==="SCRIPT"||p==="STYLE"||!norm(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+  while(tw.nextNode()){ nodes.push({ n:tw.currentNode, o:tw.currentNode.nodeValue }); }
+
+  function setLang(l){
+    nodes.forEach(function(x){
+      var t = (l==="id") ? ID[norm(x.o)] : null;
+      if(t){
+        var m = x.o.match(/^(\s*)[\s\S]*?(\s*)$/);
+        x.n.nodeValue = m[1] + t + m[2];
+      } else {
+        x.n.nodeValue = x.o;
+      }
+    });
+    var i = l==="id" ? 1 : 0;
+    document.documentElement.lang = l;
+    document.title = META.title[i];
+    document.querySelector('meta[name="description"]').setAttribute("content", META.desc[i]);
+    document.querySelectorAll(".tool-lang").forEach(function(b){ b.textContent = l==="id" ? "ID" : "EN"; });
+    try{ localStorage.setItem("dc-lang", l); }catch(e){}
+  }
+
+  function setTheme(t){
+    document.documentElement.setAttribute("data-theme", t);
+    document.querySelector('meta[name="theme-color"]').setAttribute("content", t==="dark" ? "#0d0d12" : "#f3f3f8");
+    try{ localStorage.setItem("dc-theme", t); }catch(e){}
+  }
+
+  var lang = "en";
+  try{ lang = localStorage.getItem("dc-lang") || ((navigator.language||"").toLowerCase().indexOf("id")===0 ? "id" : "en"); }catch(e){}
+  setLang(lang);
+  setTheme(document.documentElement.getAttribute("data-theme") || "light");
+
+  document.querySelectorAll(".tool-lang").forEach(function(b){
+    b.addEventListener("click", function(){ lang = lang==="en" ? "id" : "en"; setLang(lang); });
+  });
+  document.querySelectorAll(".tool-theme").forEach(function(b){
+    b.addEventListener("click", function(){
+      setTheme(document.documentElement.getAttribute("data-theme")==="dark" ? "light" : "dark");
+    });
+  });
 
 })();
 </script>
