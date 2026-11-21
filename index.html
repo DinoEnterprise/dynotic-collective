@@ -57,7 +57,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .wrap{width:100%;max-width:calc(var(--max) + var(--pad)*2);margin:0 auto;padding:0 var(--pad)}
 
-/* ---------- BUTTONS ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 22px;border-radius:999px;font-size:14px;font-weight:600;white-space:nowrap;transition:transform .25s var(--ease),background .25s,box-shadow .25s,border-color .25s}
 .btn .i{width:16px;height:16px}
 .btn:hover{transform:translateY(-2px)}
@@ -71,7 +70,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .btn-line{border:1px solid var(--line);background:#fff}
 .btn-line:hover{border-color:#cfcfdb}
 
-/* ---------- HEADER ---------- */
 .nav{position:fixed;top:14px;left:0;width:100%;z-index:100;padding:0 var(--pad);pointer-events:none}
 .nav-inner{pointer-events:auto;max-width:var(--max);margin:0 auto;height:62px;padding:0 10px 0 22px;display:flex;align-items:center;gap:20px;border-radius:999px;background:rgba(18,18,26,.55);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);color:#fff;transition:background .3s,box-shadow .3s}
 .nav.scrolled .nav-inner{background:rgba(13,13,18,.88);box-shadow:0 12px 40px rgba(0,0,0,.25)}
@@ -92,7 +90,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .sheet .s-actions{margin-top:auto;padding-top:24px;display:grid;gap:10px}
 .sheet .s-actions .btn{width:100%;min-height:52px;font-size:15px}
 
-/* ---------- HERO ---------- */
 .hero{position:relative;background:var(--dark);color:#fff;padding:clamp(130px,16vw,170px) 0 clamp(60px,8vw,100px);overflow:hidden;isolation:isolate;border-radius:0 0 clamp(28px,5vw,56px) clamp(28px,5vw,56px)}
 .hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(90px);z-index:-1;pointer-events:none}
 .hero::before{width:620px;height:620px;background:rgba(119,114,168,.45);top:-220px;right:-120px}
@@ -108,7 +105,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .hero-actions .btn{min-height:52px;padding:0 26px;font-size:15px}
 .hero-note{margin-top:20px;font-size:12px;color:rgba(255,255,255,.42)}
 
-/* hero visual */
 .stage{position:relative;height:clamp(360px,44vw,480px);width:100%;max-width:470px;margin-left:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px}
 .glass{position:absolute;border-radius:22px;background:linear-gradient(160deg,rgba(255,255,255,.13),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 30px 60px rgba(0,0,0,.35);padding:18px}
 .disc{position:relative;flex-shrink:0;width:clamp(230px,28vw,310px);aspect-ratio:1;border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,#12121a 0 2px,#1b1b27 2px 4px);box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.08);animation:spin 16s linear infinite}
@@ -126,7 +122,6 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .p2{right:0;top:34%;--c:#a9a3f2;animation:float 7s ease-in-out -2s infinite}
 .p3{left:2%;bottom:3%;--c:#ff8fb1;animation:float 5.5s ease-in-out -1s infinite}
 
-/* ---------- MARQUEE ---------- */
 .marquee{padding:44px 0 6px;overflow:hidden}
 .marquee-label{text-align:center;font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:22px;padding:0 var(--pad)}
 .track{display:flex;width:max-content;gap:14px;animation:slide 32s linear infinite}
@@ -135,14 +130,12 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var
 .mq-fade{-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* ---------- SECTIONS ---------- */
 section{padding:clamp(56px,8vw,100px) 0 0}
 .eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
 .h2{margin-top:12px;font-size:clamp(30px,4.6vw,54px);line-height:1.05;letter-spacing:-.04em;font-weight:800;max-width:760px}
 .sub{margin-top:14px;max-width:520px;color:var(--muted);font-size:clamp(14px,1.5vw,16px);line-height:1.8}
 .head{margin-bottom:clamp(28px,4vw,48px)}
 
-/* ---------- BENTO ---------- */
 .bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
 .tile{position:relative;overflow:hidden;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(22px,2.6vw,32px);min-height:230px;display:flex;flex-direction:column;transition:transform .35s var(--ease),box-shadow .35s,border-color .35s}
 .tile:hover{transform:translateY(-5px);box-shadow:0 22px 44px rgba(20,20,40,.08);border-color:#d6d6e4}
@@ -166,14 +159,12 @@ section{padding:clamp(56px,8vw,100px) 0 0}
 .t-6 h3{margin:0}
 .t-6 .txt{flex:1}
 
-/* ---------- STEPS ---------- */
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:s}
 .step{position:relative;padding:26px 24px 28px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius)}
 .step .n{font-size:13px;font-weight:700;color:var(--accent);letter-spacing:.1em}
 .step h3{margin-top:30px;font-size:18px;font-weight:700;letter-spacing:-.02em}
 .step p{margin-top:6px;font-size:13px;line-height:1.75;color:var(--muted)}
 
-/* ---------- ABOUT ---------- */
 .about{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(28px,5vw,70px);align-items:start}
 .about .big{font-size:clamp(26px,3.6vw,44px);line-height:1.15;letter-spacing:-.035em;font-weight:700}
 .about .big em{font-style:normal;color:var(--accent)}
@@ -186,7 +177,6 @@ section{padding:clamp(56px,8vw,100px) 0 0}
 .value h3{font-size:16px;font-weight:700}
 .value p{margin-top:3px;font-size:13px;line-height:1.7;color:var(--muted)}
 
-/* ---------- CTA ---------- */
 .cta{position:relative;overflow:hidden;isolation:isolate;border-radius:clamp(26px,4vw,44px);background:var(--dark);color:#fff;padding:clamp(40px,7vw,90px) clamp(22px,5vw,60px);text-align:center}
 .cta::before{content:"";position:absolute;inset:auto;width:700px;height:700px;border-radius:50%;left:50%;top:-420px;transform:translateX(-50%);background:radial-gradient(circle,rgba(119,114,168,.6),transparent 65%);z-index:-1}
 .cta .eyebrow{color:var(--accent-2)}
@@ -194,7 +184,6 @@ section{padding:clamp(56px,8vw,100px) 0 0}
 .cta p{margin:18px auto 0;max-width:500px;color:rgba(255,255,255,.62);line-height:1.8;font-size:clamp(14px,1.5vw,16px)}
 .cta .btn{margin-top:30px;min-height:54px;padding:0 30px;font-size:15px}
 
-/* ---------- FAQ ---------- */
 .faq{display:grid;gap:12px;max-width:820px}
 .faq details{background:var(--paper);border:1px solid var(--line);border-radius:20px;transition:border-color .3s}
 .faq details[open]{border-color:#d3d1e6}
@@ -204,7 +193,6 @@ section{padding:clamp(56px,8vw,100px) 0 0}
 .faq details[open] summary .i{transform:rotate(45deg)}
 .faq details p{padding:0 22px 22px;font-size:14px;line-height:1.8;color:var(--muted);max-width:660px}
 
-/* ---------- CONTACT ---------- */
 .contact{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,70px);align-items:center}
 .links{display:grid;gap:12px}
 .link{display:flex;align-items:center;gap:16px;padding:18px 20px;background:var(--paper);border:1px solid var(--line);border-radius:20px;transition:transform .3s var(--ease),box-shadow .3s,border-color .3s}
@@ -217,7 +205,6 @@ section{padding:clamp(56px,8vw,100px) 0 0}
 .link .go{width:18px;height:18px;color:#a3a5b0;transition:transform .25s,color .25s}
 .link:hover .go{transform:translate(3px,-3px);color:var(--ink)}
 
-/* ---------- FOOTER ---------- */
 footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border-radius:clamp(28px,5vw,56px) clamp(28px,5vw,56px) 0 0;padding:clamp(40px,6vw,70px) 0 26px}
 .f-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1fr;gap:36px}
 .f-brand img{height:34px;width:auto;max-width:190px;object-fit:contain;filter:brightness(0) invert(1)}
@@ -228,7 +215,6 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
 .f-col a .i{width:15px;height:15px;opacity:.6}
 .f-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:44px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);font-size:12px;color:rgba(255,255,255,.4)}
 
-/* ---------- ANIMATION ---------- */
 .rv{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .rv.show{opacity:1;transform:none}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
@@ -242,7 +228,6 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
 @keyframes slide{to{transform:translateX(-50%)}}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 4px rgba(126,226,168,.18)}50%{box-shadow:0 0 0 8px rgba(126,226,168,0)}}
 
-/* ---------- RESPONSIVE ---------- */
 @media(min-width:1001px){
   main > section:not(.hero){min-height:calc(100vh - 90px);display:flex;align-items:center;padding:48px 0}
   main > section:not(.hero) > .wrap{width:100%}
@@ -300,7 +285,6 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
 
 <body>
 
-<!-- ICON SPRITE -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-arrow-ur" viewBox="0 0 24 24"><path d="M7 7h10v10M7 17 17 7"/></symbol>
   <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
@@ -320,13 +304,13 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 14l2 2 4-4"/></symbol>
 </svg>
 
-<!-- NAV -->
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="/" class="logo"><img src="/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+    <a href="/" class="logo"><img src="/assets/dynotic-distribution.png" alt="Dynotic Collective"></a>
 
     <nav class="nav-links" aria-label="Main navigation">
       <a href="#features">Features</a>
+      <a href="#ctm">Cover to Master</a>
       <a href="#how">How it works</a>
       <a href="#about">About</a>
       <a href="#faq">FAQ</a>
@@ -343,9 +327,9 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   </div>
 </header>
 
-<!-- MOBILE SHEET -->
 <div class="sheet" id="sheet">
   <a class="s-link" href="#features">Features <svg class="i"><use href="#i-arrow-r"/></svg></a>
+  <a class="s-link" href="#ctm">Cover to Master <svg class="i"><use href="#i-arrow-r"/></svg></a>
   <a class="s-link" href="#how">How it works <svg class="i"><use href="#i-arrow-r"/></svg></a>
   <a class="s-link" href="#about">About <svg class="i"><use href="#i-arrow-r"/></svg></a>
   <a class="s-link" href="#faq">FAQ <svg class="i"><use href="#i-arrow-r"/></svg></a>
@@ -359,7 +343,6 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
 
 <main>
 
-<!-- HERO -->
 <section class="hero" style="padding-bottom:clamp(60px,8vw,100px)">
   <div class="hero-grid"></div>
 
@@ -388,7 +371,7 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
           <a href="#about" class="btn btn-ghost">Discover Dynotic</a>
         </div>
 
-        <p class="hero-note intro i5">Open for independent artists everywhere.</p>
+        <p class="hero-note intro i5">Free distribution. Open for independent artists everywhere.</p>
       </div>
 
       <div class="stage intro i4" aria-hidden="true">
@@ -412,21 +395,19 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   </div>
 </section>
 
-<!-- PLATFORMS -->
 <div class="marquee rv" id="platforms">
   <p class="marquee-label">Reach listeners on</p>
-  <p class="sr-only">Spotify, Apple Music, YouTube Music, TikTok, Amazon Music</p>
+  <p class="sr-only">Spotify, Apple Music, YouTube Music, TikTok, Amazon Music, and more</p>
   <div class="mq-fade" aria-hidden="true">
     <div class="track">
-      <span>Spotify</span><span>Apple Music</span><span>YouTube Music</span><span>TikTok</span><span>Amazon Music</span>
-      <span>Spotify</span><span>Apple Music</span><span>YouTube Music</span><span>TikTok</span><span>Amazon Music</span>
-      <span>Spotify</span><span>Apple Music</span><span>YouTube Music</span><span>TikTok</span><span>Amazon Music</span>
-      <span>Spotify</span><span>Apple Music</span><span>YouTube Music</span><span>TikTok</span><span>Amazon Music</span>
+      <span>Spotify</span><span>Apple Music</span><span>YouTube Music</span><span>TikTok</span><span>Amazon Music</span><span>Other</span>
+      <span>Spotify</span><span>Apple Music</span><span>YouTube Music</span><span>TikTok</span><span>Amazon Music</span><span>Other</span>
+      <span>Spotify</span><span>Apple Music</span><span>YouTube Music</span><span>TikTok</span><span>Amazon Music</span><span>Other</span>
+      <span>Spotify</span><span>Apple Music</span><span>YouTube Music</span><span>TikTok</span><span>Amazon Music</span><span>Other</span>
     </div>
   </div>
 </div>
 
-<!-- FEATURES -->
 <section id="features">
   <div class="wrap">
 
@@ -441,7 +422,7 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
       <article class="tile dark t-3 rv">
         <div class="ico"><svg class="i"><use href="#i-music"/></svg></div>
         <h3>Music Distribution</h3>
-        <p>Helping artists deliver their music to digital streaming platforms and reach listeners around the world.</p>
+        <p>Free music distribution to digital streaming platforms, helping artists reach listeners around the world.</p>
       </article>
 
       <article class="tile t-3 rv d1">
@@ -465,7 +446,7 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
       <article class="tile t-2 rv d2">
         <div class="ico"><svg class="i"><use href="#i-chart"/></svg></div>
         <h3>Royalty Information</h3>
-        <p>Access available royalty reports and revenue information for your releases.</p>
+        <p>Original releases earn 80% royalties for the artist. Reports and revenue information are available in your dashboard.</p>
       </article>
 
       <article class="tile tint t-6 rv">
@@ -480,7 +461,28 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
+<section id="ctm">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow">Cover to Master</p>
+      <h2 class="h2">Cover or remix licensed songs. Legally.</h2>
+      <p class="sub">Choose from the Dynotic Licensed Song list and release your own cover or remix with royalties already cleared.</p>
+    </div>
+    <div class="bento">
+      <article class="tile dark t-3 rv">
+        <div class="ico"><svg class="i"><use href="#i-music"/></svg></div>
+        <h3>How it works</h3>
+        <p>Pick a song from the licensed list, submit your cover or remix, and we handle the rest. Review time varies, with no official estimate.</p>
+      </article>
+      <article class="tile t-3 rv d1">
+        <div class="ico"><svg class="i"><use href="#i-chart"/></svg></div>
+        <h3>60 / 30 / 10 split</h3>
+        <p>60% to the artist, 30% to the rights holder, and 10% to Dynotic.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
 <section id="how">
   <div class="wrap">
 
@@ -499,7 +501,6 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="wrap">
     <div class="about">
@@ -537,7 +538,6 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   </div>
 </section>
 
-<!-- JOIN CTA -->
 <section id="join">
   <div class="wrap">
     <div class="cta rv">
@@ -554,7 +554,6 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   </div>
 </section>
 
-<!-- FAQ -->
 <section id="faq">
   <div class="wrap">
 
@@ -567,7 +566,12 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
 
       <details>
         <summary>Who can join Dynotic Collective? <svg class="i"><use href="#i-plus"/></svg></summary>
-        <p>Dynotic is open to independent artists. Create an account to get started, and reach out to our support team if you need help along the way.</p>
+        <p>Dynotic is open to independent artists. You must own or hold the rights to the music you release. Create an account to get started, and reach out to support if you need help.</p>
+      </details>
+
+      <details>
+        <summary>Is distribution free? <svg class="i"><use href="#i-plus"/></svg></summary>
+        <p>Yes. Music distribution through Dynotic is free. Original releases earn 80% royalties for the artist.</p>
       </details>
 
       <details>
@@ -576,13 +580,18 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
       </details>
 
       <details>
+        <summary>What is Cover to Master? <svg class="i"><use href="#i-plus"/></svg></summary>
+        <p>A way to release covers or remixes of songs from the Dynotic Licensed Song list. Royalties are split 60% artist, 30% rights holder, 10% Dynotic.</p>
+      </details>
+
+      <details>
         <summary>How long until my release goes live? <svg class="i"><use href="#i-plus"/></svg></summary>
-        <p>Timing depends on the review and delivery process of each streaming platform. For questions about a specific release, contact us at support@dynoticcollective.com.</p>
+        <p>Original releases usually go live within 7-14 days, depending on each platform. Cover to Master submissions have no official estimate. Some are approved quickly, others take longer.</p>
       </details>
 
       <details>
         <summary>Where can I see my royalties? <svg class="i"><use href="#i-plus"/></svg></summary>
-        <p>Available royalty reports and revenue information appear in your artist dashboard. For questions about a specific report or payment, reach out to our support team.</p>
+        <p>Royalty reports and revenue information appear in your artist dashboard once received from the platforms. There is no fixed reporting schedule. For questions about a specific report or payment, reach out to support.</p>
       </details>
 
       <details>
@@ -595,7 +604,6 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact">
   <div class="wrap">
     <div class="contact">
@@ -637,20 +645,20 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
 
 </main>
 
-<!-- FOOTER -->
 <footer>
   <div class="wrap">
 
     <div class="f-top">
 
       <div class="f-brand">
-        <a href="/" class="logo"><img src="/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+        <a href="/" class="logo"><img src="/assets/dynotic-distribution.png" alt="Dynotic Collective"></a>
         <p>An independent music community supporting artists and their creative journeys through collaboration, creativity, and mutual respect.</p>
       </div>
 
       <div class="f-col">
         <h4>Explore</h4>
         <a href="#features">Features</a>
+        <a href="#ctm">Cover to Master</a>
         <a href="#how">How it works</a>
         <a href="#about">About</a>
         <a href="#faq">FAQ</a>
@@ -714,7 +722,6 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   document.addEventListener("keydown", function(e){ if(e.key === "Escape") setMenu(false); });
   window.addEventListener("resize", function(){ if(window.innerWidth > 1000) setMenu(false); });
 
-  // active link
   var links = document.querySelectorAll(".nav-links a");
   var secs = [];
   links.forEach(function(a){
