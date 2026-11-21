@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script>try{var t=localStorage.getItem("dc-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Dynotic Collective | Independent Music Community</title>
@@ -280,29 +279,10 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
 .tool{display:inline-flex;align-items:center;justify-content:center;height:38px;min-width:38px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.1);color:#fff;font-size:12px;font-weight:700;letter-spacing:.06em;transition:background .2s}
 .tool:hover{background:rgba(255,255,255,.2)}
 .tool .i{width:17px;height:17px}
-.tool-theme .i-moon{display:none}
-[data-theme="dark"] .tool-theme .i-sun{display:none}
-[data-theme="dark"] .tool-theme .i-moon{display:block}
 .sheet .s-tools{display:flex;gap:10px;padding-top:20px}
 .sheet .s-tools .tool{height:48px;flex:1}
 @media(max-width:620px){.nav-cta .tool{display:none}}
 @media(min-width:621px){.sheet .s-tools{display:none}}
-
-/* ===== Dark theme ===== */
-[data-theme="dark"]{
-  --bg:#0d0d12;--paper:#16161e;--ink:#f1f1f7;--muted:#9a9cab;--line:#262633;
-  --accent:#a9a3f2;--accent-2:#a9a3f2;color-scheme:dark;
-}
-[data-theme="dark"] .tile:hover,[data-theme="dark"] .value:hover,[data-theme="dark"] .link:hover,[data-theme="dark"] .faq details[open]{border-color:#3a3a4d}
-[data-theme="dark"] .tile:hover{box-shadow:0 22px 44px rgba(0,0,0,.4)}
-[data-theme="dark"] .tile:hover .ico{background:#232333}
-[data-theme="dark"] .tile.dark,[data-theme="dark"] .cta,[data-theme="dark"] footer{border:1px solid var(--line)}
-[data-theme="dark"] footer{border-bottom:0}
-[data-theme="dark"] .track span{background:var(--paper);color:#d5d6e0}
-[data-theme="dark"] .value .ck{background:var(--accent);color:#14141a}
-[data-theme="dark"] .btn-dark{background:#fff;color:#14141a}
-[data-theme="dark"] .btn-line{background:var(--paper)}
-[data-theme="dark"] .link .go{color:#6f7280}
 
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
@@ -331,8 +311,6 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
   <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
   <symbol id="i-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></symbol>
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 14l2 2 4-4"/></symbol>
-  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
-  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
 </svg>
 
 <header class="nav" id="nav">
@@ -350,7 +328,6 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
 
     <div class="nav-cta">
       <button class="tool tool-lang" type="button" aria-label="Change language">EN</button>
-      <button class="tool tool-theme" type="button" aria-label="Toggle theme"><svg class="i i-sun"><use href="#i-sun"/></svg><svg class="i i-moon"><use href="#i-moon"/></svg></button>
       <a href="https://app.dynoticcollective.com/login" class="btn btn-ghost">Login</a>
       <a href="https://app.dynoticcollective.com/register" class="btn btn-light nav-join">Get Started</a>
       <button class="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="sheet">
@@ -370,7 +347,6 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
 
   <div class="s-tools">
     <button class="tool tool-lang" type="button" aria-label="Change language">EN</button>
-    <button class="tool tool-theme" type="button" aria-label="Toggle theme"><svg class="i i-sun"><use href="#i-sun"/></svg><svg class="i i-moon"><use href="#i-moon"/></svg></button>
   </div>
 
   <div class="s-actions">
@@ -787,7 +763,7 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
     document.querySelectorAll(".rv").forEach(function(el){ el.classList.add("show"); });
   }
 
-  /* ===== Language (EN/ID) + theme ===== */
+  /* ===== Language (EN/ID) ===== */
   var ID = {
 "Features":"Fitur","How it works":"Cara kerja","About":"Tentang","Contact":"Kontak",
 "Login":"Masuk","Get Started":"Mulai Sekarang","Login to Artist Portal":"Masuk ke Portal Artis",
@@ -885,24 +861,12 @@ footer{margin-top:clamp(56px,8vw,100px);background:var(--dark);color:#fff;border
     try{ localStorage.setItem("dc-lang", l); }catch(e){}
   }
 
-  function setTheme(t){
-    document.documentElement.setAttribute("data-theme", t);
-    document.querySelector('meta[name="theme-color"]').setAttribute("content", t==="dark" ? "#0d0d12" : "#f3f3f8");
-    try{ localStorage.setItem("dc-theme", t); }catch(e){}
-  }
-
   var lang = "en";
   try{ lang = localStorage.getItem("dc-lang") || ((navigator.language||"").toLowerCase().indexOf("id")===0 ? "id" : "en"); }catch(e){}
   setLang(lang);
-  setTheme(document.documentElement.getAttribute("data-theme") || "light");
 
   document.querySelectorAll(".tool-lang").forEach(function(b){
     b.addEventListener("click", function(){ lang = lang==="en" ? "id" : "en"; setLang(lang); });
-  });
-  document.querySelectorAll(".tool-theme").forEach(function(b){
-    b.addEventListener("click", function(){
-      setTheme(document.documentElement.getAttribute("data-theme")==="dark" ? "light" : "dark");
-    });
   });
 
 })();
