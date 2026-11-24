@@ -360,8 +360,13 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
           <div class="row2">
             <div class="field" data-f="artist">
               <label class="label" for="artist">Artist Name <span class="req">*</span></label>
-              <input class="input" id="artist" placeholder="Artist name" autocomplete="off">
+              <div class="select">
+                <select id="artist"><option value="">Memuat artist…</option></select>
+                <svg class="i"><use href="#i-chev-d"/></svg>
+              </div>
               <div class="err-msg"></div>
+              <div class="rt-warn" id="artistEmpty" hidden>Kamu belum punya artist. <a href="https://app.dynoticcollective.com/catalog/artists/create/">Buat artist dulu</a>, lalu kembali ke sini.</div>
+              <div class="hint">Tidak ketemu? <a href="https://app.dynoticcollective.com/catalog/artists/create/">Buat artist baru</a></div>
             </div>
             <div class="field" data-f="labelName">
               <label class="label" for="labelName">Label <span class="req">*</span></label>
@@ -479,7 +484,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
 
         <div class="grp">
           <div class="grp-t">Link platform</div>
-          <div class="grp-d">Boleh dikosongkan jika belum ada.</div>
+          <div class="grp-d">Terisi otomatis dari artist yang dipilih. Boleh dikosongkan jika belum ada.</div>
 
           <div class="row2">
             <div class="field">
@@ -583,12 +588,14 @@ firebase.initializeApp({
 
 const db = firebase.database();
 const WORKER_URL = "https://upload-assets.dynotic-bot.workers.dev/";
+const ARTIST_CREATE = "https://app.dynoticcollective.com/catalog/artists/create/";
 
 const $ = id => document.getElementById(id);
 
 /* ================= AUTH ================= */
 firebase.auth().onAuthStateChanged(user => {
   if(!user) location.href = "https://app.dynoticcollective.com/login";
+  else loadArtists(user.uid);
 });
 
 /* ================= HELPERS ================= */
@@ -651,6 +658,76 @@ function saveDraft(){
 function clearDraft(){
   try{ sessionStorage.removeItem(DRAFT_KEY); }catch(_){}
 }
+
+/* ================= ARTIST (dari artists/{uid}) ================= */
+let myArtists = {};
+
+function loadArtists(uid){
+  db.ref("artists/" + uid).once("value").then(snap => {
+    const sel = $("artist");
+    const list = [];
+
+    snap.forEach(i => {
+      const a = i.val();
+      if(a && a.name) list.push({ id:i.key, ...a });
+    });
+
+    list.sort((a, b) => a.name.localeCompare(b.name));
+    myArtists = {};
+    list.forEach(a => { myArtists[a.id] = a; });
+
+    sel.innerHTML = "";
+    $("artistEmpty").hidden = list.length > 0;
+
+    const first = document.createElement("option");
+    first.value = "";
+    first.textContent = list.length ? "Pilih artist" : "Belum ada artist";
+    sel.appendChild(first);
+
+    list.forEach(a => {
+      const o = document.createElement("option");
+      o.value = a.name;
+      o.textContent = a.name;
+      o.dataset.id = a.id;
+      sel.appendChild(o);
+    });
+
+    const neu = document.createElement("option");
+    neu.value = "__new";
+    neu.textContent = "+ Buat artist baru";
+    sel.appendChild(neu);
+
+    // pulihkan pilihan dari draft (link platform dari draft tidak ditimpa)
+    try{
+      const saved = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || "{}").artist;
+      if(saved && list.some(a => a.name === saved)) sel.value = saved;
+    }catch(_){}
+
+    refreshGate();
+  }).catch(e => {
+    console.error("Gagal memuat artist:", e);
+    toast("Gagal memuat daftar artist.");
+  });
+}
+
+$("artist").addEventListener("change", e => {
+  const sel = e.target;
+
+  if(sel.value === "__new"){
+    sel.value = "";
+    saveDraft();
+    location.href = ARTIST_CREATE;
+    return;
+  }
+
+  const opt = sel.selectedOptions[0];
+  const a = opt && opt.dataset.id ? myArtists[opt.dataset.id] : null;
+
+  // isi otomatis dari artist; kalau artist tidak punya link, dikosongkan
+  $("spotifyUrl").value = (a && a.spotify) || "";
+  $("appleUrl").value = (a && a.apple) || "";
+  saveDraft();
+});
 
 /* ================= UPLOAD ================= */
 function uploadFile(file, onProgress, onDone){
@@ -847,7 +924,7 @@ const REQUIRED = ["title","labelName","artist","genre","releaseType","releaseDat
 const MSG = {
   title:"Judul rilisan wajib diisi.",
   labelName:"Label wajib diisi.",
-  artist:"Nama artist wajib diisi.",
+  artist:"Pilih artist terlebih dahulu.",
   genre:"Pilih genre terlebih dahulu.",
   fullname:"Composer & Lyrics wajib diisi."
 };
