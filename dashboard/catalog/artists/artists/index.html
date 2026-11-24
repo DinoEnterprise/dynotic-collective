@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tambah Artist | Dynotic Distribution</title>
+<meta name="theme-color" content="#f3f3f8">
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="icon" type="image/png" href="https://dynoticcollective.com/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://dynoticcollective.com/assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://dynoticcollective.com/assets/favicon-iphone.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f3f3f8;
+  --paper:#fff;
+  --ink:#14141a;
+  --muted:#6f7280;
+  --line:#e6e6ee;
+  --dark:#0d0d12;
+  --accent:#7772a8;
+  --accent-2:#a9a3f2;
+  --red:#ef4444;
+  --side:260px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:90px}
+body{background:var(--bg);color:var(--ink);min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:110px}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* ================= SIDEBAR (desktop) ================= */
+.sidebar{display:none;position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--dark);color:#fff;padding:26px 18px 20px;flex-direction:column;z-index:60;overflow-y:auto}
+.sidebar .logo img{height:32px;width:auto;max-width:180px;object-fit:contain;filter:brightness(0) invert(1);display:block;margin:0 8px 30px}
+.side-nav{display:flex;flex-direction:column;gap:4px}
+.side-nav a{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:14px;font-size:14px;font-weight:500;color:rgba(255,255,255,.62);transition:background .2s,color .2s}
+.side-nav a .i{width:19px;height:19px}
+.side-nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.side-nav a.active{background:rgba(255,255,255,.1);color:#fff;font-weight:700}
+.side-create{display:flex;align-items:center;justify-content:center;gap:9px;margin:0 0 18px;height:48px;border-radius:14px;background:#fff;color:var(--ink);font-size:14px;font-weight:700;transition:transform .25s var(--ease),box-shadow .25s}
+.side-create:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,255,255,.14)}
+.side-create .i{width:18px;height:18px}
+.side-foot{margin-top:auto;padding-top:20px}
+.side-help{padding:16px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.side-help strong{display:block;font-size:13px;font-weight:700}
+.side-help span{display:block;margin-top:3px;font-size:12px;line-height:1.6;color:rgba(255,255,255,.5)}
+.side-acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:13px}
+.side-help a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--accent-2)}
+.side-help a .i{width:14px;height:14px}
+.side-help a.wa{height:36px;padding:0 14px;border-radius:999px;background:#fff;color:var(--ink);transition:transform .25s var(--ease)}
+.side-help a.wa:hover{transform:translateY(-2px)}
+
+/* ================= TOPBAR ================= */
+.topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
+.topbar.scrolled{border-bottom-color:var(--line)}
+.topbar .logo-m img{height:30px;width:auto;max-width:170px;object-fit:contain;display:block}
+.page-title{display:none;font-size:20px;font-weight:800;letter-spacing:-.03em}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.icon-btn{position:relative;width:42px;height:42px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),border-color .2s}
+.icon-btn:hover{border-color:#cfcfdb}
+.icon-btn:active{transform:scale(.93)}
+.icon-btn .i{width:19px;height:19px}
+.badge{position:absolute;top:-5px;right:-5px;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--red);border:2px solid var(--bg);color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center}
+.avatar-btn{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line);transition:transform .2s var(--ease)}
+.avatar-btn:active{transform:scale(.93)}
+
+/* ================= LAYOUT ================= */
+.wrap{width:100%;max-width:760px;margin:0 auto;padding:6px 16px 0}
+
+.head{padding:10px 2px 18px}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:10px;transition:color .2s}
+.back:hover{color:var(--ink)}
+.back .i{width:15px;height:15px}
+.head small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.head h1{margin-top:2px;font-size:clamp(26px,5vw,36px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+
+/* ================= PANEL / FORM ================= */
+.panel{margin-top:16px;background:var(--paper);border:1px solid var(--line);border-radius:26px;padding:clamp(16px,3vw,28px);animation:up .6s var(--ease) .1s both}
+.form{display:grid;gap:30px}
+.sec h3{font-size:15px;font-weight:800;letter-spacing:-.02em}
+.sec .sub{margin:3px 0 16px;font-size:12px;line-height:1.6;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr;gap:16px}
+
+.field{min-width:0}
+.field label{display:block;margin-bottom:7px;font-size:12px;font-weight:700;letter-spacing:.02em;color:#3b3d49}
+.field label em{font-style:normal;color:var(--red)}
+.field label span{font-weight:500;color:#a3a5b0}
+.field input,.field select{width:100%;height:48px;padding:0 16px;border-radius:15px;border:1.5px solid var(--line);background:#fafafd;font-size:16px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+.field select{appearance:none;-webkit-appearance:none;padding-right:40px;cursor:pointer}
+.field .sel{position:relative}
+.field .sel::after{content:"";position:absolute;right:17px;top:50%;width:7px;height:7px;border-right:2px solid #8a8d9a;border-bottom:2px solid #8a8d9a;transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.field input::placeholder{color:#b3b5c0}
+.field input:focus,.field select:focus{border-color:var(--ink);background:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.14)}
+.field .err{display:none;margin-top:6px;font-size:12px;font-weight:500;color:#d83a3a}
+.field.bad input,.field.bad select{border-color:var(--red);background:#fff8f8}
+.field.bad .err{display:block}
+
+/* photo */
+.photo{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.photo-prev{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#ebeaf6,#dcdaee);display:flex;align-items:center;justify-content:center;color:var(--accent);overflow:hidden;flex-shrink:0;border:3px solid #fff;box-shadow:0 0 0 1px var(--line)}
+.photo-prev .i{width:32px;height:32px}
+.photo-prev img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-act{display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0}
+.photo-btns{display:flex;gap:8px;flex-wrap:wrap}
+.photo-note{font-size:12px;line-height:1.6;color:var(--muted)}
+.photo-err{display:none;font-size:12px;font-weight:500;color:#d83a3a}
+.photo-err.show{display:block}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:46px;padding:0 22px;border-radius:999px;font-size:13px;font-weight:700;background:var(--ink);color:#fff;white-space:nowrap;transition:transform .25s var(--ease),box-shadow .25s,opacity .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(20,20,26,.2)}
+.btn:disabled{opacity:.55;cursor:default;transform:none;box-shadow:none}
+.btn .i{width:16px;height:16px}
+.btn.line{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.btn.line:hover{box-shadow:none;border-color:#cfcfdb}
+.btn.sm{height:38px;padding:0 16px}
+.spin{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;animation:rot .7s linear infinite}
+
+.actions{display:flex;gap:10px;justify-content:flex-end;padding-top:6px;border-top:1px solid var(--line);margin-top:-6px;padding-top:22px}
+
+/* ================= BOTTOM NAV (mobile) ================= */
+.bottom{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);width:calc(100% - 28px);max-width:540px;height:70px;padding:0 8px;background:rgba(13,13,18,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:26px;box-shadow:0 18px 40px rgba(13,13,18,.3);display:flex;align-items:center;justify-content:space-around;z-index:70}
+.b-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:100%;font-size:10px;font-weight:500;color:rgba(255,255,255,.5);transition:color .2s,transform .15s}
+.b-item .i{width:20px;height:20px}
+.b-item:active{transform:scale(.92)}
+.b-item.active{color:#fff;font-weight:700}
+.b-item.active .i{color:var(--accent-2)}
+.b-create{flex:1;display:flex;align-items:center;justify-content:center}
+.b-create span{width:54px;height:54px;border-radius:18px;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;margin-top:-30px;border:5px solid var(--bg);box-sizing:content-box;box-shadow:0 10px 24px rgba(0,0,0,.2);transition:transform .2s var(--ease)}
+.b-create:active span{transform:scale(.9)}
+.b-create .i{width:23px;height:23px}
+
+/* ================= PROFILE POPUP ================= */
+.pop{position:fixed;top:70px;right:14px;width:272px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(20,20,40,.16);padding:10px;z-index:200;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top right;transition:all .22s var(--ease)}
+.pop.show{opacity:1;visibility:visible;transform:none}
+.pop-info{display:flex;align-items:center;gap:12px;padding:10px 10px 14px}
+.pop-info .avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.pop-info .nm{min-width:0}
+.pop-info strong{display:block;font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pop-info span{display:block;margin-top:2px;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pop .lbl{padding:8px 10px 4px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a3a5b0}
+.pop hr{border:0;height:1px;background:var(--line);margin:2px 4px 6px}
+.pop a,.pop button.opt{display:flex;align-items:center;gap:12px;width:100%;padding:12px 10px;border-radius:12px;font-size:13px;font-weight:500;text-align:left;transition:background .2s}
+.pop a:hover,.pop button.opt:hover{background:var(--bg)}
+.pop .i{width:17px;height:17px;color:var(--muted)}
+.pop .logout,.pop .logout .i{color:#d83a3a}
+
+/* ================= NOTIFICATION DRAWER ================= */
+.overlay{position:fixed;inset:0;background:rgba(13,13,18,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:300;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.overlay.show{opacity:1;visibility:visible}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:420px;max-width:100%;background:var(--paper);z-index:310;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .4s var(--ease);box-shadow:-20px 0 60px rgba(0,0,0,.12)}
+.drawer.show{transform:none}
+.d-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 20px 14px}
+.d-head h3{font-size:20px;font-weight:800;letter-spacing:-.03em}
+.d-head .acts{display:flex;align-items:center;gap:8px}
+.d-all{font-size:12px;font-weight:700;color:var(--accent);padding:8px 12px;border-radius:999px;transition:background .2s}
+.d-all:hover{background:#e9e8f4}
+.d-all:disabled{opacity:.4;cursor:default;background:none}
+.d-x{width:38px;height:38px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.d-x .i{width:17px;height:17px}
+.d-list{flex:1;overflow-y:auto;padding:0 12px 24px;overscroll-behavior:contain}
+.d-item{border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:10px;background:var(--paper)}
+.d-item.unread{border-color:#d3d1e6;background:#fbfbfe}
+.d-item .row{display:flex;align-items:flex-start;gap:10px}
+.d-item .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+.d-item.read .dot{background:#d5d6de}
+.d-item strong{display:block;font-size:14px;font-weight:700;line-height:1.4}
+.d-item.read strong{color:#4a4c58;font-weight:600}
+.d-item p{margin-top:6px;font-size:13px;line-height:1.7;color:#5a5d6a;white-space:pre-wrap;overflow-wrap:anywhere;user-select:text}
+.d-item .mark{margin-top:12px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--accent);padding:6px 11px;border-radius:999px;background:#eeedf7;transition:background .2s}
+.d-item .mark:hover{background:#e2e0f1}
+.d-item .mark .i{width:13px;height:13px}
+.d-empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:40px 20px;text-align:center;color:var(--muted);font-size:13px}
+.d-empty .ic{width:46px;height:46px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--accent)}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ================= DESKTOP ================= */
+@media(min-width:1000px){
+  body{padding-bottom:40px;padding-left:var(--side)}
+  .sidebar{display:flex}
+  .bottom{display:none}
+  .topbar{height:78px;padding:0 36px}
+  .topbar .logo-m{display:none}
+  .page-title{display:block}
+  .wrap{padding:6px 36px 0}
+  .pop{top:76px;right:34px}
+  .toast{bottom:30px}
+}
+
+@media(min-width:700px){
+  .grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:700px){
+  .wrap{padding:0 14px}
+  .panel{border-radius:22px}
+  .drawer{top:auto;width:100%;height:84dvh;border-radius:26px 26px 0 0;transform:translateY(102%);box-shadow:0 -20px 60px rgba(0,0,0,.2)}
+  .drawer.show{transform:none}
+  .pop{right:12px;top:66px}
+  .actions{flex-direction:column-reverse}
+  .actions .btn{width:100%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ICON SPRITE -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10.5 9-7.5 9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M4 2v20l3-2 3 2 2-2 2 2 3-2 3 2V2l-3 2-3-2-2 2-2-2-3 2z"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8.5 9.5c.3 2.4 2.6 4.7 5 5l1.4-1.2-1.8-1-.8.7c-.9-.4-1.6-1.2-2-2l.7-.8-1-1.8z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+</svg>
+
+<!-- ================= SIDEBAR (desktop) ================= -->
+<aside class="sidebar">
+  <a href="https://app.dynoticcollective.com/home/" class="logo"><img src="https://dynoticcollective.com/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+
+  <a href="https://app.dynoticcollective.com/catalog/releases/create/" class="side-create">
+    <svg class="i"><use href="#i-plus"/></svg>New Release
+  </a>
+
+  <nav class="side-nav" aria-label="Main navigation">
+    <a href="https://app.dynoticcollective.com/home/"><svg class="i"><use href="#i-home"/></svg>Home</a>
+    <a href="https://app.dynoticcollective.com/catalog/" class="active"><svg class="i"><use href="#i-disc"/></svg>Catalog</a>
+    <a href="https://app.dynoticcollective.com/transactions/"><svg class="i"><use href="#i-receipt"/></svg>Transactions</a>
+    <a href="https://app.dynoticcollective.com/analytics/"><svg class="i"><use href="#i-chart"/></svg>Analytics</a>
+    <a href="https://app.dynoticcollective.com/account/"><svg class="i"><use href="#i-gear"/></svg>Account</a>
+  </nav>
+
+  <div class="side-foot">
+    <div class="side-help">
+      <strong>Need help?</strong>
+      <span>Tim kami siap membantu soal distribusi, rilis, dan katalog.</span>
+      <div class="side-acts">
+        <a href="https://wa.me/6283161380687" target="_blank" rel="noopener noreferrer" class="wa"><svg class="i"><use href="#i-whatsapp"/></svg>WhatsApp CS</a>
+        <a href="mailto:support@dynoticcollective.com"><svg class="i"><use href="#i-mail"/></svg>Email Support</a>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ================= TOPBAR ================= -->
+<header class="topbar" id="topbar">
+  <a href="https://app.dynoticcollective.com/home/" class="logo-m"><img src="https://dynoticcollective.com/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+  <h2 class="page-title">Tambah Artist</h2>
+
+  <div class="top-actions">
+    <button class="icon-btn" id="notifBtn" type="button" aria-label="Notifikasi">
+      <svg class="i"><use href="#i-bell"/></svg>
+      <span class="badge" id="notifBadge">0</span>
+    </button>
+    <button class="avatar-btn" id="profileBtn" type="button" aria-label="Profil" aria-expanded="false">
+      <span id="avatarLetter">A</span>
+    </button>
+  </div>
+</header>
+
+<!-- ================= PROFILE POPUP ================= -->
+<div class="pop" id="profilePopup" role="menu">
+  <div class="pop-info">
+    <div class="avatar" id="popAvatar">A</div>
+    <div class="nm">
+      <strong id="profileName">Artist</strong>
+      <span id="profileEmail">-</span>
+    </div>
+  </div>
+  <hr>
+  <a href="https://app.dynoticcollective.com/account/" role="menuitem"><svg class="i"><use href="#i-gear"/></svg>Account Settings</a>
+  <div class="lbl">Help</div>
+  <a href="https://wa.me/6283161380687" target="_blank" rel="noopener noreferrer" role="menuitem"><svg class="i"><use href="#i-whatsapp"/></svg>WhatsApp CS</a>
+  <a href="mailto:support@dynoticcollective.com" role="menuitem"><svg class="i"><use href="#i-mail"/></svg>Email Support</a>
+  <hr>
+  <button class="opt logout" type="button" id="logoutBtn" role="menuitem"><svg class="i"><use href="#i-logout"/></svg>Logout</button>
+</div>
+
+<!-- ================= NOTIFICATION DRAWER ================= -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Notifikasi" aria-hidden="true">
+  <div class="d-head">
+    <h3>Notifikasi</h3>
+    <div class="acts">
+      <button class="d-all" id="markAll" type="button">Tandai semua dibaca</button>
+      <button class="d-x" id="drawerClose" type="button" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+  </div>
+  <div class="d-list" id="drawerList"></div>
+</aside>
+
+<!-- ================= MAIN ================= -->
+<main class="wrap">
+
+  <div class="head">
+    <a class="back" href="https://app.dynoticcollective.com/catalog/artists/"><svg class="i"><use href="#i-left"/></svg>Kembali ke Artists</a>
+    <small>Catalog Management</small>
+    <h1>Tambah artist baru</h1>
+  </div>
+
+  <section class="panel">
+    <form class="form" id="artistForm" novalidate>
+
+      <!-- FOTO -->
+      <div class="sec">
+        <h3>Foto artist</h3>
+        <p class="sub">Opsional. Foto otomatis dipotong persegi dan dikompres sebelum diunggah.</p>
+        <div class="photo">
+          <div class="photo-prev" id="photoPrev"><svg class="i"><use href="#i-user"/></svg></div>
+          <div class="photo-act">
+            <div class="photo-btns">
+              <button class="btn line sm" type="button" id="pickPhoto"><svg class="i"><use href="#i-camera"/></svg>Tambahkan foto</button>
+              <button class="btn line sm" type="button" id="removePhoto" hidden><svg class="i"><use href="#i-x"/></svg>Hapus</button>
+            </div>
+            <div class="photo-note">JPG, PNG, atau WebP. Maksimal 5 MB.</div>
+            <div class="photo-err" id="photoErr"></div>
+          </div>
+          <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" hidden>
+        </div>
+      </div>
+
+      <!-- PROFIL -->
+      <div class="sec">
+        <h3>Profil</h3>
+        <p class="sub">Informasi yang tampil di katalog dan saat memilih artist pada rilisan.</p>
+        <div class="grid">
+
+          <div class="field" data-f="name">
+            <label for="name">Nama Artist <em>*</em></label>
+            <input id="name" type="text" maxlength="80" placeholder="Nama panggung" autocomplete="off">
+            <div class="err"></div>
+          </div>
+
+          <div class="grid two">
+            <div class="field" data-f="genre">
+              <label for="genre">Genre Utama <em>*</em></label>
+              <div class="sel">
+                <select id="genre">
+                  <option value="">Pilih genre</option>
+                  <option>Pop</option><option>Hip-Hop / Rap</option><option>R&amp;B / Soul</option>
+                  <option>Rock</option><option>Indie / Alternative</option><option>Electronic / Dance</option>
+                  <option>Dangdut</option><option>Jazz</option><option>Reggae</option>
+                  <option>Folk / Acoustic</option><option>Country</option><option>Metal</option>
+                  <option>Classical</option><option>Latin</option><option>K-Pop</option>
+                  <option>Religi</option><option>Lainnya</option>
+                </select>
+              </div>
+              <div class="err"></div>
+            </div>
+
+            <div class="field" data-f="subGenre">
+              <label for="subGenre">Sub Genre <span>(opsional)</span></label>
+              <input id="subGenre" type="text" maxlength="60" placeholder="Contoh: Trap, Lo-fi" autocomplete="off">
+              <div class="err"></div>
+            </div>
+          </div>
+
+          <div class="field" data-f="country">
+            <label for="country">Country <em>*</em></label>
+            <input id="country" type="text" maxlength="60" list="countryList" placeholder="Pilih atau ketik negara" autocomplete="off">
+            <datalist id="countryList">
+              <option value="Indonesia"><option value="Malaysia"><option value="Singapore">
+              <option value="Brunei"><option value="Thailand"><option value="Philippines">
+              <option value="Vietnam"><option value="Japan"><option value="South Korea">
+              <option value="China"><option value="India"><option value="Australia">
+              <option value="United Kingdom"><option value="United States"><option value="Canada">
+              <option value="Germany"><option value="France"><option value="Netherlands">
+              <option value="Saudi Arabia"><option value="United Arab Emirates"><option value="Brazil">
+            </datalist>
+            <div class="err"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PLATFORM -->
+      <div class="sec">
+        <h3>Link platform</h3>
+        <p class="sub">Opsional, tapi sangat membantu agar profil artist terhubung dengan benar di toko musik.</p>
+        <div class="grid">
+
+          <div class="field" data-f="spotify">
+            <label for="spotify">Spotify URL</label>
+            <input id="spotify" type="url" inputmode="url" placeholder="https://open.spotify.com/artist/…" autocomplete="off">
+            <div class="err"></div>
+          </div>
+
+          <div class="field" data-f="youtube">
+            <label for="youtube">YouTube</label>
+            <input id="youtube" type="url" inputmode="url" placeholder="https://www.youtube.com/@channel" autocomplete="off">
+            <div class="err"></div>
+          </div>
+
+          <div class="field" data-f="apple">
+            <label for="apple">Apple Music</label>
+            <input id="apple" type="url" inputmode="url" placeholder="https://music.apple.com/artist/…" autocomplete="off">
+            <div class="err"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PRIVAT -->
+      <div class="sec">
+        <h3>Data privat</h3>
+        <p class="sub">Dipakai untuk keperluan administrasi dan kontrak. Tidak ditampilkan di katalog.</p>
+        <div class="grid two">
+
+          <div class="field" data-f="fullName">
+            <label for="fullName">Nama Lengkap <em>*</em></label>
+            <input id="fullName" type="text" maxlength="100" placeholder="Sesuai KTP / paspor" autocomplete="off">
+            <div class="err"></div>
+          </div>
+
+          <div class="field" data-f="email">
+            <label for="email">Email <em>*</em></label>
+            <input id="email" type="email" inputmode="email" maxlength="120" placeholder="nama@email.com" autocomplete="off">
+            <div class="err"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn line" href="https://app.dynoticcollective.com/catalog/artists/">Batal</a>
+        <button class="btn" type="submit" id="saveBtn"><svg class="i"><use href="#i-check"/></svg><span id="saveLabel">Simpan Artist</span></button>
+      </div>
+
+    </form>
+  </section>
+
+</main>
+
+<!-- ================= BOTTOM NAV (mobile) ================= -->
+<nav class="bottom" aria-label="Main navigation">
+  <a href="https://app.dynoticcollective.com/home/" class="b-item"><svg class="i"><use href="#i-home"/></svg>Home</a>
+  <a href="https://app.dynoticcollective.com/catalog/" class="b-item active"><svg class="i"><use href="#i-disc"/></svg>Catalog</a>
+  <a href="https://app.dynoticcollective.com/catalog/releases/create/" class="b-create" aria-label="Create new release"><span><svg class="i"><use href="#i-plus"/></svg></span></a>
+  <a href="https://app.dynoticcollective.com/transactions/" class="b-item"><svg class="i"><use href="#i-receipt"/></svg>Transactions</a>
+  <a href="https://app.dynoticcollective.com/analytics/" class="b-item"><svg class="i"><use href="#i-chart"/></svg>Analytics</a>
+</nav>
+
+<div class="toast" id="toast" role="status"></div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+/* ================= CONFIG ================= */
+const ROUTES = {
+  list:  "https://app.dynoticcollective.com/catalog/artists/",
+  login: "https://app.dynoticcollective.com/login/"
+};
+
+/* URL Cloudflare Worker (lihat folder worker/). Ganti sesuai domain worker kamu. */
+const UPLOAD_URL = "https://upload.dynoticcollective.com/upload";
+
+const MAX_PHOTO_MB = 5;
+const PHOTO_SIZE = 800; // px, hasil crop persegi
+
+/* ================= FIREBASE ================= */
+firebase.initializeApp({
+  apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain: "dynopay-2513c.firebaseapp.com",
+  databaseURL: "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+});
+
+const db = firebase.database();
+const $ = id => document.getElementById(id);
+
+let currentUser = null;
+let msgRef = null;
+let messages = [];
+let photoBlob = null;
+let photoUrl = null;
+let saving = false;
+
+/* ================= HELPERS ================= */
+
+function toast(text){
+  const t = $("toast");
+  t.textContent = text;
+  t.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+/* ================= AUTH ================= */
+
+firebase.auth().onAuthStateChanged(user => {
+
+  if(!user){
+    if(msgRef) msgRef.off();
+    location.href = ROUTES.login;
+    return;
+  }
+
+  currentUser = user;
+  $("profileEmail").textContent = user.email || "-";
+
+  loadMessages(user.uid);
+  loadArtistProfile(user.uid);
+});
+
+function loadArtistProfile(uid){
+  db.ref("users/" + uid).once("value").then(snap => {
+    if(!snap.exists()) return;
+    const nama = snap.val().nama || "Artist";
+    const letter = nama.trim().charAt(0).toUpperCase() || "A";
+    $("profileName").textContent = nama;
+    $("avatarLetter").textContent = letter;
+    $("popAvatar").textContent = letter;
+  }).catch(e => console.error("Gagal memuat profil:", e));
+}
+
+/* ================= PROFILE POPUP ================= */
+
+const popup = $("profilePopup");
+const profileBtn = $("profileBtn");
+
+function setProfile(open){
+  popup.classList.toggle("show", open);
+  profileBtn.setAttribute("aria-expanded", String(open));
+}
+
+profileBtn.addEventListener("click", e => {
+  e.stopPropagation();
+  setProfile(!popup.classList.contains("show"));
+});
+
+document.addEventListener("click", e => {
+  if(!popup.contains(e.target) && !profileBtn.contains(e.target)) setProfile(false);
+});
+
+$("logoutBtn").addEventListener("click", () => {
+  firebase.auth().signOut()
+    .then(() => { location.href = ROUTES.login; })
+    .catch(e => { console.error("Logout gagal:", e); toast("Logout gagal, coba lagi."); });
+});
+
+/* ================= PHOTO ================= */
+
+const photoInput = $("photoInput");
+const photoPrev = $("photoPrev");
+
+function photoError(msg){
+  const el = $("photoErr");
+  el.textContent = msg || "";
+  el.classList.toggle("show", !!msg);
+}
+
+function resetPhoto(){
+  photoBlob = null;
+  if(photoUrl){ URL.revokeObjectURL(photoUrl); photoUrl = null; }
+  photoInput.value = "";
+  photoPrev.innerHTML = '<svg class="i"><use href="#i-user"/></svg>';
+  $("removePhoto").hidden = true;
+  $("pickPhoto").lastChild.textContent = "Tambahkan foto";
+}
+
+/* crop tengah jadi persegi, resize, kompres ke JPEG */
+function processImage(file){
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      try{
+        const side = Math.min(img.naturalWidth, img.naturalHeight);
+        const sx = (img.naturalWidth - side) / 2;
+        const sy = (img.naturalHeight - side) / 2;
+        const out = Math.min(PHOTO_SIZE, side);
+
+        const c = document.createElement("canvas");
+        c.width = c.height = out;
+        const ctx = c.getContext("2d");
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, out, out);
+        ctx.drawImage(img, sx, sy, side, side, 0, 0, out, out);
+
+        c.toBlob(b => {
+          URL.revokeObjectURL(url);
+          b ? resolve(b) : reject(new Error("blob"));
+        }, "image/jpeg", 0.88);
+      }catch(e){ URL.revokeObjectURL(url); reject(e); }
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("decode")); };
+    img.src = url;
+  });
+}
+
+$("pickPhoto").addEventListener("click", () => photoInput.click());
+$("removePhoto").addEventListener("click", () => { resetPhoto(); photoError(""); });
+
+photoInput.addEventListener("change", async () => {
+
+  const file = photoInput.files && photoInput.files[0];
+  if(!file) return;
+
+  photoError("");
+
+  if(!/^image\/(jpeg|png|webp)$/.test(file.type)){
+    photoError("Format harus JPG, PNG, atau WebP.");
+    resetPhoto();
+    return;
+  }
+  if(file.size > MAX_PHOTO_MB * 1024 * 1024){
+    photoError("Ukuran file maksimal " + MAX_PHOTO_MB + " MB.");
+    resetPhoto();
+    return;
+  }
+
+  try{
+    const blob = await processImage(file);
+    if(photoUrl) URL.revokeObjectURL(photoUrl);
+    photoBlob = blob;
+    photoUrl = URL.createObjectURL(blob);
+
+    photoPrev.innerHTML = "";
+    const img = document.createElement("img");
+    img.alt = "Pratinjau foto";
+    img.src = photoUrl;
+    photoPrev.appendChild(img);
+
+    $("removePhoto").hidden = false;
+    $("pickPhoto").lastChild.textContent = "Ganti foto";
+  }catch(e){
+    console.error("Gagal memproses foto:", e);
+    photoError("Foto tidak bisa dibaca. Coba file lain.");
+    resetPhoto();
+  }
+});
+
+async function uploadPhoto(){
+  const token = await currentUser.getIdToken();
+  const res = await fetch(UPLOAD_URL, {
+    method: "POST",
+    headers: { "Authorization": "Bearer " + token, "Content-Type": "image/jpeg" },
+    body: photoBlob
+  });
+
+  let data = {};
+  try{ data = await res.json(); }catch(_){}
+
+  if(!res.ok || !data.url) throw new Error(data.error || "Upload gagal (" + res.status + ")");
+  return data.url;
+}
+
+/* ================= VALIDATION ================= */
+
+const HOSTS = {
+  spotify: /(^|\.)spotify\.com$/i,
+  youtube: /(^|\.)(youtube\.com|youtu\.be)$/i,
+  apple:   /(^|\.)music\.apple\.com$/i
+};
+
+const PLATFORM_LABEL = { spotify:"Spotify", youtube:"YouTube", apple:"Apple Music" };
+
+function checkUrl(key, v){
+  if(!v) return "";
+  let u;
+  try{ u = new URL(v); }catch(_){ return "Link tidak valid. Awali dengan https://"; }
+  if(u.protocol !== "https:") return "Link harus diawali https://";
+  if(!HOSTS[key].test(u.hostname)) return "Ini bukan link " + PLATFORM_LABEL[key] + ".";
+  return "";
+}
+
+const RULES = {
+  name:     v => !v ? "Nama artist wajib diisi." : "",
+  genre:    v => !v ? "Pilih genre utama." : "",
+  subGenre: () => "",
+  country:  v => !v ? "Country wajib diisi." : "",
+  spotify:  v => checkUrl("spotify", v),
+  youtube:  v => checkUrl("youtube", v),
+  apple:    v => checkUrl("apple", v),
+  fullName: v => !v ? "Nama lengkap wajib diisi." : "",
+  email:    v => !v ? "Email wajib diisi." :
+                 (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? "" : "Format email tidak valid.")
+};
+
+function getVal(k){ return $(k).value.trim(); }
+
+function setErr(k, msg){
+  const f = document.querySelector('.field[data-f="' + k + '"]');
+  f.classList.toggle("bad", !!msg);
+  f.querySelector(".err").textContent = msg || "";
+}
+
+function validate(){
+  let first = null;
+  Object.keys(RULES).forEach(k => {
+    const msg = RULES[k](getVal(k));
+    setErr(k, msg);
+    if(msg && !first) first = k;
+  });
+  return first;
+}
+
+Object.keys(RULES).forEach(k => {
+  const el = $(k);
+  el.addEventListener("blur", () => setErr(k, RULES[k](getVal(k))));
+  el.addEventListener("input", () => {
+    if(document.querySelector('.field[data-f="' + k + '"]').classList.contains("bad")){
+      setErr(k, RULES[k](getVal(k)));
+    }
+  });
+});
+
+/* ================= SUBMIT ================= */
+
+function setSaving(on, label){
+  saving = on;
+  $("saveBtn").disabled = on;
+  $("saveBtn").querySelector("svg, .spin").outerHTML =
+    on ? '<span class="spin"></span>' : '<svg class="i"><use href="#i-check"/></svg>';
+  $("saveLabel").textContent = label || "Simpan Artist";
+}
+
+$("artistForm").addEventListener("submit", async e => {
+
+  e.preventDefault();
+  if(saving || !currentUser) return;
+
+  const bad = validate();
+  if(bad){
+    const el = $(bad);
+    el.scrollIntoView({ behavior:"smooth", block:"center" });
+    el.focus({ preventScroll:true });
+    return;
+  }
+
+  try{
+    let photo = "";
+
+    if(photoBlob){
+      setSaving(true, "Mengunggah foto…");
+      photo = await uploadPhoto();
+    }
+
+    setSaving(true, "Menyimpan…");
+
+    const uid = currentUser.uid;
+    const ref = db.ref("artists/" + uid).push();
+
+    await ref.set({
+      name:     getVal("name"),
+      genre:    getVal("genre"),
+      subGenre: getVal("subGenre"),
+      country:  getVal("country"),
+      spotify:  getVal("spotify"),
+      youtube:  getVal("youtube"),
+      apple:    getVal("apple"),
+      fullName: getVal("fullName"),
+      email:    getVal("email"),
+      photo:    photo,
+      time:     firebase.database.ServerValue.TIMESTAMP
+    });
+
+    toast("Artist berhasil disimpan.");
+    setTimeout(() => { location.href = ROUTES.list; }, 700);
+
+  }catch(err){
+    console.error("Gagal menyimpan artist:", err);
+    setSaving(false);
+    toast(err && err.message ? err.message : "Gagal menyimpan, coba lagi.");
+  }
+});
+
+/* ================= MESSAGES ================= */
+
+function loadMessages(uid){
+
+  msgRef = db.ref("messages_inbox/" + uid);
+
+  msgRef.on("value", snap => {
+
+    messages = [];
+
+    snap.forEach(i => {
+      const m = i.val();
+      if(m) messages.push({ ...m, key: i.key });
+    });
+
+    messages.reverse();
+    messages.sort((a, b) => (a.read ? 1 : 0) - (b.read ? 1 : 0));
+
+    renderBadge();
+    renderDrawer();
+
+  }, error => console.error("Gagal memuat notifikasi:", error));
+}
+
+function renderBadge(){
+  const n = messages.filter(m => !m.read).length;
+  const b = $("notifBadge");
+  b.style.display = n > 0 ? "flex" : "none";
+  b.textContent = n > 99 ? "99+" : n;
+  $("markAll").disabled = n === 0;
+}
+
+function renderDrawer(){
+
+  const list = $("drawerList");
+  list.innerHTML = "";
+
+  if(messages.length === 0){
+    list.innerHTML = '<div class="d-empty"><div class="ic"><svg class="i"><use href="#i-check"/></svg></div>Belum ada notifikasi.</div>';
+    return;
+  }
+
+  messages.slice(0, 50).forEach(m => {
+
+    const item = document.createElement("div");
+    item.className = "d-item " + (m.read ? "read" : "unread");
+    item.innerHTML = '<div class="row"><span class="dot"></span><div><strong></strong><p></p></div></div>';
+    item.querySelector("strong").textContent = m.subject || "-";
+    item.querySelector("p").textContent = m.body || "-";
+
+    if(!m.read){
+      const mark = document.createElement("button");
+      mark.type = "button";
+      mark.className = "mark";
+      mark.innerHTML = '<svg class="i"><use href="#i-check"/></svg>Tandai dibaca';
+      mark.addEventListener("click", () => markRead(m.key));
+      item.querySelector(".row > div").appendChild(mark);
+    }
+
+    list.appendChild(item);
+  });
+}
+
+function markRead(key){
+  if(!currentUser) return;
+  db.ref("messages_inbox/" + currentUser.uid + "/" + key + "/read").set(true)
+    .catch(() => toast("Gagal menandai pesan."));
+}
+
+$("markAll").addEventListener("click", () => {
+  if(!currentUser) return;
+  const updates = {};
+  messages.forEach(m => { if(!m.read) updates[m.key + "/read"] = true; });
+  if(!Object.keys(updates).length) return;
+
+  db.ref("messages_inbox/" + currentUser.uid).update(updates)
+    .then(() => toast("Semua pesan ditandai dibaca."))
+    .catch(() => toast("Gagal menandai pesan."));
+});
+
+/* ================= DRAWER ================= */
+
+const drawer = $("drawer");
+const overlay = $("overlay");
+
+function openDrawer(){
+  setProfile(false);
+  drawer.classList.add("show");
+  overlay.classList.add("show");
+  drawer.setAttribute("aria-hidden", "false");
+  document.body.classList.add("lock");
+}
+
+function closeDrawer(){
+  drawer.classList.remove("show");
+  overlay.classList.remove("show");
+  drawer.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("lock");
+}
+
+$("notifBtn").addEventListener("click", openDrawer);
+$("drawerClose").addEventListener("click", closeDrawer);
+overlay.addEventListener("click", closeDrawer);
+
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape"){ closeDrawer(); setProfile(false); }
+});
+
+/* ================= TOPBAR SCROLL ================= */
+
+const topbar = $("topbar");
+function onScroll(){ topbar.classList.toggle("scrolled", window.scrollY > 6); }
+onScroll();
+window.addEventListener("scroll", onScroll, { passive:true });
+</script>
+
+</body>
+</html>
