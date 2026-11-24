@@ -485,8 +485,8 @@ const ROUTES = {
   login: "https://app.dynoticcollective.com/login/"
 };
 
-/* URL Cloudflare Worker (lihat folder worker/). Ganti sesuai domain worker kamu. */
-const UPLOAD_URL = "https://upload.dynoticcollective.com/upload";
+/* Worker upload-assets yang sudah ada (FormData field "file", gambar masuk folder covers/) */
+const UPLOAD_URL = "https://upload-assets.dynotic-bot.workers.dev/";
 
 const MAX_PHOTO_MB = 5;
 const PHOTO_SIZE = 800; // px, hasil crop persegi
@@ -664,17 +664,16 @@ photoInput.addEventListener("change", async () => {
 });
 
 async function uploadPhoto(){
-  const token = await currentUser.getIdToken();
-  const res = await fetch(UPLOAD_URL, {
-    method: "POST",
-    headers: { "Authorization": "Bearer " + token, "Content-Type": "image/jpeg" },
-    body: photoBlob
-  });
+  const fd = new FormData();
+  fd.append("file", photoBlob, "artist-" + currentUser.uid.slice(0, 8) + ".jpg");
+
+  // jangan set Content-Type manual, browser mengisi boundary FormData sendiri
+  const res = await fetch(UPLOAD_URL, { method: "POST", body: fd });
 
   let data = {};
   try{ data = await res.json(); }catch(_){}
 
-  if(!res.ok || !data.url) throw new Error(data.error || "Upload gagal (" + res.status + ")");
+  if(!res.ok || !data.success || !data.url) throw new Error(data.error || "Upload gagal (" + res.status + ")");
   return data.url;
 }
 
