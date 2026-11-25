@@ -649,6 +649,9 @@ function panelHtml(d, status, smart){
     (plat || emptyBox("i-store", "Platform belum tersedia", "Status per platform muncul setelah rilisan disetujui.")) + '</section>';
 }
 
+/* nilai kosong / "-" dianggap tidak terisi */
+const isBlank = v => v === undefined || v === null || String(v).trim() === "" || String(v).trim() === "-";
+
 function render(d){
   const status = getStatus(d);
   const st = statusInfo(status);
@@ -669,40 +672,54 @@ function render(d){
 
   /* semua field mengikuti data yang disimpan form Original Asset.
      ISRC dan UPC dari form sengaja TIDAK dibaca; UPC hanya diambil dari EAN.
-     Link Spotify/Apple Music artis sekarang tampil di bawah nama artis (hero), bukan di sini. */
+     Link Spotify/Apple Music artis tampil di bawah nama artis (hero), bukan di sini.
+     Field yang kosong atau bernilai "-" tidak ditampilkan sama sekali. */
   const composer = toArr(d.composer), lyricist = toArr(d.lyricist), legacyNames = toArr(d.fullname);
   const composerTxt = composer.length ? composer.join(", ") : (!lyricist.length ? legacyNames.join(", ") : "");
   const typeLabel = { single:"Single", ep:"EP", album:"Album" }[String(d.releaseType || "").toLowerCase()] || d.releaseType;
   const genreTxt = [d.genre, d.genre2].filter(Boolean).join(", ");
-  const cell = (l, v, wide) => '<div' + (wide ? ' class="wide"' : '') + '><small>' + l + '</small><span>' + (v === undefined || v === null || v === "" ? "-" : v) + '</span></div>';
+  const cell = (l, v, wide) => isBlank(v) ? "" : '<div' + (wide ? ' class="wide"' : '') + '><small>' + l + '</small><span>' + v + '</span></div>';
   const lyrics = String(d.lyrics || "").trim();
 
-  const moreHtml =
-    '<div class="info info-more' + (moreOpen ? ' show' : '') + '" id="infoMore">' +
-      cell("Tipe rilisan", esc(val(typeLabel))) +
-      cell("Versi", esc(val(d.version))) +
-      cell("Featuring", esc(val(d.featuring))) +
-      cell("Genre kedua", esc(val(d.genre2))) +
-      cell("Sudah pernah dirilis", esc(yesNo(d.previouslyReleased, "Sudah", "Belum"))) +
-      cell("Tanggal rilis asli", esc(d.previouslyReleased ? fmtDate(d.originalReleaseDate) : "-")) +
-      cell("Konten explicit", esc(yesNo(d.explicit, "Ya", "Tidak"))) +
-      cell("Jenis audio", esc(yesNo(d.instrumental, "Instrumental", "Ada vokal"))) +
-      cell("Bahasa audio", esc(val(d.audioLanguage))) +
-      cell("Bahasa judul", esc(val(d.titleLanguage))) +
-      cell("Preview TikTok", esc(fmtClock(d.tiktokPreviewStart))) +
-      cell("Producer", esc(val(d.producer))) +
-      cell("Composer", esc(val(composerTxt)), true) +
-      cell("Lyricist", esc(val(lyricist.join(", "))), true) +
-      cell("℗ (P-line)", esc(val(d.pLine))) +
-      cell("© (C-line)", esc(val(d.cLine))) +
-      cell("Hak original dinyatakan", esc(yesNo(d.rightsConfirmed, "Ya", "Tidak"))) +
-      cell("Ketentuan disetujui", esc(d.termsAccepted ? (d.termsAcceptedAt ? "Ya, " + fmtDate(d.termsAcceptedAt) : "Ya") : "-")) +
-      cell("Diajukan", esc(fmtDate(d.time || d.createdAt || d.submittedAt))) +
-      cell("ID rilisan", esc(rid)) +
-      '<div class="wide"><small>Lirik</small>' + (lyrics ? '<div class="lyr">' + esc(lyrics) + '</div>' : '<span>-</span>') + '</div>' +
-      cell("Catatan", esc(d.notes || d.description || ""), true) +
-      (tracks ? '<div class="wide"><small>Daftar lagu</small>' + tracks + '</div>' : '') +
-    '</div>';
+  const moreItems = [
+    cell("Tipe rilisan", esc(val(typeLabel))),
+    cell("Versi", esc(val(d.version))),
+    cell("Featuring", esc(val(d.featuring))),
+    cell("Genre kedua", esc(val(d.genre2))),
+    cell("Sudah pernah dirilis", esc(yesNo(d.previouslyReleased, "Sudah", "Belum"))),
+    cell("Tanggal rilis asli", esc(d.previouslyReleased ? fmtDate(d.originalReleaseDate) : "-")),
+    cell("Konten explicit", esc(yesNo(d.explicit, "Ya", "Tidak"))),
+    cell("Jenis audio", esc(yesNo(d.instrumental, "Instrumental", "Ada vokal"))),
+    cell("Bahasa audio", esc(val(d.audioLanguage))),
+    cell("Bahasa judul", esc(val(d.titleLanguage))),
+    cell("Preview TikTok", esc(fmtClock(d.tiktokPreviewStart))),
+    cell("Producer", esc(val(d.producer))),
+    cell("Composer", esc(val(composerTxt)), true),
+    cell("Lyricist", esc(val(lyricist.join(", "))), true),
+    cell("℗ (P-line)", esc(val(d.pLine))),
+    cell("© (C-line)", esc(val(d.cLine))),
+    cell("Hak original dinyatakan", esc(yesNo(d.rightsConfirmed, "Ya", "Tidak"))),
+    cell("Ketentuan disetujui", esc(d.termsAccepted ? (d.termsAcceptedAt ? "Ya, " + fmtDate(d.termsAcceptedAt) : "Ya") : "-")),
+    cell("Diajukan", esc(fmtDate(d.time || d.createdAt || d.submittedAt))),
+    cell("ID rilisan", esc(rid)),
+    lyrics ? '<div class="wide"><small>Lirik</small><div class="lyr">' + esc(lyrics) + '</div></div>' : "",
+    cell("Catatan", esc(d.notes || d.description || ""), true),
+    tracks ? '<div class="wide"><small>Daftar lagu</small>' + tracks + '</div>' : ""
+  ].filter(Boolean);
+  const hasMore = moreItems.length > 0;
+  const showMore = hasMore && moreOpen;
+  const moreHtml = hasMore ? '<div class="info info-more' + (showMore ? ' show' : '') + '" id="infoMore">' + moreItems.join("") + '</div>' : "";
+  const moreBtn = hasMore
+    ? '<button class="more' + (showMore ? ' open' : '') + '" type="button" id="moreBtn"><span>' + (showMore ? 'Sembunyikan' : 'Lihat lengkap') + '</span><svg class="i"><use href="#i-chev"/></svg></button>'
+    : "";
+
+  /* ringkasan utama (empat field teratas) juga hanya tampil jika terisi */
+  const topItems = [
+    isBlank(fmtDate(d.releaseDate || d.date)) ? "" : '<div><small>Release date</small><span>' + esc(fmtDate(d.releaseDate || d.date)) + '</span></div>',
+    isBlank(d.ean) ? "" : '<div><small>UPC</small><button type="button" id="copyUpc">' + esc(d.ean) + '<svg class="i"><use href="#i-copy"/></svg></button></div>',
+    isBlank(d.label) ? "" : '<div><small>Label</small><span>' + esc(d.label) + '</span></div>',
+    isBlank(genreTxt) ? "" : '<div><small>Genre</small><span>' + esc(genreTxt) + '</span></div>'
+  ].filter(Boolean);
 
   $("view").innerHTML =
     '<section class="hero"><div class="hero-grid"></div>' +
@@ -717,14 +734,8 @@ function render(d){
     '</section>' +
     (st.note ? '<div class="note"><svg class="i"><use href="#i-info"/></svg><span>' + esc(st.note) + '</span></div>' : '') +
 
-    '<section class="card"><div class="card-head"><h2>Informasi rilisan</h2>' +
-      '<button class="more' + (moreOpen ? ' open' : '') + '" type="button" id="moreBtn"><span>' + (moreOpen ? 'Sembunyikan' : 'Lihat lengkap') + '</span><svg class="i"><use href="#i-chev"/></svg></button></div>' +
-      '<div class="info">' +
-        '<div><small>Release date</small><span>' + esc(fmtDate(d.releaseDate || d.date)) + '</span></div>' +
-        '<div><small>UPC</small>' + (d.ean ? '<button type="button" id="copyUpc">' + esc(d.ean) + '<svg class="i"><use href="#i-copy"/></svg></button>' : '<span>-</span>') + '</div>' +
-        '<div><small>Label</small><span>' + esc(d.label || "-") + '</span></div>' +
-        '<div><small>Genre</small><span>' + esc(val(genreTxt)) + '</span></div>' +
-      '</div>' + moreHtml +
+    '<section class="card"><div class="card-head"><h2>Informasi rilisan</h2>' + moreBtn + '</div>' +
+      (topItems.length ? '<div class="info">' + topItems.join("") + '</div>' : '') + moreHtml +
     '</section>' +
 
     '<nav class="tabs" role="tablist" aria-label="Menu rilisan">' +
