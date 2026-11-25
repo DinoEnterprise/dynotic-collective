@@ -190,12 +190,13 @@ input,select{font:inherit}
 .cover-shade{position:absolute;inset:0;background:rgba(13,13,18,.5);display:none;align-items:center;justify-content:center;color:#fff;font-size:26px;font-weight:800}
 .cover-drop.busy .cover-shade{display:flex}
 
-.audio-drop{border-radius:24px;padding:18px;display:flex;align-items:center;gap:16px;min-height:104px}
+.audio-drop{border-radius:24px;padding:18px 18px 22px;display:flex;align-items:center;gap:16px;min-height:104px;overflow:hidden}
 .audio-info{min-width:0;flex:1}
 .audio-name{font-weight:800;font-size:15px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .audio-sub{margin-top:3px;font-size:12px;color:var(--muted)}
-.progress-wrapper{margin-top:12px;width:100%;height:6px;background:#e5e6eb;border-radius:999px;overflow:hidden}
-.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--ink));border-radius:999px;transition:width .25s}
+.audio-bar{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(20,20,26,.1)}
+.audio-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--ink));transition:width .25s}
+.up-grid > div{min-width:0}
 .u-status{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:13px;font-weight:600;color:var(--muted);min-height:22px}
 .u-status .i{width:16px;height:16px}
 .u-status.ok{color:var(--green)}
@@ -341,6 +342,23 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
 @media(prefers-reduced-motion:reduce){
   *:not(.spin),*::before,*::after{animation:none!important;transition:none!important}
 }
+/* ===== v3 additions ===== */
+.cover-in .up-ic{width:72px;height:72px;border-radius:22px;margin-bottom:10px}
+.cover-in .up-ic .i{width:36px;height:36px}
+.up-t{font-size:17px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;border-radius:18px;background:#eeedf7;border:1px solid transparent}
+.seg button{height:46px;padding:0 10px;border-radius:13px;font-size:14px;font-weight:700;color:#5d5a82;transition:background .2s,color .2s,box-shadow .2s}
+.seg button:hover{background:rgba(255,255,255,.6)}
+.seg button.on{background:var(--ink);color:#fff;box-shadow:0 8px 18px -10px rgba(13,13,18,.6)}
+.field.err .seg{border-color:var(--red);background:#fff1f1}
+.input.ro{display:flex;align-items:center;background:#f1f1f6;color:var(--muted);font-weight:600;cursor:default}
+@media(min-width:700px){
+  .cover-drop{width:min(320px,100%)}
+  .cover-in .up-ic{width:92px;height:92px;border-radius:28px;margin-bottom:14px}
+  .cover-in .up-ic .i{width:46px;height:46px}
+  .up-t{font-size:19px}
+  .up-s{font-size:13px}
+}
 </style>
 </head>
 
@@ -364,6 +382,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
   <symbol id="i-loader" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
 </svg>
 
@@ -491,27 +510,89 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
           </div>
 
           <div class="row2">
-            <div class="field" data-f="releaseType">
-              <label class="label" for="releaseType">Release Type <span class="req">*</span></label>
-              <div class="select">
-                <select id="releaseType">
-                  <option value="single" selected>Single</option>
-                  <option value="ep">EP</option>
-                  <option value="album">Album</option>
-                </select>
-                <svg class="i"><use href="#i-chev-d"/></svg>
-              </div>
-              <div class="err-msg"></div>
-            </div>
             <div class="field" data-f="releaseDate">
               <label class="label" for="releaseDate">Release Date <span class="req">*</span></label>
               <input class="input" type="date" id="releaseDate" required>
               <div class="err-msg"></div>
               <div class="hint">Minimal 14 hari dari hari ini.</div>
             </div>
+            <div class="field">
+              <label class="label">Release Type</label>
+              <div class="input ro">Single</div>
+              <div class="hint">Saat ini hanya tipe Single yang didukung.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grp">
+          <div class="grp-t">Detail audio</div>
+          <div class="grp-d">Dipakai toko musik untuk menandai konten dengan benar.</div>
+
+          <div class="row2">
+            <div class="field" data-f="explicit">
+              <label class="label" id="explicitLbl">Explicit Content <span class="req">*</span></label>
+              <div class="seg" id="explicitSeg" role="radiogroup" aria-labelledby="explicitLbl">
+                <input type="hidden" id="explicit">
+                <button type="button" role="radio" aria-checked="false" data-v="no">Tidak</button>
+                <button type="button" role="radio" aria-checked="false" data-v="yes">Ya, explicit</button>
+              </div>
+              <div class="err-msg"></div>
+              <div class="hint">Pilih Ya jika lirik mengandung kata kasar, konten seksual, atau kekerasan eksplisit.</div>
+            </div>
+            <div class="field" data-f="vocal">
+              <label class="label" id="vocalLbl">Vokal <span class="req">*</span></label>
+              <div class="seg" id="vocalSeg" role="radiogroup" aria-labelledby="vocalLbl">
+                <input type="hidden" id="vocal">
+                <button type="button" role="radio" aria-checked="false" data-v="vocal">Ada vokal</button>
+                <button type="button" role="radio" aria-checked="false" data-v="instrumental">Instrumental</button>
+              </div>
+              <div class="err-msg"></div>
+            </div>
           </div>
 
-          <div class="rt-warn" id="releaseWarning" hidden>EP and Album releases are not supported yet. Please contact the admin for manual distribution.</div>
+          <div class="row2">
+            <div class="field" data-f="audioLang">
+              <label class="label" id="audioLangLbl">Bahasa Audio <span class="req">*</span></label>
+              <div class="combo" id="audioLangCombo">
+                <input type="hidden" id="audioLang">
+                <button type="button" class="combo-btn" id="audioLangBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="audioLangLbl">
+                  <span class="cv"></span>
+                  <svg class="i chev"><use href="#i-chev-d"/></svg>
+                </button>
+                <div class="combo-pop" hidden>
+                  <div class="combo-search"><svg class="i"><use href="#i-search"/></svg><input type="text" placeholder="Cari bahasa…" autocomplete="off" autocapitalize="off" aria-label="Cari bahasa audio"></div>
+                  <div class="combo-list" role="listbox"></div>
+                </div>
+              </div>
+              <div class="err-msg"></div>
+              <div class="hint">Bahasa yang dinyanyikan atau diucapkan di audio.</div>
+            </div>
+            <div class="field" data-f="titleLang">
+              <label class="label" id="titleLangLbl">Bahasa Judul <span class="req">*</span></label>
+              <div class="combo" id="titleLangCombo">
+                <input type="hidden" id="titleLang">
+                <button type="button" class="combo-btn" id="titleLangBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="titleLangLbl">
+                  <span class="cv"></span>
+                  <svg class="i chev"><use href="#i-chev-d"/></svg>
+                </button>
+                <div class="combo-pop" hidden>
+                  <div class="combo-search"><svg class="i"><use href="#i-search"/></svg><input type="text" placeholder="Cari bahasa…" autocomplete="off" autocapitalize="off" aria-label="Cari bahasa judul"></div>
+                  <div class="combo-list" role="listbox"></div>
+                </div>
+              </div>
+              <div class="err-msg"></div>
+              <div class="hint">Bahasa yang dipakai pada judul rilisan.</div>
+            </div>
+          </div>
+
+          <div class="row2">
+            <div class="field" data-f="tiktokStart">
+              <label class="label" for="tiktokStart">Preview TikTok <small>Optional</small></label>
+              <input class="input" id="tiktokStart" inputmode="numeric" placeholder="00:30" maxlength="5" autocomplete="off">
+              <div class="err-msg"></div>
+              <div class="hint">Titik awal bagian lagu yang jadi preview di TikTok. Format mm:ss atau jumlah detik.</div>
+            </div>
+          </div>
         </div>
 
         <div class="grp">
@@ -560,7 +641,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
             <label class="drop cover-drop" id="coverDrop">
               <input id="cover" class="vh" type="file" accept="image/jpeg,image/png">
               <div class="cover-in" id="coverPlaceholder">
-                <span class="up-ic"><svg class="i"><use href="#i-image"/></svg></span>
+                <span class="up-ic"><svg class="i"><use href="#i-upload"/></svg></span>
                 <div class="up-t">Upload cover art</div>
                 <div class="up-s">JPG atau PNG, rasio 1:1</div>
                 <span class="up-pill"><svg class="i"><use href="#i-plus"/></svg>Pilih gambar</span>
@@ -583,8 +664,8 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
                 <div class="audio-sub" id="audioSub">MP3 atau WAV</div>
               </div>
               <span class="up-pill" id="audioPill"><svg class="i"><use href="#i-plus"/></svg><span id="audioPillTx">Pilih file</span></span>
+              <div class="audio-bar"><i id="audioWave"></i></div>
             </label>
-            <div class="progress-wrapper"><div id="audioWave" class="progress-bar"></div></div>
             <div class="u-status" id="audioStatus"></div>
             <audio id="audioPlayer" controls hidden></audio>
           </div>
@@ -601,7 +682,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
 
         <div id="previewBox"></div>
 
-        <div class="note">Sebelum rilisan dikirim, kamu akan diminta menyetujui Terms &amp; Privacy. Setelah dikirim, rilisan berstatus proposal dan ditinjau oleh tim Dynotic.</div>
+        <div class="note">Sebelum rilisan dikirim, kamu akan diminta menyetujui Ketentuan &amp; Privasi. Setelah dikirim, rilisan berstatus proposal dan ditinjau oleh tim Dynotic.</div>
       </div>
 
       <!-- ACTION BAR (satu untuk semua langkah) -->
@@ -622,26 +703,26 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
     <div class="sheet-head">
       <div class="sheet-ic"><svg class="i"><use href="#i-shield"/></svg></div>
       <div>
-        <h3 id="termsTitle">Terms &amp; Privacy</h3>
+        <h3 id="termsTitle">Ketentuan &amp; Privasi</h3>
         <span>Baca sampai selesai sebelum mengirim rilisan.</span>
       </div>
     </div>
 
     <div class="sheet-body" id="termsBody">
-      <div class="q">Are you sure all information entered is valid and represents this release fully?</div>
-      <p>After this action, your release will be checked and if the information is correct it will be distributed on the official and exclusive distribution dates.</p>
-      <p>By confirming and accepting this form, you are fully accepting and complying with the <b>Terms Of Distribution</b>, <b>Terms Of Use</b> and <b>Privacy Policy</b>.</p>
-      <p>By confirming and accepting this form, you are undisputedly confirming that submitted content release with belonging assets, audio files, and metadata, either belongs exclusively to you or it is fully licensed to your label.</p>
-      <p>Hereby you fully accept that you will solely be responsible for any misleading information, unlicensed usage, illegal activity or any kind of dispute.</p>
+      <div class="q">Apakah kamu yakin semua informasi yang diisi sudah valid dan mewakili rilisan ini sepenuhnya?</div>
+      <p>Setelah tindakan ini, rilisanmu akan diperiksa dan, jika informasinya benar, akan didistribusikan pada tanggal distribusi resmi dan eksklusif.</p>
+      <p>Dengan mengonfirmasi dan menyetujui formulir ini, kamu sepenuhnya menerima dan mematuhi <b>Ketentuan Distribusi</b> (Terms Of Distribution), <b>Ketentuan Penggunaan</b> (Terms Of Use), dan <b>Kebijakan Privasi</b> (Privacy Policy).</p>
+      <p>Dengan mengonfirmasi dan menyetujui formulir ini, kamu menegaskan tanpa sanggahan bahwa konten rilisan yang diajukan beserta aset, file audio, dan metadatanya adalah milikmu sepenuhnya atau sudah dilisensikan penuh kepada labelmu.</p>
+      <p>Dengan ini kamu sepenuhnya menerima bahwa kamu bertanggung jawab sendiri atas informasi yang menyesatkan, penggunaan tanpa lisensi, aktivitas ilegal, atau sengketa dalam bentuk apa pun.</p>
 
-      <h4>Artificial Streaming Declaration</h4>
+      <h4>Pernyataan Streaming Buatan (Artificial Streaming Declaration)</h4>
       <ol>
-        <li>I fully understand and agree not to engage in any form of artificial streaming, including the use of bots, streaming farms, or any method that manipulates DSP metrics.</li>
-        <li>I will not pay or offer payment for playlist placements, nor will I work with any third party promising guaranteed placements — I understand this is considered fraud and a scam.</li>
-        <li>I acknowledge that any such actions may result in immediate termination, forfeiture of royalties, legal claims, contractual penalties and fees, and reporting to DSPs and authorities.</li>
-        <li>I also guarantee to inform and educate any artists or clients I work with about these rules and ensure they comply.</li>
-        <li>I understand that if I engage in artificial streaming, my KYC data, including my full name, address, ID card, and other personal information, can be shared with the DSP’s legal departments, such as those of Spotify, Apple Music, and others.</li>
-        <li>I accept full legal responsibility for any violations.</li>
+        <li>Saya sepenuhnya memahami dan setuju untuk tidak melakukan bentuk streaming buatan apa pun, termasuk penggunaan bot, streaming farm, atau metode apa pun yang memanipulasi metrik DSP.</li>
+        <li>Saya tidak akan membayar atau menawarkan pembayaran untuk penempatan playlist, dan tidak akan bekerja sama dengan pihak ketiga mana pun yang menjanjikan penempatan terjamin — saya memahami hal ini dianggap penipuan.</li>
+        <li>Saya menyadari bahwa tindakan tersebut dapat berakibat pada penghentian layanan seketika, hilangnya royalti, tuntutan hukum, denda dan sanksi kontraktual, serta pelaporan kepada DSP dan pihak berwenang.</li>
+        <li>Saya juga menjamin akan memberi tahu dan mengedukasi setiap artis atau klien yang bekerja sama dengan saya tentang aturan ini dan memastikan mereka mematuhinya.</li>
+        <li>Saya memahami bahwa jika saya melakukan streaming buatan, data KYC saya, termasuk nama lengkap, alamat, KTP, dan informasi pribadi lainnya, dapat dibagikan kepada departemen hukum DSP, seperti Spotify, Apple Music, dan lainnya.</li>
+        <li>Saya menerima tanggung jawab hukum penuh atas setiap pelanggaran.</li>
       </ol>
     </div>
 
@@ -649,11 +730,11 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
       <label class="agree">
         <input type="checkbox" id="termsAgree" class="vh">
         <span class="box"><svg class="i"><use href="#i-check"/></svg></span>
-        <span>I have read and accept the Terms Of Distribution, Terms Of Use, Privacy Policy and the Artificial Streaming Declaration.</span>
+        <span>Saya telah membaca dan menyetujui Ketentuan Distribusi, Ketentuan Penggunaan, Kebijakan Privasi, dan Pernyataan Streaming Buatan.</span>
       </label>
       <div class="sheet-btns">
-        <button type="button" class="btn" id="termsCancel">Cancel</button>
-        <button type="button" class="btn dark" id="termsConfirm" disabled><span>Confirm &amp; Submit</span><svg class="i go"><use href="#i-send"/></svg></button>
+        <button type="button" class="btn" id="termsCancel">Batal</button>
+        <button type="button" class="btn dark" id="termsConfirm" disabled><span>Konfirmasi &amp; Kirim</span><svg class="i go"><use href="#i-send"/></svg></button>
       </div>
     </div>
   </div>
@@ -733,7 +814,7 @@ onScroll();
 window.addEventListener("scroll", onScroll, { passive:true });
 
 /* ================= DRAFT (step 2 only) ================= */
-const FIELDS = ["title","labelName","artist","genre","releaseType","releaseDate","version","fullname","featuring","producer","spotifyUrl","appleUrl"];
+const FIELDS = ["title","labelName","artist","genre","releaseDate","version","fullname","featuring","producer","spotifyUrl","appleUrl","explicit","vocal","audioLang","titleLang","tiktokStart"];
 const DRAFT_KEY = "dyn_oa_draft";
 
 function loadDraft(){
@@ -919,6 +1000,7 @@ function makeCombo(id, opt){
 
   return {
     sync: label,
+    set(v){ input.value = v; label(); },
     setPlaceholder(t){ ph = t; label(); },
     setItems(a){
       items = a;
@@ -949,6 +1031,58 @@ const artistCombo = makeCombo("artist", {
     $("spotifyUrl").value = it.spotify || "";
     $("appleUrl").value = it.apple || "";
   }
+});
+
+const LANGS = ["Indonesian","English","Javanese","Sundanese","Malay","Japanese","Korean","Chinese (Mandarin)","Arabic","Hindi","Thai","Vietnamese","Filipino","Spanish","French","German","Portuguese","Italian","Dutch","Russian","Turkish","Other"];
+const NOLING = "No Linguistic Content";
+
+function langItems(extra){
+  return LANGS.concat(extra || []).map(l => ({ value:l, label:l, sub: l === NOLING ? "Tanpa lirik (instrumental)" : "" }));
+}
+
+const audioLangCombo = makeCombo("audioLang", {
+  placeholder:"Pilih bahasa audio",
+  items: langItems([NOLING]),
+  empty: q => "Bahasa “" + q + "” tidak ditemukan."
+});
+
+const titleLangCombo = makeCombo("titleLang", {
+  placeholder:"Pilih bahasa judul",
+  items: langItems(),
+  empty: q => "Bahasa “" + q + "” tidak ditemukan."
+});
+
+/* tombol pilihan (segmented) */
+function makeSeg(id, onChange){
+  const root = $(id + "Seg");
+  const input = $(id);
+  const btns = Array.from(root.querySelectorAll("button"));
+
+  function sync(){
+    btns.forEach(b => {
+      const on = b.dataset.v === input.value;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-checked", String(on));
+    });
+  }
+
+  btns.forEach(b => b.addEventListener("click", () => {
+    input.value = b.dataset.v;
+    sync();
+    clearError(id);
+    if(onChange) onChange(b.dataset.v);
+    saveDraft();
+    refreshGate();
+  }));
+
+  sync();
+  return { sync };
+}
+
+const explicitSeg = makeSeg("explicit");
+const vocalSeg = makeSeg("vocal", v => {
+  if(v === "instrumental") audioLangCombo.set(NOLING);
+  else if($("audioLang").value === NOLING) audioLangCombo.set("");
 });
 
 function loadArtists(uid){
@@ -1173,14 +1307,19 @@ window.addEventListener("beforeunload", e => {
 });
 
 /* ================= VALIDATION ================= */
-const REQUIRED = ["title","labelName","artist","genre","releaseType","releaseDate","fullname"];
+const REQUIRED = ["title","labelName","artist","genre","releaseDate","fullname","explicit","vocal","audioLang","titleLang"];
+const VALIDATED = REQUIRED.concat(["tiktokStart"]);
 
 const MSG = {
   title:"Judul rilisan wajib diisi.",
   labelName:"Label wajib diisi.",
   artist:"Pilih artist terlebih dahulu.",
   genre:"Pilih genre terlebih dahulu.",
-  fullname:"Composer & Lyrics wajib diisi."
+  fullname:"Composer & Lyrics wajib diisi.",
+  explicit:"Pilih apakah konten explicit atau tidak.",
+  vocal:"Pilih ada vokal atau instrumental.",
+  audioLang:"Pilih bahasa audio.",
+  titleLang:"Pilih bahasa judul."
 };
 
 function minReleaseDate(){
@@ -1199,11 +1338,24 @@ function parseNames(value){
   return String(value || "").split(",").map(n => n.trim()).filter(n => n !== "");
 }
 
+function parseClock(v){
+  v = String(v || "").trim();
+  if(!v) return null;
+  let m = v.match(/^(\d{1,2}):([0-5]\d)$/);
+  if(m) return Number(m[1]) * 60 + Number(m[2]);
+  return /^\d{1,3}$/.test(v) ? Number(v) : NaN;
+}
+
+function fmtClock(sec){
+  return String(Math.floor(sec / 60)).padStart(2, "0") + ":" + String(sec % 60).padStart(2, "0");
+}
+
 function fieldError(f){
   const v = $(f).value.trim();
 
-  if(f === "releaseType"){
-    return (v === "ep" || v === "album") ? "EP dan Album belum didukung. Hubungi admin untuk distribusi manual." : "";
+  if(f === "tiktokStart"){
+    if(!v) return "";
+    return Number.isNaN(parseClock(v)) ? "Format waktu mm:ss, contoh 00:30." : "";
   }
 
   if(f === "releaseDate"){
@@ -1219,7 +1371,7 @@ function fieldError(f){
 }
 
 function step2Valid(){
-  return REQUIRED.every(f => !fieldError(f));
+  return VALIDATED.every(f => !fieldError(f));
 }
 
 function step3Valid(){
@@ -1228,12 +1380,12 @@ function step3Valid(){
 
 function markErrors(){
   let first = null;
-  REQUIRED.forEach(f => {
+  VALIDATED.forEach(f => {
     const msg = fieldError(f);
     const wrap = document.querySelector('.field[data-f="' + f + '"]');
     wrap.classList.toggle("err", !!msg);
     wrap.querySelector(".err-msg").textContent = msg;
-    if(msg && !first) first = (f === "artist" || f === "genre") ? $(f + "Btn") : $(f);
+    if(msg && !first) first = $(f).type === "hidden" ? document.querySelector('.field[data-f="' + f + '"] button') : $(f);
   });
   if(first){
     first.scrollIntoView({ behavior:"smooth", block:"center" });
@@ -1369,10 +1521,6 @@ document.addEventListener("change", e => {
     saveDraft();
     refreshGate();
   }
-  if(e.target.id === "releaseType"){
-    const v = e.target.value;
-    $("releaseWarning").hidden = !(v === "ep" || v === "album");
-  }
 });
 
 /* Enter pada input = lanjut */
@@ -1400,8 +1548,13 @@ function loadPreview(){
   if(v("featuring")) rows.push(["Featuring", v("featuring")]);
   rows.push(["Genre", v("genre")]);
   rows.push(["Label", v("labelName")]);
-  rows.push(["Release type", TYPE_LABEL[v("releaseType")] || v("releaseType")]);
+  rows.push(["Release type", "Single"]);
   rows.push(["Release date", fmtDate(v("releaseDate"))]);
+  rows.push(["Explicit", v("explicit") === "yes" ? "Ya" : "Tidak"]);
+  rows.push(["Vokal", v("vocal") === "instrumental" ? "Instrumental" : "Ada vokal"]);
+  rows.push(["Bahasa audio", v("audioLang")]);
+  rows.push(["Bahasa judul", v("titleLang")]);
+  if(v("tiktokStart")) rows.push(["Preview TikTok", fmtClock(parseClock(v("tiktokStart")))]);
   rows.push(["Composer & Lyrics", parseNames(v("fullname")).join(", ")]);
   if(v("producer")) rows.push(["Producer", v("producer")]);
   if(v("spotifyUrl")) rows.push(["Spotify", v("spotifyUrl")]);
@@ -1493,7 +1646,7 @@ function submitRelease(){
 
   const data = {
     type: $("type").value,
-    releaseType: $("releaseType").value,
+    releaseType: "single",
     releaseDate: $("releaseDate").value,
     title: v("title"),
     artist: v("artist"),
@@ -1504,6 +1657,10 @@ function submitRelease(){
     spotifyUrl: v("spotifyUrl"),
     appleUrl: v("appleUrl"),
     version: v("version"),
+    explicit: v("explicit") === "yes",
+    instrumental: v("vocal") === "instrumental",
+    audioLanguage: v("audioLang"),
+    titleLanguage: v("titleLang"),
     fullname: parseNames($("fullname").value),
     status: "proposal",
     termsAccepted: true,
@@ -1513,6 +1670,7 @@ function submitRelease(){
 
   if(v("featuring")) data.featuring = v("featuring");
   if(v("producer")) data.producer = v("producer");
+  if(v("tiktokStart")) data.tiktokPreviewStart = parseClock(v("tiktokStart"));
 
   db.ref("releases/" + user.uid)
     .push(data)
@@ -1534,8 +1692,11 @@ function submitRelease(){
 loadDraft();
 genreCombo.sync();
 artistCombo.sync();
+audioLangCombo.sync();
+titleLangCombo.sync();
+explicitSeg.sync();
+vocalSeg.sync();
 setMinReleaseDate();
-$("releaseWarning").hidden = !(["ep","album"].includes($("releaseType").value));
 renderActions();
 </script>
 
