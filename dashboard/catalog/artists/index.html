@@ -96,7 +96,6 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 
 /* toolbar */
 .toolbar{display:flex;gap:10px;margin-bottom:16px}
-.toolbar .btn{flex-shrink:0;height:48px;border-radius:15px}
 .search{position:relative;flex:1;min-width:0}
 .search>.i{position:absolute;left:15px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:#a3a5b0;pointer-events:none}
 .search input{width:100%;height:48px;padding:0 44px 0 44px;border-radius:15px;border:1.5px solid var(--line);background:#fafafd;font-size:16px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
@@ -107,20 +106,41 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 .search .clear.show{display:flex}
 .search .clear .i{width:15px;height:15px}
 
+/* tombol tambah di toolbar: HANYA mobile/tablet, ikon saja (kotak 48px) */
+.add-m{flex-shrink:0;width:48px;height:48px;border-radius:15px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),box-shadow .25s}
+.add-m .i{width:20px;height:20px}
+.add-m:active{transform:scale(.93)}
+
 .result-note{font-size:12px;color:var(--muted);margin:0 2px 12px}
+.count-note{font-size:12px;font-weight:600;color:var(--muted);margin:0 2px 12px}
 
 /* ================= ARTISTS ================= */
 .art-list{display:grid;grid-template-columns:1fr;gap:12px}
-.art{display:flex;gap:14px;align-items:center;padding:14px;background:#fff;border:1px solid var(--line);border-radius:20px;transition:transform .3s var(--ease),box-shadow .3s,border-color .3s;animation:up .5s var(--ease) both;min-width:0}
+.art{display:flex;flex-direction:column;gap:14px;padding:16px;background:#fff;border:1px solid var(--line);border-radius:22px;transition:transform .3s var(--ease),box-shadow .3s,border-color .3s;animation:up .5s var(--ease) both;min-width:0}
 .art:hover{transform:translateY(-3px);border-color:#d3d1e6;box-shadow:0 16px 34px rgba(20,20,40,.08)}
-.ava{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#ebeaf6,#dcdaee);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:var(--accent)}
+.art-top{display:flex;gap:14px;align-items:center;min-width:0}
+.ava{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,#ebeaf6,#dcdaee);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:var(--accent)}
 .ava img{width:100%;height:100%;object-fit:cover;display:block}
 .art-body{min-width:0;flex:1}
-.art-name{font-size:15px;font-weight:700;letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.art-sub{margin-top:2px;font-size:12px;color:var(--muted);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.links{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
-.links a{height:26px;padding:0 10px;border-radius:999px;background:var(--bg);font-size:11px;font-weight:600;display:inline-flex;align-items:center;transition:background .2s}
+.art-name{font-size:17px;font-weight:800;letter-spacing:-.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.art-sub{margin-top:3px;font-size:12px;color:var(--muted);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.edit-btn{width:40px;height:40px;border-radius:13px;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--ink);flex-shrink:0;transition:background .2s,transform .2s var(--ease)}
+.edit-btn:hover{background:#e9e8f4}
+.edit-btn:active{transform:scale(.92)}
+.edit-btn .i{width:17px;height:17px}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 11px;border-radius:999px;background:var(--bg);font-size:12px;font-weight:600;color:#4a4c58;max-width:100%}
+.chip .i{width:13px;height:13px;color:var(--accent)}
+.chip.main{background:#eeedf7;color:#4f4a85}
+.chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.art-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-top:14px;border-top:1px dashed var(--line)}
+.links{display:flex;gap:6px;flex-wrap:wrap}
+.links a{height:30px;padding:0 12px;border-radius:999px;background:var(--bg);font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:background .2s}
+.links a .i{width:12px;height:12px;color:var(--muted)}
 .links a:hover{background:#e9e8f4}
+.no-link{font-size:12px;color:#a3a5b0;font-weight:500}
 
 /* skeleton */
 .sk{background:linear-gradient(90deg,#eeeef4,#f7f7fb,#eeeef4);background-size:200% 100%;animation:sh 1.3s linear infinite;border-radius:12px}
@@ -136,6 +156,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 .empty .btn{margin-top:14px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:46px;padding:0 22px;border-radius:999px;font-size:13px;font-weight:700;background:var(--ink);color:#fff;white-space:nowrap;transition:transform .25s var(--ease),box-shadow .25s}
 .btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(20,20,26,.2)}
+.btn:disabled{opacity:.55;cursor:default;transform:none;box-shadow:none}
 .btn .i{width:16px;height:16px}
 .btn.line{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
 .btn.line:hover{box-shadow:none;border-color:#cfcfdb}
@@ -195,6 +216,29 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 .d-empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:40px 20px;text-align:center;color:var(--muted);font-size:13px}
 .d-empty .ic{width:46px;height:46px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--accent)}
 
+/* ================= EDIT MODAL ================= */
+.mbg{position:fixed;inset:0;background:rgba(13,13,18,.5);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:400;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s;display:flex;align-items:center;justify-content:center;padding:20px}
+.mbg.show{opacity:1;visibility:visible}
+.modal{width:100%;max-width:520px;max-height:calc(100dvh - 40px);display:flex;flex-direction:column;background:var(--paper);border-radius:26px;box-shadow:0 30px 80px rgba(0,0,0,.25);transform:translateY(16px) scale(.98);transition:transform .35s var(--ease);overflow:hidden}
+.mbg.show .modal{transform:none}
+.m-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 20px 12px}
+.m-head h3{font-size:19px;font-weight:800;letter-spacing:-.03em}
+.m-head small{display:block;margin-top:2px;font-size:12px;color:var(--muted);font-weight:500}
+.m-body{flex:1;overflow-y:auto;padding:4px 20px 8px;overscroll-behavior:contain}
+.m-sec{margin:14px 0 8px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a3a5b0}
+.fld{margin-bottom:12px}
+.fld label{display:block;margin-bottom:6px;font-size:12px;font-weight:600;color:#4a4c58}
+.fld label em{color:var(--red);font-style:normal}
+.fld input{width:100%;height:48px;padding:0 14px;border-radius:14px;border:1.5px solid var(--line);background:#fafafd;font-size:16px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+.fld input:focus{border-color:var(--ink);background:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.14)}
+.fld input.err{border-color:var(--red);background:#fff7f7}
+.fld .hint{margin-top:5px;font-size:11px;color:var(--muted);line-height:1.5}
+.fld .msg{margin-top:5px;font-size:11px;color:var(--red);display:none}
+.fld .msg.show{display:block}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.m-foot{display:flex;gap:10px;padding:14px 20px calc(18px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+.m-foot .btn{flex:1}
+
 /* toast */
 .toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -214,6 +258,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
   .pop{top:76px;right:34px}
   .toast{bottom:30px}
   .head .new{display:inline-flex}
+  .add-m{display:none}              /* tombol ganda hilang di desktop */
   .art-list{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
@@ -221,11 +266,14 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 @media(max-width:700px){
   .wrap{padding:0 14px}
   .panel{border-radius:22px}
-  .toolbar{flex-direction:column}
   .tab{padding:0 14px}
   .drawer{top:auto;width:100%;height:84dvh;border-radius:26px 26px 0 0;transform:translateY(102%);box-shadow:0 -20px 60px rgba(0,0,0,.2)}
   .drawer.show{transform:none}
   .pop{right:12px;top:66px}
+  /* modal jadi bottom sheet */
+  .mbg{align-items:flex-end;padding:0}
+  .modal{max-width:100%;max-height:92dvh;border-radius:26px 26px 0 0;transform:translateY(100%)}
+  .row2{grid-template-columns:1fr}
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -257,6 +305,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
   <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></symbol>
   <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
 </svg>
 
 <!-- ================= SIDEBAR (desktop) ================= -->
@@ -334,6 +386,90 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
   <div class="d-list" id="drawerList"></div>
 </aside>
 
+<!-- ================= EDIT ARTIST MODAL ================= -->
+<div class="mbg" id="editBg" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+    <div class="m-head">
+      <div>
+        <h3 id="editTitle">Edit artist</h3>
+        <small id="editSub">Perbarui data artist kamu</small>
+      </div>
+      <button class="d-x" id="editClose" type="button" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+
+    <form id="editForm" style="display:flex;flex-direction:column;min-height:0;flex:1" novalidate>
+      <div class="m-body">
+
+        <div class="m-sec">Profil</div>
+        <div class="fld">
+          <label for="eName">Nama artist <em>*</em></label>
+          <input id="eName" type="text" maxlength="80" autocomplete="off">
+          <div class="msg" id="mName"></div>
+        </div>
+        <div class="row2">
+          <div class="fld">
+            <label for="eGenre">Genre <em>*</em></label>
+            <input id="eGenre" type="text" maxlength="40" list="genreList" autocomplete="off">
+            <div class="msg" id="mGenre"></div>
+          </div>
+          <div class="fld">
+            <label for="eSub">Sub genre</label>
+            <input id="eSub" type="text" maxlength="40" autocomplete="off">
+          </div>
+        </div>
+        <div class="fld">
+          <label for="eCountry">Negara <em>*</em></label>
+          <input id="eCountry" type="text" maxlength="60" list="countryList" autocomplete="off">
+          <div class="msg" id="mCountry"></div>
+        </div>
+
+        <div class="m-sec">Link platform</div>
+        <div class="fld">
+          <label for="eSpotify">Spotify</label>
+          <input id="eSpotify" type="url" inputmode="url" placeholder="https://open.spotify.com/artist/…" autocomplete="off">
+          <div class="msg" id="mSpotify"></div>
+        </div>
+        <div class="fld">
+          <label for="eYoutube">YouTube</label>
+          <input id="eYoutube" type="url" inputmode="url" placeholder="https://youtube.com/@…" autocomplete="off">
+          <div class="msg" id="mYoutube"></div>
+        </div>
+        <div class="fld">
+          <label for="eApple">Apple Music</label>
+          <input id="eApple" type="url" inputmode="url" placeholder="https://music.apple.com/…" autocomplete="off">
+          <div class="msg" id="mApple"></div>
+        </div>
+
+        <div class="m-sec">Data privat</div>
+        <div class="fld">
+          <label for="eFull">Nama lengkap <em>*</em></label>
+          <input id="eFull" type="text" maxlength="100" autocomplete="off">
+          <div class="msg" id="mFull"></div>
+          <div class="hint">Data privat tidak ditampilkan di katalog.</div>
+        </div>
+        <div class="fld">
+          <label for="eEmail">Email <em>*</em></label>
+          <input id="eEmail" type="email" inputmode="email" maxlength="120" autocomplete="off">
+          <div class="msg" id="mEmail"></div>
+        </div>
+
+      </div>
+
+      <div class="m-foot">
+        <button class="btn line" type="button" id="editCancel">Batal</button>
+        <button class="btn" type="submit" id="editSave">Simpan</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<datalist id="genreList">
+  <option value="Pop"><option value="Rock"><option value="Hip-Hop/Rap"><option value="R&B/Soul"><option value="Electronic"><option value="Dance"><option value="Jazz"><option value="Folk"><option value="Dangdut"><option value="Indie"><option value="Alternative"><option value="Classical"><option value="Reggae"><option value="Country"><option value="Metal"><option value="Latin"><option value="J-Pop"><option value="K-Pop">
+</datalist>
+<datalist id="countryList">
+  <option value="Indonesia"><option value="Malaysia"><option value="Singapore"><option value="Brunei"><option value="Thailand"><option value="Philippines"><option value="Vietnam"><option value="Japan"><option value="South Korea"><option value="China"><option value="India"><option value="Australia"><option value="United States"><option value="United Kingdom"><option value="Germany"><option value="France"><option value="Netherlands"><option value="Brazil">
+</datalist>
+
 <!-- ================= MAIN ================= -->
 <main class="wrap">
 
@@ -365,12 +501,14 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
         <input type="search" id="artSearch" placeholder="Cari nama artis, genre, negara…" autocomplete="off" enterkeyhint="search">
         <button class="clear" id="clearSearch" type="button" aria-label="Hapus pencarian"><svg class="i"><use href="#i-x"/></svg></button>
       </div>
-      <a class="btn" href="https://app.dynoticcollective.com/catalog/artists/create/">
-        <svg class="i"><use href="#i-plus"/></svg>Tambah Artist
+      <!-- Mobile/tablet saja, ikon saja. Di desktop disembunyikan (sudah ada tombol di header) -->
+      <a class="add-m" href="https://app.dynoticcollective.com/catalog/artists/create/" aria-label="Tambah artist">
+        <svg class="i"><use href="#i-plus"/></svg>
       </a>
     </div>
 
     <div id="resultNote" class="result-note" hidden></div>
+    <div id="countNote" class="count-note" hidden></div>
     <div id="artistList" class="art-list"></div>
 
   </section>
@@ -417,6 +555,8 @@ let artists = [];
 let artQuery = "";
 let loaded = false;
 let messages = [];
+let editingKey = null;
+let saving = false;
 
 /* ================= HELPERS ================= */
 
@@ -435,6 +575,23 @@ function debounce(fn, ms){
 
 function safeUrl(u){
   return /^https?:\/\//i.test(String(u || "")) ? String(u) : null;
+}
+
+function fmtDate(ts){
+  const n = Number(ts);
+  if(!n) return "";
+  const d = new Date(n);
+  if(isNaN(d.getTime())) return "";
+  return d.toLocaleDateString("id-ID", { day:"numeric", month:"short", year:"numeric" });
+}
+
+function svgIcon(id){
+  const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  s.setAttribute("class", "i");
+  const u = document.createElementNS("http://www.w3.org/2000/svg", "use");
+  u.setAttribute("href", "#" + id);
+  s.appendChild(u);
+  return s;
 }
 
 /* ================= AUTH ================= */
@@ -505,7 +662,8 @@ if(activeTab) activeTab.scrollIntoView({ inline:"center", block:"nearest" });
    Data: artists/{uid}/{artistId}
    Fields: name, genre, subGenre, spotify, youtube, apple,
            country, fullName, email, photo, time
-   fullName & email bersifat privat, tidak ditampilkan di daftar.
+   fullName & email bersifat privat, tidak ditampilkan di daftar
+   (hanya muncul di form edit milik pemilik).
 */
 
 function loadArtists(uid){
@@ -542,11 +700,22 @@ function loadArtists(uid){
 function renderSkeleton(){
   let html = "";
   for(let n = 0; n < 4; n++){
-    html += '<div class="art skel"><div class="ava sk"></div><div class="art-body">' +
+    html += '<div class="art skel"><div class="art-top"><div class="ava sk"></div><div class="art-body">' +
             '<div class="sk sk-line" style="width:55%"></div>' +
-            '<div class="sk sk-line" style="width:35%;margin-bottom:0"></div></div></div>';
+            '<div class="sk sk-line" style="width:35%;margin-bottom:0"></div></div></div>' +
+            '<div class="sk sk-line" style="width:70%;margin-bottom:0"></div></div>';
   }
   $("artistList").innerHTML = html;
+}
+
+function makeChip(text, icon, main){
+  const c = document.createElement("div");
+  c.className = "chip" + (main ? " main" : "");
+  if(icon) c.appendChild(svgIcon(icon));
+  const s = document.createElement("span");
+  s.textContent = text;
+  c.appendChild(s);
+  return c;
 }
 
 function renderArtists(){
@@ -555,6 +724,7 @@ function renderArtists(){
 
   const list = $("artistList");
   const note = $("resultNote");
+  const cnt = $("countNote");
   list.innerHTML = "";
   list.style.display = "";
 
@@ -566,6 +736,9 @@ function renderArtists(){
 
   note.hidden = !q;
   if(q) note.textContent = items.length + " artist ditemukan";
+
+  cnt.hidden = !!q || artists.length === 0;
+  cnt.textContent = artists.length + " artist";
 
   if(items.length === 0){
     list.style.display = "block";
@@ -584,10 +757,14 @@ function renderArtists(){
 
     const el = document.createElement("div");
     el.className = "art";
-    el.style.animationDelay = (idx * 0.05) + "s";
+    el.style.animationDelay = (Math.min(idx, 10) * 0.05) + "s";
     el.innerHTML =
-      '<div class="ava"></div>' +
-      '<div class="art-body"><div class="art-name"></div><div class="art-sub"></div><div class="links"></div></div>';
+      '<div class="art-top">' +
+        '<div class="ava"></div>' +
+        '<div class="art-body"><div class="art-name"></div><div class="art-sub"></div></div>' +
+      '</div>' +
+      '<div class="chips"></div>' +
+      '<div class="art-foot"><div class="links"></div></div>';
 
     // avatar (URL set via JS, never parsed as markup)
     const ava = el.querySelector(".ava");
@@ -605,22 +782,44 @@ function renderArtists(){
     }
 
     el.querySelector(".art-name").textContent = a.name || "-";
-    el.querySelector(".art-sub").textContent =
-      [a.genre, a.subGenre, a.country].filter(Boolean).join(" · ") || "-";
+    const d = fmtDate(a.time);
+    el.querySelector(".art-sub").textContent = d ? "Ditambahkan " + d : "Artist";
+
+    // tombol edit
+    const eb = document.createElement("button");
+    eb.type = "button";
+    eb.className = "edit-btn";
+    eb.setAttribute("aria-label", "Edit " + (a.name || "artist"));
+    eb.appendChild(svgIcon("i-edit"));
+    eb.addEventListener("click", () => openEdit(a._key));
+    el.querySelector(".art-top").appendChild(eb);
+
+    // chips: genre, sub genre, negara
+    const chips = el.querySelector(".chips");
+    if(a.genre) chips.appendChild(makeChip(a.genre, "i-music", true));
+    if(a.subGenre) chips.appendChild(makeChip(a.subGenre, null, false));
+    if(a.country) chips.appendChild(makeChip(a.country, "i-pin", false));
+    if(!chips.children.length) chips.remove();
 
     // platform links
     const links = el.querySelector(".links");
-    [["Spotify", a.spotify], ["YouTube", a.youtube], ["Apple", a.apple]].forEach(([n, u]) => {
+    [["Spotify", a.spotify], ["YouTube", a.youtube], ["Apple Music", a.apple]].forEach(([n, u]) => {
       const href = safeUrl(u);
       if(!href) return;
       const l = document.createElement("a");
       l.href = href;
       l.target = "_blank";
       l.rel = "noopener noreferrer";
-      l.textContent = n;
+      l.appendChild(document.createTextNode(n));
+      l.appendChild(svgIcon("i-ext"));
       links.appendChild(l);
     });
-    if(!links.children.length) links.remove();
+    if(!links.children.length){
+      const nl = document.createElement("span");
+      nl.className = "no-link";
+      nl.textContent = "Belum ada link platform";
+      links.replaceWith(nl);
+    }
 
     list.appendChild(el);
   });
@@ -638,6 +837,120 @@ $("clearSearch").addEventListener("click", () => {
   $("clearSearch").classList.remove("show");
   renderArtists();
   $("artSearch").focus();
+});
+
+/* ================= EDIT ARTIST ================= */
+
+const editBg = $("editBg");
+
+const FIELDS = {
+  name:    { el:"eName",    msg:"mName",    required:"Nama artist wajib diisi." },
+  genre:   { el:"eGenre",   msg:"mGenre",   required:"Genre wajib diisi." },
+  subGenre:{ el:"eSub" },
+  country: { el:"eCountry", msg:"mCountry", required:"Negara wajib diisi." },
+  spotify: { el:"eSpotify", msg:"mSpotify", url:true },
+  youtube: { el:"eYoutube", msg:"mYoutube", url:true },
+  apple:   { el:"eApple",   msg:"mApple",   url:true },
+  fullName:{ el:"eFull",    msg:"mFull",    required:"Nama lengkap wajib diisi." },
+  email:   { el:"eEmail",   msg:"mEmail",   required:"Email wajib diisi.", email:true }
+};
+
+function setFieldError(key, text){
+  const f = FIELDS[key];
+  if(!f || !f.msg) return;
+  $(f.el).classList.toggle("err", !!text);
+  const m = $(f.msg);
+  m.textContent = text || "";
+  m.classList.toggle("show", !!text);
+}
+
+function clearErrors(){
+  Object.keys(FIELDS).forEach(k => setFieldError(k, ""));
+}
+
+function openEdit(key){
+  const a = artists.find(x => x._key === key);
+  if(!a) return;
+
+  editingKey = key;
+  clearErrors();
+
+  Object.keys(FIELDS).forEach(k => { $(FIELDS[k].el).value = a[k] || ""; });
+  $("editSub").textContent = a.name || "Perbarui data artist kamu";
+
+  setProfile(false);
+  editBg.classList.add("show");
+  editBg.setAttribute("aria-hidden", "false");
+  document.body.classList.add("lock");
+  setTimeout(() => $("eName").focus({ preventScroll:true }), 120);
+}
+
+function closeEdit(){
+  if(saving) return;
+  editBg.classList.remove("show");
+  editBg.setAttribute("aria-hidden", "true");
+  if(!drawer.classList.contains("show")) document.body.classList.remove("lock");
+  editingKey = null;
+}
+
+$("editClose").addEventListener("click", closeEdit);
+$("editCancel").addEventListener("click", closeEdit);
+editBg.addEventListener("click", e => { if(e.target === editBg) closeEdit(); });
+
+$("editForm").addEventListener("submit", e => {
+  e.preventDefault();
+  if(saving || !currentUser || !editingKey) return;
+
+  clearErrors();
+  const data = {};
+  let firstBad = null;
+
+  Object.keys(FIELDS).forEach(k => {
+    const f = FIELDS[k];
+    const v = $(f.el).value.trim();
+    data[k] = v;
+
+    let err = "";
+    if(f.required && !v) err = f.required;
+    else if(v && f.url && !/^https:\/\//i.test(v)) err = "Link harus diawali https://";
+    else if(v && f.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) err = "Format email tidak valid.";
+
+    if(err){
+      setFieldError(k, err);
+      if(!firstBad) firstBad = f.el;
+    }
+  });
+
+  if(firstBad){
+    $(firstBad).focus();
+    return;
+  }
+
+  // kolom opsional yang dikosongkan dihapus dari database
+  const update = {};
+  Object.keys(data).forEach(k => { update[k] = data[k] === "" ? null : data[k]; });
+
+  saving = true;
+  const btn = $("editSave");
+  btn.disabled = true;
+  btn.textContent = "Menyimpan…";
+
+  db.ref("artists/" + currentUser.uid + "/" + editingKey).update(update)
+    .then(() => {
+      saving = false;
+      closeEdit();
+      toast("Perubahan artist disimpan.");
+    })
+    .catch(err => {
+      console.error("Gagal menyimpan artist:", err);
+      saving = false;
+      toast("Gagal menyimpan, coba lagi.");
+    })
+    .finally(() => {
+      saving = false;
+      btn.disabled = false;
+      btn.textContent = "Simpan";
+    });
 });
 
 /* ================= MESSAGES ================= */
@@ -737,7 +1050,7 @@ function closeDrawer(){
   drawer.classList.remove("show");
   overlay.classList.remove("show");
   drawer.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("lock");
+  if(!editBg.classList.contains("show")) document.body.classList.remove("lock");
 }
 
 $("notifBtn").addEventListener("click", openDrawer);
@@ -745,7 +1058,10 @@ $("drawerClose").addEventListener("click", closeDrawer);
 overlay.addEventListener("click", closeDrawer);
 
 document.addEventListener("keydown", e => {
-  if(e.key === "Escape"){ closeDrawer(); setProfile(false); }
+  if(e.key === "Escape"){
+    if(editBg.classList.contains("show")) closeEdit();
+    else { closeDrawer(); setProfile(false); }
+  }
 });
 
 /* ================= TOPBAR SCROLL ================= */
