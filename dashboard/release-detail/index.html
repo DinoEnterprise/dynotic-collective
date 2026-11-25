@@ -79,6 +79,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .h-title{font-size:clamp(26px,5vw,40px);font-weight:800;letter-spacing:-.04em;line-height:1.1;overflow-wrap:anywhere}
 .h-artist{font-size:14px;font-weight:500;color:rgba(255,255,255,.65);overflow-wrap:anywhere}
 .h-artist b{color:#fff;font-weight:600}
+.h-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.h-links a{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 13px;border-radius:999px;background:rgba(255,255,255,.1);color:#fff;font-size:12px;font-weight:600;transition:background .2s}
+.h-links a:hover{background:rgba(255,255,255,.18)}
+.h-links a .i{width:12px;height:12px;opacity:.7}
 .h-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
 
 /* BUTTONS */
@@ -405,7 +409,7 @@ const ROUTES = {
   edit:    "/edit-release",
   login:   "https://app.dynoticcollective.com/login/"
 };
-const TAKEDOWN_EMAIL = "admin@dynotic.web.id";
+const TAKEDOWN_EMAIL = "support@dynoticcollective.com";
 const DEFAULT_COVER = ASSETS + "cover-default.png";
 
 const PLATFORMS = {
@@ -431,7 +435,8 @@ const db = firebase.database();
 const $ = id => document.getElementById(id);
 const rid = new URLSearchParams(location.search).get("rid");
 
-let currentUser = null, releaseRef = null, msgRef = null, messages = [], current = null;
+let currentUser = null, releaseRef = null, msgRef = null, artistsRef = null;
+let messages = [], current = null, artistsList = [];
 let activeTab = "stores", moreOpen = true;
 
 /* ================= HELPERS ================= */
@@ -509,6 +514,7 @@ firebase.auth().onAuthStateChanged(user => {
   if(!user){
     if(releaseRef) releaseRef.off();
     if(msgRef) msgRef.off();
+    if(artistsRef) artistsRef.off();
     location.href = ROUTES.login;
     return;
   }
@@ -516,6 +522,7 @@ firebase.auth().onAuthStateChanged(user => {
   $("profileEmail").textContent = user.email || "-";
   loadProfile(user.uid);
   loadMessages(user.uid);
+  loadArtists(user.uid);
   loadRelease(user.uid);
 });
 
@@ -528,6 +535,45 @@ function loadProfile(uid){
     $("avatarLetter").textContent = l;
     $("popAvatar").textContent = l;
   }).catch(e => console.error("Gagal memuat profil:", e));
+}
+
+/* ================= ARTISTS (untuk link Spotify / Apple Music di bawah nama artis) =================
+   Data: artists/{uid}/{artistId} -> name, spotify, apple
+   Dicocokkan lewat artistId/artistKey (jika ada di rilisan), kalau tidak lewat nama artis. */
+function loadArtists(uid){
+  artistsRef = db.ref("artists/" + uid);
+  artistsRef.on("value", snap => {
+    artistsList = [];
+    snap.forEach(i => {
+      const a = i.val() || {};
+      a._key = i.key;
+      artistsList.push(a);
+    });
+    if(current) render(current);
+  }, e => console.error("Gagal memuat artists:", e));
+}
+
+function findArtist(d){
+  if(!artistsList.length) return null;
+  const key = d.artistId || d.artistKey;
+  if(key){
+    const byKey = artistsList.find(a => a._key === key);
+    if(byKey) return byKey;
+  }
+  const n = String(d.artist || "").trim().toLowerCase();
+  if(!n) return null;
+  return artistsList.find(a => String(a.name || "").trim().toLowerCase() === n) || null;
+}
+
+function artistLinksHtml(d){
+  const a = findArtist(d);
+  if(!a) return "";
+  const items = [["Spotify", safeUrl(a.spotify)], ["Apple Music", safeUrl(a.apple)]].filter(x => x[1]);
+  if(!items.length) return "";
+  return '<div class="h-links">' + items.map(x =>
+    '<a href="' + esc(x[1]) + '" target="_blank" rel="noopener noreferrer">' + x[0] +
+    '<svg class="i"><use href="#i-ext"/></svg></a>'
+  ).join("") + '</div>';
 }
 
 /* ================= RELEASE ================= */
@@ -622,15 +668,12 @@ function render(d){
   const tracks = tracksHtml(d);
 
   /* semua field mengikuti data yang disimpan form Original Asset.
-     ISRC dan UPC dari form sengaja TIDAK dibaca; UPC hanya diambil dari EAN. */
+     ISRC dan UPC dari form sengaja TIDAK dibaca; UPC hanya diambil dari EAN.
+     Link Spotify/Apple Music artis sekarang tampil di bawah nama artis (hero), bukan di sini. */
   const composer = toArr(d.composer), lyricist = toArr(d.lyricist), legacyNames = toArr(d.fullname);
   const composerTxt = composer.length ? composer.join(", ") : (!lyricist.length ? legacyNames.join(", ") : "");
   const typeLabel = { single:"Single", ep:"EP", album:"Album" }[String(d.releaseType || "").toLowerCase()] || d.releaseType;
   const genreTxt = [d.genre, d.genre2].filter(Boolean).join(", ");
-  const lnk = u => {
-    const s = safeUrl(u || "");
-    return s ? '<a href="' + esc(s) + '" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-weight:600">Buka link</a>' : "-";
-  };
   const cell = (l, v, wide) => '<div' + (wide ? ' class="wide"' : '') + '><small>' + l + '</small><span>' + (v === undefined || v === null || v === "" ? "-" : v) + '</span></div>';
   const lyrics = String(d.lyrics || "").trim();
 
@@ -652,8 +695,6 @@ function render(d){
       cell("Lyricist", esc(val(lyricist.join(", "))), true) +
       cell("℗ (P-line)", esc(val(d.pLine))) +
       cell("© (C-line)", esc(val(d.cLine))) +
-      cell("Spotify artist", lnk(d.spotifyUrl)) +
-      cell("Apple Music artist", lnk(d.appleUrl)) +
       cell("Hak original dinyatakan", esc(yesNo(d.rightsConfirmed, "Ya", "Tidak"))) +
       cell("Ketentuan disetujui", esc(d.termsAccepted ? (d.termsAcceptedAt ? "Ya, " + fmtDate(d.termsAcceptedAt) : "Ya") : "-")) +
       cell("Diajukan", esc(fmtDate(d.time || d.createdAt || d.submittedAt))) +
@@ -670,6 +711,7 @@ function render(d){
         '<span class="pill ' + (status === "process" ? "process" : "") + '" style="--c:' + st.color + '">' + esc(st.label) + '</span>' +
         '<h1 class="h-title">' + esc(d.title || "-") + (d.version ? ' <span style="font-weight:500;opacity:.6;font-size:.5em;letter-spacing:0">(' + esc(d.version) + ')</span>' : '') + '</h1>' +
         '<div class="h-artist"><b>' + esc(d.artist || "-") + '</b>' + feat + '</div>' +
+        artistLinksHtml(d) +
         '<div class="h-acts">' + acts + '</div>' +
       '</div>' +
     '</section>' +
@@ -748,13 +790,34 @@ $("mConfirm").addEventListener("click", () => {
     });
 });
 
-/* ================= TAKEDOWN ================= */
+/* ================= TAKEDOWN =================
+   Dikirim ke support@dynoticcollective.com lewat aplikasi email milik pengguna (mailto).
+   Teks sengaja ditulis seperti email biasa dari manusia: subjek jelas dan spesifik,
+   tanpa link, tanpa huruf kapital semua, tanpa tanda seru, dan memuat detail rilisan
+   supaya tidak terbaca sebagai pesan massal oleh filter spam. */
 function takedown(d){
-  const body =
-"Hello Dynotic Admin,\n\nI would like to request a takedown for the following release:\n\n" +
-"Title: " + (d.title || "-") + "\nArtist: " + (d.artist || "-") + "\nUPC: " + (d.ean || "-") +
-"\n\nI would appreciate your assistance.\n\nThank you.";
-  location.href = "mailto:" + TAKEDOWN_EMAIL + "?subject=" + encodeURIComponent("Request Takedown Release") + "&body=" + encodeURIComponent(body);
+  const lines = [
+    "Halo tim Dynotic Support,",
+    "",
+    "Saya ingin mengajukan penurunan (takedown) untuk rilisan berikut.",
+    "",
+    "Judul lagu: " + (d.title || "-"),
+    "Nama artis: " + (d.artist || "-"),
+    "UPC: " + (d.ean || "-"),
+    "ID rilisan: " + (rid || "-"),
+    "Email akun: " + ((currentUser && currentUser.email) || "-"),
+    "",
+    "Alasan takedown:",
+    "(mohon tuliskan alasan Anda di sini)",
+    "",
+    "Mohon konfirmasi jika permintaan ini sudah diterima.",
+    "",
+    "Terima kasih."
+  ];
+  const subject = "Permintaan takedown rilisan: " + (d.title || "-") + " - " + (d.artist || "-");
+  location.href = "mailto:" + TAKEDOWN_EMAIL +
+    "?subject=" + encodeURIComponent(subject) +
+    "&body=" + encodeURIComponent(lines.join("\r\n"));
 }
 
 /* ================= PROFILE POPUP ================= */
