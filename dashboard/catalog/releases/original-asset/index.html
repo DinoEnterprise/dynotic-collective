@@ -155,7 +155,7 @@ textarea.input{height:auto;min-height:130px;padding:14px 16px;line-height:1.6;re
 .drop.fail .up-ic{background:var(--red)}
 .up-pill{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 17px;border-radius:999px;background:var(--ink);color:#fff;font-size:13px;font-weight:700;flex-shrink:0;white-space:nowrap}
 .up-pill .i{width:15px;height:15px}
-.cover-drop{width:min(300px,100%);aspect-ratio:1/1;border-radius:26px;overflow:hidden}
+.cover-drop{width:100%;max-width:300px;aspect-ratio:1/1;border-radius:26px;overflow:hidden}
 .cover-in{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;padding:18px;text-align:center}
 .cover-in .up-ic{width:84px;height:84px;border-radius:26px;margin-bottom:12px}
 .cover-in .up-ic .i{width:42px;height:42px}
@@ -248,7 +248,6 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
 @media(max-width:520px){.tiles{grid-template-columns:1fr}.tiles.keep{grid-template-columns:1fr 1fr}}
 @media(min-width:700px){
   .row2{grid-template-columns:1fr 1fr}
-  .up-grid{grid-template-columns:auto 1fr;align-items:start;gap:30px}
   .modal{align-items:center;padding:24px}
   .sheet{border-radius:28px;max-height:86vh}
 }
@@ -272,7 +271,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
   .st.done .n .ck{display:block}
   .st .d{display:block;margin-top:1px;font-size:12px;font-weight:500;color:rgba(255,255,255,.5)}
   .card{padding:38px 40px}
-  .cover-drop{width:min(400px,100%)}
+  .cover-drop{max-width:440px}
   .cover-in .up-ic{width:120px;height:120px;border-radius:36px;margin-bottom:18px}
   .cover-in .up-ic .i{width:60px;height:60px}
   .up-t{font-size:22px}
@@ -421,22 +420,16 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
         <div class="grp-d">Dipakai toko musik untuk menandai lagu dengan benar.</div>
         <div class="row2">
           <div class="field" data-f="explicit">
-            <label class="label" id="explicitLbl">Konten Explicit <span class="req">*</span></label>
-            <div class="tiles c1" id="explicitSeg" role="radiogroup" aria-labelledby="explicitLbl">
-              <input type="hidden" id="explicit">
-              <button type="button" class="tile" role="radio" aria-checked="false" data-v="no"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span><b>Aman untuk semua umur</b><small>Tidak ada kata kasar atau konten dewasa</small></span></button>
-              <button type="button" class="tile" role="radio" aria-checked="false" data-v="yes"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span><b>Explicit</b><small>Ada kata kasar, seksual, atau kekerasan</small></span></button>
-            </div>
+            <label class="label" for="explicit">Konten Explicit <span class="req">*</span></label>
+            <div class="select"><select id="explicit"><option value="">Pilih…</option><option value="yes">Explicit</option><option value="no">Tidak</option></select><svg class="i"><use href="#i-chev-d"/></svg></div>
             <div class="err-msg"></div>
+            <div class="hint">Pilih Explicit jika lirik mengandung kata kasar, seksual, atau kekerasan.</div>
           </div>
           <div class="field" data-f="vocal">
-            <label class="label" id="vocalLbl">Jenis Audio <span class="req">*</span></label>
-            <div class="tiles c1" id="vocalSeg" role="radiogroup" aria-labelledby="vocalLbl">
-              <input type="hidden" id="vocal">
-              <button type="button" class="tile" role="radio" aria-checked="false" data-v="vocal"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span><b>Ada vokal</b><small>Dinyanyikan atau diucapkan</small></span></button>
-              <button type="button" class="tile" role="radio" aria-checked="false" data-v="instrumental"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span><b>Instrumental</b><small>Tanpa vokal atau lirik</small></span></button>
-            </div>
+            <label class="label" for="vocal">Jenis Audio <span class="req">*</span></label>
+            <div class="select"><select id="vocal"><option value="">Pilih…</option><option value="vocal">Vocal</option><option value="instrumental">Instrumen</option></select><svg class="i"><use href="#i-chev-d"/></svg></div>
             <div class="err-msg"></div>
+            <div class="hint">Pilih Instrumen jika lagu tanpa vokal.</div>
           </div>
         </div>
         <div class="row2">
@@ -453,13 +446,11 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
             <div class="hint">Bahasa pada judul, mis. Indonesian.</div>
           </div>
         </div>
-        <div class="field">
-          <label class="label">Preview TikTok <small>Opsional</small></label>
-          <div class="two">
-            <div class="select"><select id="tkMin" aria-label="Menit"></select><svg class="i"><use href="#i-chev-d"/></svg></div>
-            <div class="select"><select id="tkSec" aria-label="Detik"></select><svg class="i"><use href="#i-chev-d"/></svg></div>
-          </div>
-          <div class="hint">Pilih menit dan detik bagian lagu yang jadi cuplikan di TikTok. Mis. menit 0, detik 30 untuk mulai dari detik ke-30.</div>
+        <div class="field" data-f="tiktokStart">
+          <label class="label" for="tiktokStart">Preview TikTok <small>Opsional</small></label>
+          <input class="input" id="tiktokStart" inputmode="numeric" placeholder="mis. 0030" maxlength="5" autocomplete="off">
+          <div class="err-msg"></div>
+          <div class="hint">Ketik 4 angka menit dan detik bagian lagu yang jadi cuplikan TikTok. Mis. ketik 0030 jadi 00:30, atau 0145 jadi 01:45.</div>
         </div>
         <div class="field">
           <label class="label" for="lyrics">Lirik <small>Opsional</small></label>
@@ -476,7 +467,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
             <label class="label" for="composer">Composer <small>Pencipta lagu</small> <span class="req">*</span></label>
             <input class="input" id="composer" placeholder="mis. Budi Santoso, Sari Dewi" autocomplete="off">
             <div class="err-msg"></div>
-            <div class="hint">Nama asli sesuai KTP. Pisahkan beberapa nama dengan koma.</div>
+            <div class="hint">Nama asli sesuai data diri yang sah. Pisahkan beberapa nama dengan koma.</div>
           </div>
           <div class="field" data-f="lyricist">
             <label class="label" for="lyricist">Lyricist <small>Penulis lirik</small> <span class="req" id="lyReq">*</span></label>
@@ -512,21 +503,6 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
           <div class="field">
             <label class="label" for="pYear">Tahun Hak Cipta</label>
             <div class="select"><select id="pYear"></select><svg class="i"><use href="#i-chev-d"/></svg></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="grp">
-        <div class="grp-t">Link platform</div>
-        <div class="grp-d">Terisi otomatis dari artist yang dipilih. Boleh dikosongkan.</div>
-        <div class="row2">
-          <div class="field">
-            <label class="label" for="spotifyUrl">Link Spotify</label>
-            <input class="input" id="spotifyUrl" inputmode="url" placeholder="mis. https://open.spotify.com/artist/..." autocomplete="off" autocapitalize="off">
-          </div>
-          <div class="field">
-            <label class="label" for="appleUrl">Link Apple Music</label>
-            <input class="input" id="appleUrl" inputmode="url" placeholder="mis. https://music.apple.com/id/artist/..." autocomplete="off" autocapitalize="off">
           </div>
         </div>
       </div>
@@ -656,7 +632,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
         <li>Saya tidak akan membayar atau menjanjikan pembayaran untuk penempatan playlist, dan tidak bekerja sama dengan pihak yang menjanjikan penempatan terjamin.</li>
         <li>Saya memahami pelanggaran dapat berakibat penghentian layanan seketika, hilangnya royalti, denda, tuntutan hukum, dan pelaporan ke toko musik serta pihak berwenang.</li>
         <li>Saya akan memberi tahu setiap artist atau klien yang bekerja sama dengan saya tentang aturan ini dan memastikan mereka mematuhinya.</li>
-        <li>Saya memahami data identitas saya (nama lengkap, alamat, KTP, dan data pribadi lain) dapat dibagikan kepada tim hukum toko musik bila terjadi pelanggaran.</li>
+        <li>Saya memahami data identitas saya (nama lengkap, alamat, data diri yang sah, dan data pribadi lain) dapat dibagikan kepada tim hukum toko musik bila terjadi pelanggaran.</li>
       </ol>
 
       <h4>7. Tanggung Jawab</h4>
@@ -735,12 +711,10 @@ window.addEventListener("scroll", () => topbar.classList.toggle("scrolled", scro
 
 /* ===== isi pilihan menit, detik, tahun ===== */
 (function(){
-  let m = '<option value="">Menit</option>', s = '<option value="">Detik</option>', y = "";
-  for(let i = 0; i <= 9; i++) m += '<option value="' + i + '">' + i + ' menit</option>';
-  for(let i = 0; i <= 59; i++) s += '<option value="' + i + '">' + String(i).padStart(2, "0") + ' detik</option>';
+  let y = "";
   const yr = new Date().getFullYear();
   for(let i = yr + 1; i >= 2000; i--) y += '<option value="' + i + '"' + (i === yr ? " selected" : "") + '>' + i + '</option>';
-  $("tkMin").innerHTML = m; $("tkSec").innerHTML = s; $("pYear").innerHTML = y;
+  $("pYear").innerHTML = y;
 })();
 
 /* ===== combobox ===== */
@@ -880,8 +854,7 @@ const genre2Combo = makeCombo("genre2", {
 });
 const artistCombo = makeCombo("artist", {
   placeholder:"Memuat artist…", avatar:true, items:[],
-  empty: q => q ? "Artist “" + q + "” tidak ditemukan. Buat dulu lewat tombol di bawah." : "Belum ada artist. Buat dulu lewat tombol di bawah.",
-  onSelect: it => { $("spotifyUrl").value = it.spotify || ""; $("appleUrl").value = it.apple || ""; }
+  empty: q => q ? "Artist “" + q + "” tidak ditemukan. Buat dulu lewat tombol di bawah." : "Belum ada artist. Buat dulu lewat tombol di bawah."
 });
 const audioLangCombo = makeCombo("audioLang", { placeholder:"Pilih bahasa audio", items: langItems([NOLING]), empty: q => "Bahasa “" + q + "” tidak ditemukan." });
 const titleLangCombo = makeCombo("titleLang", { placeholder:"Pilih bahasa judul", items: langItems(), empty: q => "Bahasa “" + q + "” tidak ditemukan." });
@@ -907,19 +880,21 @@ function makeSeg(id, onChange){
   sync();
   return { sync };
 }
-const explicitSeg = makeSeg("explicit");
-const vocalSeg = makeSeg("vocal", (v, fromSync) => {
+function onVocal(fromSync){
+  const v = $("vocal").value;
   $("lyReq").hidden = v === "instrumental";
   if(fromSync) return;
   if(v === "instrumental") audioLangCombo.set(NOLING);
   else if($("audioLang").value === NOLING) audioLangCombo.set("");
   clearError("lyricist");
-});
+}
+$("vocal").addEventListener("change", () => onVocal(false));
 const prevSeg = makeSeg("prevRel", v => {
   $("prevDateWrap").hidden = v !== "yes";
   if(v !== "yes") $("prevDate").value = "";
 });
 
+const artistMap = {};
 function loadArtists(u){
   db.ref("artists/" + u).once("value").then(snap => {
     const list = [];
@@ -927,6 +902,7 @@ function loadArtists(u){
     list.sort((a, b) => a.name.localeCompare(b.name));
     $("artistEmpty").hidden = list.length > 0;
     artistCombo.setPlaceholder(list.length ? "Pilih artist" : "Belum ada artist");
+    list.forEach(a => { artistMap[a.name] = a; });
     artistCombo.setItems(list.map(a => ({
       value:a.name, label:a.name,
       sub:[a.genre, a.country].filter(Boolean).join(" • "),
@@ -1071,8 +1047,8 @@ $("lyricsFile").addEventListener("change", e => {
 });
 
 /* ===== validasi ===== */
-const FIELDS = ["title","version","artist","featuring","genre","genre2","labelName","releaseDate","prevRel","prevDate","explicit","vocal","audioLang","titleLang","tkMin","tkSec","lyrics","composer","lyricist","producer","isrc","upc","pOwner","pYear","spotifyUrl","appleUrl"];
-const VALIDATED = ["title","artist","genre","genre2","labelName","releaseDate","prevRel","prevDate","explicit","vocal","audioLang","titleLang","composer","lyricist","isrc","upc","rights"];
+const FIELDS = ["title","version","artist","featuring","genre","genre2","labelName","releaseDate","prevRel","prevDate","explicit","vocal","audioLang","titleLang","tiktokStart","lyrics","composer","lyricist","producer","isrc","upc","pOwner","pYear"];
+const VALIDATED = ["title","artist","genre","genre2","labelName","releaseDate","prevRel","prevDate","explicit","vocal","audioLang","titleLang","tiktokStart","composer","lyricist","isrc","upc","rights"];
 const MSG = {
   title:"Judul lagu wajib diisi.", artist:"Pilih artist terlebih dahulu.", genre:"Pilih genre utama.",
   labelName:"Nama label wajib diisi.", prevRel:"Pilih sudah atau belum pernah dirilis.",
@@ -1089,14 +1065,15 @@ $("prevDate").max = ymd(new Date());
 const parseNames = v => String(v || "").split(",").map(n => n.trim()).filter(Boolean);
 const normIsrc = v => v.toUpperCase().replace(/[\s-]/g, "");
 function tiktok(){
-  const m = $("tkMin").value, s = $("tkSec").value;
-  return (m === "" && s === "") ? null : (+m || 0) * 60 + (+s || 0);
+  const m = $("tiktokStart").value.match(/^(\d{2}):([0-5]\d)$/);
+  return m ? +m[1] * 60 + +m[2] : null;
 }
 const fmtClock = s => String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
 
 function fieldError(f){
   const v = $(f).value.trim();
   switch(f){
+    case "tiktokStart": return v && !/^\d{2}:[0-5]\d$/.test(v) ? "Ketik 4 angka, mis. 0030 jadi 00:30 (detik maksimal 59)." : "";
     case "rights": return $("rights").checked ? "" : MSG.rights;
     case "genre2": return v && v === $("genre").value ? "Genre kedua tidak boleh sama dengan genre utama." : "";
     case "isrc": return v && !ISRC_RE.test(normIsrc(v)) ? "Format ISRC tidak valid. Contoh: IDA012600001 (12 karakter)." : "";
@@ -1209,7 +1186,14 @@ $("primaryBtn").addEventListener("click", () => {
   }
   openTerms();
 });
-document.addEventListener("input", e => { if(e.target.id){ clearError(e.target.id); } refreshGate(); });
+document.addEventListener("input", e => {
+  if(e.target.id === "tiktokStart"){
+    const d = e.target.value.replace(/\D/g, "").slice(0, 4);
+    e.target.value = d.length > 2 ? d.slice(0, 2) + ":" + d.slice(2) : d;
+  }
+  if(e.target.id){ clearError(e.target.id); }
+  refreshGate();
+});
 document.addEventListener("change", e => { if(e.target.id){ clearError(e.target.id); refreshGate(); } });
 document.addEventListener("keydown", e => {
   if(e.key === "Enter" && e.target.tagName === "INPUT" && !["file","checkbox","hidden"].includes(e.target.type) && !e.target.closest(".combo") && current === 1){
@@ -1253,7 +1237,8 @@ function applyDraft(){
   if(!d) return;
   FIELDS.forEach(k => { if(d.f[k] != null) $(k).value = d.f[k]; });
   $("rights").checked = !!d.rights;
-  [genreCombo, genre2Combo, artistCombo, audioLangCombo, titleLangCombo, explicitSeg, vocalSeg, prevSeg].forEach(x => x.sync());
+  [genreCombo, genre2Combo, artistCombo, audioLangCombo, titleLangCombo, prevSeg].forEach(x => x.sync());
+  onVocal(true);
   if(d.cover){
     Object.assign(up.cover, { url:d.cover, state:"done", pct:100 });
     const p = $("coverPreview");
@@ -1310,8 +1295,6 @@ function loadPreview(){
   if(v("upc")) r.push(["UPC", v("upc")]);
   r.push(["Hak cipta", cl.p + "\n" + cl.c]);
   if(v("lyrics")) r.push(["Lirik", "Terlampir (" + v("lyrics").split("\n").length + " baris)"]);
-  if(v("spotifyUrl")) r.push(["Spotify", v("spotifyUrl")]);
-  if(v("appleUrl")) r.push(["Apple Music", v("appleUrl")]);
   const src = audioObjURL || up.audio.url;
   $("previewBox").innerHTML =
     '<div class="pv-head"><img src="' + escapeHTML(up.cover.url || "") + '" alt="Cover Artwork"><div class="tx"><strong>' + escapeHTML(v("title") || "-") + '</strong><span>' + escapeHTML(v("artist") || "-") + '</span></div></div>' +
@@ -1357,6 +1340,7 @@ function submitRelease(){
     return;
   }
   const v = id => $(id).value.trim(), cl = creditLines();
+  const art = artistMap[v("artist")] || {};
   const composer = parseNames(v("composer")), lyricist = parseNames(v("lyricist"));
   const data = {
     type: $("type").value,
@@ -1368,8 +1352,8 @@ function submitRelease(){
     label: v("labelName") || "Unknown Label",
     audio: up.audio.url,
     cover: up.cover.url,
-    spotifyUrl: v("spotifyUrl"),
-    appleUrl: v("appleUrl"),
+    spotifyUrl: art.spotify || "",
+    appleUrl: art.apple || "",
     version: v("version"),
     explicit: v("explicit") === "yes",
     instrumental: v("vocal") === "instrumental",
