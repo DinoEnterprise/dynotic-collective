@@ -5,73 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Original Asset | Dynotic Distribution</title>
 <meta name="theme-color" content="#f3f3f8">
-
 <link rel="icon" type="image/png" href="https://dynoticcollective.com/assets/favicon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="https://dynoticcollective.com/assets/favicon-android.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://dynoticcollective.com/assets/favicon-iphone.png">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 <style>
-:root{
-  --bg:#f3f3f8;
-  --paper:#fff;
-  --ink:#14141a;
-  --muted:#6f7280;
-  --line:#e6e6ee;
-  --dark:#0d0d12;
-  --accent:#7772a8;
-  --accent-2:#a9a3f2;
-  --red:#e5484d;
-  --green:#2f9e6b;
-  --amber:#b7791f;
-  --ease:cubic-bezier(.16,1,.3,1);
-}
-
+:root{--bg:#f3f3f8;--paper:#fff;--ink:#14141a;--muted:#6f7280;--line:#e6e6ee;--dark:#0d0d12;--accent:#7772a8;--accent-2:#a9a3f2;--red:#e5484d;--green:#2f9e6b;--amber:#b7791f;--ease:cubic-bezier(.16,1,.3,1)}
 *{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--ink);min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:calc(128px + env(safe-area-inset-bottom))}
+body{background:var(--bg);color:var(--ink);min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:calc(128px + env(safe-area-inset-bottom))}
 body.lock{overflow:hidden}
 a{color:var(--accent);font-weight:700;text-decoration:none}
-a:hover{text-decoration:underline}
 button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
-input,select{font:inherit}
+input,select,textarea{font:inherit}
 [hidden]{display:none!important}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
-
 .i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .vh{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
 
-/* ================= TOPBAR ================= */
-.topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
+.topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 16px;display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
 .topbar.scrolled{border-bottom-color:var(--line)}
-.icon-btn{width:44px;height:44px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 2px rgba(20,20,40,.05);transition:transform .2s var(--ease),border-color .2s,box-shadow .2s;flex-shrink:0}
-.icon-btn:hover{border-color:#cfcfdb;box-shadow:0 8px 18px -10px rgba(20,20,40,.25)}
+.icon-btn{width:44px;height:44px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 2px rgba(20,20,40,.05);transition:transform .2s var(--ease);flex-shrink:0}
 .icon-btn:active{transform:scale(.93)}
 .icon-btn .i{width:20px;height:20px}
 .page-title{display:none;font-size:20px;font-weight:800;letter-spacing:-.03em}
 .topbar .logo{margin-left:auto}
 .topbar .logo img{height:30px;width:auto;max-width:170px;object-fit:contain;display:block}
 
-/* ================= LAYOUT ================= */
-.wrap{width:100%;max-width:640px;margin:0 auto;padding:6px 16px 0}
+.wrap{width:100%;max-width:640px;margin:0 auto;padding:6px 14px 0}
 .layout{display:flex;flex-direction:column;gap:16px}
 
-/* ================= SIDE PANEL / STEPPER ================= */
-.side{position:relative;overflow:hidden;isolation:isolate;border-radius:28px;background:var(--dark);color:#fff;padding:clamp(22px,4vw,30px);animation:up .6s var(--ease) both}
+.side{position:relative;overflow:hidden;isolation:isolate;border-radius:24px;background:var(--dark);color:#fff;padding:clamp(22px,4vw,30px)}
 .side::before,.side::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none}
 .side::before{width:340px;height:340px;background:rgba(119,114,168,.6);top:-160px;right:-80px}
 .side::after{width:280px;height:280px;background:rgba(79,70,160,.4);bottom:-170px;left:-80px}
-.side-grid{position:absolute;inset:0;z-index:-1;opacity:.25;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%)}
 .h-label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:rgba(255,255,255,.65)}
 .h-label .i{width:17px;height:17px;color:var(--accent-2)}
 .h-title{margin-top:10px;font-size:clamp(26px,6vw,34px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
 .h-sub{margin-top:8px;font-size:13px;line-height:1.6;color:rgba(255,255,255,.55)}
-
-.stepper{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:22px}
-.st{position:relative;text-align:left;padding-top:12px;font-size:12px;font-weight:600;color:rgba(255,255,255,.45);transition:color .2s,opacity .2s,background .2s}
+.stepper{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:22px}
+.st{position:relative;text-align:left;padding-top:12px;font-size:12px;font-weight:600;color:rgba(255,255,255,.45)}
 .st::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;border-radius:999px;background:rgba(255,255,255,.14);transition:background .3s}
 .st.done::before{background:rgba(169,163,242,.55)}
 .st.active::before{background:#fff}
@@ -79,24 +54,20 @@ input,select{font:inherit}
 .st.done{color:rgba(255,255,255,.75)}
 .st.locked{opacity:.4;cursor:not-allowed}
 .st .n,.st .d{display:none}
-.st .tx b{font-weight:inherit}
 
-/* ================= CARD / FORM ================= */
-.card{background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:clamp(20px,4vw,34px)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:clamp(20px,4vw,34px)}
 .section{animation:up .35s var(--ease) both}
 .sec-title{font-size:22px;font-weight:800;letter-spacing:-.03em;line-height:1.2}
 .sec-desc{margin-top:6px;font-size:14px;line-height:1.65;color:var(--muted)}
-
 .grp{margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
-.sec-desc + .grp{border-top:0;padding-top:0;margin-top:22px}
-.grp-t{font-size:14px;font-weight:700;letter-spacing:-.01em}
+.grp-t{font-size:15px;font-weight:800;letter-spacing:-.01em}
 .grp-d{margin-top:2px;font-size:12px;color:var(--muted)}
-
 .field{margin-top:16px}
 .label{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;margin-bottom:8px}
 .label .req{color:var(--red)}
 .label small{font-size:11px;font-weight:500;color:var(--muted)}
-.input,.select select{width:100%;height:56px;padding:0 16px;border-radius:16px;border:1px solid var(--line);background:#fafafd;color:var(--ink);font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none;appearance:none}
+.input,.select select,textarea.input{width:100%;height:56px;padding:0 16px;border-radius:16px;border:1px solid var(--line);background:#fafafd;color:var(--ink);font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none;appearance:none}
+textarea.input{height:auto;min-height:130px;padding:14px 16px;line-height:1.6;resize:vertical}
 .input::placeholder{color:#a3a5b0}
 .input:focus,.select select:focus{border-color:#cfcdea;background:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.14)}
 .select{position:relative}
@@ -107,28 +78,29 @@ input,select{font:inherit}
 .field.err .err-msg{display:block}
 .hint{margin-top:8px;font-size:12px;line-height:1.6;color:var(--muted)}
 .row2{display:grid;grid-template-columns:1fr;gap:0 14px}
-
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .input[type=date]{display:block;min-height:56px;text-align:left}
 .rt-warn{margin-top:10px;padding:12px 14px;border-radius:14px;background:#fff6e5;color:#8a5a00;font-size:12px;line-height:1.6}
+.note{margin-top:18px;padding:14px 16px;border-radius:16px;background:#eeedf7;font-size:13px;line-height:1.65;color:#4b4880}
+.note b{color:var(--ink)}
+.draft{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:#fff6e5;color:#8a5a00}
+.draft b{display:block;color:#6b4500}
+.dbtn{display:flex;gap:8px}
 
-/* ================= COMBOBOX (search dropdown) ================= */
 .combo{position:relative}
 .combo-btn{position:relative;width:100%;height:56px;padding:0 46px 0 16px;border-radius:16px;border:1px solid var(--line);background:#fafafd;color:var(--ink);font-size:16px;text-align:left;display:flex;align-items:center;gap:10px;transition:border-color .2s,box-shadow .2s,background .2s}
-.combo-btn:hover{border-color:#cfcfdb}
 .combo.open .combo-btn,.combo-btn:focus-visible{border-color:#cfcdea;background:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.14);outline:none}
-.combo-btn .cv{min-width:0;flex:1;display:flex;align-items:center;gap:10px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.combo-btn .cv{min-width:0;flex:1;display:flex;align-items:center;gap:10px;overflow:hidden;white-space:nowrap}
 .combo-btn .cv .ph{color:#a3a5b0}
 .combo-btn .cv .tx{overflow:hidden;text-overflow:ellipsis}
 .combo-btn .chev{position:absolute;right:16px;top:50%;width:17px;height:17px;color:var(--muted);transform:translateY(-50%);transition:transform .25s var(--ease)}
 .combo.open .chev{transform:translateY(-50%) rotate(180deg)}
 .field.err .combo-btn{border-color:var(--red);background:#fff8f8;box-shadow:0 0 0 4px rgba(229,72,77,.1)}
-
 .combo-pop{position:absolute;left:0;right:0;top:calc(100% + 8px);z-index:40;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 26px 54px -18px rgba(20,20,40,.32);padding:8px;animation:pop .2s var(--ease) both;transform-origin:top center}
-.combo-search{display:flex;align-items:center;gap:10px;height:48px;padding:0 14px;border-radius:14px;background:var(--bg);border:1px solid transparent;transition:border-color .2s,background .2s}
+.combo-search{display:flex;align-items:center;gap:10px;height:48px;padding:0 14px;border-radius:14px;background:var(--bg);border:1px solid transparent}
 .combo-search:focus-within{background:#fff;border-color:#cfcdea;box-shadow:0 0 0 4px rgba(119,114,168,.12)}
 .combo-search .i{width:17px;height:17px;color:var(--muted)}
 .combo-search input{flex:1;min-width:0;height:100%;border:0;background:none;outline:none;font-size:16px;color:var(--ink)}
-.combo-search input::placeholder{color:#a3a5b0}
 .combo-list{max-height:252px;overflow-y:auto;margin-top:6px;overscroll-behavior:contain;padding:2px 0}
 .combo-opt{display:flex;align-items:center;gap:12px;padding:10px;border-radius:14px;cursor:pointer;font-size:14px;font-weight:600;line-height:1.3}
 .combo-opt .tx{min-width:0;flex:1}
@@ -142,72 +114,73 @@ input,select{font:inherit}
 .combo-av img{width:100%;height:100%;object-fit:cover;display:block}
 .combo-empty{padding:20px 12px;text-align:center;font-size:13px;line-height:1.6;color:var(--muted)}
 .combo-foot{display:flex;align-items:center;gap:10px;margin-top:6px;padding:13px 10px 6px;border-top:1px solid var(--line);font-size:13px;font-weight:700;color:var(--accent)}
-.combo-foot:hover{text-decoration:none;color:var(--ink)}
 .combo-foot .i{width:16px;height:16px}
 
-/* ================= STEP 1 ================= */
-.pick{display:flex;align-items:center;gap:14px;margin-top:20px;padding:14px;border-radius:18px;background:#eeedf7}
-.pick .ic{width:44px;height:44px;border-radius:14px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.pick .ic .i{width:20px;height:20px}
-.pick .tx{min-width:0}
-.pick small{display:block;font-size:11px;color:#6b678f;font-weight:500}
-.pick strong{display:block;margin-top:1px;font-size:15px;font-weight:700;overflow-wrap:anywhere}
-.pick span{display:block;margin-top:1px;font-size:12px;color:#6b678f;overflow-wrap:anywhere}
-.need{display:flex;flex-direction:column;gap:10px;margin-top:22px}
-.need-i{display:flex;align-items:center;gap:14px;padding:14px;border:1px solid var(--line);border-radius:18px}
-.need-i .ic{width:44px;height:44px;border-radius:14px;background:var(--bg);color:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.need-i .ic .i{width:20px;height:20px}
-.need-i strong{display:block;font-size:14px;font-weight:700}
-.need-i span{display:block;margin-top:2px;font-size:12px;line-height:1.55;color:var(--muted)}
+/* tile pilihan (Explicit, Vokal, dll) */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tiles.c1{grid-template-columns:1fr}
+.tile{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:14px;border:1.5px solid var(--line);border-radius:18px;background:#fafafd;transition:border-color .2s,background .2s,box-shadow .2s,transform .2s var(--ease)}
+.tile:hover{border-color:#cfcfdb;background:#fff}
+.tile:active{transform:scale(.985)}
+.tile .dot{width:22px;height:22px;border-radius:50%;border:2px solid #c4c3d6;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:background .2s,border-color .2s}
+.tile .dot .i{width:12px;height:12px;stroke-width:3.5;color:#fff;opacity:0}
+.tile b{display:block;font-size:14px;font-weight:700}
+.tile small{display:block;margin-top:2px;font-size:12px;line-height:1.5;color:var(--muted);font-weight:500}
+.tile.on{border-color:var(--ink);background:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.14)}
+.tile.on .dot{background:var(--ink);border-color:var(--ink)}
+.tile.on .dot .i{opacity:1}
+.field.err .tile{border-color:var(--red);background:#fff8f8}
 
-/* ================= UPLOAD ================= */
+.agree{display:flex;gap:12px;align-items:flex-start;cursor:pointer;font-size:13px;line-height:1.55;font-weight:600;position:relative}
+.agree .box{width:24px;height:24px;border-radius:8px;border:1.5px solid #c4c3d6;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:background .2s,border-color .2s}
+.agree .box .i{width:14px;height:14px;color:#fff;stroke-width:3;opacity:0;transform:scale(.6);transition:opacity .2s,transform .3s var(--ease)}
+.agree input:checked + .box{background:var(--ink);border-color:var(--ink)}
+.agree input:checked + .box .i{opacity:1;transform:none}
+.agree input:focus-visible + .box{outline:2px solid var(--accent);outline-offset:2px}
+.rights{padding:16px;border:1.5px solid var(--line);border-radius:18px;background:#fafafd}
+.field.err .rights{border-color:var(--red);background:#fff8f8}
+
+/* upload */
 .up-grid{display:grid;grid-template-columns:1fr;gap:6px;margin-top:6px}
-.drop{position:relative;display:block;cursor:pointer;border:1.5px dashed #c4c3d6;background:linear-gradient(180deg,#fcfcff,#f6f5fc);transition:border-color .2s,background .2s,transform .25s var(--ease),box-shadow .25s}
+.up-grid > div{min-width:0}
+.drop{position:relative;display:block;cursor:pointer;border:2px dashed #b9b7d3;background:linear-gradient(180deg,#fcfcff,#f1f0fa);transition:border-color .2s,background .2s,transform .25s var(--ease),box-shadow .25s}
 .drop:hover,.drop.over{border-color:var(--accent);background:#f4f3fb;box-shadow:0 14px 30px -18px rgba(79,70,160,.45)}
 .drop.over{transform:scale(1.01)}
 .drop:focus-within{outline:2px solid var(--accent);outline-offset:2px}
 .drop.done{border-style:solid;border-color:#cfe9dd;background:#fbfffd}
 .drop.fail{border-color:var(--red);background:#fff8f8}
-
-.up-ic{width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,#efeefa,#dcdaf0);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:inset 0 0 0 1px rgba(119,114,168,.18);transition:background .2s,color .2s}
+.up-ic{width:56px;height:56px;border-radius:18px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 12px 24px -12px rgba(13,13,18,.55)}
 .up-ic .i{width:26px;height:26px}
-.drop.done .up-ic{background:linear-gradient(135deg,#eaf8f1,#d3efe2);color:var(--green);box-shadow:inset 0 0 0 1px rgba(47,158,107,.2)}
-.drop.fail .up-ic{background:#ffe9ea;color:var(--red);box-shadow:none}
-.up-pill{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:36px;padding:0 15px;border-radius:999px;background:var(--ink);color:#fff;font-size:13px;font-weight:700;flex-shrink:0;white-space:nowrap;transition:transform .25s var(--ease)}
+.drop.done .up-ic{background:var(--green)}
+.drop.fail .up-ic{background:var(--red)}
+.up-pill{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 17px;border-radius:999px;background:var(--ink);color:#fff;font-size:13px;font-weight:700;flex-shrink:0;white-space:nowrap}
 .up-pill .i{width:15px;height:15px}
-.drop:hover .up-pill{transform:translateY(-1px)}
-
-.cover-drop{width:min(280px,100%);aspect-ratio:1/1;border-radius:26px;overflow:hidden}
+.cover-drop{width:min(300px,100%);aspect-ratio:1/1;border-radius:26px;overflow:hidden}
 .cover-in{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;padding:18px;text-align:center}
-.cover-in .up-ic{margin-bottom:8px}
-.up-t{font-size:15px;font-weight:800;letter-spacing:-.02em}
-.up-s{font-size:12px;line-height:1.5;color:var(--muted);margin-bottom:10px}
+.cover-in .up-ic{width:84px;height:84px;border-radius:26px;margin-bottom:12px}
+.cover-in .up-ic .i{width:42px;height:42px}
+.up-t{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.up-s{font-size:12px;line-height:1.5;color:var(--muted);margin-bottom:12px}
 #coverPreview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.cover-change{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 14px;border-radius:999px;background:rgba(13,13,18,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font-size:12px;font-weight:700;white-space:nowrap;pointer-events:none}
+.cover-change{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 14px;border-radius:999px;background:rgba(13,13,18,.72);color:#fff;font-size:12px;font-weight:700;white-space:nowrap;pointer-events:none}
 .cover-change .i{width:14px;height:14px}
-.cover-bar{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(20,20,26,.15)}
-.cover-bar i{display:block;height:100%;width:0;background:var(--accent-2);transition:width .25s}
+.cover-bar,.audio-bar{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(20,20,26,.12)}
+.cover-bar i,.audio-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
 .cover-shade{position:absolute;inset:0;background:rgba(13,13,18,.5);display:none;align-items:center;justify-content:center;color:#fff;font-size:26px;font-weight:800}
 .cover-drop.busy .cover-shade{display:flex}
-
 .audio-drop{border-radius:24px;padding:18px 18px 22px;display:flex;align-items:center;gap:16px;min-height:104px;overflow:hidden}
 .audio-info{min-width:0;flex:1}
-.audio-name{font-weight:800;font-size:15px;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.audio-name{font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .audio-sub{margin-top:3px;font-size:12px;color:var(--muted)}
-.audio-bar{position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(20,20,26,.1)}
-.audio-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--ink));transition:width .25s}
-.up-grid > div{min-width:0}
 .u-status{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:13px;font-weight:600;color:var(--muted);min-height:22px}
 .u-status .i{width:16px;height:16px}
 .u-status.ok{color:var(--green)}
 .u-status.bad{color:var(--red)}
-.u-status.warn{color:var(--amber)}
 .u-status.busy .i{animation:spin .8s linear infinite}
 audio{display:block;width:100%;height:44px;margin-top:14px}
 .up-hint{margin-top:22px;padding:13px 15px;border-radius:16px;background:var(--bg);font-size:13px;line-height:1.6;color:var(--muted)}
 .up-hint.ok{background:#e9f6ef;color:#256c4a}
 
-/* ================= PREVIEW ================= */
 .pv-head{display:flex;gap:16px;align-items:center;margin-top:22px}
 .pv-head img{width:100px;height:100px;border-radius:20px;object-fit:cover;background:var(--bg);flex-shrink:0}
 .pv-head .tx{min-width:0}
@@ -217,38 +190,31 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
 .pv-row{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
 .pv-row:last-child{border-bottom:0}
 .pv-row small{font-size:14px;color:var(--muted);font-weight:500;flex-shrink:0}
-.pv-row b{font-weight:600;text-align:right;overflow-wrap:anywhere}
-.note{margin-top:16px;padding:14px 16px;border-radius:16px;background:#eeedf7;font-size:13px;line-height:1.6;color:#4b4880}
+.pv-row b{font-weight:600;text-align:right;overflow-wrap:anywhere;white-space:pre-line}
 
-/* ================= ACTION BAR + BUTTONS ================= */
-.actions{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:12px max(16px,env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));background:rgba(243,243,248,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line)}
-.actions-in{display:flex;gap:12px;max-width:640px;margin:0 auto}
-
-.btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:12px;height:58px;padding:0 28px;border-radius:18px;font-size:16px;font-weight:700;letter-spacing:-.01em;border:1px solid var(--line);background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(20,20,40,.05);transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .25s,border-color .25s,color .25s;flex:1;white-space:nowrap}
+.actions{position:fixed;left:0;right:0;bottom:0;z-index:60;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(243,243,248,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line)}
+.actions-in{display:flex;gap:10px;max-width:640px;margin:0 auto}
+.btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:12px;height:58px;padding:0 24px;border-radius:18px;font-size:16px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(20,20,40,.05);transition:transform .35s var(--ease),box-shadow .35s var(--ease),background .25s;flex:1;white-space:nowrap}
 .btn .i{width:20px;height:20px;transition:transform .35s var(--ease)}
-.btn:hover:not(:disabled){border-color:#cfcfdb;background:#fafafd;transform:translateY(-1px);box-shadow:0 10px 22px -10px rgba(20,20,40,.22)}
-.btn:active:not(:disabled){transform:translateY(0) scale(.985);box-shadow:0 1px 2px rgba(20,20,40,.05)}
-.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.btn:hover:not(:disabled){background:#fafafd;transform:translateY(-1px);box-shadow:0 10px 22px -10px rgba(20,20,40,.22)}
+.btn:active:not(:disabled){transform:scale(.985)}
 .btn:hover:not(:disabled) .go{transform:translateX(4px)}
 .btn:hover:not(:disabled) .bk{transform:translateX(-4px)}
-.btn.dark{border:0;color:#fff;background:radial-gradient(120% 170% at 90% -40%,rgba(169,163,242,.5),transparent 55%),linear-gradient(180deg,#2b2b36 0%,#14141a 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(0,0,0,.45),0 1px 2px rgba(13,13,18,.35),0 14px 28px -12px rgba(13,13,18,.6)}
-.btn.dark::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.16) 50%,transparent 62%);transform:translateX(-130%);transition:transform .8s var(--ease)}
-.btn.dark:hover:not(:disabled){background:radial-gradient(120% 170% at 90% -40%,rgba(169,163,242,.7),transparent 55%),linear-gradient(180deg,#32323e 0%,#191920 100%);transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(0,0,0,.45),0 2px 4px rgba(13,13,18,.3),0 22px 38px -14px rgba(79,70,160,.6)}
-.btn.dark:hover:not(:disabled)::after{transform:translateX(130%)}
-.btn.dark:active:not(:disabled){transform:translateY(0) scale(.985);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),inset 0 -1px 0 rgba(0,0,0,.45),0 6px 14px -8px rgba(13,13,18,.6)}
+.btn.dark{border:0;color:#fff;background:radial-gradient(120% 170% at 90% -40%,rgba(169,163,242,.5),transparent 55%),linear-gradient(180deg,#2b2b36,#14141a);box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 14px 28px -12px rgba(13,13,18,.6)}
+.btn.dark:hover:not(:disabled){background:radial-gradient(120% 170% at 90% -40%,rgba(169,163,242,.7),transparent 55%),linear-gradient(180deg,#32323e,#191920)}
 .btn:disabled{cursor:not-allowed}
 .btn:disabled:not(.dark){opacity:.5}
-.btn.dark:disabled{background:#d9d9e4;color:#fff;box-shadow:none}
-.btn.dark:disabled::after{display:none}
-.btn.back{flex:0 0 auto;min-width:130px}
+.btn.dark:disabled{background:#d9d9e4;box-shadow:none}
+.btn.back{flex:0 0 auto;min-width:104px}
+.btn.ico{flex:0 0 58px;padding:0}
+.btn.ico .dl{display:none}
 .btn.sm{height:38px;padding:0 15px;font-size:13px;flex:none;border:0;border-radius:12px;background:#eeedf7;color:#4b4880;box-shadow:none;gap:8px}
 .btn.sm .i{width:15px;height:15px}
-.btn.sm:hover:not(:disabled){background:#e2e0f1;transform:none;box-shadow:none}
+.draft .btn.sm{background:#fff}
 
-/* ================= TERMS MODAL ================= */
-.modal{position:fixed;inset:0;z-index:450;display:flex;align-items:flex-end;justify-content:center;background:rgba(13,13,18,.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.modal{position:fixed;inset:0;z-index:450;display:flex;align-items:flex-end;justify-content:center;background:rgba(13,13,18,.5);backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
 .modal.show{opacity:1;visibility:visible}
-.sheet{width:100%;max-width:580px;max-height:92vh;max-height:92dvh;background:var(--paper);border-radius:28px 28px 0 0;display:flex;flex-direction:column;transform:translateY(28px);transition:transform .45s var(--ease)}
+.sheet{width:100%;max-width:600px;max-height:92dvh;background:var(--paper);border-radius:28px 28px 0 0;display:flex;flex-direction:column;transform:translateY(28px);transition:transform .45s var(--ease)}
 .modal.show .sheet{transform:none}
 .sheet-head{display:flex;align-items:center;gap:14px;padding:22px 22px 14px}
 .sheet-ic{width:46px;height:46px;border-radius:15px;background:#eeedf7;color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -257,48 +223,35 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
 .sheet-head span{display:block;margin-top:2px;font-size:12px;color:var(--muted)}
 .sheet-body{overflow-y:auto;padding:4px 22px 20px;font-size:13px;line-height:1.75;color:#4a4c58;overscroll-behavior:contain}
 .sheet-body .q{font-size:15px;font-weight:800;letter-spacing:-.02em;line-height:1.4;color:var(--ink)}
-.sheet-body p{margin-top:12px}
+.sheet-body p{margin-top:10px}
 .sheet-body b{color:var(--ink);font-weight:700}
-.sheet-body h4{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:14px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
-.sheet-body ol{margin:10px 0 0 20px;display:grid;gap:9px}
+.sheet-body h4{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);font-size:14px;font-weight:800;color:var(--ink)}
+.sheet-body ol,.sheet-body ul{margin:8px 0 0 20px;display:grid;gap:7px}
 .sheet-foot{display:grid;gap:14px;padding:16px 22px calc(18px + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
-.agree{display:flex;gap:12px;align-items:flex-start;cursor:pointer;font-size:13px;line-height:1.55;font-weight:600;position:relative}
-.agree .box{width:24px;height:24px;border-radius:8px;border:1.5px solid #c4c3d6;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;transition:background .2s,border-color .2s}
-.agree .box .i{width:14px;height:14px;color:#fff;stroke-width:3;opacity:0;transform:scale(.6);transition:opacity .2s,transform .3s var(--ease)}
-.agree input:checked + .box{background:var(--ink);border-color:var(--ink)}
-.agree input:checked + .box .i{opacity:1;transform:none}
-.agree input:focus-visible + .box{outline:2px solid var(--accent);outline-offset:2px}
 .sheet-btns{display:flex;gap:10px}
 .sheet-btns .btn{height:54px;padding:0 20px;font-size:15px}
 
-/* ================= DONE OVERLAY ================= */
-.done{position:fixed;inset:0;z-index:480;background:rgba(243,243,248,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.done{position:fixed;inset:0;z-index:480;background:rgba(243,243,248,.92);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
 .done.show{opacity:1;visibility:visible}
-.done-card{width:100%;max-width:380px;background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:34px 26px;text-align:center;box-shadow:0 30px 80px -20px rgba(13,13,18,.25);transform:translateY(12px);transition:transform .5s var(--ease)}
-.done.show .done-card{transform:none}
+.done-card{width:100%;max-width:380px;background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:34px 26px;text-align:center;box-shadow:0 30px 80px -20px rgba(13,13,18,.25)}
 .done-ic{width:68px;height:68px;margin:0 auto;border-radius:50%;background:#e9f6ef;color:var(--green);display:flex;align-items:center;justify-content:center}
 .done-ic .i{width:30px;height:30px;stroke-width:2.6}
 .done-card h3{margin-top:18px;font-size:22px;font-weight:800;letter-spacing:-.03em}
 .done-card p{margin-top:6px;font-size:14px;line-height:1.6;color:var(--muted)}
-
-/* ================= TOAST ================= */
 .toast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:12px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
 @keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes pop{from{opacity:0;transform:translateY(-6px) scale(.98)}to{opacity:1;transform:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
 .spin{animation:spin .8s linear infinite}
 
-/* ================= TABLET+ ================= */
+@media(max-width:520px){.tiles{grid-template-columns:1fr}.tiles.keep{grid-template-columns:1fr 1fr}}
 @media(min-width:700px){
   .row2{grid-template-columns:1fr 1fr}
   .up-grid{grid-template-columns:auto 1fr;align-items:start;gap:30px}
   .modal{align-items:center;padding:24px}
   .sheet{border-radius:28px;max-height:86vh}
 }
-
-/* ================= DESKTOP ================= */
 @media(min-width:960px){
   body{padding-bottom:48px}
   .topbar{height:78px;padding:0 36px}
@@ -311,82 +264,53 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
   .st::before{display:none}
   .st.active{background:rgba(255,255,255,.1)}
   .st:not(.locked):not(.active):hover{background:rgba(255,255,255,.06)}
-  .st .n{display:flex;width:36px;height:36px;border-radius:12px;align-items:center;justify-content:center;background:rgba(255,255,255,.1);font-size:14px;font-weight:700;flex-shrink:0;transition:background .2s,color .2s}
+  .st .n{display:flex;width:36px;height:36px;border-radius:12px;align-items:center;justify-content:center;background:rgba(255,255,255,.1);font-size:14px;font-weight:700;flex-shrink:0}
   .st.active .n{background:#fff;color:var(--ink)}
   .st.done .n{background:rgba(169,163,242,.3);color:#fff}
   .st .n .ck{display:none;width:16px;height:16px;stroke-width:2.6}
   .st.done .n .num{display:none}
   .st.done .n .ck{display:block}
   .st .d{display:block;margin-top:1px;font-size:12px;font-weight:500;color:rgba(255,255,255,.5)}
-  .st.active .d{color:rgba(255,255,255,.7)}
   .card{padding:38px 40px}
-  .actions{position:static;padding:0;margin-top:34px;background:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none}
+  .cover-drop{width:min(400px,100%)}
+  .cover-in .up-ic{width:120px;height:120px;border-radius:36px;margin-bottom:18px}
+  .cover-in .up-ic .i{width:60px;height:60px}
+  .up-t{font-size:22px}
+  .up-s{font-size:14px}
+  .actions{position:static;padding:0;margin-top:34px;background:none;border:0;backdrop-filter:none}
   .actions-in{max-width:none;justify-content:flex-end}
   .btn{flex:0 0 auto;min-width:220px}
   .btn.back{min-width:140px}
+  .btn.ico{flex:0 0 auto;min-width:0;padding:0 24px}
+  .btn.ico .dl{display:inline}
   .sheet-btns .btn{min-width:0;flex:1}
   .toast{bottom:36px}
 }
-
-@media(max-width:700px){
-  .wrap{padding:0 14px}
-  .side{border-radius:24px}
-  .card{border-radius:24px}
-}
-@media(max-width:380px){
-  .btn{padding:0 18px;font-size:15px;gap:10px}
-  .btn.back{min-width:104px}
-  .pv-head img{width:78px;height:78px}
-  .audio-drop{flex-wrap:wrap}
-}
-@media(prefers-reduced-motion:reduce){
-  *:not(.spin),*::before,*::after{animation:none!important;transition:none!important}
-}
-/* ===== v3 additions ===== */
-.cover-in .up-ic{width:72px;height:72px;border-radius:22px;margin-bottom:10px}
-.cover-in .up-ic .i{width:36px;height:36px}
-.up-t{font-size:17px}
-.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;border-radius:18px;background:#eeedf7;border:1px solid transparent}
-.seg button{height:46px;padding:0 10px;border-radius:13px;font-size:14px;font-weight:700;color:#5d5a82;transition:background .2s,color .2s,box-shadow .2s}
-.seg button:hover{background:rgba(255,255,255,.6)}
-.seg button.on{background:var(--ink);color:#fff;box-shadow:0 8px 18px -10px rgba(13,13,18,.6)}
-.field.err .seg{border-color:var(--red);background:#fff1f1}
-.input.ro{display:flex;align-items:center;background:#f1f1f6;color:var(--muted);font-weight:600;cursor:default}
-@media(min-width:700px){
-  .cover-drop{width:min(320px,100%)}
-  .cover-in .up-ic{width:92px;height:92px;border-radius:28px;margin-bottom:14px}
-  .cover-in .up-ic .i{width:46px;height:46px}
-  .up-t{font-size:19px}
-  .up-s{font-size:13px}
-}
+@media(max-width:380px){.btn{padding:0 16px;font-size:15px;gap:8px}.pv-head img{width:78px;height:78px}.audio-drop{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){*:not(.spin),*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
-
 <body>
 
-<!-- ICON SPRITE -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
   <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
   <symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></symbol>
   <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
-  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></symbol>
-  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
   <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.7 18-8-14a2 2 0 0 0-3.5 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3z"/><path d="M12 9v4M12 17h.01"/></symbol>
   <symbol id="i-chev-d" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
   <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5"/></symbol>
   <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
-  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
   <symbol id="i-loader" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol>
 </svg>
 
-<!-- ================= TOPBAR ================= -->
 <header class="topbar" id="topbar">
   <button class="icon-btn" id="backBtn" type="button" aria-label="Kembali"><svg class="i"><use href="#i-back"/></svg></button>
   <h2 class="page-title">Original Asset</h2>
@@ -394,338 +318,353 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
 </header>
 
 <main class="wrap">
-  <div class="layout">
+<div class="layout">
 
-    <!-- SIDE / STEPPER -->
-    <aside class="side">
-      <div class="side-grid"></div>
-      <div class="h-label"><svg class="i"><use href="#i-disc"/></svg><span id="stepCount">Langkah 1 dari 4</span></div>
-      <h1 class="h-title">Original Asset</h1>
-      <p class="h-sub">Distribusikan musik original kamu lewat Dynotic.</p>
+  <aside class="side">
+    <div class="h-label"><svg class="i"><use href="#i-disc"/></svg><span id="stepCount">Langkah 1 dari 3</span></div>
+    <h1 class="h-title">Original Asset</h1>
+    <p class="h-sub">Distribusikan musik original kamu lewat Dynotic.</p>
+    <div class="stepper" role="tablist" aria-label="Langkah pengajuan">
+      <button type="button" class="st active" id="s1" role="tab"><span class="n"><span class="num">1</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Detail</b><span class="d">Informasi rilisan</span></span></button>
+      <button type="button" class="st" id="s2" role="tab"><span class="n"><span class="num">2</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Upload</b><span class="d">Cover art dan audio</span></span></button>
+      <button type="button" class="st" id="s3" role="tab"><span class="n"><span class="num">3</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Review</b><span class="d">Periksa dan kirim</span></span></button>
+    </div>
+  </aside>
 
-      <div class="stepper" role="tablist" aria-label="Langkah pengajuan">
-        <button type="button" class="st active" id="s1" role="tab"><span class="n"><span class="num">1</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Mulai</b><span class="d">Persiapan pengajuan</span></span></button>
-        <button type="button" class="st" id="s2" role="tab"><span class="n"><span class="num">2</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Detail</b><span class="d">Informasi rilisan</span></span></button>
-        <button type="button" class="st" id="s3" role="tab"><span class="n"><span class="num">3</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Upload</b><span class="d">Cover art dan audio</span></span></button>
-        <button type="button" class="st" id="s4" role="tab"><span class="n"><span class="num">4</span><svg class="i ck"><use href="#i-check"/></svg></span><span class="tx"><b>Review</b><span class="d">Periksa dan kirim</span></span></button>
-      </div>
-    </aside>
+  <section class="card">
+    <select id="type" hidden><option value="original" selected>Original Asset</option></select>
 
-    <!-- MAIN CARD -->
-    <section class="card">
+    <!-- ============ LANGKAH 1: DETAIL ============ -->
+    <div id="step1" class="section">
+      <div class="sec-title">Detail rilisan</div>
+      <p class="sec-desc">Isi data rilisan dengan benar. Kolom bertanda <span style="color:var(--red)">*</span> wajib diisi.</p>
 
-      <!-- hidden type (tetap dikirim sebagai "original") -->
-      <select id="type" hidden><option value="original" selected>Original Asset</option></select>
-
-      <!-- STEP 1 -->
-      <div id="step1" class="section">
-        <div class="sec-title">Ajukan Original Asset</div>
-        <p class="sec-desc">Kirim musik original kamu untuk didistribusikan. Siapkan hal berikut sebelum mulai.</p>
-
-        <div class="need">
-          <div class="need-i">
-            <div class="ic"><svg class="i"><use href="#i-file"/></svg></div>
-            <div><strong>Detail rilisan</strong><span>Judul, artist, label, genre, serta nama composer dan lyrics.</span></div>
-          </div>
-          <div class="need-i">
-            <div class="ic"><svg class="i"><use href="#i-image"/></svg></div>
-            <div><strong>Cover art</strong><span>Berformat JPG atau PNG, sebaiknya rasio 1:1.</span></div>
-          </div>
-          <div class="need-i">
-            <div class="ic"><svg class="i"><use href="#i-music"/></svg></div>
-            <div><strong>File audio</strong><span>Berformat MP3 atau WAV.</span></div>
-          </div>
-          <div class="need-i">
-            <div class="ic"><svg class="i"><use href="#i-calendar"/></svg></div>
-            <div><strong>Tanggal rilis</strong><span>Minimal 14 hari dari hari ini. Saat ini hanya rilisan Single yang didukung.</span></div>
-          </div>
-        </div>
+      <div class="note draft" id="draftBar" hidden>
+        <div><b>Ada draft tersimpan</b><span id="draftTitle"></span></div>
+        <div class="dbtn"><button type="button" class="btn sm" id="draftUse">Lanjutkan</button><button type="button" class="btn sm" id="draftDel">Hapus</button></div>
       </div>
 
-      <!-- STEP 2 -->
-      <div id="step2" class="section" hidden>
-        <div class="sec-title">Detail rilisan</div>
-        <p class="sec-desc">Isi data rilisan dengan benar. Kolom bertanda <span style="color:var(--red)">*</span> wajib diisi.</p>
+      <div class="note"><b>Siapkan dulu:</b> cover art JPG/PNG persegi (1:1) minimal 3000×3000 px, file audio MP3 atau WAV, dan nama penulis lagu. Tanggal rilis minimal 14 hari dari hari ini. Saat ini hanya tipe <b>Single</b> yang didukung.</div>
 
-        <div class="grp">
-          <div class="grp-t">Informasi rilis</div>
-
-          <div class="row2">
-            <div class="field" data-f="title">
-              <label class="label" for="title">Title <span class="req">*</span></label>
-              <input class="input" id="title" placeholder="Release title" autocomplete="off">
-              <div class="err-msg"></div>
-            </div>
-            <div class="field">
-              <label class="label" for="version">Version <small>Optional</small></label>
-              <input class="input" id="version" placeholder="e.g. Remix, Acoustic" autocomplete="off">
-            </div>
+      <div class="grp" style="border:0;padding-top:0;margin-top:22px">
+        <div class="grp-t">Informasi rilis</div>
+        <div class="row2">
+          <div class="field" data-f="title">
+            <label class="label" for="title">Judul Lagu <span class="req">*</span></label>
+            <input class="input" id="title" placeholder="mis. Hujan di Bulan Juni" autocomplete="off">
+            <div class="err-msg"></div>
           </div>
-
-          <div class="row2">
-            <div class="field" data-f="artist">
-              <label class="label" id="artistLbl">Artist Name <span class="req">*</span></label>
-              <div class="combo" id="artistCombo">
-                <input type="hidden" id="artist">
-                <button type="button" class="combo-btn" id="artistBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="artistLbl">
-                  <span class="cv"></span>
-                  <svg class="i chev"><use href="#i-chev-d"/></svg>
-                </button>
-                <div class="combo-pop" hidden>
-                  <div class="combo-search"><svg class="i"><use href="#i-search"/></svg><input type="text" placeholder="Cari artist…" autocomplete="off" autocapitalize="off" aria-label="Cari artist"></div>
-                  <div class="combo-list" role="listbox"></div>
-                  <a class="combo-foot" href="https://app.dynoticcollective.com/catalog/artists/create/"><svg class="i"><use href="#i-plus"/></svg>Buat artist baru</a>
-                </div>
-              </div>
-              <div class="err-msg"></div>
-              <div class="rt-warn" id="artistEmpty" hidden>Kamu belum punya artist. <a href="https://app.dynoticcollective.com/catalog/artists/create/">Buat artist dulu</a>, lalu kembali ke sini.</div>
-            </div>
-            <div class="field">
-              <label class="label" for="featuring">Featuring <small>Optional</small></label>
-              <input class="input" id="featuring" placeholder="Optional" autocomplete="off">
-            </div>
-          </div>
-
-          <div class="row2">
-            <div class="field" data-f="genre">
-              <label class="label" id="genreLbl">Genre <span class="req">*</span></label>
-              <div class="combo" id="genreCombo">
-                <input type="hidden" id="genre">
-                <button type="button" class="combo-btn" id="genreBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="genreLbl">
-                  <span class="cv"></span>
-                  <svg class="i chev"><use href="#i-chev-d"/></svg>
-                </button>
-                <div class="combo-pop" hidden>
-                  <div class="combo-search"><svg class="i"><use href="#i-search"/></svg><input type="text" placeholder="Cari genre…" autocomplete="off" autocapitalize="off" aria-label="Cari genre"></div>
-                  <div class="combo-list" role="listbox"></div>
-                </div>
-              </div>
-              <div class="err-msg"></div>
-            </div>
-            <div class="field" data-f="labelName">
-              <label class="label" for="labelName">Label <span class="req">*</span></label>
-              <input class="input" id="labelName" placeholder="e.g. Dynotic Distribution" autocomplete="off">
-              <div class="err-msg"></div>
-            </div>
-          </div>
-
-          <div class="row2">
-            <div class="field" data-f="releaseDate">
-              <label class="label" for="releaseDate">Release Date <span class="req">*</span></label>
-              <input class="input" type="date" id="releaseDate" required>
-              <div class="err-msg"></div>
-              <div class="hint">Minimal 14 hari dari hari ini.</div>
-            </div>
-            <div class="field">
-              <label class="label">Release Type</label>
-              <div class="input ro">Single</div>
-              <div class="hint">Saat ini hanya tipe Single yang didukung.</div>
-            </div>
+          <div class="field">
+            <label class="label" for="version">Versi <small>Opsional</small></label>
+            <input class="input" id="version" placeholder="mis. Akustik, Remix, Live" autocomplete="off">
+            <div class="hint">Isi hanya jika ini versi lain dari lagu yang sama.</div>
           </div>
         </div>
-
-        <div class="grp">
-          <div class="grp-t">Detail audio</div>
-          <div class="grp-d">Dipakai toko musik untuk menandai konten dengan benar.</div>
-
-          <div class="row2">
-            <div class="field" data-f="explicit">
-              <label class="label" id="explicitLbl">Explicit Content <span class="req">*</span></label>
-              <div class="seg" id="explicitSeg" role="radiogroup" aria-labelledby="explicitLbl">
-                <input type="hidden" id="explicit">
-                <button type="button" role="radio" aria-checked="false" data-v="no">Tidak</button>
-                <button type="button" role="radio" aria-checked="false" data-v="yes">Ya, explicit</button>
-              </div>
-              <div class="err-msg"></div>
-              <div class="hint">Pilih Ya jika lirik mengandung kata kasar, konten seksual, atau kekerasan eksplisit.</div>
-            </div>
-            <div class="field" data-f="vocal">
-              <label class="label" id="vocalLbl">Vokal <span class="req">*</span></label>
-              <div class="seg" id="vocalSeg" role="radiogroup" aria-labelledby="vocalLbl">
-                <input type="hidden" id="vocal">
-                <button type="button" role="radio" aria-checked="false" data-v="vocal">Ada vokal</button>
-                <button type="button" role="radio" aria-checked="false" data-v="instrumental">Instrumental</button>
-              </div>
-              <div class="err-msg"></div>
-            </div>
+        <div class="row2">
+          <div class="field" data-f="artist">
+            <label class="label" id="artistLbl">Nama Artist <span class="req">*</span></label>
+            <div class="combo" id="artistCombo"></div>
+            <div class="err-msg"></div>
+            <div class="rt-warn" id="artistEmpty" hidden>Kamu belum punya artist. <a href="https://app.dynoticcollective.com/catalog/artists/create/">Buat artist dulu</a>, lalu kembali ke sini.</div>
           </div>
-
-          <div class="row2">
-            <div class="field" data-f="audioLang">
-              <label class="label" id="audioLangLbl">Bahasa Audio <span class="req">*</span></label>
-              <div class="combo" id="audioLangCombo">
-                <input type="hidden" id="audioLang">
-                <button type="button" class="combo-btn" id="audioLangBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="audioLangLbl">
-                  <span class="cv"></span>
-                  <svg class="i chev"><use href="#i-chev-d"/></svg>
-                </button>
-                <div class="combo-pop" hidden>
-                  <div class="combo-search"><svg class="i"><use href="#i-search"/></svg><input type="text" placeholder="Cari bahasa…" autocomplete="off" autocapitalize="off" aria-label="Cari bahasa audio"></div>
-                  <div class="combo-list" role="listbox"></div>
-                </div>
-              </div>
-              <div class="err-msg"></div>
-              <div class="hint">Bahasa yang dinyanyikan atau diucapkan di audio.</div>
-            </div>
-            <div class="field" data-f="titleLang">
-              <label class="label" id="titleLangLbl">Bahasa Judul <span class="req">*</span></label>
-              <div class="combo" id="titleLangCombo">
-                <input type="hidden" id="titleLang">
-                <button type="button" class="combo-btn" id="titleLangBtn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="titleLangLbl">
-                  <span class="cv"></span>
-                  <svg class="i chev"><use href="#i-chev-d"/></svg>
-                </button>
-                <div class="combo-pop" hidden>
-                  <div class="combo-search"><svg class="i"><use href="#i-search"/></svg><input type="text" placeholder="Cari bahasa…" autocomplete="off" autocapitalize="off" aria-label="Cari bahasa judul"></div>
-                  <div class="combo-list" role="listbox"></div>
-                </div>
-              </div>
-              <div class="err-msg"></div>
-              <div class="hint">Bahasa yang dipakai pada judul rilisan.</div>
-            </div>
-          </div>
-
-          <div class="row2">
-            <div class="field" data-f="tiktokStart">
-              <label class="label" for="tiktokStart">Preview TikTok <small>Optional</small></label>
-              <input class="input" id="tiktokStart" inputmode="numeric" placeholder="00:30" maxlength="5" autocomplete="off">
-              <div class="err-msg"></div>
-              <div class="hint">Titik awal bagian lagu yang jadi preview di TikTok. Format mm:ss atau jumlah detik.</div>
-            </div>
+          <div class="field">
+            <label class="label" for="featuring">Featuring <small>Opsional</small></label>
+            <input class="input" id="featuring" placeholder="mis. Rani Putri" autocomplete="off">
           </div>
         </div>
-
-        <div class="grp">
-          <div class="grp-t">Kredit</div>
-
-          <div class="row2">
-            <div class="field" data-f="fullname">
-              <label class="label" for="fullname">Composer &amp; Lyrics <span class="req">*</span></label>
-              <input class="input" id="fullname" placeholder="e.g. John Doe, Jane Smith" autocomplete="off">
-              <div class="err-msg"></div>
-              <div class="hint">Pisahkan beberapa nama dengan koma.</div>
-            </div>
-            <div class="field">
-              <label class="label" for="producer">Producer <small>Optional</small></label>
-              <input class="input" id="producer" placeholder="Optional" autocomplete="off">
-            </div>
+        <div class="row2">
+          <div class="field" data-f="genre">
+            <label class="label" id="genreLbl">Genre Utama <span class="req">*</span></label>
+            <div class="combo" id="genreCombo"></div>
+            <div class="err-msg"></div>
+          </div>
+          <div class="field" data-f="genre2">
+            <label class="label" id="genre2Lbl">Genre Kedua <small>Opsional</small></label>
+            <div class="combo" id="genre2Combo"></div>
+            <div class="err-msg"></div>
+            <div class="hint">mis. utama Pop, kedua R&amp;B/Soul.</div>
           </div>
         </div>
+        <div class="row2">
+          <div class="field" data-f="labelName">
+            <label class="label" for="labelName">Label <span class="req">*</span></label>
+            <input class="input" id="labelName" placeholder="Nama label kamu" autocomplete="off">
+            <div class="err-msg"></div>
+            <div class="hint">Nama label atau pemilik rilisan, mis. Senja Records.</div>
+          </div>
+          <div class="field" data-f="releaseDate">
+            <label class="label" for="releaseDate">Tanggal Rilis <span class="req">*</span></label>
+            <input class="input" type="date" id="releaseDate">
+            <div class="err-msg"></div>
+            <div class="hint">Minimal 14 hari dari hari ini.</div>
+          </div>
+        </div>
+        <div class="field" data-f="prevRel">
+          <label class="label" id="prevRelLbl">Apakah lagu ini sudah pernah dirilis sebelumnya? <span class="req">*</span></label>
+          <div class="tiles keep" id="prevRelSeg" role="radiogroup" aria-labelledby="prevRelLbl">
+            <input type="hidden" id="prevRel">
+            <button type="button" class="tile" role="radio" aria-checked="false" data-v="no"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span><b>Belum</b><small>Rilis perdana</small></span></button>
+            <button type="button" class="tile" role="radio" aria-checked="false" data-v="yes"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span><b>Sudah</b><small>Pernah rilis di tempat lain</small></span></button>
+          </div>
+          <div class="err-msg"></div>
+        </div>
+        <div class="field" data-f="prevDate" id="prevDateWrap" hidden>
+          <label class="label" for="prevDate">Tanggal Rilis Asli <span class="req">*</span></label>
+          <input class="input" type="date" id="prevDate">
+          <div class="err-msg"></div>
+          <div class="hint">Tanggal pertama kali lagu ini dirilis ke publik.</div>
+        </div>
+      </div>
 
-        <div class="grp">
-          <div class="grp-t">Link platform</div>
-          <div class="grp-d">Terisi otomatis dari artist yang dipilih. Boleh dikosongkan jika belum ada.</div>
+      <div class="grp">
+        <div class="grp-t">Detail audio</div>
+        <div class="grp-d">Dipakai toko musik untuk menandai lagu dengan benar.</div>
+        <div class="row2">
+          <div class="field" data-f="explicit">
+            <label class="label" id="explicitLbl">Konten Explicit <span class="req">*</span></label>
+            <div class="tiles c1" id="explicitSeg" role="radiogroup" aria-labelledby="explicitLbl">
+              <input type="hidden" id="explicit">
+              <button type="button" class="tile" role="radio" aria-checked="false" data-v="no"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span><b>Aman untuk semua umur</b><small>Tidak ada kata kasar atau konten dewasa</small></span></button>
+              <button type="button" class="tile" role="radio" aria-checked="false" data-v="yes"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span><b>Explicit</b><small>Ada kata kasar, seksual, atau kekerasan</small></span></button>
+            </div>
+            <div class="err-msg"></div>
+          </div>
+          <div class="field" data-f="vocal">
+            <label class="label" id="vocalLbl">Jenis Audio <span class="req">*</span></label>
+            <div class="tiles c1" id="vocalSeg" role="radiogroup" aria-labelledby="vocalLbl">
+              <input type="hidden" id="vocal">
+              <button type="button" class="tile" role="radio" aria-checked="false" data-v="vocal"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span><b>Ada vokal</b><small>Dinyanyikan atau diucapkan</small></span></button>
+              <button type="button" class="tile" role="radio" aria-checked="false" data-v="instrumental"><span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span><b>Instrumental</b><small>Tanpa vokal atau lirik</small></span></button>
+            </div>
+            <div class="err-msg"></div>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field" data-f="audioLang">
+            <label class="label" id="audioLangLbl">Bahasa Audio <span class="req">*</span></label>
+            <div class="combo" id="audioLangCombo"></div>
+            <div class="err-msg"></div>
+            <div class="hint">Bahasa yang dinyanyikan, mis. Indonesian.</div>
+          </div>
+          <div class="field" data-f="titleLang">
+            <label class="label" id="titleLangLbl">Bahasa Judul <span class="req">*</span></label>
+            <div class="combo" id="titleLangCombo"></div>
+            <div class="err-msg"></div>
+            <div class="hint">Bahasa pada judul, mis. Indonesian.</div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Preview TikTok <small>Opsional</small></label>
+          <div class="two">
+            <div class="select"><select id="tkMin" aria-label="Menit"></select><svg class="i"><use href="#i-chev-d"/></svg></div>
+            <div class="select"><select id="tkSec" aria-label="Detik"></select><svg class="i"><use href="#i-chev-d"/></svg></div>
+          </div>
+          <div class="hint">Pilih menit dan detik bagian lagu yang jadi cuplikan di TikTok. Mis. menit 0, detik 30 untuk mulai dari detik ke-30.</div>
+        </div>
+        <div class="field">
+          <label class="label" for="lyrics">Lirik <small>Opsional</small></label>
+          <textarea class="input" id="lyrics" placeholder="Tempel lirik lagu di sini, satu baris per kalimat.&#10;mis.&#10;Hujan turun di bulan Juni&#10;Aku masih menunggumu di sini"></textarea>
+          <div class="hint" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">Dipakai untuk fitur lirik di Apple Music dan lainnya. <button type="button" class="btn sm" id="lyricsFileBtn"><svg class="i"><use href="#i-upload"/></svg>Impor file .txt</button></div>
+          <input type="file" id="lyricsFile" class="vh" accept=".txt,text/plain">
+        </div>
+      </div>
 
-          <div class="row2">
-            <div class="field">
-              <label class="label" for="spotifyUrl">Spotify URL</label>
-              <input class="input" id="spotifyUrl" inputmode="url" placeholder="https://open.spotify.com/..." autocomplete="off" autocapitalize="off">
-            </div>
-            <div class="field">
-              <label class="label" for="appleUrl">Apple Music URL</label>
-              <input class="input" id="appleUrl" inputmode="url" placeholder="https://music.apple.com/..." autocomplete="off" autocapitalize="off">
-            </div>
+      <div class="grp">
+        <div class="grp-t">Kredit &amp; kode rilisan</div>
+        <div class="row2">
+          <div class="field" data-f="composer">
+            <label class="label" for="composer">Composer <small>Pencipta lagu</small> <span class="req">*</span></label>
+            <input class="input" id="composer" placeholder="mis. Budi Santoso, Sari Dewi" autocomplete="off">
+            <div class="err-msg"></div>
+            <div class="hint">Nama asli sesuai KTP. Pisahkan beberapa nama dengan koma.</div>
+          </div>
+          <div class="field" data-f="lyricist">
+            <label class="label" for="lyricist">Lyricist <small>Penulis lirik</small> <span class="req" id="lyReq">*</span></label>
+            <input class="input" id="lyricist" placeholder="mis. Sari Dewi" autocomplete="off">
+            <div class="err-msg"></div>
+            <div class="hint">Kosongkan jika lagu instrumental.</div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="producer">Producer <small>Opsional</small></label>
+          <input class="input" id="producer" placeholder="mis. Andi Pratama" autocomplete="off">
+        </div>
+        <div class="row2">
+          <div class="field" data-f="isrc">
+            <label class="label" for="isrc">Kode ISRC <small>Opsional</small></label>
+            <input class="input" id="isrc" placeholder="mis. IDA012600001" autocomplete="off" autocapitalize="characters" maxlength="15">
+            <div class="err-msg"></div>
+            <div class="hint">Kosongkan jika belum punya, kami buatkan.</div>
+          </div>
+          <div class="field" data-f="upc">
+            <label class="label" for="upc">Kode UPC <small>Opsional</small></label>
+            <input class="input" id="upc" inputmode="numeric" placeholder="mis. 123456789012" autocomplete="off" maxlength="13">
+            <div class="err-msg"></div>
+            <div class="hint">12 atau 13 angka. Kosongkan jika belum punya, kami buatkan.</div>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label class="label" for="pOwner">Pemilik Hak Cipta (℗ &amp; ©) <small>Opsional</small></label>
+            <input class="input" id="pOwner" placeholder="Dynotic" autocomplete="off">
+            <div class="hint">Nama yang tampil di toko musik. Kosongkan untuk memakai “Dynotic”.</div>
+          </div>
+          <div class="field">
+            <label class="label" for="pYear">Tahun Hak Cipta</label>
+            <div class="select"><select id="pYear"></select><svg class="i"><use href="#i-chev-d"/></svg></div>
           </div>
         </div>
       </div>
 
-      <!-- STEP 3 -->
-      <div id="step3" class="section" hidden>
-        <div class="sec-title">Upload file</div>
-        <p class="sec-desc">Upload cover art dan audio. Bisa tap atau tarik file ke kotak upload.</p>
-
-        <div class="up-grid">
-
-          <div>
-            <div class="label" style="margin-top:20px">Cover Art <span class="req">*</span></div>
-            <label class="drop cover-drop" id="coverDrop">
-              <input id="cover" class="vh" type="file" accept="image/jpeg,image/png">
-              <div class="cover-in" id="coverPlaceholder">
-                <span class="up-ic"><svg class="i"><use href="#i-upload"/></svg></span>
-                <div class="up-t">Upload cover art</div>
-                <div class="up-s">JPG atau PNG, rasio 1:1</div>
-                <span class="up-pill"><svg class="i"><use href="#i-plus"/></svg>Pilih gambar</span>
-              </div>
-              <img id="coverPreview" alt="" hidden>
-              <div class="cover-change" id="coverChange" hidden><svg class="i"><use href="#i-refresh"/></svg>Ganti cover</div>
-              <div class="cover-shade" id="coverPct">0%</div>
-              <div class="cover-bar"><i id="coverBar"></i></div>
-            </label>
-            <div class="u-status" id="coverStatus"></div>
+      <div class="grp">
+        <div class="grp-t">Link platform</div>
+        <div class="grp-d">Terisi otomatis dari artist yang dipilih. Boleh dikosongkan.</div>
+        <div class="row2">
+          <div class="field">
+            <label class="label" for="spotifyUrl">Link Spotify</label>
+            <input class="input" id="spotifyUrl" inputmode="url" placeholder="mis. https://open.spotify.com/artist/..." autocomplete="off" autocapitalize="off">
           </div>
-
-          <div>
-            <div class="label" style="margin-top:20px">Audio File <span class="req">*</span></div>
-            <label class="drop audio-drop" id="audioDrop">
-              <input id="audio" class="vh" type="file" accept="audio/mpeg,audio/wav,audio/x-wav">
-              <span class="up-ic"><svg class="i"><use href="#i-music"/></svg></span>
-              <div class="audio-info">
-                <div id="audioName" class="audio-name">Upload file audio</div>
-                <div class="audio-sub" id="audioSub">MP3 atau WAV</div>
-              </div>
-              <span class="up-pill" id="audioPill"><svg class="i"><use href="#i-plus"/></svg><span id="audioPillTx">Pilih file</span></span>
-              <div class="audio-bar"><i id="audioWave"></i></div>
-            </label>
-            <div class="u-status" id="audioStatus"></div>
-            <audio id="audioPlayer" controls hidden></audio>
+          <div class="field">
+            <label class="label" for="appleUrl">Link Apple Music</label>
+            <input class="input" id="appleUrl" inputmode="url" placeholder="mis. https://music.apple.com/id/artist/..." autocomplete="off" autocapitalize="off">
           </div>
-
-        </div>
-
-        <div class="up-hint" id="upHint">Upload cover dan audio untuk melanjutkan ke preview.</div>
-      </div>
-
-      <!-- STEP 4 -->
-      <div id="step4" class="section" hidden>
-        <div class="sec-title">Release Preview</div>
-        <p class="sec-desc">Periksa kembali semua data sebelum dikirim.</p>
-
-        <div id="previewBox"></div>
-
-        <div class="note">Sebelum rilisan dikirim, kamu akan diminta menyetujui Ketentuan &amp; Privasi. Setelah dikirim, rilisan berstatus proposal dan ditinjau oleh tim Dynotic.</div>
-      </div>
-
-      <!-- ACTION BAR (satu untuk semua langkah) -->
-      <div class="actions" id="actions">
-        <div class="actions-in">
-          <button type="button" class="btn back" id="backA" hidden><svg class="i bk"><use href="#i-back"/></svg><span id="backLabel">Back</span></button>
-          <button type="button" class="btn dark" id="primaryBtn"></button>
         </div>
       </div>
 
-    </section>
-  </div>
+      <div class="grp">
+        <div class="grp-t">Deklarasi hak</div>
+        <div class="field" data-f="rights">
+          <label class="agree rights">
+            <input type="checkbox" id="rights" class="vh">
+            <span class="box"><svg class="i"><use href="#i-check"/></svg></span>
+            <span>Saya menyatakan lagu ini adalah karya original saya, tidak mengandung sample atau rekaman milik orang lain tanpa izin, dan bukan cover lagu orang lain. (Untuk lagu cover, gunakan menu Cover to Master.)</span>
+          </label>
+          <div class="err-msg"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ LANGKAH 2: UPLOAD ============ -->
+    <div id="step2" class="section" hidden>
+      <div class="sec-title">Upload file</div>
+      <p class="sec-desc">Upload cover art dan audio. Bisa tap atau tarik file ke kotak upload.</p>
+      <div class="up-grid">
+        <div>
+          <div class="label" style="margin-top:20px">Cover Art <span class="req">*</span></div>
+          <label class="drop cover-drop" id="coverDrop">
+            <input id="cover" class="vh" type="file" accept="image/jpeg,image/png">
+            <div class="cover-in" id="coverPlaceholder">
+              <span class="up-ic"><svg class="i"><use href="#i-upload"/></svg></span>
+              <div class="up-t">Upload cover art</div>
+              <div class="up-s">JPG atau PNG, persegi 1:1<br>minimal 3000×3000 px</div>
+              <span class="up-pill"><svg class="i"><use href="#i-plus"/></svg>Pilih gambar</span>
+            </div>
+            <img id="coverPreview" alt="" hidden>
+            <div class="cover-change" id="coverChange" hidden><svg class="i"><use href="#i-refresh"/></svg>Ganti cover</div>
+            <div class="cover-shade" id="coverPct">0%</div>
+            <div class="cover-bar"><i id="coverBar"></i></div>
+          </label>
+          <div class="u-status" id="coverStatus"></div>
+        </div>
+        <div>
+          <div class="label" style="margin-top:20px">File Audio <span class="req">*</span></div>
+          <label class="drop audio-drop" id="audioDrop">
+            <input id="audio" class="vh" type="file" accept="audio/mpeg,audio/wav,audio/x-wav">
+            <span class="up-ic"><svg class="i"><use href="#i-music"/></svg></span>
+            <div class="audio-info">
+              <div id="audioName" class="audio-name">Upload file audio</div>
+              <div class="audio-sub" id="audioSub">MP3 atau WAV (disarankan WAV)</div>
+            </div>
+            <span class="up-pill"><svg class="i"><use href="#i-plus"/></svg><span id="audioPillTx">Pilih file</span></span>
+            <div class="audio-bar"><i id="audioWave"></i></div>
+          </label>
+          <div class="u-status" id="audioStatus"></div>
+          <audio id="audioPlayer" controls hidden></audio>
+        </div>
+      </div>
+      <div class="up-hint" id="upHint">Upload cover dan audio untuk melanjutkan ke preview.</div>
+    </div>
+
+    <!-- ============ LANGKAH 3: REVIEW ============ -->
+    <div id="step3" class="section" hidden>
+      <div class="sec-title">Preview Rilisan</div>
+      <p class="sec-desc">Periksa kembali semua data sebelum dikirim.</p>
+      <div id="previewBox"></div>
+      <div class="note">Sebelum rilisan dikirim, kamu akan diminta menyetujui Ketentuan &amp; Privasi. Setelah dikirim, rilisan berstatus proposal dan ditinjau oleh tim Dynotic.</div>
+    </div>
+
+    <div class="actions" id="actions">
+      <div class="actions-in">
+        <button type="button" class="btn back" id="backA" hidden><svg class="i bk"><use href="#i-back"/></svg><span id="backLabel">Kembali</span></button>
+        <button type="button" class="btn ico" id="draftBtn" aria-label="Simpan draft"><svg class="i"><use href="#i-save"/></svg><span class="dl">Simpan draft</span></button>
+        <button type="button" class="btn dark" id="primaryBtn"></button>
+      </div>
+    </div>
+  </section>
+</div>
 </main>
 
-<!-- TERMS MODAL -->
+<!-- ============ KETENTUAN & PRIVASI ============ -->
 <div class="modal" id="terms" role="dialog" aria-modal="true" aria-labelledby="termsTitle" aria-hidden="true">
   <div class="sheet">
     <div class="sheet-head">
       <div class="sheet-ic"><svg class="i"><use href="#i-shield"/></svg></div>
-      <div>
-        <h3 id="termsTitle">Ketentuan &amp; Privasi</h3>
-        <span>Baca sampai selesai sebelum mengirim rilisan.</span>
-      </div>
+      <div><h3 id="termsTitle">Ketentuan &amp; Privasi</h3><span>Baca sampai selesai sebelum mengirim rilisan.</span></div>
     </div>
-
     <div class="sheet-body" id="termsBody">
-      <div class="q">Apakah kamu yakin semua informasi yang diisi sudah valid dan mewakili rilisan ini sepenuhnya?</div>
-      <p>Setelah tindakan ini, rilisanmu akan diperiksa dan, jika informasinya benar, akan didistribusikan pada tanggal distribusi resmi dan eksklusif.</p>
-      <p>Dengan mengonfirmasi dan menyetujui formulir ini, kamu sepenuhnya menerima dan mematuhi <b>Ketentuan Distribusi</b> (Terms Of Distribution), <b>Ketentuan Penggunaan</b> (Terms Of Use), dan <b>Kebijakan Privasi</b> (Privacy Policy).</p>
-      <p>Dengan mengonfirmasi dan menyetujui formulir ini, kamu menegaskan tanpa sanggahan bahwa konten rilisan yang diajukan beserta aset, file audio, dan metadatanya adalah milikmu sepenuhnya atau sudah dilisensikan penuh kepada labelmu.</p>
-      <p>Dengan ini kamu sepenuhnya menerima bahwa kamu bertanggung jawab sendiri atas informasi yang menyesatkan, penggunaan tanpa lisensi, aktivitas ilegal, atau sengketa dalam bentuk apa pun.</p>
+      <div class="q">Pastikan semua informasi yang kamu isi benar dan sesuai dengan rilisan ini.</div>
+      <p>Dengan menekan “Konfirmasi &amp; Kirim”, kamu menyetujui <b>Ketentuan Distribusi</b>, <b>Ketentuan Penggunaan</b>, dan <b>Kebijakan Privasi</b> Dynotic serta seluruh poin di bawah ini.</p>
 
-      <h4>Pernyataan Streaming Buatan (Artificial Streaming Declaration)</h4>
+      <h4>1. Kepemilikan dan Lisensi</h4>
+      <ul>
+        <li>Kamu adalah pemilik sah seluruh hak atas lagu, rekaman, cover art, dan metadata yang dikirim, atau telah memiliki lisensi tertulis yang cukup untuk mendistribusikannya.</li>
+        <li>Kamu memberi Dynotic hak non-eksklusif untuk mendistribusikan, menggandakan, dan mempromosikan rilisan ini ke toko dan platform musik digital sesuai tanggal rilis yang kamu pilih.</li>
+        <li>Seluruh pencipta, penulis lirik, produser, dan pihak lain yang berkontribusi sudah menyetujui rilisan ini, dan nama mereka dicantumkan dengan benar.</li>
+      </ul>
+
+      <h4>2. Konten yang Diizinkan</h4>
+      <ul>
+        <li>Lagu bukan cover, remake, atau karya turunan milik orang lain, dan tidak memuat sample, loop, atau rekaman pihak lain tanpa izin. Untuk lagu cover, gunakan menu Cover to Master.</li>
+        <li>Konten tidak melanggar hukum, tidak mengandung ujaran kebencian, pornografi, kekerasan ekstrem, SARA, atau pelanggaran hak orang lain.</li>
+        <li>Konten tidak meniru suara atau identitas orang lain tanpa izin, termasuk lewat AI atau voice cloning.</li>
+        <li>Penandaan konten explicit dan jenis audio (vokal atau instrumental) kamu isi dengan jujur.</li>
+      </ul>
+
+      <h4>3. Peninjauan, Penolakan, dan Penurunan</h4>
+      <ul>
+        <li>Setiap rilisan ditinjau tim Dynotic. Rilisan berstatus proposal sampai disetujui.</li>
+        <li>Dynotic berhak meminta perbaikan, menolak, menunda, atau menurunkan rilisan yang melanggar ketentuan, diklaim pihak lain, atau ditolak oleh toko musik.</li>
+        <li>Kamu wajib menyediakan bukti kepemilikan atau lisensi bila diminta.</li>
+      </ul>
+
+      <h4>4. Royalti dan Pembayaran</h4>
+      <ul>
+        <li>Pembagian dan pembayaran royalti mengikuti ketentuan layanan Dynotic yang berlaku dan laporan dari toko musik.</li>
+        <li>Royalti dapat ditahan, dikurangi, atau dibatalkan bila ada sengketa hak, pelanggaran ketentuan, atau streaming buatan.</li>
+      </ul>
+
+      <h4>5. Privasi dan Data Pribadi</h4>
+      <ul>
+        <li>Dynotic memproses data akun, data rilisan, dan data identitas (termasuk data KYC) hanya untuk distribusi, pembayaran, verifikasi, dan kepatuhan hukum.</li>
+        <li>Data rilisan seperti judul, nama artist, cover, dan kredit akan diteruskan ke toko musik dan menjadi publik di sana.</li>
+        <li>Data pribadi dapat dibagikan kepada toko musik, mitra pembayaran, atau pihak berwenang bila diwajibkan hukum atau diperlukan untuk menangani pelanggaran. Dynotic tidak menjual datamu.</li>
+      </ul>
+
+      <h4>6. Pernyataan Streaming Buatan</h4>
       <ol>
-        <li>Saya sepenuhnya memahami dan setuju untuk tidak melakukan bentuk streaming buatan apa pun, termasuk penggunaan bot, streaming farm, atau metode apa pun yang memanipulasi metrik DSP.</li>
-        <li>Saya tidak akan membayar atau menawarkan pembayaran untuk penempatan playlist, dan tidak akan bekerja sama dengan pihak ketiga mana pun yang menjanjikan penempatan terjamin — saya memahami hal ini dianggap penipuan.</li>
-        <li>Saya menyadari bahwa tindakan tersebut dapat berakibat pada penghentian layanan seketika, hilangnya royalti, tuntutan hukum, denda dan sanksi kontraktual, serta pelaporan kepada DSP dan pihak berwenang.</li>
-        <li>Saya juga menjamin akan memberi tahu dan mengedukasi setiap artis atau klien yang bekerja sama dengan saya tentang aturan ini dan memastikan mereka mematuhinya.</li>
-        <li>Saya memahami bahwa jika saya melakukan streaming buatan, data KYC saya, termasuk nama lengkap, alamat, KTP, dan informasi pribadi lainnya, dapat dibagikan kepada departemen hukum DSP, seperti Spotify, Apple Music, dan lainnya.</li>
-        <li>Saya menerima tanggung jawab hukum penuh atas setiap pelanggaran.</li>
+        <li>Saya tidak akan menggunakan bot, streaming farm, atau cara apa pun untuk memanipulasi jumlah stream dan metrik toko musik.</li>
+        <li>Saya tidak akan membayar atau menjanjikan pembayaran untuk penempatan playlist, dan tidak bekerja sama dengan pihak yang menjanjikan penempatan terjamin.</li>
+        <li>Saya memahami pelanggaran dapat berakibat penghentian layanan seketika, hilangnya royalti, denda, tuntutan hukum, dan pelaporan ke toko musik serta pihak berwenang.</li>
+        <li>Saya akan memberi tahu setiap artist atau klien yang bekerja sama dengan saya tentang aturan ini dan memastikan mereka mematuhinya.</li>
+        <li>Saya memahami data identitas saya (nama lengkap, alamat, KTP, dan data pribadi lain) dapat dibagikan kepada tim hukum toko musik bila terjadi pelanggaran.</li>
       </ol>
-    </div>
 
+      <h4>7. Tanggung Jawab</h4>
+      <ul>
+        <li>Kamu bertanggung jawab penuh atas informasi yang menyesatkan, pelanggaran hak cipta, penggunaan tanpa lisensi, dan sengketa atas rilisan ini.</li>
+        <li>Kamu membebaskan Dynotic dari klaim, kerugian, dan biaya hukum yang timbul akibat pelanggaran yang kamu lakukan.</li>
+      </ul>
+    </div>
     <div class="sheet-foot">
       <label class="agree">
         <input type="checkbox" id="termsAgree" class="vh">
@@ -740,7 +679,6 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
   </div>
 </div>
 
-<!-- DONE -->
 <div class="done" id="done" role="alertdialog" aria-live="assertive" aria-labelledby="doneTitle">
   <div class="done-card">
     <div class="done-ic"><svg class="i"><use href="#i-check"/></svg></div>
@@ -748,143 +686,98 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
     <p>Rilisan kamu sudah masuk dan akan ditinjau oleh tim Dynotic. Mengalihkan ke katalog…</p>
   </div>
 </div>
-
 <div class="toast" id="toast" role="status"></div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
 <script>
-/* ================= FIREBASE ================= */
 firebase.initializeApp({
   apiKey:"AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
   authDomain:"dynopay-2513c.firebaseapp.com",
   databaseURL:"https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
 });
-
 const db = firebase.database();
 const WORKER_URL = "https://upload-assets.dynotic-bot.workers.dev/";
-const ARTIST_CREATE = "https://app.dynoticcollective.com/catalog/artists/create/";
-
 const $ = id => document.getElementById(id);
+let uid = null;
 
-/* ================= AUTH ================= */
+/* kembali dari tombol Back browser: selalu muat ulang agar form bersih */
+window.addEventListener("pageshow", e => { if(e.persisted) location.reload(); });
+
 firebase.auth().onAuthStateChanged(user => {
   if(!user) location.href = "https://app.dynoticcollective.com/login";
-  else loadArtists(user.uid);
+  else { uid = user.uid; loadArtists(uid); checkDraft(); }
 });
 
-/* ================= HELPERS ================= */
-function toast(text){
-  const t = $("toast");
-  t.textContent = text;
-  t.classList.add("show");
+/* ===== helpers ===== */
+function toast(t){
+  const el = $("toast");
+  el.textContent = t;
+  el.classList.add("show");
   clearTimeout(toast._t);
-  toast._t = setTimeout(() => t.classList.remove("show"), 2600);
+  toast._t = setTimeout(() => el.classList.remove("show"), 2800);
 }
-
-function escapeHTML(value){
-  return String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
+function escapeHTML(v){
+  return String(v).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
 }
-
-function icon(name, cls){ return '<svg class="i' + (cls ? " " + cls : "") + '"><use href="#i-' + name + '"/></svg>'; }
-
-function fmtSize(b){
-  if(b < 1024 * 1024) return Math.max(1, Math.round(b / 1024)) + " KB";
-  return (b / 1024 / 1024).toFixed(1) + " MB";
-}
-
-function setStatus(el, kind, text, extraHTML){
+function icon(n, c){ return '<svg class="i' + (c ? " " + c : "") + '"><use href="#i-' + n + '"/></svg>'; }
+function fmtSize(b){ return b < 1048576 ? Math.max(1, Math.round(b / 1024)) + " KB" : (b / 1048576).toFixed(1) + " MB"; }
+function setStatus(el, kind, text, extra){
   el.className = "u-status" + (kind ? " " + kind : "");
-  const ic = kind === "ok" ? "check" : (kind === "bad" || kind === "warn") ? "alert" : kind === "busy" ? "loader" : "";
-  el.innerHTML = (ic ? icon(ic) : "") + "<span></span>" + (extraHTML || "");
+  const ic = kind === "ok" ? "check" : kind === "bad" ? "alert" : kind === "busy" ? "loader" : "";
+  el.innerHTML = (ic ? icon(ic) : "") + "<span></span>" + (extra || "");
   el.querySelector("span").textContent = text || "";
 }
-
-/* ================= TOPBAR ================= */
-$("backBtn").addEventListener("click", () => {
-  if(history.length > 1) history.back();
-  else location.href = "../dashboard";
-});
-
+$("backBtn").addEventListener("click", () => { history.length > 1 ? history.back() : location.href = "../dashboard"; });
 const topbar = $("topbar");
-function onScroll(){ topbar.classList.toggle("scrolled", window.scrollY > 6); }
-onScroll();
-window.addEventListener("scroll", onScroll, { passive:true });
+window.addEventListener("scroll", () => topbar.classList.toggle("scrolled", scrollY > 6), { passive:true });
 
-/* ================= DRAFT (step 2 only) ================= */
-const FIELDS = ["title","labelName","artist","genre","releaseDate","version","fullname","featuring","producer","spotifyUrl","appleUrl","explicit","vocal","audioLang","titleLang","tiktokStart"];
-const DRAFT_KEY = "dyn_oa_draft";
+/* ===== isi pilihan menit, detik, tahun ===== */
+(function(){
+  let m = '<option value="">Menit</option>', s = '<option value="">Detik</option>', y = "";
+  for(let i = 0; i <= 9; i++) m += '<option value="' + i + '">' + i + ' menit</option>';
+  for(let i = 0; i <= 59; i++) s += '<option value="' + i + '">' + String(i).padStart(2, "0") + ' detik</option>';
+  const yr = new Date().getFullYear();
+  for(let i = yr + 1; i >= 2000; i--) y += '<option value="' + i + '"' + (i === yr ? " selected" : "") + '>' + i + '</option>';
+  $("tkMin").innerHTML = m; $("tkSec").innerHTML = s; $("pYear").innerHTML = y;
+})();
 
-function loadDraft(){
-  try{
-    const d = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || "{}");
-    FIELDS.forEach(f => { if(d[f]) $(f).value = d[f]; });
-  }catch(_){}
+/* ===== combobox ===== */
+function buildCombo(id, ph, foot){
+  $(id + "Combo").innerHTML =
+    '<input type="hidden" id="' + id + '"><button type="button" class="combo-btn" id="' + id + 'Btn" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="' + id + 'Lbl"><span class="cv"></span>' + icon("chev-d", "chev") + '</button>' +
+    '<div class="combo-pop" hidden><div class="combo-search">' + icon("search") + '<input type="text" placeholder="' + ph + '" autocomplete="off" autocapitalize="off" aria-label="' + ph + '"></div><div class="combo-list" role="listbox"></div>' + (foot || "") + '</div>';
 }
 
-function saveDraft(){
-  try{
-    const d = {};
-    FIELDS.forEach(f => { d[f] = $(f).value; });
-    sessionStorage.setItem(DRAFT_KEY, JSON.stringify(d));
-  }catch(_){}
-}
-
-function clearDraft(){
-  try{ sessionStorage.removeItem(DRAFT_KEY); }catch(_){}
-}
-
-/* ================= COMBOBOX (dropdown yang bisa dicari) ================= */
 function makeCombo(id, opt){
-
-  const root = $(id + "Combo");
-  const input = $(id);
-  const btn = $(id + "Btn");
-  const cv = btn.querySelector(".cv");
-  const pop = root.querySelector(".combo-pop");
-  const search = pop.querySelector(".combo-search input");
-  const list = pop.querySelector(".combo-list");
-  const foot = pop.querySelector(".combo-foot");
-
-  let items = opt.items || [];
-  let shown = [];
-  let act = -1;
-  let ph = opt.placeholder || "Pilih";
+  const root = $(id + "Combo"), input = $(id), btn = $(id + "Btn");
+  const cv = btn.querySelector(".cv"), pop = root.querySelector(".combo-pop");
+  const search = pop.querySelector(".combo-search input"), list = pop.querySelector(".combo-list");
+  let items = opt.items || [], shown = [], act = -1, ph = opt.placeholder || "Pilih";
 
   function avatar(it, small){
     const d = document.createElement("span");
     d.className = "combo-av" + (small ? " sm" : "");
+    const ch = (it.label || "?").trim().charAt(0).toUpperCase();
     if(it.photo){
       const im = document.createElement("img");
-      im.alt = "";
-      im.src = it.photo;
-      im.onerror = () => { im.remove(); d.textContent = (it.label || "?").trim().charAt(0).toUpperCase(); };
+      im.alt = ""; im.src = it.photo;
+      im.onerror = () => { im.remove(); d.textContent = ch; };
       d.appendChild(im);
-    }else{
-      d.textContent = (it.label || "?").trim().charAt(0).toUpperCase();
-    }
+    }else d.textContent = ch;
     return d;
   }
-
   function label(){
-    const it = items.find(i => i.value === input.value);
+    const it = items.find(i => i.value === input.value && (i.value !== "" || opt.allowEmpty));
     cv.innerHTML = "";
+    const t = document.createElement("span");
     if(it){
       if(opt.avatar) cv.appendChild(avatar(it, true));
-      const t = document.createElement("span");
-      t.className = "tx";
-      t.textContent = it.label;
-      cv.appendChild(t);
-    }else{
-      const t = document.createElement("span");
-      t.className = "ph";
-      t.textContent = ph;
-      cv.appendChild(t);
-    }
+      t.className = "tx"; t.textContent = it.label;
+    }else{ t.className = "ph"; t.textContent = ph; }
+    cv.appendChild(t);
   }
-
   function setActive(n, scroll){
     act = n;
     Array.from(list.querySelectorAll(".combo-opt")).forEach((el, i) => {
@@ -892,119 +785,72 @@ function makeCombo(id, opt){
       if(i === n && scroll) el.scrollIntoView({ block:"nearest" });
     });
   }
-
   function render(){
     const q = search.value.trim().toLowerCase();
     shown = items.filter(i => !q || i.label.toLowerCase().includes(q) || (i.sub || "").toLowerCase().includes(q));
     list.innerHTML = "";
-
     if(!shown.length){
       const e = document.createElement("div");
-      e.className = "combo-empty";
-      e.textContent = opt.empty(q);
-      list.appendChild(e);
-      act = -1;
-      return;
+      e.className = "combo-empty"; e.textContent = opt.empty(q);
+      list.appendChild(e); act = -1; return;
     }
-
     shown.forEach((it, idx) => {
       const row = document.createElement("div");
       row.className = "combo-opt" + (it.value === input.value ? " sel" : "");
       row.setAttribute("role", "option");
       if(opt.avatar) row.appendChild(avatar(it, false));
-
       const tx = document.createElement("div");
       tx.className = "tx";
       const nm = document.createElement("span");
-      nm.className = "nm";
-      nm.textContent = it.label;
+      nm.className = "nm"; nm.textContent = it.label;
       tx.appendChild(nm);
-      if(it.sub){
-        const s = document.createElement("small");
-        s.textContent = it.sub;
-        tx.appendChild(s);
-      }
+      if(it.sub){ const s = document.createElement("small"); s.textContent = it.sub; tx.appendChild(s); }
       row.appendChild(tx);
       row.insertAdjacentHTML("beforeend", icon("check", "tick"));
-
       row.addEventListener("mouseenter", () => setActive(idx, false));
       row.addEventListener("click", () => choose(it));
       list.appendChild(row);
     });
-
     const sel = shown.findIndex(i => i.value === input.value);
     setActive(sel >= 0 ? sel : 0, true);
   }
-
   function open(){
     if(!pop.hidden) return;
-    search.value = "";
-    render();
-    pop.hidden = false;
-    root.classList.add("open");
+    search.value = ""; render();
+    pop.hidden = false; root.classList.add("open");
     btn.setAttribute("aria-expanded", "true");
     setTimeout(() => search.focus({ preventScroll:true }), 30);
   }
-
   function close(focusBtn){
     if(pop.hidden) return;
-    pop.hidden = true;
-    root.classList.remove("open");
+    pop.hidden = true; root.classList.remove("open");
     btn.setAttribute("aria-expanded", "false");
     if(focusBtn) btn.focus({ preventScroll:true });
   }
-
   function choose(it){
-    input.value = it.value;
-    label();
-    close(true);
-    clearError(id);
+    input.value = it.value; label(); close(true); clearError(id);
     if(opt.onSelect) opt.onSelect(it);
-    saveDraft();
     refreshGate();
   }
-
   btn.addEventListener("click", () => { pop.hidden ? open() : close(true); });
-
-  btn.addEventListener("keydown", e => {
-    if(e.key === "ArrowDown" || e.key === "ArrowUp"){ e.preventDefault(); open(); }
-  });
-
+  btn.addEventListener("keydown", e => { if(e.key === "ArrowDown" || e.key === "ArrowUp"){ e.preventDefault(); open(); } });
   search.addEventListener("input", render);
-
   search.addEventListener("keydown", e => {
-    if(e.key === "ArrowDown"){
-      e.preventDefault();
-      if(shown.length) setActive((act + 1) % shown.length, true);
-    }else if(e.key === "ArrowUp"){
-      e.preventDefault();
-      if(shown.length) setActive((act - 1 + shown.length) % shown.length, true);
-    }else if(e.key === "Enter"){
-      e.preventDefault();
-      e.stopPropagation();
-      if(shown[act]) choose(shown[act]);
-    }else if(e.key === "Escape"){
-      e.preventDefault();
-      e.stopPropagation();
-      close(true);
-    }else if(e.key === "Tab"){
-      close(false);
-    }
+    if(e.key === "ArrowDown"){ e.preventDefault(); if(shown.length) setActive((act + 1) % shown.length, true); }
+    else if(e.key === "ArrowUp"){ e.preventDefault(); if(shown.length) setActive((act - 1 + shown.length) % shown.length, true); }
+    else if(e.key === "Enter"){ e.preventDefault(); e.stopPropagation(); if(shown[act]) choose(shown[act]); }
+    else if(e.key === "Escape"){ e.preventDefault(); e.stopPropagation(); close(true); }
+    else if(e.key === "Tab") close(false);
   });
-
   document.addEventListener("click", e => { if(!root.contains(e.target)) close(false); });
-
-  if(foot) foot.addEventListener("click", saveDraft);
-
   label();
-
   return {
     sync: label,
     set(v){ input.value = v; label(); },
     setPlaceholder(t){ ph = t; label(); },
     setItems(a){
       items = a;
-      if(input.value && !items.some(i => i.value === input.value)) input.value = "";
+      if(input.value && items.length && !items.some(i => i.value === input.value)) input.value = "";
       label();
       if(!pop.hidden) render();
     }
@@ -1012,101 +858,80 @@ function makeCombo(id, opt){
 }
 
 const GENRES = ["Alternative","Anime","Antiques & Collectibles","Blues","Bossa Nova","Childrens Music","Chill Out","Christian","Classical","Comedy","Country","Dance","Dancehall","Devotional","Disco","Easy Listening","Educational","Electronic","Fitness & Workout","Folk","Health & Fitness","Holiday Music","House","Indian","Industrial","Inspirational","Instructional","Jazz","Latin","Lo-fi","Metal","Motown","Oldies","Pop","Phonk","R&B/Soul","Rap/Hip-Hop","Reggae","Rock","Samba","Soundtrack","Spoken Word","Unknown","World"];
+const LANGS = ["Indonesian","English","Javanese","Sundanese","Malay","Japanese","Korean","Chinese (Mandarin)","Arabic","Hindi","Thai","Vietnamese","Filipino","Spanish","French","German","Portuguese","Italian","Dutch","Russian","Turkish","Other"];
+const NOLING = "No Linguistic Content";
+const langItems = extra => LANGS.concat(extra || []).map(l => ({ value:l, label:l, sub: l === NOLING ? "Tanpa lirik (instrumental)" : "" }));
+
+buildCombo("genre", "Cari genre…");
+buildCombo("genre2", "Cari genre…");
+buildCombo("artist", "Cari artist…", '<a class="combo-foot" href="https://app.dynoticcollective.com/catalog/artists/create/">' + icon("plus") + 'Buat artist baru</a>');
+buildCombo("audioLang", "Cari bahasa…");
+buildCombo("titleLang", "Cari bahasa…");
 
 const genreCombo = makeCombo("genre", {
-  placeholder:"Pilih genre",
+  placeholder:"Pilih genre utama",
   items: GENRES.map(g => ({ value:g, label:g })),
   empty: q => "Genre “" + q + "” tidak ditemukan."
 });
-
+const genre2Combo = makeCombo("genre2", {
+  placeholder:"Pilih genre kedua (opsional)", allowEmpty:true,
+  items: [{ value:"", label:"Tidak ada" }].concat(GENRES.map(g => ({ value:g, label:g }))),
+  empty: q => "Genre “" + q + "” tidak ditemukan."
+});
 const artistCombo = makeCombo("artist", {
-  placeholder:"Memuat artist…",
-  avatar:true,
-  items:[],
-  empty: q => q
-    ? "Artist “" + q + "” tidak ditemukan. Buat dulu lewat tombol di bawah."
-    : "Belum ada artist. Buat dulu lewat tombol di bawah.",
-  onSelect: it => {
-    // isi otomatis dari artist; kalau artist tidak punya link, dikosongkan
-    $("spotifyUrl").value = it.spotify || "";
-    $("appleUrl").value = it.apple || "";
-  }
+  placeholder:"Memuat artist…", avatar:true, items:[],
+  empty: q => q ? "Artist “" + q + "” tidak ditemukan. Buat dulu lewat tombol di bawah." : "Belum ada artist. Buat dulu lewat tombol di bawah.",
+  onSelect: it => { $("spotifyUrl").value = it.spotify || ""; $("appleUrl").value = it.apple || ""; }
 });
+const audioLangCombo = makeCombo("audioLang", { placeholder:"Pilih bahasa audio", items: langItems([NOLING]), empty: q => "Bahasa “" + q + "” tidak ditemukan." });
+const titleLangCombo = makeCombo("titleLang", { placeholder:"Pilih bahasa judul", items: langItems(), empty: q => "Bahasa “" + q + "” tidak ditemukan." });
 
-const LANGS = ["Indonesian","English","Javanese","Sundanese","Malay","Japanese","Korean","Chinese (Mandarin)","Arabic","Hindi","Thai","Vietnamese","Filipino","Spanish","French","German","Portuguese","Italian","Dutch","Russian","Turkish","Other"];
-const NOLING = "No Linguistic Content";
-
-function langItems(extra){
-  return LANGS.concat(extra || []).map(l => ({ value:l, label:l, sub: l === NOLING ? "Tanpa lirik (instrumental)" : "" }));
-}
-
-const audioLangCombo = makeCombo("audioLang", {
-  placeholder:"Pilih bahasa audio",
-  items: langItems([NOLING]),
-  empty: q => "Bahasa “" + q + "” tidak ditemukan."
-});
-
-const titleLangCombo = makeCombo("titleLang", {
-  placeholder:"Pilih bahasa judul",
-  items: langItems(),
-  empty: q => "Bahasa “" + q + "” tidak ditemukan."
-});
-
-/* tombol pilihan (segmented) */
+/* ===== tile pilihan ===== */
 function makeSeg(id, onChange){
-  const root = $(id + "Seg");
-  const input = $(id);
-  const btns = Array.from(root.querySelectorAll("button"));
-
+  const root = $(id + "Seg"), input = $(id), btns = Array.from(root.querySelectorAll(".tile"));
   function sync(){
     btns.forEach(b => {
       const on = b.dataset.v === input.value;
       b.classList.toggle("on", on);
       b.setAttribute("aria-checked", String(on));
     });
+    if(onChange) onChange(input.value, true);
   }
-
   btns.forEach(b => b.addEventListener("click", () => {
     input.value = b.dataset.v;
-    sync();
+    btns.forEach(x => { const on = x === b; x.classList.toggle("on", on); x.setAttribute("aria-checked", String(on)); });
     clearError(id);
-    if(onChange) onChange(b.dataset.v);
-    saveDraft();
+    if(onChange) onChange(b.dataset.v, false);
     refreshGate();
   }));
-
   sync();
   return { sync };
 }
-
 const explicitSeg = makeSeg("explicit");
-const vocalSeg = makeSeg("vocal", v => {
+const vocalSeg = makeSeg("vocal", (v, fromSync) => {
+  $("lyReq").hidden = v === "instrumental";
+  if(fromSync) return;
   if(v === "instrumental") audioLangCombo.set(NOLING);
   else if($("audioLang").value === NOLING) audioLangCombo.set("");
+  clearError("lyricist");
+});
+const prevSeg = makeSeg("prevRel", v => {
+  $("prevDateWrap").hidden = v !== "yes";
+  if(v !== "yes") $("prevDate").value = "";
 });
 
-function loadArtists(uid){
-  db.ref("artists/" + uid).once("value").then(snap => {
+function loadArtists(u){
+  db.ref("artists/" + u).once("value").then(snap => {
     const list = [];
-
-    snap.forEach(i => {
-      const a = i.val();
-      if(a && a.name) list.push(a);
-    });
-
+    snap.forEach(i => { const a = i.val(); if(a && a.name) list.push(a); });
     list.sort((a, b) => a.name.localeCompare(b.name));
-
     $("artistEmpty").hidden = list.length > 0;
     artistCombo.setPlaceholder(list.length ? "Pilih artist" : "Belum ada artist");
     artistCombo.setItems(list.map(a => ({
-      value:a.name,
-      label:a.name,
+      value:a.name, label:a.name,
       sub:[a.genre, a.country].filter(Boolean).join(" • "),
-      photo:a.photo || "",
-      spotify:a.spotify || "",
-      apple:a.apple || ""
+      photo:a.photo || "", spotify:a.spotify || "", apple:a.apple || ""
     })));
-
     refreshGate();
   }).catch(e => {
     console.error("Gagal memuat artist:", e);
@@ -1115,268 +940,183 @@ function loadArtists(uid){
   });
 }
 
-/* ================= UPLOAD ================= */
+/* ===== upload ===== */
 function uploadFile(file, onProgress, onDone){
-
-  const formData = new FormData();
-  formData.append("file", file);
-
+  const fd = new FormData();
+  fd.append("file", file);
   const xhr = new XMLHttpRequest();
   xhr.open("POST", WORKER_URL, true);
-
-  xhr.upload.onprogress = e => {
-    if(e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100));
-  };
-
+  xhr.upload.onprogress = e => { if(e.lengthComputable) onProgress(Math.round(e.loaded / e.total * 100)); };
   xhr.onload = () => {
     try{
       if(xhr.status === 200){
-        const data = JSON.parse(xhr.responseText);
-        if(data.success) onDone(data.url);
-        else onDone(null, "Upload gagal: " + (data.error || "Unknown error"));
-      }else{
-        onDone(null, "Upload gagal (" + xhr.status + ").");
-      }
-    }catch(_){
-      onDone(null, "Respons upload tidak valid.");
-    }
+        const d = JSON.parse(xhr.responseText);
+        d.success ? onDone(d.url) : onDone(null, "Upload gagal: " + (d.error || "Unknown error"));
+      }else onDone(null, "Upload gagal (" + xhr.status + ").");
+    }catch(_){ onDone(null, "Respons upload tidak valid."); }
   };
-
   xhr.onerror = () => onDone(null, "Koneksi bermasalah saat upload.");
-
-  xhr.send(formData);
+  xhr.send(fd);
   return xhr;
 }
-
 const up = {
   audio:{ url:null, state:"idle", pct:0, file:null, xhr:null, token:0, error:"" },
-  cover:{ url:null, state:"idle", pct:0, file:null, xhr:null, token:0, error:"", hint:"" }
+  cover:{ url:null, state:"idle", pct:0, file:null, xhr:null, token:0, error:"" }
 };
-
-let audioObjURL = null;
-let coverObjURL = null;
-let submitting = false;
-
-function isUploading(){
-  return up.audio.state === "uploading" || up.cover.state === "uploading";
-}
+let audioObjURL = null, coverObjURL = null, submitting = false;
+const isUploading = () => up.audio.state === "uploading" || up.cover.state === "uploading";
 
 function startUpload(kind, file){
   const u = up[kind];
-
   if(u.xhr){ try{ u.xhr.abort(); }catch(_){} }
-
   const token = ++u.token;
-  u.file = file;
-  u.url = null;
-  u.pct = 0;
-  u.state = "uploading";
-  renderUpload(kind);
-  refreshGate();
-
-  u.xhr = uploadFile(
-    file,
+  Object.assign(u, { file, url:null, pct:0, state:"uploading" });
+  renderUpload(kind); refreshGate();
+  u.xhr = uploadFile(file,
     p => { if(token !== u.token) return; u.pct = p; renderUpload(kind); },
     (url, err) => {
       if(token !== u.token) return;
       u.xhr = null;
-      if(url){
-        u.url = url;
-        u.state = "done";
-        u.pct = 100;
-      }else{
-        u.state = "error";
-        u.error = err || "Upload gagal.";
-        toast(u.error);
-      }
-      renderUpload(kind);
-      refreshGate();
-    }
-  );
+      if(url){ u.url = url; u.state = "done"; u.pct = 100; }
+      else{ u.state = "error"; u.error = err || "Upload gagal."; toast(u.error); }
+      renderUpload(kind); refreshGate();
+    });
 }
-
 function renderUpload(kind){
   const u = up[kind];
-
-  if(kind === "audio"){
-    const status = $("audioStatus");
-    const drop = $("audioDrop");
-    $("audioWave").style.width = u.pct + "%";
-    drop.classList.toggle("done", u.state === "done");
-    drop.classList.toggle("fail", u.state === "error");
-
-    if(u.state === "uploading") setStatus(status, "busy", "Mengunggah… " + u.pct + "%");
-    else if(u.state === "done") setStatus(status, "ok", "Audio berhasil di-upload.");
-    else if(u.state === "error") setStatus(status, "bad", u.error, '<button type="button" class="btn sm" data-retry="audio">' + icon("refresh") + 'Coba lagi</button>');
-    else setStatus(status, "", "");
-    return;
+  const retry = '<button type="button" class="btn sm" data-retry="' + kind + '">' + icon("refresh") + 'Coba lagi</button>';
+  const status = $(kind + "Status"), drop = $(kind + "Drop");
+  $(kind === "audio" ? "audioWave" : "coverBar").style.width = u.pct + "%";
+  if(kind === "cover"){
+    $("coverPct").textContent = u.pct + "%";
+    drop.classList.toggle("busy", u.state === "uploading");
   }
-
-  const status = $("coverStatus");
-  const drop = $("coverDrop");
-  $("coverBar").style.width = u.pct + "%";
-  $("coverPct").textContent = u.pct + "%";
-  drop.classList.toggle("busy", u.state === "uploading");
   drop.classList.toggle("done", u.state === "done");
   drop.classList.toggle("fail", u.state === "error");
-
+  const okTxt = kind === "audio" ? "Audio berhasil di-upload." : "Cover berhasil di-upload.";
   if(u.state === "uploading") setStatus(status, "busy", "Mengunggah… " + u.pct + "%");
-  else if(u.state === "done") setStatus(status, u.hint ? "warn" : "ok", u.hint || "Cover berhasil di-upload.");
-  else if(u.state === "error") setStatus(status, "bad", u.error, '<button type="button" class="btn sm" data-retry="cover">' + icon("refresh") + 'Coba lagi</button>');
+  else if(u.state === "done") setStatus(status, "ok", okTxt);
+  else if(u.state === "error") setStatus(status, "bad", u.error, retry);
   else setStatus(status, "", "");
 }
-
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-retry]");
   if(!b) return;
   e.preventDefault();
-  const kind = b.getAttribute("data-retry");
-  if(up[kind].file) startUpload(kind, up[kind].file);
+  const k = b.getAttribute("data-retry");
+  if(up[k].file) startUpload(k, up[k].file);
 });
 
 function handleAudio(file){
   if(!file) return;
-
-  const okType = /^audio\/(mpeg|mp3|wav|x-wav|wave|vnd\.wave)$/.test(file.type) || /\.(mp3|wav)$/i.test(file.name);
-  if(!okType){
-    toast("Pilih file audio MP3 atau WAV.");
-    $("audio").value = "";
-    return;
-  }
-
+  const ok = /^audio\/(mpeg|mp3|wav|x-wav|wave|vnd\.wave)$/.test(file.type) || /\.(mp3|wav)$/i.test(file.name);
+  if(!ok){ toast("Pilih file audio MP3 atau WAV."); $("audio").value = ""; return; }
   $("audioName").textContent = file.name;
   $("audioSub").textContent = fmtSize(file.size) + " • " + (/\.wav$/i.test(file.name) ? "WAV" : "MP3");
   $("audioPillTx").textContent = "Ganti";
-
   if(audioObjURL) URL.revokeObjectURL(audioObjURL);
   audioObjURL = URL.createObjectURL(file);
   $("audioPlayer").src = audioObjURL;
   $("audioPlayer").hidden = false;
-
   startUpload("audio", file);
 }
 
+const MIN_COVER = 3000;
 function handleCover(file){
   if(!file) return;
-
-  if(!/^image\/(jpeg|png)$/.test(file.type)){
-    toast("Cover harus berformat JPG atau PNG.");
-    $("cover").value = "";
-    return;
-  }
-
-  if(coverObjURL) URL.revokeObjectURL(coverObjURL);
-  coverObjURL = URL.createObjectURL(file);
-
-  const prev = $("coverPreview");
-  prev.src = coverObjURL;
-  prev.hidden = false;
-  $("coverChange").hidden = false;
-  $("coverPlaceholder").style.display = "none";
-
-  up.cover.hint = "";
+  if(!/^image\/(jpeg|png)$/.test(file.type)){ toast("Cover harus berformat JPG atau PNG."); $("cover").value = ""; return; }
+  const objURL = URL.createObjectURL(file);
   const img = new Image();
+  img.onerror = () => { URL.revokeObjectURL(objURL); $("cover").value = ""; toast("Gambar tidak bisa dibaca."); };
   img.onload = () => {
-    const note = img.naturalWidth + "×" + img.naturalHeight + " px";
-    up.cover.hint = img.naturalWidth !== img.naturalHeight
-      ? "Cover tidak persegi (" + note + "). Sebaiknya rasio 1:1."
-      : "";
-    if(up.cover.state === "done") renderUpload("cover");
+    const w = img.naturalWidth, h = img.naturalHeight;
+    if(w !== h || w < MIN_COVER){
+      URL.revokeObjectURL(objURL);
+      $("cover").value = "";
+      setStatus($("coverStatus"), "bad", "Cover ditolak (" + w + "×" + h + " px). Harus persegi 1:1 dan minimal " + MIN_COVER + "×" + MIN_COVER + " px.");
+      toast("Ukuran cover belum memenuhi syarat toko musik.");
+      setTimeout(() => { if(up.cover.state !== "uploading") renderUpload("cover"); }, 6000);
+      return;
+    }
+    if(coverObjURL) URL.revokeObjectURL(coverObjURL);
+    coverObjURL = objURL;
+    const p = $("coverPreview");
+    p.src = objURL; p.hidden = false;
+    $("coverChange").hidden = false;
+    $("coverPlaceholder").style.display = "none";
+    startUpload("cover", file);
   };
-  img.src = coverObjURL;
-
-  startUpload("cover", file);
+  img.src = objURL;
 }
-
 $("audio").addEventListener("change", e => handleAudio(e.target.files[0]));
 $("cover").addEventListener("change", e => handleCover(e.target.files[0]));
-
-/* drag & drop */
-[["coverDrop", handleCover], ["audioDrop", handleAudio]].forEach(([id, handler]) => {
+[["coverDrop", handleCover], ["audioDrop", handleAudio]].forEach(([id, fn]) => {
   const el = $(id);
   ["dragenter","dragover"].forEach(ev => el.addEventListener(ev, e => { e.preventDefault(); el.classList.add("over"); }));
   ["dragleave","drop"].forEach(ev => el.addEventListener(ev, e => { e.preventDefault(); el.classList.remove("over"); }));
-  el.addEventListener("drop", e => {
-    const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-    if(f) handler(f);
-  });
+  el.addEventListener("drop", e => { const f = e.dataTransfer && e.dataTransfer.files[0]; if(f) fn(f); });
+});
+window.addEventListener("beforeunload", e => { if(isUploading()){ e.preventDefault(); e.returnValue = ""; } });
+
+/* impor lirik dari .txt */
+$("lyricsFileBtn").addEventListener("click", () => $("lyricsFile").click());
+$("lyricsFile").addEventListener("change", e => {
+  const f = e.target.files[0];
+  if(!f) return;
+  if(f.size > 200 * 1024){ toast("File lirik terlalu besar (maks 200 KB)."); return; }
+  const r = new FileReader();
+  r.onload = () => { $("lyrics").value = String(r.result || "").trim(); toast("Lirik berhasil diimpor."); };
+  r.readAsText(f);
+  e.target.value = "";
 });
 
-window.addEventListener("beforeunload", e => {
-  if(isUploading()){ e.preventDefault(); e.returnValue = ""; }
-});
-
-/* ================= VALIDATION ================= */
-const REQUIRED = ["title","labelName","artist","genre","releaseDate","fullname","explicit","vocal","audioLang","titleLang"];
-const VALIDATED = REQUIRED.concat(["tiktokStart"]);
-
+/* ===== validasi ===== */
+const FIELDS = ["title","version","artist","featuring","genre","genre2","labelName","releaseDate","prevRel","prevDate","explicit","vocal","audioLang","titleLang","tkMin","tkSec","lyrics","composer","lyricist","producer","isrc","upc","pOwner","pYear","spotifyUrl","appleUrl"];
+const VALIDATED = ["title","artist","genre","genre2","labelName","releaseDate","prevRel","prevDate","explicit","vocal","audioLang","titleLang","composer","lyricist","isrc","upc","rights"];
 const MSG = {
-  title:"Judul rilisan wajib diisi.",
-  labelName:"Label wajib diisi.",
-  artist:"Pilih artist terlebih dahulu.",
-  genre:"Pilih genre terlebih dahulu.",
-  fullname:"Composer & Lyrics wajib diisi.",
-  explicit:"Pilih apakah konten explicit atau tidak.",
-  vocal:"Pilih ada vokal atau instrumental.",
-  audioLang:"Pilih bahasa audio.",
-  titleLang:"Pilih bahasa judul."
+  title:"Judul lagu wajib diisi.", artist:"Pilih artist terlebih dahulu.", genre:"Pilih genre utama.",
+  labelName:"Nama label wajib diisi.", prevRel:"Pilih sudah atau belum pernah dirilis.",
+  explicit:"Pilih apakah konten explicit atau tidak.", vocal:"Pilih ada vokal atau instrumental.",
+  audioLang:"Pilih bahasa audio.", titleLang:"Pilih bahasa judul.",
+  composer:"Nama composer wajib diisi.", lyricist:"Nama lyricist wajib diisi (kosongkan hanya jika instrumental).",
+  rights:"Kamu harus menyetujui deklarasi hak untuk melanjutkan."
 };
-
-function minReleaseDate(){
-  const d = new Date();
-  d.setHours(0, 0, 0, 0);
-  d.setDate(d.getDate() + 14);
-  return d;
+const ISRC_RE = /^[A-Z]{2}[A-Z0-9]{3}\d{7}$/;
+const ymd = d => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+function minReleaseDate(){ const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate() + 14); return d; }
+$("releaseDate").min = ymd(minReleaseDate());
+$("prevDate").max = ymd(new Date());
+const parseNames = v => String(v || "").split(",").map(n => n.trim()).filter(Boolean);
+const normIsrc = v => v.toUpperCase().replace(/[\s-]/g, "");
+function tiktok(){
+  const m = $("tkMin").value, s = $("tkSec").value;
+  return (m === "" && s === "") ? null : (+m || 0) * 60 + (+s || 0);
 }
-
-function setMinReleaseDate(){
-  const d = minReleaseDate();
-  $("releaseDate").min = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
-}
-
-function parseNames(value){
-  return String(value || "").split(",").map(n => n.trim()).filter(n => n !== "");
-}
-
-function parseClock(v){
-  v = String(v || "").trim();
-  if(!v) return null;
-  let m = v.match(/^(\d{1,2}):([0-5]\d)$/);
-  if(m) return Number(m[1]) * 60 + Number(m[2]);
-  return /^\d{1,3}$/.test(v) ? Number(v) : NaN;
-}
-
-function fmtClock(sec){
-  return String(Math.floor(sec / 60)).padStart(2, "0") + ":" + String(sec % 60).padStart(2, "0");
-}
+const fmtClock = s => String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
 
 function fieldError(f){
   const v = $(f).value.trim();
-
-  if(f === "tiktokStart"){
-    if(!v) return "";
-    return Number.isNaN(parseClock(v)) ? "Format waktu mm:ss, contoh 00:30." : "";
+  switch(f){
+    case "rights": return $("rights").checked ? "" : MSG.rights;
+    case "genre2": return v && v === $("genre").value ? "Genre kedua tidak boleh sama dengan genre utama." : "";
+    case "isrc": return v && !ISRC_RE.test(normIsrc(v)) ? "Format ISRC tidak valid. Contoh: IDA012600001 (12 karakter)." : "";
+    case "upc": return v && !/^\d{12,13}$/.test(v) ? "UPC harus 12 atau 13 angka." : "";
+    case "composer": return parseNames(v).length ? "" : MSG.composer;
+    case "lyricist": return $("vocal").value === "instrumental" || parseNames(v).length ? "" : MSG.lyricist;
+    case "prevDate":
+      if($("prevRel").value !== "yes") return "";
+      if(!v) return "Tanggal rilis asli wajib diisi.";
+      return new Date(v + "T00:00:00") >= new Date(new Date().setHours(0,0,0,0)) ? "Tanggal rilis asli harus sebelum hari ini." : "";
+    case "releaseDate": {
+      if(!v) return "Tanggal rilis wajib diisi.";
+      const d = new Date(v + "T00:00:00");
+      return isNaN(d) || d < minReleaseDate() ? "Tanggal rilis minimal 14 hari dari hari ini." : "";
+    }
   }
-
-  if(f === "releaseDate"){
-    if(!v) return "Tanggal rilis wajib diisi.";
-    const sel = new Date(v + "T00:00:00");
-    if(isNaN(sel) || sel < minReleaseDate()) return "Tanggal rilis minimal 14 hari dari hari ini.";
-    return "";
-  }
-
-  if(f === "fullname") return parseNames(v).length ? "" : MSG.fullname;
-
   return v ? "" : MSG[f];
 }
-
-function step2Valid(){
-  return VALIDATED.every(f => !fieldError(f));
-}
-
-function step3Valid(){
-  return up.audio.state === "done" && up.cover.state === "done" && !!up.audio.url && !!up.cover.url;
-}
+const step1Valid = () => VALIDATED.every(f => !fieldError(f));
+const step2Valid = () => up.audio.state === "done" && up.cover.state === "done" && !!up.audio.url && !!up.cover.url;
 
 function markErrors(){
   let first = null;
@@ -1385,195 +1125,202 @@ function markErrors(){
     const wrap = document.querySelector('.field[data-f="' + f + '"]');
     wrap.classList.toggle("err", !!msg);
     wrap.querySelector(".err-msg").textContent = msg;
-    if(msg && !first) first = $(f).type === "hidden" ? document.querySelector('.field[data-f="' + f + '"] button') : $(f);
+    if(msg && !first) first = wrap;
   });
   if(first){
     first.scrollIntoView({ behavior:"smooth", block:"center" });
-    first.focus({ preventScroll:true });
+    const el = first.querySelector("input:not([type=hidden]):not([type=checkbox]),select,textarea,button");
+    if(el) el.focus({ preventScroll:true });
   }
   return !first;
 }
-
 function clearError(f){
-  const wrap = document.querySelector('.field[data-f="' + f + '"]');
-  if(wrap) wrap.classList.remove("err");
+  const w = document.querySelector('.field[data-f="' + f + '"]');
+  if(w) w.classList.remove("err");
 }
 
-/* ================= STEPS + ACTION BAR ================= */
+/* ===== langkah + tombol aksi ===== */
 const ACT = {
-  1:{ back:null,   label:"Continue",       ic:"arrow-r", cls:"go" },
-  2:{ back:"Back", label:"Continue",       ic:"arrow-r", cls:"go" },
-  3:{ back:"Back", label:"Preview",        ic:"arrow-r", cls:"go" },
-  4:{ back:"Edit", label:"Submit Release", ic:"send",    cls:"go" }
+  1:{ back:null,      label:"Lanjut",         ic:"arrow-r" },
+  2:{ back:"Kembali", label:"Preview",        ic:"arrow-r" },
+  3:{ back:"Ubah",    label:"Kirim Rilisan",  ic:"send" }
 };
-
 let current = 1;
 
 function renderActions(){
   const a = ACT[current];
-
   $("backA").hidden = !a.back;
   if(a.back){
     $("backLabel").textContent = a.back;
-    $("backA").querySelector(".i").setAttribute("class", "i " + (current === 4 ? "" : "bk"));
-    $("backA").querySelector("use").setAttribute("href", current === 4 ? "#i-edit" : "#i-back");
+    $("backA").querySelector(".i").setAttribute("class", "i " + (current === 3 ? "" : "bk"));
+    $("backA").querySelector("use").setAttribute("href", current === 3 ? "#i-edit" : "#i-back");
   }
-
-  const p = $("primaryBtn");
-  if(submitting){
-    p.innerHTML = icon("loader", "spin") + "<span>Mengirim…</span>";
-  }else{
-    p.innerHTML = "<span>" + a.label + "</span>" + icon(a.ic, a.cls);
-  }
+  $("draftBtn").hidden = current === 3;
+  $("primaryBtn").innerHTML = submitting ? icon("loader", "spin") + "<span>Mengirim…</span>" : "<span>" + a.label + "</span>" + icon(a.ic, "go");
   refreshGate();
 }
 
 function goTo(n){
-  if(n >= 3 && !step2Valid()){
-    toast("Lengkapi data di langkah 2 dulu.");
-    goTo(2);
-    markErrors();
-    return;
+  if(n >= 2 && !step1Valid()){
+    toast("Lengkapi data di langkah 1 dulu.");
+    goTo(1); markErrors(); return;
   }
-  if(n === 4 && !step3Valid()){
+  if(n === 3 && !step2Valid()){
     toast(isUploading() ? "Tunggu sampai upload selesai." : "Upload audio dan cover dulu.");
-    if(current !== 3) goTo(3);
+    if(current !== 2) goTo(2);
     return;
   }
-
   current = n;
-
-  for(let i = 1; i <= 4; i++){
+  for(let i = 1; i <= 3; i++){
     $("step" + i).hidden = i !== n;
     const s = $("s" + i);
     s.classList.toggle("active", i === n);
     s.classList.toggle("done", i < n);
     s.setAttribute("aria-selected", String(i === n));
   }
-
-  $("stepCount").textContent = "Langkah " + n + " dari 4";
-
-  if(n === 4) loadPreview();
-
+  $("stepCount").textContent = "Langkah " + n + " dari 3";
+  if(n === 3) loadPreview();
   renderActions();
-  window.scrollTo({ top:0, behavior:"smooth" });
+  scrollTo({ top:0, behavior:"smooth" });
 }
 
 function refreshGate(){
-  const v2 = step2Valid();
-  const v3 = step3Valid();
-  $("s3").classList.toggle("locked", !v2);
-  $("s4").classList.toggle("locked", !(v2 && v3));
-
-  $("primaryBtn").disabled = submitting || (current === 3 && !v3);
+  const v1 = step1Valid(), v2 = step2Valid();
+  $("s2").classList.toggle("locked", !v1);
+  $("s3").classList.toggle("locked", !(v1 && v2));
+  $("primaryBtn").disabled = submitting || (current === 2 && !v2);
   $("backA").disabled = submitting;
-
-  const hint = $("upHint");
-  if(hint){
-    if(v3){ hint.className = "up-hint ok"; hint.textContent = "Cover dan audio sudah siap. Lanjut ke preview."; }
-    else if(isUploading()){ hint.className = "up-hint"; hint.textContent = "Upload sedang berjalan. Tunggu sampai selesai."; }
-    else{ hint.className = "up-hint"; hint.textContent = "Upload cover dan audio untuk melanjutkan ke preview."; }
-  }
+  const h = $("upHint");
+  if(v2){ h.className = "up-hint ok"; h.textContent = "Cover dan audio sudah siap. Lanjut ke preview."; }
+  else if(isUploading()){ h.className = "up-hint"; h.textContent = "Upload sedang berjalan. Tunggu sampai selesai."; }
+  else{ h.className = "up-hint"; h.textContent = "Upload cover dan audio untuk melanjutkan ke preview."; }
 }
 
-["s1","s2","s3","s4"].forEach((id, i) => $(id).addEventListener("click", () => goTo(i + 1)));
-
-$("backA").addEventListener("click", () => {
-  if(current === 4) goTo(2);
-  else goTo(current - 1);
-});
-
+["s1","s2","s3"].forEach((id, i) => $(id).addEventListener("click", () => goTo(i + 1)));
+$("backA").addEventListener("click", () => goTo(current === 3 ? 1 : current - 1));
 $("primaryBtn").addEventListener("click", () => {
-  if(current === 1){ $("type").value = "original"; goTo(2); return; }
-
+  if(current === 1){
+    if(!markErrors()){ toast("Lengkapi semua kolom wajib."); return; }
+    goTo(2); return;
+  }
   if(current === 2){
-    if(!markErrors()){
-      toast("Lengkapi semua field wajib.");
-      return;
-    }
-    goTo(3);
-    return;
+    if(!step2Valid()){ toast("Tunggu sampai audio dan cover selesai di-upload."); return; }
+    goTo(3); return;
   }
-
-  if(current === 3){
-    if(!step3Valid()){
-      toast("Tunggu sampai audio dan cover selesai di-upload.");
-      return;
-    }
-    goTo(4);
-    return;
-  }
-
   openTerms();
 });
-
-document.addEventListener("input", e => {
-  if(FIELDS.includes(e.target.id)){
-    clearError(e.target.id);
-    saveDraft();
-  }
-  refreshGate();
-});
-
-document.addEventListener("change", e => {
-  if(FIELDS.includes(e.target.id)){
-    clearError(e.target.id);
-    saveDraft();
-    refreshGate();
-  }
-});
-
-/* Enter pada input = lanjut */
+document.addEventListener("input", e => { if(e.target.id){ clearError(e.target.id); } refreshGate(); });
+document.addEventListener("change", e => { if(e.target.id){ clearError(e.target.id); refreshGate(); } });
 document.addEventListener("keydown", e => {
-  if(e.key === "Enter" && e.target.tagName === "INPUT" && e.target.type !== "file" && e.target.type !== "checkbox" && current === 2){
-    e.preventDefault();
-    $("primaryBtn").click();
+  if(e.key === "Enter" && e.target.tagName === "INPUT" && !["file","checkbox","hidden"].includes(e.target.type) && !e.target.closest(".combo") && current === 1){
+    e.preventDefault(); $("primaryBtn").click();
   }
 });
 
-/* ================= PREVIEW ================= */
-const TYPE_LABEL = { single:"Single", ep:"EP", album:"Album" };
+/* ===== draft (hanya jika kamu klik Simpan draft; tidak pernah terisi otomatis) ===== */
+const dKey = () => "dyn_oa_draft_" + uid;
 
+function collectDraft(){
+  const f = {};
+  FIELDS.forEach(k => { f[k] = $(k).value; });
+  return {
+    f, rights:$("rights").checked, at:Date.now(),
+    cover: up.cover.state === "done" ? up.cover.url : null,
+    audio: up.audio.state === "done" ? { url:up.audio.url, name:$("audioName").textContent, sub:$("audioSub").textContent } : null
+  };
+}
+function saveDraft(){
+  if(!uid){ toast("Tunggu sebentar, sedang memuat akun."); return; }
+  try{
+    localStorage.setItem(dKey(), JSON.stringify(collectDraft()));
+    toast("Draft disimpan di perangkat ini.");
+  }catch(_){ toast("Draft gagal disimpan."); }
+}
+function checkDraft(){
+  try{
+    const r = localStorage.getItem(dKey());
+    if(!r) return;
+    const d = JSON.parse(r);
+    const t = (d.f && d.f.title) ? "“" + d.f.title + "”" : "Tanpa judul";
+    const when = new Date(d.at).toLocaleDateString("id-ID", { day:"numeric", month:"short", hour:"2-digit", minute:"2-digit" });
+    $("draftTitle").textContent = t + " • disimpan " + when;
+    $("draftBar").hidden = false;
+  }catch(_){}
+}
+function applyDraft(){
+  let d;
+  try{ d = JSON.parse(localStorage.getItem(dKey()) || "null"); }catch(_){ d = null; }
+  if(!d) return;
+  FIELDS.forEach(k => { if(d.f[k] != null) $(k).value = d.f[k]; });
+  $("rights").checked = !!d.rights;
+  [genreCombo, genre2Combo, artistCombo, audioLangCombo, titleLangCombo, explicitSeg, vocalSeg, prevSeg].forEach(x => x.sync());
+  if(d.cover){
+    Object.assign(up.cover, { url:d.cover, state:"done", pct:100 });
+    const p = $("coverPreview");
+    p.src = d.cover; p.hidden = false;
+    $("coverChange").hidden = false;
+    $("coverPlaceholder").style.display = "none";
+    renderUpload("cover");
+  }
+  if(d.audio){
+    Object.assign(up.audio, { url:d.audio.url, state:"done", pct:100 });
+    $("audioName").textContent = d.audio.name;
+    $("audioSub").textContent = d.audio.sub;
+    $("audioPillTx").textContent = "Ganti";
+    $("audioPlayer").src = d.audio.url;
+    $("audioPlayer").hidden = false;
+    renderUpload("audio");
+  }
+  $("draftBar").hidden = true;
+  refreshGate();
+  toast("Draft dimuat.");
+}
+function clearDraft(){ try{ localStorage.removeItem(dKey()); }catch(_){} }
+$("draftBtn").addEventListener("click", saveDraft);
+$("draftUse").addEventListener("click", applyDraft);
+$("draftDel").addEventListener("click", () => { clearDraft(); $("draftBar").hidden = true; toast("Draft dihapus."); });
+
+/* ===== preview ===== */
 function fmtDate(v){
   const d = new Date(v + "T00:00:00");
-  if(isNaN(d)) return v || "-";
-  return d.toLocaleDateString("id-ID", { day:"numeric", month:"long", year:"numeric" });
+  return isNaN(d) ? (v || "-") : d.toLocaleDateString("id-ID", { day:"numeric", month:"long", year:"numeric" });
 }
-
+function creditLines(){
+  const owner = $("pOwner").value.trim() || "Dynotic", yr = $("pYear").value;
+  return { p:"℗ " + yr + " " + owner, c:"© " + yr + " " + owner };
+}
 function loadPreview(){
-  const v = id => $(id).value.trim();
-
-  const rows = [];
-  if(v("version")) rows.push(["Version", v("version")]);
-  if(v("featuring")) rows.push(["Featuring", v("featuring")]);
-  rows.push(["Genre", v("genre")]);
-  rows.push(["Label", v("labelName")]);
-  rows.push(["Release type", "Single"]);
-  rows.push(["Release date", fmtDate(v("releaseDate"))]);
-  rows.push(["Explicit", v("explicit") === "yes" ? "Ya" : "Tidak"]);
-  rows.push(["Vokal", v("vocal") === "instrumental" ? "Instrumental" : "Ada vokal"]);
-  rows.push(["Bahasa audio", v("audioLang")]);
-  rows.push(["Bahasa judul", v("titleLang")]);
-  if(v("tiktokStart")) rows.push(["Preview TikTok", fmtClock(parseClock(v("tiktokStart")))]);
-  rows.push(["Composer & Lyrics", parseNames(v("fullname")).join(", ")]);
-  if(v("producer")) rows.push(["Producer", v("producer")]);
-  if(v("spotifyUrl")) rows.push(["Spotify", v("spotifyUrl")]);
-  if(v("appleUrl")) rows.push(["Apple Music", v("appleUrl")]);
-
+  const v = id => $(id).value.trim(), r = [], cl = creditLines(), tk = tiktok();
+  if(v("version")) r.push(["Versi", v("version")]);
+  if(v("featuring")) r.push(["Featuring", v("featuring")]);
+  r.push(["Genre", v("genre2") ? v("genre") + ", " + v("genre2") : v("genre")]);
+  r.push(["Label", v("labelName")]);
+  r.push(["Tipe rilis", "Single"]);
+  r.push(["Tanggal rilis", fmtDate(v("releaseDate"))]);
+  if(v("prevRel") === "yes") r.push(["Rilis asli", fmtDate(v("prevDate"))]);
+  r.push(["Explicit", v("explicit") === "yes" ? "Ya" : "Tidak"]);
+  r.push(["Jenis audio", v("vocal") === "instrumental" ? "Instrumental" : "Ada vokal"]);
+  r.push(["Bahasa audio", v("audioLang")]);
+  r.push(["Bahasa judul", v("titleLang")]);
+  if(tk !== null) r.push(["Preview TikTok", fmtClock(tk)]);
+  r.push(["Composer", parseNames(v("composer")).join(", ")]);
+  if(parseNames(v("lyricist")).length) r.push(["Lyricist", parseNames(v("lyricist")).join(", ")]);
+  if(v("producer")) r.push(["Producer", v("producer")]);
+  if(v("isrc")) r.push(["ISRC", normIsrc(v("isrc"))]);
+  if(v("upc")) r.push(["UPC", v("upc")]);
+  r.push(["Hak cipta", cl.p + "\n" + cl.c]);
+  if(v("lyrics")) r.push(["Lirik", "Terlampir (" + v("lyrics").split("\n").length + " baris)"]);
+  if(v("spotifyUrl")) r.push(["Spotify", v("spotifyUrl")]);
+  if(v("appleUrl")) r.push(["Apple Music", v("appleUrl")]);
+  const src = audioObjURL || up.audio.url;
   $("previewBox").innerHTML =
-    '<div class="pv-head">' +
-      '<img src="' + escapeHTML(up.cover.url || "") + '" alt="Cover Artwork">' +
-      '<div class="tx"><strong>' + escapeHTML(v("title") || "-") + '</strong><span>' + escapeHTML(v("artist") || "-") + '</span></div>' +
-    '</div>' +
-    '<div class="pv-list">' +
-      rows.map(r => '<div class="pv-row"><small>' + escapeHTML(r[0]) + '</small><b>' + escapeHTML(r[1]) + '</b></div>').join("") +
-    '</div>' +
-    (audioObjURL ? '<audio controls src="' + escapeHTML(audioObjURL) + '"></audio>' : "");
+    '<div class="pv-head"><img src="' + escapeHTML(up.cover.url || "") + '" alt="Cover Artwork"><div class="tx"><strong>' + escapeHTML(v("title") || "-") + '</strong><span>' + escapeHTML(v("artist") || "-") + '</span></div></div>' +
+    '<div class="pv-list">' + r.map(x => '<div class="pv-row"><small>' + escapeHTML(x[0]) + '</small><b>' + escapeHTML(x[1]) + '</b></div>').join("") + '</div>' +
+    (src ? '<audio controls src="' + escapeHTML(src) + '"></audio>' : "");
 }
 
-/* ================= TERMS MODAL ================= */
+/* ===== ketentuan ===== */
 const termsEl = $("terms");
-
 function openTerms(){
   $("termsAgree").checked = false;
   $("termsConfirm").disabled = true;
@@ -1582,68 +1329,35 @@ function openTerms(){
   termsEl.setAttribute("aria-hidden", "false");
   document.body.classList.add("lock");
 }
-
 function closeTerms(){
   termsEl.classList.remove("show");
   termsEl.setAttribute("aria-hidden", "true");
   if(!submitting) document.body.classList.remove("lock");
 }
-
 $("termsAgree").addEventListener("change", e => { $("termsConfirm").disabled = !e.target.checked; });
 $("termsCancel").addEventListener("click", closeTerms);
 termsEl.addEventListener("click", e => { if(e.target === termsEl) closeTerms(); });
+$("termsConfirm").addEventListener("click", () => { if(!$("termsAgree").checked) return; closeTerms(); submitRelease(); });
+document.addEventListener("keydown", e => { if(e.key === "Escape" && termsEl.classList.contains("show")) closeTerms(); });
 
-$("termsConfirm").addEventListener("click", () => {
-  if(!$("termsAgree").checked) return;
-  closeTerms();
-  submitRelease();
-});
-
-document.addEventListener("keydown", e => {
-  if(e.key === "Escape" && termsEl.classList.contains("show")) closeTerms();
-});
-
-/* ================= SUBMIT ================= */
-function setSubmitting(on){
-  submitting = on;
-  renderActions();
-}
+/* ===== kirim ===== */
+function setSubmitting(on){ submitting = on; renderActions(); }
 
 function submitRelease(){
-
   if(submitting) return;
-
-  if(!step2Valid()){
-    toast("Lengkapi data rilisan terlebih dahulu.");
-    goTo(2);
-    markErrors();
-    return;
-  }
-
-  if(!step3Valid()){
-    toast("Pastikan audio dan cover sudah berhasil di-upload.");
-    goTo(3);
-    return;
-  }
-
-  if(!$("termsAgree").checked){
-    openTerms();
-    return;
-  }
-
+  if(!step1Valid()){ toast("Lengkapi data rilisan terlebih dahulu."); goTo(1); markErrors(); return; }
+  if(!step2Valid()){ toast("Pastikan audio dan cover sudah berhasil di-upload."); goTo(2); return; }
+  if(!$("termsAgree").checked){ openTerms(); return; }
   setSubmitting(true);
-
   const user = firebase.auth().currentUser;
-
   if(!user){
     setSubmitting(false);
     toast("Sesi login tidak ditemukan. Silakan login kembali.");
     setTimeout(() => { location.href = "https://app.dynoticcollective.com/login"; }, 1200);
     return;
   }
-
-  const v = id => $(id).value.trim();
-
+  const v = id => $(id).value.trim(), cl = creditLines();
+  const composer = parseNames(v("composer")), lyricist = parseNames(v("lyricist"));
   const data = {
     type: $("type").value,
     releaseType: "single",
@@ -1661,44 +1375,41 @@ function submitRelease(){
     instrumental: v("vocal") === "instrumental",
     audioLanguage: v("audioLang"),
     titleLanguage: v("titleLang"),
-    fullname: parseNames($("fullname").value),
+    composer, lyricist,
+    fullname: composer.concat(lyricist.filter(n => !composer.includes(n))),
+    previouslyReleased: v("prevRel") === "yes",
+    pLine: cl.p, cLine: cl.c,
+    rightsConfirmed: true,
     status: "proposal",
     termsAccepted: true,
     termsAcceptedAt: Date.now(),
     time: Date.now()
   };
-
+  if(v("genre2")) data.genre2 = v("genre2");
+  if(data.previouslyReleased) data.originalReleaseDate = v("prevDate");
   if(v("featuring")) data.featuring = v("featuring");
   if(v("producer")) data.producer = v("producer");
-  if(v("tiktokStart")) data.tiktokPreviewStart = parseClock(v("tiktokStart"));
+  if(v("lyrics")) data.lyrics = v("lyrics");
+  if(v("isrc")) data.isrc = normIsrc(v("isrc"));
+  if(v("upc")) data.upc = v("upc");
+  const tk = tiktok();
+  if(tk !== null) data.tiktokPreviewStart = tk;
 
-  db.ref("releases/" + user.uid)
-    .push(data)
-    .then(() => {
-      clearDraft();
-      $("done").classList.add("show");
-      document.body.classList.add("lock");
-      setTimeout(() => { location.href = "https://app.dynoticcollective.com/catalog/"; }, 1400);
-    })
-    .catch(error => {
-      console.error("Submit release error:", error);
-      setSubmitting(false);
-      document.body.classList.remove("lock");
-      toast("Gagal mengirim rilisan. Silakan coba lagi.");
-    });
+  db.ref("releases/" + user.uid).push(data).then(() => {
+    clearDraft();
+    $("done").classList.add("show");
+    document.body.classList.add("lock");
+    setTimeout(() => { location.href = "https://app.dynoticcollective.com/catalog/"; }, 1400);
+  }).catch(err => {
+    console.error("Submit release error:", err);
+    setSubmitting(false);
+    document.body.classList.remove("lock");
+    toast("Gagal mengirim rilisan. Silakan coba lagi.");
+  });
 }
 
-/* ================= INIT ================= */
-loadDraft();
-genreCombo.sync();
-artistCombo.sync();
-audioLangCombo.sync();
-titleLangCombo.sync();
-explicitSeg.sync();
-vocalSeg.sync();
-setMinReleaseDate();
+/* ===== init: form selalu kosong saat dibuka ===== */
 renderActions();
 </script>
-
 </body>
 </html>
