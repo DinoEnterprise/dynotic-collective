@@ -475,7 +475,7 @@ const STATUS_STYLE = {
   schedule:{ label:"Schedule", color:"#a9a3f2", note:"Rilisan sudah dijadwalkan dan sedang dikirim ke platform. Rilisan dikunci sampai tanggal rilis." },
   approved:{ label:"Approved", color:"#34d399", note:"Rilisan disetujui dan akan tayang pada tanggal rilis." },
   live:    { label:"Live",     color:"#4ade80", note:"Rilisan sudah tayang. Untuk menurunkan rilisan, ajukan takedown ke tim kami." },
-  rejected:{ label:"Rejected", color:"#f87171", note:"Rilisan ditolak. Periksa pesan di Notifikasi, perbaiki datanya, lalu ajukan kembali." }
+  rejected:{ label:"Rejected", color:"#f87171", note:"Rilisan ditolak. Periksa pesan di Notifikasi untuk melihat alasannya." }
 };
 
 /* mendukung string tanggal (YYYY-MM-DD) maupun timestamp angka (field "time") */
@@ -655,7 +655,7 @@ function render(d){
   const feat = d.featuring ? " · feat. " + esc(d.featuring) : "";
   const smart = safeUrl(d.smartlink || "");
 
-  const canEdit = status === "proposal" || status === "rejected";
+  const canEdit = status === "proposal";
   const canTakedown = status === "live";
 
   let acts = "";
