@@ -149,12 +149,20 @@ textarea.input{height:auto;min-height:130px;padding:14px 16px;line-height:1.6;re
 .drop:focus-within{outline:2px solid var(--accent);outline-offset:2px}
 .drop.done{border-style:solid;border-color:#cfe9dd;background:#fbfffd}
 .drop.fail{border-color:var(--red);background:#fff8f8}
+.drop.locked{cursor:default}
+.drop.locked:hover{border-color:inherit;box-shadow:none}
+.drop.locked .up-pill,.drop.locked .cover-change{display:none!important}
 .up-ic{width:56px;height:56px;border-radius:18px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 12px 24px -12px rgba(13,13,18,.55)}
 .up-ic .i{width:26px;height:26px}
 .drop.done .up-ic{background:var(--green)}
 .drop.fail .up-ic{background:var(--red)}
 .up-pill{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 17px;border-radius:999px;background:var(--ink);color:#fff;font-size:13px;font-weight:700;flex-shrink:0;white-space:nowrap}
 .up-pill .i{width:15px;height:15px}
+.rm{position:absolute;top:10px;right:10px;z-index:5;width:40px;height:40px;border-radius:12px;background:rgba(13,13,18,.78);color:#fff;display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),background .2s}
+.rm:hover{background:var(--red)}
+.rm:active{transform:scale(.92)}
+.rm .i{width:19px;height:19px}
+.audio-drop .rm{position:static;flex-shrink:0}
 .cover-drop{width:100%;max-width:300px;aspect-ratio:1/1;border-radius:26px;overflow:hidden}
 .cover-in{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;padding:18px;text-align:center}
 .cover-in .up-ic{width:84px;height:84px;border-radius:26px;margin-bottom:12px}
@@ -245,7 +253,13 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .spin{animation:spin .8s linear infinite}
 
-@media(max-width:520px){.tiles{grid-template-columns:1fr}.tiles.keep{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){
+  .tiles{grid-template-columns:1fr}
+  .tiles.keep{grid-template-columns:1fr 1fr}
+  /* tombol di sheet Ketentuan: ditumpuk agar teks tidak kepotong */
+  .sheet-btns{flex-direction:column-reverse}
+  .sheet-btns .btn{flex:none;width:100%;white-space:normal;text-align:center;line-height:1.25}
+}
 @media(min-width:700px){
   .row2{grid-template-columns:1fr 1fr}
   .modal{align-items:center;padding:24px}
@@ -308,6 +322,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
   <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></symbol>
 </svg>
 
 <header class="topbar" id="topbar">
@@ -350,7 +365,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
         <div class="row2">
           <div class="field" data-f="title">
             <label class="label" for="title">Judul Lagu <span class="req">*</span></label>
-            <input class="input" id="title" placeholder="mis. Hujan di Bulan Juni" autocomplete="off">
+            <input class="input" id="title" placeholder="Judul lagu kamu" autocomplete="off">
             <div class="err-msg"></div>
           </div>
           <div class="field">
@@ -366,9 +381,10 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
             <div class="err-msg"></div>
             <div class="rt-warn" id="artistEmpty" hidden>Kamu belum punya artist. <a href="https://app.dynoticcollective.com/catalog/artists/create/">Buat artist dulu</a>, lalu kembali ke sini.</div>
           </div>
-          <div class="field">
-            <label class="label" for="featuring">Featuring <small>Opsional</small></label>
-            <input class="input" id="featuring" placeholder="mis. Rani Putri" autocomplete="off">
+          <div class="field" data-f="featuring">
+            <label class="label" id="featuringLbl">Featuring <small>Opsional</small></label>
+            <div class="combo" id="featuringCombo"></div>
+            <div class="err-msg"></div>
           </div>
         </div>
         <div class="row2">
@@ -389,7 +405,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
             <label class="label" for="labelName">Label <span class="req">*</span></label>
             <input class="input" id="labelName" placeholder="Nama label kamu" autocomplete="off">
             <div class="err-msg"></div>
-            <div class="hint">Nama label atau pemilik rilisan, mis. Senja Records.</div>
+            <div class="hint">Nama label atau pemilik rilisan kamu.</div>
           </div>
           <div class="field" data-f="releaseDate">
             <label class="label" for="releaseDate">Tanggal Rilis <span class="req">*</span></label>
@@ -454,7 +470,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
         </div>
         <div class="field">
           <label class="label" for="lyrics">Lirik <small>Opsional</small></label>
-          <textarea class="input" id="lyrics" placeholder="Tempel lirik lagu di sini, satu baris per kalimat.&#10;mis.&#10;Hujan turun di bulan Juni&#10;Aku masih menunggumu di sini"></textarea>
+          <textarea class="input" id="lyrics" placeholder="Tempel lirik lagu kamu di sini, satu baris per kalimat."></textarea>
           <div class="hint" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">Dipakai untuk fitur lirik di Apple Music dan lainnya. <button type="button" class="btn sm" id="lyricsFileBtn"><svg class="i"><use href="#i-upload"/></svg>Impor file .txt</button></div>
           <input type="file" id="lyricsFile" class="vh" accept=".txt,text/plain">
         </div>
@@ -465,20 +481,20 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
         <div class="row2">
           <div class="field" data-f="composer">
             <label class="label" for="composer">Composer <small>Pencipta lagu</small> <span class="req">*</span></label>
-            <input class="input" id="composer" placeholder="mis. Budi Santoso, Sari Dewi" autocomplete="off">
+            <input class="input" id="composer" placeholder="Nama composer kamu" autocomplete="off">
             <div class="err-msg"></div>
             <div class="hint">Nama asli sesuai data diri yang sah. Pisahkan beberapa nama dengan koma.</div>
           </div>
           <div class="field" data-f="lyricist">
             <label class="label" for="lyricist">Lyricist <small>Penulis lirik</small> <span class="req" id="lyReq">*</span></label>
-            <input class="input" id="lyricist" placeholder="mis. Sari Dewi" autocomplete="off">
+            <input class="input" id="lyricist" placeholder="Nama lyricist kamu" autocomplete="off">
             <div class="err-msg"></div>
             <div class="hint">Kosongkan jika lagu instrumental.</div>
           </div>
         </div>
         <div class="field">
           <label class="label" for="producer">Producer <small>Opsional</small></label>
-          <input class="input" id="producer" placeholder="mis. Andi Pratama" autocomplete="off">
+          <input class="input" id="producer" placeholder="Nama producer kamu" autocomplete="off">
         </div>
         <div class="row2">
           <div class="field" data-f="isrc">
@@ -523,7 +539,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
     <!-- ============ LANGKAH 2: UPLOAD ============ -->
     <div id="step2" class="section" hidden>
       <div class="sec-title">Upload file</div>
-      <p class="sec-desc">Upload cover art dan audio. Bisa tap atau tarik file ke kotak upload.</p>
+      <p class="sec-desc">Upload cover art dan audio. Bisa tap atau tarik file ke kotak upload. Untuk mengganti file, hapus dulu file yang lama.</p>
       <div class="up-grid">
         <div>
           <div class="label" style="margin-top:20px">Cover Art <span class="req">*</span></div>
@@ -538,6 +554,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
             <img id="coverPreview" alt="" hidden>
             <div class="cover-change" id="coverChange" hidden><svg class="i"><use href="#i-refresh"/></svg>Ganti cover</div>
             <div class="cover-shade" id="coverPct">0%</div>
+            <button type="button" class="rm" id="coverRm" hidden aria-label="Hapus cover"><svg class="i"><use href="#i-trash"/></svg></button>
             <div class="cover-bar"><i id="coverBar"></i></div>
           </label>
           <div class="u-status" id="coverStatus"></div>
@@ -552,6 +569,7 @@ audio{display:block;width:100%;height:44px;margin-top:14px}
               <div class="audio-sub" id="audioSub">MP3 atau WAV (disarankan WAV)</div>
             </div>
             <span class="up-pill"><svg class="i"><use href="#i-plus"/></svg><span id="audioPillTx">Pilih file</span></span>
+            <button type="button" class="rm" id="audioRm" hidden aria-label="Hapus audio"><svg class="i"><use href="#i-trash"/></svg></button>
             <div class="audio-bar"><i id="audioWave"></i></div>
           </label>
           <div class="u-status" id="audioStatus"></div>
@@ -747,7 +765,7 @@ function makeCombo(id, opt){
     cv.innerHTML = "";
     const t = document.createElement("span");
     if(it){
-      if(opt.avatar) cv.appendChild(avatar(it, true));
+      if(opt.avatar && it.value !== "") cv.appendChild(avatar(it, true));
       t.className = "tx"; t.textContent = it.label;
     }else{ t.className = "ph"; t.textContent = ph; }
     cv.appendChild(t);
@@ -772,7 +790,7 @@ function makeCombo(id, opt){
       const row = document.createElement("div");
       row.className = "combo-opt" + (it.value === input.value ? " sel" : "");
       row.setAttribute("role", "option");
-      if(opt.avatar) row.appendChild(avatar(it, false));
+      if(opt.avatar && it.value !== "") row.appendChild(avatar(it, false));
       const tx = document.createElement("div");
       tx.className = "tx";
       const nm = document.createElement("span");
@@ -836,9 +854,11 @@ const LANGS = ["Indonesian","English","Javanese","Sundanese","Malay","Japanese",
 const NOLING = "No Linguistic Content";
 const langItems = extra => LANGS.concat(extra || []).map(l => ({ value:l, label:l, sub: l === NOLING ? "Tanpa lirik (instrumental)" : "" }));
 
+const NEW_ARTIST_LINK = '<a class="combo-foot" href="https://app.dynoticcollective.com/catalog/artists/create/">' + icon("plus") + 'Buat artist baru</a>';
 buildCombo("genre", "Cari genre…");
 buildCombo("genre2", "Cari genre…");
-buildCombo("artist", "Cari artist…", '<a class="combo-foot" href="https://app.dynoticcollective.com/catalog/artists/create/">' + icon("plus") + 'Buat artist baru</a>');
+buildCombo("artist", "Cari artist…", NEW_ARTIST_LINK);
+buildCombo("featuring", "Cari artist…", NEW_ARTIST_LINK);
 buildCombo("audioLang", "Cari bahasa…");
 buildCombo("titleLang", "Cari bahasa…");
 
@@ -854,8 +874,21 @@ const genre2Combo = makeCombo("genre2", {
 });
 const artistCombo = makeCombo("artist", {
   placeholder:"Memuat artist…", avatar:true, items:[],
-  empty: q => q ? "Artist “" + q + "” tidak ditemukan. Buat dulu lewat tombol di bawah." : "Belum ada artist. Buat dulu lewat tombol di bawah."
+  empty: q => q ? "Artist “" + q + "” tidak ditemukan. Buat dulu lewat tombol di bawah." : "Belum ada artist. Buat dulu lewat tombol di bawah.",
+  onSelect: () => refreshFeat()
 });
+
+/* Featuring: pilih dari daftar artist yang sama, tanpa artist utama */
+let allArtists = [];
+const featuringCombo = makeCombo("featuring", {
+  placeholder:"Pilih featuring (opsional)", avatar:true, allowEmpty:true, items:[],
+  empty: q => q ? "Artist “" + q + "” tidak ditemukan. Buat dulu lewat tombol di bawah." : "Belum ada artist lain."
+});
+function refreshFeat(){
+  const main = $("artist").value;
+  featuringCombo.setItems([{ value:"", label:"Tidak ada" }].concat(allArtists.filter(a => a.value !== main)));
+}
+
 const audioLangCombo = makeCombo("audioLang", { placeholder:"Pilih bahasa audio", items: langItems([NOLING]), empty: q => "Bahasa “" + q + "” tidak ditemukan." });
 const titleLangCombo = makeCombo("titleLang", { placeholder:"Pilih bahasa judul", items: langItems(), empty: q => "Bahasa “" + q + "” tidak ditemukan." });
 
@@ -903,11 +936,13 @@ function loadArtists(u){
     $("artistEmpty").hidden = list.length > 0;
     artistCombo.setPlaceholder(list.length ? "Pilih artist" : "Belum ada artist");
     list.forEach(a => { artistMap[a.name] = a; });
-    artistCombo.setItems(list.map(a => ({
+    allArtists = list.map(a => ({
       value:a.name, label:a.name,
       sub:[a.genre, a.country].filter(Boolean).join(" • "),
       photo:a.photo || "", spotify:a.spotify || "", apple:a.apple || ""
-    })));
+    }));
+    artistCombo.setItems(allArtists);
+    refreshFeat();
     refreshGate();
   }).catch(e => {
     console.error("Gagal memuat artist:", e);
@@ -969,6 +1004,10 @@ function renderUpload(kind){
   }
   drop.classList.toggle("done", u.state === "done");
   drop.classList.toggle("fail", u.state === "error");
+  /* setelah ada file: kotak terkunci, ganti file hanya lewat tombol hapus */
+  const locked = u.state !== "idle";
+  drop.classList.toggle("locked", locked);
+  $(kind + "Rm").hidden = !locked;
   const okTxt = kind === "audio" ? "Audio berhasil di-upload." : "Cover berhasil di-upload.";
   if(u.state === "uploading") setStatus(status, "busy", "Mengunggah… " + u.pct + "%");
   else if(u.state === "done") setStatus(status, "ok", okTxt);
@@ -983,8 +1022,57 @@ document.addEventListener("click", e => {
   if(up[k].file) startUpload(k, up[k].file);
 });
 
+/* hapus file yang sudah di-upload (sekaligus minta Worker menghapusnya dari storage) */
+function deleteRemote(url){
+  if(!url) return;
+  fetch(WORKER_URL, { method:"DELETE", headers:{ "Content-Type":"application/json" }, body:JSON.stringify({ url }) }).catch(() => {});
+}
+function forgetInDraft(kind){
+  try{
+    const r = localStorage.getItem(dKey());
+    if(!r) return;
+    const d = JSON.parse(r);
+    d[kind] = null;
+    localStorage.setItem(dKey(), JSON.stringify(d));
+  }catch(_){}
+}
+function removeUpload(kind){
+  const u = up[kind];
+  if(u.xhr){ try{ u.xhr.abort(); }catch(_){} u.xhr = null; }
+  u.token++;
+  deleteRemote(u.url);
+  Object.assign(u, { url:null, file:null, pct:0, state:"idle", error:"" });
+  if(kind === "audio"){
+    if(audioObjURL){ URL.revokeObjectURL(audioObjURL); audioObjURL = null; }
+    $("audio").value = "";
+    $("audioPlayer").removeAttribute("src");
+    $("audioPlayer").hidden = true;
+    $("audioName").textContent = "Upload file audio";
+    $("audioSub").textContent = "MP3 atau WAV (disarankan WAV)";
+    $("audioPillTx").textContent = "Pilih file";
+  }else{
+    if(coverObjURL){ URL.revokeObjectURL(coverObjURL); coverObjURL = null; }
+    $("cover").value = "";
+    const p = $("coverPreview");
+    p.removeAttribute("src"); p.hidden = true;
+    $("coverChange").hidden = true;
+    $("coverPlaceholder").style.display = "";
+  }
+  forgetInDraft(kind);
+  renderUpload(kind); refreshGate();
+  toast(kind === "audio" ? "Audio dihapus." : "Cover dihapus.");
+}
+[["coverDrop","cover"], ["audioDrop","audio"]].forEach(([id, k]) => {
+  $(id).addEventListener("click", e => {
+    if(e.target.closest(".rm")){ e.preventDefault(); removeUpload(k); return; }
+    if(up[k].state !== "idle") e.preventDefault();
+  });
+  $(k).addEventListener("click", e => { if(up[k].state !== "idle") e.preventDefault(); });
+});
+
 function handleAudio(file){
   if(!file) return;
+  if(up.audio.state !== "idle"){ toast("Hapus audio lama dulu sebelum mengganti."); return; }
   const ok = /^audio\/(mpeg|mp3|wav|x-wav|wave|vnd\.wave)$/.test(file.type) || /\.(mp3|wav)$/i.test(file.name);
   if(!ok){ toast("Pilih file audio MP3 atau WAV."); $("audio").value = ""; return; }
   $("audioName").textContent = file.name;
@@ -1000,6 +1088,7 @@ function handleAudio(file){
 const MIN_COVER = 3000;
 function handleCover(file){
   if(!file) return;
+  if(up.cover.state !== "idle"){ toast("Hapus cover lama dulu sebelum mengganti."); return; }
   if(!/^image\/(jpeg|png)$/.test(file.type)){ toast("Cover harus berformat JPG atau PNG."); $("cover").value = ""; return; }
   const objURL = URL.createObjectURL(file);
   const img = new Image();
@@ -1011,7 +1100,7 @@ function handleCover(file){
       $("cover").value = "";
       setStatus($("coverStatus"), "bad", "Cover ditolak (" + w + "×" + h + " px). Harus persegi 1:1 dan minimal " + MIN_COVER + "×" + MIN_COVER + " px.");
       toast("Ukuran cover belum memenuhi syarat toko musik.");
-      setTimeout(() => { if(up.cover.state !== "uploading") renderUpload("cover"); }, 6000);
+      setTimeout(() => { if(up.cover.state === "idle") renderUpload("cover"); }, 6000);
       return;
     }
     if(coverObjURL) URL.revokeObjectURL(coverObjURL);
@@ -1237,7 +1326,8 @@ function applyDraft(){
   if(!d) return;
   FIELDS.forEach(k => { if(d.f[k] != null) $(k).value = d.f[k]; });
   $("rights").checked = !!d.rights;
-  [genreCombo, genre2Combo, artistCombo, audioLangCombo, titleLangCombo, prevSeg].forEach(x => x.sync());
+  [genreCombo, genre2Combo, artistCombo, featuringCombo, audioLangCombo, titleLangCombo, prevSeg].forEach(x => x.sync());
+  refreshFeat();
   onVocal(true);
   if(d.cover){
     Object.assign(up.cover, { url:d.cover, state:"done", pct:100 });
