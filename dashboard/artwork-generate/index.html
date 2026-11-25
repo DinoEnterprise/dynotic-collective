@@ -19,10 +19,12 @@
 :root{
   --bg:#f3f3f8;--paper:#fff;--ink:#14141a;--muted:#6f7280;--line:#e6e6ee;
   --dark:#0d0d12;--accent:#7772a8;--accent-2:#a9a3f2;--ease:cubic-bezier(.16,1,.3,1);
+  --side:260px;--red:#ef4444;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--ink);min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:calc(40px + env(safe-area-inset-bottom))}
+body.lock{overflow:hidden}
 a{color:inherit;text-decoration:none}
 button,input{font:inherit;color:inherit}
 button{border:0;background:none;cursor:pointer}
@@ -32,11 +34,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,.drop:focus-visible{out
 /* topbar */
 .topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
 .topbar.scrolled{border-bottom-color:var(--line)}
-.icon-btn{width:42px;height:42px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),border-color .2s}
+.icon-btn{position:relative;width:42px;height:42px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),border-color .2s}
 .icon-btn:hover{border-color:#cfcfdb}
 .icon-btn:active{transform:scale(.93)}
 .icon-btn .i{width:19px;height:19px}
-.page-title{font-size:20px;font-weight:800;letter-spacing:-.03em}
+.page-title{display:none;font-size:20px;font-weight:800;letter-spacing:-.03em}
 
 .wrap{width:100%;max-width:1040px;margin:0 auto;padding:6px 16px 0}
 .layout{display:grid;gap:20px}
@@ -136,13 +138,113 @@ a:focus-visible,button:focus-visible,input:focus-visible,.drop:focus-visible{out
 }
 @keyframes dlJig{0%,66%{transform:scale(1,1)}72%{transform:scale(1.07,.9)}80%{transform:scale(.97,1.05)}88%,100%{transform:scale(1,1)}}
 
+/* ===== sidebar (desktop) ===== */
+.sidebar{display:none;position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--dark);color:#fff;padding:26px 18px 20px;flex-direction:column;z-index:60;overflow-y:auto}
+.sidebar .logo img{height:32px;width:auto;max-width:180px;object-fit:contain;filter:brightness(0) invert(1);display:block;margin:0 8px 30px}
+.side-nav{display:flex;flex-direction:column;gap:4px}
+.side-nav a{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:14px;font-size:14px;font-weight:500;color:rgba(255,255,255,.62);transition:background .2s,color .2s}
+.side-nav a .i{width:19px;height:19px}
+.side-nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.side-create{display:flex;align-items:center;justify-content:center;gap:9px;margin:0 0 18px;height:48px;border-radius:14px;background:#fff;color:var(--ink);font-size:14px;font-weight:700;transition:transform .25s var(--ease),box-shadow .25s}
+.side-create:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,255,255,.14)}
+.side-create .i{width:18px;height:18px}
+.side-foot{margin-top:auto;padding-top:20px}
+.side-help{padding:16px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.side-help strong{display:block;font-size:13px;font-weight:700}
+.side-help span{display:block;margin-top:3px;font-size:12px;line-height:1.6;color:rgba(255,255,255,.5)}
+.side-acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:13px}
+.side-help a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--accent-2)}
+.side-help a .i{width:14px;height:14px}
+.side-help a.wa{height:36px;padding:0 14px;border-radius:999px;background:#fff;color:var(--ink);transition:transform .25s var(--ease)}
+.side-help a.wa:hover{transform:translateY(-2px)}
+
+/* ===== topbar (sama seperti Home) ===== */
+.topbar .logo-m img{height:30px;width:auto;max-width:170px;object-fit:contain;display:block}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.badge{position:absolute;top:-5px;right:-5px;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--red);border:2px solid var(--bg);color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center}
+.avatar-btn{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line);transition:transform .2s var(--ease)}
+.avatar-btn:active{transform:scale(.93)}
+.has-img{background-size:cover;background-position:center;background-repeat:no-repeat;color:transparent}
+.has-img .av-letter{visibility:hidden}
+
+/* tombol kembali di bawah header */
+.back{display:inline-flex;align-items:center;gap:8px;height:40px;margin:6px 0 14px;padding:0 16px 0 12px;border-radius:999px;background:var(--paper);border:1px solid var(--line);font-size:13px;font-weight:600;transition:transform .2s var(--ease),border-color .2s}
+.back:hover{border-color:#cfcfdb}
+.back:active{transform:scale(.96)}
+.back .i{width:17px;height:17px}
+
+/* kepala halaman dengan ikon Artwork Generator */
+.head{display:flex;align-items:center;gap:14px;margin:0 2px 18px}
+.head-ic{width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,#a78bfa,#6d28d9);box-shadow:0 10px 20px -6px rgba(109,40,217,.45);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.head-ic .i{width:26px;height:26px}
+.head h2{font-size:clamp(20px,4vw,26px);font-weight:800;letter-spacing:-.03em;line-height:1.15}
+.head p{margin-top:3px;font-size:13px;line-height:1.5;color:var(--muted)}
+
+/* ===== popup profil ===== */
+.pop{position:fixed;top:70px;right:14px;width:272px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(20,20,40,.16);padding:10px;z-index:200;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top right;transition:all .22s var(--ease)}
+.pop.show{opacity:1;visibility:visible;transform:none}
+.pop-info{display:flex;align-items:center;gap:12px;padding:10px 10px 14px}
+.pop-info .avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.pop-info .nm{min-width:0}
+.pop-info strong{display:block;font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pop-info span{display:block;margin-top:2px;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pop .lbl{padding:8px 10px 4px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a3a5b0}
+.pop hr{border:0;height:1px;background:var(--line);margin:2px 4px 6px}
+.pop a,.pop button.opt{display:flex;align-items:center;gap:12px;width:100%;padding:12px 10px;border-radius:12px;font-size:13px;font-weight:500;text-align:left;transition:background .2s}
+.pop a:hover,.pop button.opt:hover{background:var(--bg)}
+.pop .i{width:17px;height:17px;color:var(--muted)}
+.pop .logout,.pop .logout .i{color:#d83a3a}
+
+/* ===== drawer notifikasi ===== */
+.overlay{position:fixed;inset:0;background:rgba(13,13,18,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:300;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.overlay.show{opacity:1;visibility:visible}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:420px;max-width:100%;background:var(--paper);z-index:310;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .4s var(--ease);box-shadow:-20px 0 60px rgba(0,0,0,.12)}
+.drawer.show{transform:none}
+.d-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 20px 14px}
+.d-head h3{font-size:20px;font-weight:800;letter-spacing:-.03em}
+.d-acts{display:flex;align-items:center;gap:8px}
+.d-all{font-size:12px;font-weight:700;color:var(--accent);padding:8px 12px;border-radius:999px;transition:background .2s}
+.d-all:hover{background:#e9e8f4}
+.d-all:disabled{opacity:.4;cursor:default;background:none}
+.d-x{width:38px;height:38px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.d-x .i{width:17px;height:17px}
+.d-list{flex:1;overflow-y:auto;padding:0 12px 24px;overscroll-behavior:contain}
+.d-item{border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:10px;background:var(--paper);transition:border-color .2s}
+.d-item.unread{border-color:#d3d1e6;background:#fbfbfe}
+.d-item .row{display:flex;align-items:flex-start;gap:10px}
+.d-item .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+.d-item.read .dot{background:#d5d6de}
+.d-item strong{display:block;font-size:14px;font-weight:700;line-height:1.4}
+.d-item.read strong{color:#4a4c58;font-weight:600}
+.d-item p{margin-top:6px;font-size:13px;line-height:1.7;color:#5a5d6a;white-space:pre-wrap;overflow-wrap:anywhere;user-select:text}
+.d-item .mark{margin-top:12px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--accent);padding:6px 11px;border-radius:999px;background:#eeedf7;transition:background .2s}
+.d-item .mark:hover{background:#e2e0f1}
+.d-item .mark .i{width:13px;height:13px}
+.empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:30px 20px;text-align:center;color:var(--muted);font-size:13px}
+.empty .ic{width:46px;height:46px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.empty .ic .i{width:21px;height:21px}
+
+/* ===== desktop: sidebar muncul ===== */
 @media(min-width:1000px){
+  body{padding-left:var(--side)}
+  .sidebar{display:flex}
   .topbar{height:78px;padding:0 36px}
+  .topbar .logo-m{display:none}
+  .page-title{display:block}
   .wrap{padding:6px 36px 0}
-  .layout{grid-template-columns:minmax(0,1fr) 400px;align-items:start;gap:24px}
-  .stage{position:sticky;top:90px}
+  .pop{top:76px;right:34px}
   .acts{grid-template-columns:1fr 1fr}
   .tpls{grid-template-columns:repeat(4,1fr)}
+}
+/* dua kolom baru dipakai di layar lebar, karena sidebar memakan 260px */
+@media(min-width:1260px){
+  .layout{grid-template-columns:minmax(0,1fr) 400px;align-items:start;gap:24px}
+  .stage{position:sticky;top:90px}
+}
+@media(max-width:700px){
+  .drawer{top:auto;width:100%;height:84dvh;border-radius:26px 26px 0 0;transform:translateY(102%);box-shadow:0 -20px 60px rgba(0,0,0,.2)}
+  .drawer.show{transform:none}
+  .pop{right:12px;top:66px}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
@@ -155,14 +257,107 @@ a:focus-visible,button:focus-visible,input:focus-visible,.drop:focus-visible{out
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"/></symbol>
   <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10.5 9-7.5 9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M4 2v20l3-2 3 2 2-2 2 2 3-2 3 2V2l-3 2-3-2-2 2-2-2-3 2z"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8.5 9.5c.3 2.4 2.6 4.7 5 5l1.4-1.2-1.8-1-.8.7c-.9-.4-1.6-1.2-2-2l.7-.8-1-1.8z"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
 </svg>
 
+<!-- SIDEBAR (desktop) -->
+<aside class="sidebar">
+  <a href="../dashboard" class="logo"><img src="../assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+
+  <a href="../catalog/releases/create" class="side-create">
+    <svg class="i"><use href="#i-plus"/></svg>New Release
+  </a>
+
+  <nav class="side-nav" aria-label="Main navigation">
+    <a href="../dashboard"><svg class="i"><use href="#i-home"/></svg>Home</a>
+    <a href="../catalog"><svg class="i"><use href="#i-disc"/></svg>Catalog</a>
+    <a href="../transactions"><svg class="i"><use href="#i-receipt"/></svg>Transactions</a>
+    <a href="../analytics"><svg class="i"><use href="#i-chart"/></svg>Analytics</a>
+    <a href="../account"><svg class="i"><use href="#i-gear"/></svg>Account</a>
+  </nav>
+
+  <div class="side-foot">
+    <div class="side-help">
+      <strong>Need help?</strong>
+      <span>Tim kami siap membantu soal distribusi, rilis, dan katalog.</span>
+      <div class="side-acts">
+        <a href="https://wa.me/6283161380687" target="_blank" rel="noopener noreferrer" class="wa"><svg class="i"><use href="#i-whatsapp"/></svg>WhatsApp CS</a>
+        <a href="mailto:support@dynoticcollective.com"><svg class="i"><use href="#i-mail"/></svg>Email Support</a>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- TOPBAR -->
 <header class="topbar" id="topbar">
-  <a href="../home" class="icon-btn" aria-label="Kembali ke Home"><svg class="i"><use href="#i-back"/></svg></a>
+  <a href="../dashboard" class="logo-m"><img src="../assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
   <h1 class="page-title">Artwork Generator</h1>
+
+  <div class="top-actions">
+    <button class="icon-btn" id="notifBtn" type="button" aria-label="Notifikasi">
+      <svg class="i"><use href="#i-bell"/></svg>
+      <span class="badge" id="notifBadge">0</span>
+    </button>
+    <button class="avatar-btn" id="profileBtn" type="button" aria-label="Profil" aria-expanded="false">
+      <span class="av-letter" id="avatarLetter">A</span>
+    </button>
+  </div>
 </header>
 
+<!-- POPUP PROFIL -->
+<div class="pop" id="profilePopup" role="menu">
+  <div class="pop-info">
+    <div class="avatar" id="popAvatar"><span class="av-letter" id="popLetter">A</span></div>
+    <div class="nm">
+      <strong id="profileName">Artist</strong>
+      <span id="profileEmail">-</span>
+    </div>
+  </div>
+  <hr>
+  <a href="../account" role="menuitem"><svg class="i"><use href="#i-gear"/></svg>Account Settings</a>
+  <div class="lbl">Help</div>
+  <a href="https://wa.me/6283161380687" target="_blank" rel="noopener noreferrer" role="menuitem"><svg class="i"><use href="#i-whatsapp"/></svg>WhatsApp CS</a>
+  <a href="mailto:support@dynoticcollective.com" role="menuitem"><svg class="i"><use href="#i-mail"/></svg>Email Support</a>
+  <hr>
+  <button class="opt logout" type="button" id="logoutBtn" role="menuitem"><svg class="i"><use href="#i-logout"/></svg>Logout</button>
+</div>
+
+<!-- DRAWER NOTIFIKASI -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Notifikasi" aria-hidden="true">
+  <div class="d-head">
+    <h3>Notifikasi</h3>
+    <div class="d-acts">
+      <button class="d-all" id="markAll" type="button">Tandai semua dibaca</button>
+      <button class="d-x" id="drawerClose" type="button" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+  </div>
+  <div class="d-list" id="drawerList"></div>
+</aside>
+
 <main class="wrap">
+  <a href="../dashboard" class="back"><svg class="i"><use href="#i-back"/></svg>Kembali</a>
+
+  <div class="head">
+    <div class="head-ic"><svg class="i"><use href="#i-image"/></svg></div>
+    <div>
+      <h2>Artwork Generator</h2>
+      <p>Buat cover rilisan 3000 × 3000 px dari fotomu.</p>
+    </div>
+  </div>
+
   <div class="layout">
 
     <section class="stage" aria-label="Preview">
@@ -226,6 +421,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,.drop:focus-visible{out
     <small id="dlSub">Ukuran 3000 × 3000 px</small>
   </div>
 </div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -1225,6 +1425,141 @@ $("dlBtn").addEventListener("click", () => {
     }, "image/jpeg", 0.95);
   }, 180);
 });
+
+/* ---------- akun, popup profil, notifikasi (sama seperti Home) ---------- */
+const ROUTES = { login: "../login" };
+
+firebase.initializeApp({
+  apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain: "dynopay-2513c.firebaseapp.com",
+  databaseURL: "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+});
+const db = firebase.database();
+
+let currentUser = null, dataRef = null, msgRef = null, messages = [];
+
+function setAvatar(letter, foto){
+  $("avatarLetter").textContent = letter;
+  $("popLetter").textContent = letter;
+  [$("profileBtn"), $("popAvatar")].forEach(el => {
+    el.style.backgroundImage = foto ? 'url("' + foto + '")' : "";
+    el.classList.toggle("has-img", !!foto);
+  });
+}
+
+firebase.auth().onAuthStateChanged(user => {
+  if(!user){
+    if(dataRef) dataRef.off();
+    if(msgRef) msgRef.off();
+    location.href = ROUTES.login;
+    return;
+  }
+  currentUser = user;
+  $("profileEmail").textContent = user.email || "-";
+  loadMessages(user.uid);
+
+  dataRef = db.ref("users/" + user.uid);
+  dataRef.on("value", snap => {
+    if(!snap.exists()) return;
+    const d = snap.val();
+    const nama = d.nama || "Artist";
+    $("profileName").textContent = nama;
+    setAvatar(nama.trim().charAt(0).toUpperCase() || "A", d.foto);
+  }, error => console.error("Gagal memuat data artist:", error));
+});
+
+/* popup profil */
+const popup = $("profilePopup"), profileBtn = $("profileBtn");
+function setProfile(open){
+  popup.classList.toggle("show", open);
+  profileBtn.setAttribute("aria-expanded", String(open));
+}
+profileBtn.addEventListener("click", e => { e.stopPropagation(); setProfile(!popup.classList.contains("show")); });
+document.addEventListener("click", e => {
+  if(!popup.contains(e.target) && !profileBtn.contains(e.target)) setProfile(false);
+});
+$("logoutBtn").addEventListener("click", () => {
+  firebase.auth().signOut()
+    .then(() => { location.href = ROUTES.login; })
+    .catch(() => toast("Logout gagal, coba lagi."));
+});
+
+/* notifikasi */
+function loadMessages(uid){
+  msgRef = db.ref("messages_inbox/" + uid);
+  msgRef.on("value", snap => {
+    messages = [];
+    snap.forEach(i => { const m = i.val(); if(m) messages.push({ ...m, key: i.key }); });
+    messages.reverse();
+    messages.sort((a, b) => (a.read ? 1 : 0) - (b.read ? 1 : 0));
+    renderBadge(); renderDrawer();
+  }, error => console.error("Gagal memuat notifikasi:", error));
+}
+function renderBadge(){
+  const n = messages.filter(m => !m.read).length, b = $("notifBadge");
+  b.style.display = n > 0 ? "flex" : "none";
+  b.textContent = n > 99 ? "99+" : n;
+  $("markAll").disabled = n === 0;
+}
+function emptyState(text){
+  const d = document.createElement("div");
+  d.className = "empty";
+  d.innerHTML = '<div class="ic"><svg class="i"><use href="#i-check"/></svg></div>';
+  d.appendChild(document.createTextNode(text));
+  return d;
+}
+function renderDrawer(){
+  const list = $("drawerList");
+  list.innerHTML = "";
+  if(messages.length === 0){ list.appendChild(emptyState("Belum ada notifikasi.")); return; }
+  messages.slice(0, 50).forEach(m => {
+    const item = document.createElement("div");
+    item.className = "d-item " + (m.read ? "read" : "unread");
+    item.innerHTML = '<div class="row"><span class="dot"></span><div><strong></strong><p></p></div></div>';
+    item.querySelector("strong").textContent = m.subject || "-";
+    item.querySelector("p").textContent = m.body || "-";
+    if(!m.read){
+      const mark = document.createElement("button");
+      mark.type = "button"; mark.className = "mark";
+      mark.innerHTML = '<svg class="i"><use href="#i-check"/></svg>Tandai dibaca';
+      mark.addEventListener("click", () => markRead(m.key));
+      item.querySelector(".row > div").appendChild(mark);
+    }
+    list.appendChild(item);
+  });
+}
+function markRead(key){
+  if(!currentUser) return;
+  db.ref("messages_inbox/" + currentUser.uid + "/" + key + "/read").set(true)
+    .catch(() => toast("Gagal menandai pesan."));
+}
+$("markAll").addEventListener("click", () => {
+  if(!currentUser) return;
+  const u = {};
+  messages.forEach(m => { if(!m.read) u[m.key + "/read"] = true; });
+  if(!Object.keys(u).length) return;
+  db.ref("messages_inbox/" + currentUser.uid).update(u)
+    .then(() => toast("Semua pesan ditandai dibaca."))
+    .catch(() => toast("Gagal menandai pesan."));
+});
+
+/* drawer */
+const drawer = $("drawer"), overlay = $("overlay");
+function openDrawer(){
+  setProfile(false);
+  drawer.classList.add("show"); overlay.classList.add("show");
+  drawer.setAttribute("aria-hidden", "false");
+  document.body.classList.add("lock");
+}
+function closeDrawer(){
+  drawer.classList.remove("show"); overlay.classList.remove("show");
+  drawer.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("lock");
+}
+$("notifBtn").addEventListener("click", openDrawer);
+$("drawerClose").addEventListener("click", closeDrawer);
+overlay.addEventListener("click", closeDrawer);
+document.addEventListener("keydown", e => { if(e.key === "Escape"){ closeDrawer(); setProfile(false); } });
 
 /* ---------- topbar ---------- */
 const topbar = $("topbar");
