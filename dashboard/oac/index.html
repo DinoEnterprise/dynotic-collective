@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artist Channel | Dynotic Distribution</title>
+<meta name="theme-color" content="#f3f3f8">
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon-iphone.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f3f3f8;
+  --paper:#fff;
+  --ink:#14141a;
+  --muted:#6f7280;
+  --line:#e6e6ee;
+  --dark:#0d0d12;
+  --accent:#7772a8;
+  --accent-2:#a9a3f2;
+  --red:#ef4444;
+  --green:#16a34a;
+  --side:260px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);min-height:100vh;min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:40px}
+a{color:inherit;text-decoration:none}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* ================= SIDEBAR (desktop) ================= */
+.sidebar{display:none;position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--dark);color:#fff;padding:26px 18px 20px;flex-direction:column;z-index:60;overflow-y:auto}
+.sidebar .logo img{height:32px;width:auto;max-width:180px;object-fit:contain;filter:brightness(0) invert(1);display:block;margin:0 8px 30px}
+.side-nav{display:flex;flex-direction:column;gap:4px}
+.side-nav a{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:14px;font-size:14px;font-weight:500;color:rgba(255,255,255,.62);transition:background .2s,color .2s}
+.side-nav a .i{width:19px;height:19px}
+.side-nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.side-nav a.active{background:rgba(255,255,255,.1);color:#fff;font-weight:700}
+.side-create{display:flex;align-items:center;justify-content:center;gap:9px;margin:0 0 18px;height:48px;border-radius:14px;background:#fff;color:var(--ink);font-size:14px;font-weight:700;transition:transform .25s var(--ease),box-shadow .25s}
+.side-create:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,255,255,.14)}
+.side-create .i{width:18px;height:18px}
+.side-foot{margin-top:auto;padding-top:20px}
+.side-help{padding:16px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+.side-help strong{display:block;font-size:13px;font-weight:700}
+.side-help span{display:block;margin-top:3px;font-size:12px;line-height:1.6;color:rgba(255,255,255,.5)}
+.side-acts{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:13px}
+.side-help a{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--accent-2)}
+.side-help a .i{width:14px;height:14px}
+.side-help a.wa{height:36px;padding:0 14px;border-radius:999px;background:#fff;color:var(--ink);transition:transform .25s var(--ease)}
+.side-help a.wa:hover{transform:translateY(-2px)}
+
+/* ================= TOPBAR ================= */
+.topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
+.topbar.scrolled{border-bottom-color:var(--line)}
+.topbar .logo-m img{height:30px;width:auto;max-width:170px;object-fit:contain;display:block}
+.page-title{display:none;font-size:20px;font-weight:800;letter-spacing:-.03em}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.icon-btn{width:42px;height:42px;border-radius:14px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),border-color .2s}
+.icon-btn:hover{border-color:#cfcfdb}
+.icon-btn:active{transform:scale(.93)}
+.icon-btn .i{width:19px;height:19px}
+
+/* ================= LAYOUT ================= */
+.wrap{width:100%;max-width:880px;margin:0 auto;padding:6px 16px 0}
+.sec{margin-top:30px}
+.sec-head{margin:0 2px 12px}
+.sec-head h2{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.sec-head p{margin-top:3px;font-size:13px;color:var(--muted);line-height:1.6}
+
+/* ================= HERO ================= */
+.hero{position:relative;overflow:hidden;isolation:isolate;border-radius:28px;background:var(--dark);color:#fff;padding:clamp(24px,4vw,38px);animation:up .6s var(--ease) both}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none}
+.hero::before{width:360px;height:360px;background:rgba(119,114,168,.6);top:-160px;right:-80px}
+.hero::after{width:300px;height:300px;background:rgba(79,70,160,.4);bottom:-170px;left:-80px}
+.hero-grid{position:absolute;inset:0;z-index:-1;opacity:.25;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%)}
+.hero-ic{width:56px;height:56px;border-radius:18px;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,#ff6b6b,#e11d48);box-shadow:0 10px 24px -6px rgba(225,29,72,.5)}
+.hero-ic .i{width:26px;height:26px}
+.hero h1{margin-top:18px;font-size:clamp(26px,5vw,38px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.hero p{margin-top:12px;max-width:520px;font-size:14px;line-height:1.75;color:rgba(255,255,255,.65)}
+
+/* ================= PERKS ================= */
+.perks{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.perk{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:20px}
+.perk .pi{width:42px;height:42px;border-radius:14px;background:#eeedf7;color:var(--accent);display:flex;align-items:center;justify-content:center}
+.perk .pi .i{width:20px;height:20px}
+.perk strong{display:block;margin-top:14px;font-size:14px;font-weight:700}
+.perk span{display:block;margin-top:4px;font-size:12px;line-height:1.65;color:var(--muted)}
+
+/* ================= STEPS ================= */
+.steps{background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;list-style:none}
+.step{display:flex;gap:14px;align-items:flex-start;padding:18px;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:0}
+.step .n{width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step strong{display:block;font-size:14px;font-weight:700}
+.step span{display:block;margin-top:3px;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* ================= FORM CARD ================= */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:clamp(18px,3vw,26px)}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;font-weight:700;color:#4a4c58}
+.field input{height:46px;padding:0 14px;border-radius:14px;border:1px solid var(--line);background:var(--bg);font-size:14px;color:var(--ink);transition:border-color .2s,background .2s}
+.field input:focus{border-color:var(--accent);background:#fff;outline:none}
+.field input.err{border-color:var(--red)}
+.field small{font-size:11px;color:var(--muted)}
+
+.preview{margin-top:18px}
+.preview-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.preview-head strong{font-size:12px;font-weight:700;color:#4a4c58}
+.copy{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--accent);padding:6px 11px;border-radius:999px;background:#eeedf7;transition:background .2s}
+.copy:hover{background:#e2e0f1}
+.copy .i{width:13px;height:13px}
+.bubble{padding:16px;border-radius:18px;background:#fbfbfe;border:1px solid #d3d1e6;font-size:13px;line-height:1.75;color:#3a3c48;white-space:pre-wrap;overflow-wrap:anywhere;user-select:text}
+
+.cta{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;height:50px;border-radius:16px;font-size:14px;font-weight:700;transition:transform .25s var(--ease),box-shadow .25s}
+.btn .i{width:18px;height:18px}
+.btn:active{transform:scale(.97)}
+.btn-wa{background:var(--ink);color:#fff}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(20,20,26,.25)}
+.btn-mail{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+.btn-mail:hover{transform:translateY(-2px);border-color:#cfcfdb}
+.note{margin-top:14px;font-size:12px;line-height:1.7;color:var(--muted);text-align:center}
+
+
+/* back button (di bawah header) */
+.back{display:inline-flex;align-items:center;gap:8px;height:40px;margin:6px 0 14px;padding:0 16px 0 12px;border-radius:999px;background:var(--paper);border:1px solid var(--line);font-size:13px;font-weight:600;transition:transform .2s var(--ease),border-color .2s}
+.back:hover{border-color:#cfcfdb}
+.back:active{transform:scale(.96)}
+.back .i{width:17px;height:17px}
+
+/* topbar extras (sama seperti Home) */
+body.lock{overflow:hidden}
+.icon-btn{position:relative}
+.badge{position:absolute;top:-5px;right:-5px;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--red);border:2px solid var(--bg);color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center}
+.avatar-btn{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line);transition:transform .2s var(--ease)}
+.avatar-btn:active{transform:scale(.93)}
+.has-img{background-size:cover;background-position:center;background-repeat:no-repeat;color:transparent}
+.has-img .av-letter{visibility:hidden}
+
+.pop{position:fixed;top:70px;right:14px;width:272px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(20,20,40,.16);padding:10px;z-index:200;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top right;transition:all .22s var(--ease)}
+.pop.show{opacity:1;visibility:visible;transform:none}
+.pop-info{display:flex;align-items:center;gap:12px;padding:10px 10px 14px}
+.pop-info .avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.pop-info .nm{min-width:0}
+.pop-info strong{display:block;font-size:14px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pop-info span{display:block;margin-top:2px;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pop .lbl{padding:8px 10px 4px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a3a5b0}
+.pop hr{border:0;height:1px;background:var(--line);margin:2px 4px 6px}
+.pop a,.pop button.opt{display:flex;align-items:center;gap:12px;width:100%;padding:12px 10px;border-radius:12px;font-size:13px;font-weight:500;text-align:left;transition:background .2s}
+.pop a:hover,.pop button.opt:hover{background:var(--bg)}
+.pop .i{width:17px;height:17px;color:var(--muted)}
+.pop .logout,.pop .logout .i{color:#d83a3a}
+
+.overlay{position:fixed;inset:0;background:rgba(13,13,18,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:300;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.overlay.show{opacity:1;visibility:visible}
+.drawer{position:fixed;right:0;top:0;bottom:0;width:420px;max-width:100%;background:var(--paper);z-index:310;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .4s var(--ease);box-shadow:-20px 0 60px rgba(0,0,0,.12)}
+.drawer.show{transform:none}
+.d-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 20px 14px}
+.d-head h3{font-size:20px;font-weight:800;letter-spacing:-.03em}
+.d-head .acts{display:flex;align-items:center;gap:8px}
+.d-all{font-size:12px;font-weight:700;color:var(--accent);padding:8px 12px;border-radius:999px;transition:background .2s}
+.d-all:hover{background:#e9e8f4}
+.d-all:disabled{opacity:.4;cursor:default;background:none}
+.d-x{width:38px;height:38px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.d-x .i{width:17px;height:17px}
+.d-list{flex:1;overflow-y:auto;padding:0 12px 24px;overscroll-behavior:contain}
+.d-item{border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:10px;background:var(--paper);transition:border-color .2s}
+.d-item.unread{border-color:#d3d1e6;background:#fbfbfe}
+.d-item .row{display:flex;align-items:flex-start;gap:10px}
+.d-item .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+.d-item.read .dot{background:#d5d6de}
+.d-item strong{display:block;font-size:14px;font-weight:700;line-height:1.4}
+.d-item.read strong{color:#4a4c58;font-weight:600}
+.d-item p{margin-top:6px;font-size:13px;line-height:1.7;color:#5a5d6a;white-space:pre-wrap;overflow-wrap:anywhere;user-select:text}
+.d-item .mark{margin-top:12px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--accent);padding:6px 11px;border-radius:999px;background:#eeedf7;transition:background .2s}
+.d-item .mark:hover{background:#e2e0f1}
+.d-item .mark .i{width:13px;height:13px}
+.empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:30px 20px;text-align:center;color:var(--muted);font-size:13px}
+.empty .ic{width:46px;height:46px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.empty .ic .i{width:21px;height:21px}
+@media(min-width:1000px){ .pop{top:76px;right:34px} }
+@media(max-width:700px){
+  .drawer{top:auto;width:100%;height:84dvh;border-radius:26px 26px 0 0;transform:translateY(102%);box-shadow:0 -20px 60px rgba(0,0,0,.2)}
+  .drawer.show{transform:none}
+  .pop{right:12px;top:66px}
+}
+
+/* ================= TOAST ================= */
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+/* ================= DESKTOP ================= */
+@media(min-width:1000px){
+  body{padding-left:var(--side)}
+  .sidebar{display:flex}
+  .topbar{height:78px;padding:0 36px}
+  .topbar .logo-m{display:none}
+  .page-title{display:block}
+  .wrap{max-width:960px;padding:6px 36px 0}
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:700px){
+  .wrap{padding:0 14px}
+  .hero{border-radius:24px}
+  .perks{grid-template-columns:1fr}
+  .fields,.cta{grid-template-columns:1fr}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ICON SPRITE -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10.5 9-7.5 9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-receipt" viewBox="0 0 24 24"><path d="M4 2v20l3-2 3 2 2-2 2 2 3-2 3 2V2l-3 2-3-2-2 2-2-2-3 2z"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-youtube" viewBox="0 0 24 24"><path d="M2.5 17a24.1 24.1 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.6 49.6 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.1 24.1 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.6 49.6 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8.5 9.5c.3 2.4 2.6 4.7 5 5l1.4-1.2-1.8-1-.8.7c-.9-.4-1.6-1.2-2-2l.7-.8-1-1.8z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></symbol>
+  <symbol id="i-badge" viewBox="0 0 24 24"><path d="m12 2 2.4 2.1 3.2-.2.9 3 2.7 1.8-1 3 1 3-2.7 1.8-.9 3-3.2-.2L12 22l-2.4-2.1-3.2.2-.9-3L2.8 15.3l1-3-1-3 2.7-1.8.9-3 3.2.2z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+  <symbol id="i-chart2" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+</svg>
+
+<!-- ================= SIDEBAR (desktop) ================= -->
+<aside class="sidebar">
+  <a href="../dashboard" class="logo"><img src="../assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+
+  <a href="../catalog/releases/create" class="side-create">
+    <svg class="i"><use href="#i-plus"/></svg>New Release
+  </a>
+
+  <nav class="side-nav" aria-label="Main navigation">
+    <a href="../dashboard"><svg class="i"><use href="#i-home"/></svg>Home</a>
+    <a href="../catalog"><svg class="i"><use href="#i-disc"/></svg>Catalog</a>
+    <a href="../transactions"><svg class="i"><use href="#i-receipt"/></svg>Transactions</a>
+    <a href="../analytics"><svg class="i"><use href="#i-chart"/></svg>Analytics</a>
+    <a href="../account"><svg class="i"><use href="#i-gear"/></svg>Account</a>
+  </nav>
+
+  <div class="side-foot">
+    <div class="side-help">
+      <strong>Need help?</strong>
+      <span>Tim kami siap membantu soal distribusi, rilis, dan katalog.</span>
+      <div class="side-acts">
+        <a href="https://wa.me/6283161380687" target="_blank" rel="noopener noreferrer" class="wa"><svg class="i"><use href="#i-whatsapp"/></svg>WhatsApp CS</a>
+        <a href="mailto:support@dynoticcollective.com"><svg class="i"><use href="#i-mail"/></svg>Email Support</a>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ================= TOPBAR ================= -->
+<header class="topbar" id="topbar">
+  <a href="../dashboard" class="logo-m"><img src="../assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+  <h2 class="page-title">Artist Channel</h2>
+
+  <div class="top-actions">
+    <button class="icon-btn" id="notifBtn" type="button" aria-label="Notifikasi">
+      <svg class="i"><use href="#i-bell"/></svg>
+      <span class="badge" id="notifBadge">0</span>
+    </button>
+    <button class="avatar-btn" id="profileBtn" type="button" aria-label="Profil" aria-expanded="false">
+      <span class="av-letter" id="avatarLetter">A</span>
+    </button>
+  </div>
+</header>
+
+<!-- ================= PROFILE POPUP ================= -->
+<div class="pop" id="profilePopup" role="menu">
+  <div class="pop-info">
+    <div class="avatar" id="popAvatar"><span class="av-letter" id="popLetter">A</span></div>
+    <div class="nm">
+      <strong id="profileName">Artist</strong>
+      <span id="profileEmail">-</span>
+    </div>
+  </div>
+  <hr>
+  <a href="../account" role="menuitem"><svg class="i"><use href="#i-gear"/></svg>Account Settings</a>
+  <div class="lbl">Help</div>
+  <a href="https://wa.me/6283161380687" target="_blank" rel="noopener noreferrer" role="menuitem"><svg class="i"><use href="#i-whatsapp"/></svg>WhatsApp CS</a>
+  <a href="mailto:support@dynoticcollective.com" role="menuitem"><svg class="i"><use href="#i-mail"/></svg>Email Support</a>
+  <hr>
+  <button class="opt logout" type="button" id="logoutBtn" role="menuitem"><svg class="i"><use href="#i-logout"/></svg>Logout</button>
+</div>
+
+<!-- ================= NOTIFICATION DRAWER ================= -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-label="Notifikasi" aria-hidden="true">
+  <div class="d-head">
+    <h3>Notifikasi</h3>
+    <div class="acts">
+      <button class="d-all" id="markAll" type="button">Tandai semua dibaca</button>
+      <button class="d-x" id="drawerClose" type="button" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+  </div>
+  <div class="d-list" id="drawerList"></div>
+</aside>
+
+<!-- ================= MAIN ================= -->
+<main class="wrap">
+
+  <a href="../dashboard" class="back"><svg class="i"><use href="#i-back"/></svg>Kembali</a>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-ic"><svg class="i"><use href="#i-youtube"/></svg></div>
+    <h1>Official Artist Channel (OAC)</h1>
+    <p>Satukan channel YouTube kamu dengan halaman musik di YouTube Music. Semua rilisan, video, dan statistikmu jadi satu di bawah nama artis yang terverifikasi.</p>
+  </section>
+
+  <!-- PERKS -->
+  <section class="sec">
+    <div class="sec-head"><h2>Yang kamu dapat</h2></div>
+    <div class="perks">
+      <div class="perk">
+        <div class="pi"><svg class="i"><use href="#i-badge"/></svg></div>
+        <strong>Centang artis</strong>
+        <span>Channel kamu tampil dengan tanda Official Artist Channel.</span>
+      </div>
+      <div class="perk">
+        <div class="pi"><svg class="i"><use href="#i-music"/></svg></div>
+        <strong>Satu halaman musik</strong>
+        <span>Lagu, album, dan video musik tergabung dalam satu channel.</span>
+      </div>
+      <div class="perk">
+        <div class="pi"><svg class="i"><use href="#i-chart2"/></svg></div>
+        <strong>Statistik gabungan</strong>
+        <span>Views dan subscriber dari semua rilisan terhitung di satu tempat.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEPS -->
+  <section class="sec">
+    <div class="sec-head">
+      <h2>Cara mengajukan</h2>
+      <p>Pengajuan OAC diproses manual oleh admin Support.</p>
+    </div>
+    <ol class="steps">
+      <li class="step"><div class="n">1</div><div><strong>Siapkan data</strong><span>Nama artis, ID channel YouTube (berawalan UC), dan judul rilisan yang sudah live di YouTube Music.</span></div></li>
+      <li class="step"><div class="n">2</div><div><strong>Isi template di bawah</strong><span>Pesan pengajuan akan terisi otomatis dari data yang kamu masukkan.</span></div></li>
+      <li class="step"><div class="n">3</div><div><strong>Kirim ke admin</strong><span>Tekan tombol WhatsApp atau Email, lalu kirim pesannya.</span></div></li>
+      <li class="step"><div class="n">4</div><div><strong>Tunggu konfirmasi</strong><span>Admin akan memeriksa data dan membalas lewat chat atau email yang sama.</span></div></li>
+    </ol>
+  </section>
+
+  <!-- FORM -->
+  <section class="sec">
+    <div class="sec-head">
+      <h2>Template pengajuan</h2>
+      <p>Lengkapi data berikut, lalu kirim ke admin.</p>
+    </div>
+
+    <div class="card">
+      <div class="fields">
+        <div class="field">
+          <label for="fNama">Nama artis</label>
+          <input id="fNama" type="text" placeholder="Nama artis kamu" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="fEmail">Email akun</label>
+          <input id="fEmail" type="email" placeholder="email@contoh.com" autocomplete="off">
+        </div>
+        <div class="field full">
+          <label for="fLink">ID channel YouTube</label>
+          <input id="fLink" type="text" placeholder="UCxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="120">
+          <small>Berawalan UC, 24 karakter. Cek di YouTube Studio: Setelan, Channel, Info dasar. Link /channel/UC… juga boleh ditempel.</small>
+        </div>
+        <div class="field full">
+          <label for="fRilis">Judul rilisan yang sudah live</label>
+          <input id="fRilis" type="text" placeholder="Contoh: judul lagu atau album" autocomplete="off">
+          <small>Boleh lebih dari satu, pisahkan dengan koma.</small>
+        </div>
+      </div>
+
+      <div class="preview">
+        <div class="preview-head">
+          <strong>Pesan yang akan dikirim</strong>
+          <button class="copy" id="copyBtn" type="button"><svg class="i"><use href="#i-copy"/></svg>Salin</button>
+        </div>
+        <div class="bubble" id="bubble"></div>
+      </div>
+
+      <div class="cta">
+        <a class="btn btn-wa" id="waBtn" href="#" target="_blank" rel="noopener noreferrer"><svg class="i"><use href="#i-whatsapp"/></svg>Kirim lewat WhatsApp</a>
+        <a class="btn btn-mail" id="mailBtn" href="#"><svg class="i"><use href="#i-mail"/></svg>Kirim lewat Email</a>
+      </div>
+      <p class="note">Syarat akhir persetujuan OAC ditentukan oleh YouTube. Admin akan membantu memeriksa kelengkapan datamu.</p>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+/* ================= CONFIG ================= */
+const ROUTES = { login: "../login" };
+const WA_NUMBER = "6283161380687";
+const SUPPORT_EMAIL = "support@dynoticcollective.com";
+const MAIL_SUBJECT = "Pengajuan Official Artist Channel (OAC)";
+
+firebase.initializeApp({
+  apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain: "dynopay-2513c.firebaseapp.com",
+  databaseURL: "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+});
+
+const db = firebase.database();
+const $ = id => document.getElementById(id);
+
+/* ================= HELPERS ================= */
+function toast(text){
+  const t = $("toast");
+  t.textContent = text;
+  t.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove("show"), 2200);
+}
+
+const fields = {
+  nama: $("fNama"),
+  email: $("fEmail"),
+  link: $("fLink"),
+  rilis: $("fRilis")
+};
+
+function val(el, fallback){
+  const v = el.value.trim();
+  return v || fallback;
+}
+
+/* ambil ID channel (UC + 22 karakter), boleh dari link /channel/UC... */
+function channelId(){
+  const m = fields.link.value.match(/UC[\w-]{22}/);
+  return m ? m[0] : "";
+}
+
+function buildMessage(){
+  return [
+    "Halo Admin Dynotic Distribution, saya ingin mengajukan Official Artist Channel (OAC).",
+    "",
+    "Nama artis: " + val(fields.nama, "-"),
+    "Email akun: " + val(fields.email, "-"),
+    "ID channel YouTube: " + (channelId() || val(fields.link, "-")),
+    "Rilisan yang sudah live: " + val(fields.rilis, "-"),
+    "",
+    "Mohon dibantu proses pengajuannya. Terima kasih."
+  ].join("\n");
+}
+
+function refresh(){
+  const msg = buildMessage();
+  $("bubble").textContent = msg;
+  $("waBtn").href = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
+  $("mailBtn").href = "mailto:" + SUPPORT_EMAIL +
+    "?subject=" + encodeURIComponent(MAIL_SUBJECT) +
+    "&body=" + encodeURIComponent(msg);
+}
+
+/* nama artis wajib diisi sebelum kirim */
+function guard(e){
+  if(!fields.nama.value.trim()){
+    e.preventDefault();
+    fields.nama.classList.add("err");
+    fields.nama.focus();
+    toast("Isi nama artis dulu ya.");
+    return;
+  }
+  if(!channelId()){
+    e.preventDefault();
+    fields.link.classList.add("err");
+    fields.link.focus();
+    toast("ID channel harus berawalan UC dan 24 karakter.");
+  }
+}
+
+Object.values(fields).forEach(el => {
+  el.addEventListener("input", () => {
+    el.classList.remove("err");
+    refresh();
+  });
+});
+
+$("waBtn").addEventListener("click", guard);
+$("mailBtn").addEventListener("click", guard);
+
+$("copyBtn").addEventListener("click", async () => {
+  const msg = buildMessage();
+  try{
+    await navigator.clipboard.writeText(msg);
+    toast("Pesan disalin.");
+  }catch(e){
+    const r = document.createRange();
+    r.selectNodeContents($("bubble"));
+    const s = window.getSelection();
+    s.removeAllRanges();
+    s.addRange(r);
+    toast("Tekan tahan lalu salin pesannya.");
+  }
+});
+
+/* ================= AVATAR ================= */
+function setAvatar(letter, foto){
+  $("avatarLetter").textContent = letter;
+  $("popLetter").textContent = letter;
+  [$("profileBtn"), $("popAvatar")].forEach(el => {
+    el.style.backgroundImage = foto ? 'url("' + foto + '")' : "";
+    el.classList.toggle("has-img", !!foto);
+  });
+}
+
+/* ================= AUTH + PREFILL ================= */
+let currentUser = null;
+let dataRef = null;
+let msgRef = null;
+let messages = [];
+
+firebase.auth().onAuthStateChanged(user => {
+  if(!user){
+    if(dataRef) dataRef.off();
+    if(msgRef) msgRef.off();
+    location.href = ROUTES.login;
+    return;
+  }
+
+  currentUser = user;
+  $("profileEmail").textContent = user.email || "-";
+  if(!fields.email.value) fields.email.value = user.email || "";
+  refresh();
+
+  loadMessages(user.uid);
+
+  dataRef = db.ref("users/" + user.uid);
+  dataRef.on("value", snap => {
+    if(!snap.exists()) return;
+    const d = snap.val();
+    const nama = d.nama || "Artist";
+    const letter = nama.trim().charAt(0).toUpperCase() || "A";
+
+    $("profileName").textContent = nama;
+    setAvatar(letter, d.foto);
+
+    if(d.nama && !fields.nama.value){
+      fields.nama.value = d.nama;
+      refresh();
+    }
+  }, error => console.error("Gagal memuat data artist:", error));
+});
+
+/* ================= PROFILE POPUP ================= */
+const popup = $("profilePopup");
+const profileBtn = $("profileBtn");
+
+function setProfile(open){
+  popup.classList.toggle("show", open);
+  profileBtn.setAttribute("aria-expanded", String(open));
+}
+
+profileBtn.addEventListener("click", e => {
+  e.stopPropagation();
+  setProfile(!popup.classList.contains("show"));
+});
+
+document.addEventListener("click", e => {
+  if(!popup.contains(e.target) && !profileBtn.contains(e.target)) setProfile(false);
+});
+
+$("logoutBtn").addEventListener("click", () => {
+  firebase.auth().signOut()
+    .then(() => { location.href = ROUTES.login; })
+    .catch(error => {
+      console.error("Logout gagal:", error);
+      toast("Logout gagal, coba lagi.");
+    });
+});
+
+/* ================= MESSAGES ================= */
+function loadMessages(uid){
+  msgRef = db.ref("messages_inbox/" + uid);
+  msgRef.on("value", snap => {
+    messages = [];
+    snap.forEach(i => {
+      const m = i.val();
+      if(m) messages.push({ ...m, key: i.key });
+    });
+    messages.reverse();
+    messages.sort((a, b) => (a.read ? 1 : 0) - (b.read ? 1 : 0));
+    renderBadge();
+    renderDrawer();
+  }, error => console.error("Gagal memuat notifikasi:", error));
+}
+
+function renderBadge(){
+  const n = messages.filter(m => !m.read).length;
+  const b = $("notifBadge");
+  b.style.display = n > 0 ? "flex" : "none";
+  b.textContent = n > 99 ? "99+" : n;
+  $("markAll").disabled = n === 0;
+}
+
+function emptyState(text){
+  const d = document.createElement("div");
+  d.className = "empty";
+  d.innerHTML = '<div class="ic"><svg class="i"><use href="#i-check"/></svg></div>';
+  d.appendChild(document.createTextNode(text));
+  return d;
+}
+
+function renderDrawer(){
+  const list = $("drawerList");
+  list.innerHTML = "";
+
+  if(messages.length === 0){
+    list.appendChild(emptyState("Belum ada notifikasi."));
+    return;
+  }
+
+  messages.slice(0, 50).forEach(m => {
+    const item = document.createElement("div");
+    item.className = "d-item " + (m.read ? "read" : "unread");
+    item.innerHTML = '<div class="row"><span class="dot"></span><div><strong></strong><p></p></div></div>';
+    item.querySelector("strong").textContent = m.subject || "-";
+    item.querySelector("p").textContent = m.body || "-";
+
+    if(!m.read){
+      const mark = document.createElement("button");
+      mark.type = "button";
+      mark.className = "mark";
+      mark.innerHTML = '<svg class="i"><use href="#i-check"/></svg>Tandai dibaca';
+      mark.addEventListener("click", () => markRead(m.key));
+      item.querySelector(".row > div").appendChild(mark);
+    }
+    list.appendChild(item);
+  });
+}
+
+function markRead(key){
+  if(!currentUser) return;
+  db.ref("messages_inbox/" + currentUser.uid + "/" + key + "/read").set(true)
+    .catch(() => toast("Gagal menandai pesan."));
+}
+
+$("markAll").addEventListener("click", () => {
+  if(!currentUser) return;
+  const updates = {};
+  messages.forEach(m => { if(!m.read) updates[m.key + "/read"] = true; });
+  if(Object.keys(updates).length === 0) return;
+
+  db.ref("messages_inbox/" + currentUser.uid).update(updates)
+    .then(() => toast("Semua pesan ditandai dibaca."))
+    .catch(() => toast("Gagal menandai pesan."));
+});
+
+/* ================= DRAWER ================= */
+const drawer = $("drawer");
+const overlay = $("overlay");
+
+function openDrawer(){
+  setProfile(false);
+  drawer.classList.add("show");
+  overlay.classList.add("show");
+  drawer.setAttribute("aria-hidden", "false");
+  document.body.classList.add("lock");
+}
+
+function closeDrawer(){
+  drawer.classList.remove("show");
+  overlay.classList.remove("show");
+  drawer.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("lock");
+}
+
+$("notifBtn").addEventListener("click", openDrawer);
+$("drawerClose").addEventListener("click", closeDrawer);
+overlay.addEventListener("click", closeDrawer);
+
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape"){
+    closeDrawer();
+    setProfile(false);
+  }
+});
+
+refresh();
+
+/* ================= TOPBAR SCROLL ================= */
+const topbar = $("topbar");
+function onScroll(){ topbar.classList.toggle("scrolled", window.scrollY > 6); }
+onScroll();
+window.addEventListener("scroll", onScroll, { passive:true });
+</script>
+
+</body>
+</html>
