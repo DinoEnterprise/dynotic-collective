@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artists &amp; Accounts | Dynotic Admin</title>
+<link rel="icon" type="image/png" href="https://dynoticcollective.com/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://dynoticcollective.com/assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://dynoticcollective.com/assets/favicon-iphone.png">
+<meta name="theme-color" content="#f3f3f8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<style>
+:root{--bg:#f3f3f8;--paper:#fff;--ink:#14141a;--muted:#6f7280;--line:#e6e6ee;--dark:#0d0d12;--accent:#7772a8;--accent-2:#a9a3f2;--side:260px;--ease:cubic-bezier(.16,1,.3,1)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:110px}
+a{color:inherit;text-decoration:none}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+/* sidebar */
+.sidebar{display:none;position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--dark);color:#fff;padding:26px 18px 20px;flex-direction:column;z-index:60;overflow-y:auto}
+.sidebar .logo img{height:32px;max-width:180px;object-fit:contain;filter:brightness(0) invert(1);display:block;margin:0 8px 30px}
+.side-nav{display:flex;flex-direction:column;gap:4px}
+.side-nav a{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:14px;font-size:14px;font-weight:500;color:rgba(255,255,255,.62);transition:background .2s,color .2s}
+.side-nav a .i{width:19px;height:19px}
+.side-nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.side-nav a.active{background:rgba(255,255,255,.1);color:#fff;font-weight:700}
+/* topbar */
+.topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 16px;display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
+.topbar.scrolled{border-bottom-color:var(--line)}
+.logo-m img{height:30px;max-width:170px;object-fit:contain;display:block}
+.page-title{display:none;font-size:20px;font-weight:800;letter-spacing:-.03em}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.avatar-btn{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line);transition:transform .2s var(--ease)}
+.avatar-btn:active{transform:scale(.93)}
+/* layout */
+.wrap{width:100%;max-width:960px;margin:0 auto;padding:6px 16px 0}
+.head{padding:10px 2px 18px}
+.head small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.head h1{margin-top:2px;font-size:clamp(26px,5vw,36px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+/* cards */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px}
+.card h3{font-size:16px;font-weight:700;letter-spacing:-.01em}
+.card .desc{margin-top:4px;font-size:13px;color:var(--muted);line-height:1.6}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.toggle-card{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--muted);padding:8px 12px;border-radius:999px;background:var(--bg)}
+.toggle-card .i{width:16px;height:16px;transition:transform .25s var(--ease)}
+.toggle-card.open .i{transform:rotate(45deg)}
+/* form */
+.form{display:none;margin-top:14px;grid-template-columns:1fr;gap:10px}
+.form.show{display:grid}
+.input,.select{width:100%;height:50px;padding:0 16px;border-radius:14px;border:1.5px solid var(--line);background:#fff;font-size:15px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+.input::placeholder{color:#b3b5c0}
+.input:focus,.select:focus{border-color:var(--ink);box-shadow:0 0 0 4px rgba(119,114,168,.16)}
+.btn{height:50px;padding:0 20px;border-radius:14px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),opacity .2s}
+.btn:active{transform:scale(.97)}
+.btn-dark{background:var(--ink);color:#fff}
+.btn-dark:hover{background:#000}
+.btn-light{background:var(--bg);color:var(--ink)}
+.btn-danger{background:#e04848;color:#fff}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+#msg{margin-top:4px;font-size:13px;font-weight:600;min-height:18px}
+/* pending */
+.badge-count{background:#fff1d6;color:#b7791f;padding:5px 11px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.pending-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:16px;margin-top:10px}
+.u-info{min-width:0;flex:1}
+.u-name{font-size:14px;font-weight:700;overflow-wrap:anywhere}
+.u-email{margin-top:2px;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.empty{text-align:center;padding:22px 10px;font-size:13px;color:var(--muted)}
+.btn-sm{height:38px;padding:0 14px;border-radius:12px;font-size:12px;font-weight:700;flex-shrink:0}
+/* users list */
+.search{position:relative;margin:14px 0 6px}
+.search .i{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:#a3a5b0;pointer-events:none}
+.search .input{padding-left:44px}
+.users{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+.user{display:flex;gap:12px;align-items:center;padding:13px;background:#fff;border:1px solid var(--line);border-radius:18px;min-width:0;transition:border-color .2s,box-shadow .2s}
+.user:hover{border-color:#d3d1e6;box-shadow:0 12px 28px rgba(20,20,40,.07)}
+.u-ava{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#ebeaf6,#dcdaee);color:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+.u-meta{margin-top:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.u-bal{font-size:13px;font-weight:700}
+.status{padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700}
+.st-active{background:#d9f5e8;color:#15803d}
+.st-pending{background:#fff1d6;color:#b7791f}
+.st-off{background:#fde2e2;color:#b91c1c}
+.u-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.detail-btn{height:36px;padding:0 12px;border-radius:11px;border:1.5px solid var(--line);font-size:12px;font-weight:700;display:inline-flex;align-items:center}
+.detail-btn:hover{border-color:var(--ink)}
+.menu-wrap{position:relative}
+.menu-btn{width:36px;height:36px;border-radius:11px;font-size:18px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.menu-btn:hover{background:var(--bg);color:var(--ink)}
+.menu-dropdown{display:none;position:absolute;right:0;top:40px;min-width:160px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(20,20,40,.16);padding:6px;z-index:90}
+.menu-dropdown.show{display:block}
+.menu-dropdown button{display:block;width:100%;padding:11px 12px;border-radius:10px;font-size:13px;font-weight:500;text-align:left}
+.menu-dropdown button:hover{background:var(--bg)}
+.menu-dropdown .danger{color:#d83a3a;font-weight:700}
+.pager{display:flex;justify-content:space-between;gap:10px;margin-top:14px}
+.pager .btn{flex:1;height:44px}
+/* bottom nav */
+.bottom{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);width:calc(100% - 28px);max-width:540px;height:70px;padding:0 8px;background:rgba(13,13,18,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:26px;box-shadow:0 18px 40px rgba(13,13,18,.3);display:flex;align-items:center;justify-content:space-around;z-index:70}
+.b-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:100%;font-size:10px;font-weight:500;color:rgba(255,255,255,.5);transition:color .2s,transform .15s}
+.b-item .i{width:20px;height:20px}
+.b-item:active{transform:scale(.92)}
+.b-item.active{color:#fff;font-weight:700}
+.b-item.active .i{color:var(--accent-2)}
+/* profile popup */
+.pop{position:fixed;top:70px;right:14px;width:230px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(20,20,40,.16);padding:10px;z-index:200;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top right;transition:all .22s var(--ease)}
+.pop.show{opacity:1;visibility:visible;transform:none}
+.pop-info{display:flex;align-items:center;gap:12px;padding:10px 10px 14px}
+.pop-info .avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.pop-info strong{display:block;font-size:14px}
+.pop-info span{display:block;margin-top:2px;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px}
+.pop hr{border:0;height:1px;background:var(--line);margin:2px 4px 6px}
+.pop button.opt{display:flex;align-items:center;gap:12px;width:100%;padding:12px 10px;border-radius:12px;font-size:13px;font-weight:500;text-align:left}
+.pop button.opt:hover{background:var(--bg)}
+.pop .i{width:17px;height:17px;color:var(--muted)}
+.pop .logout,.pop .logout .i{color:#d83a3a}
+/* modals */
+.modal{display:none;position:fixed;inset:0;background:rgba(13,13,18,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:300;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.box{width:100%;max-width:390px;max-height:92dvh;overflow-y:auto;background:#fff;border-radius:24px;padding:22px;box-shadow:0 24px 60px rgba(13,13,18,.25);animation:pop .22s var(--ease)}
+.m-icon{width:44px;height:44px;border-radius:14px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;margin-bottom:12px}
+.m-title{font-size:18px;font-weight:800;letter-spacing:-.02em}
+.m-msg{margin-top:6px;font-size:13px;line-height:1.6;color:var(--muted);white-space:pre-line;overflow-wrap:anywhere}
+.m-info{margin-top:14px;padding:12px 14px;border-radius:14px;background:var(--bg);font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.m-info strong{display:block;margin-top:3px;font-size:16px;color:var(--ink)}
+.box label{display:block;margin:14px 0 6px;font-size:13px;font-weight:600;color:#3b3d49}
+.m-btns{display:flex;gap:8px;margin-top:20px}
+.m-btns .btn{flex:1;height:48px}
+.loading{position:fixed;inset:0;background:rgba(243,243,248,.8);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:500}
+.loading.show{display:flex}
+.loader-box{background:#fff;border:1px solid var(--line);padding:16px 22px;border-radius:16px;font-size:14px;font-weight:600}
+@keyframes pop{from{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:none}}
+@media(min-width:700px){.form{grid-template-columns:1fr 1fr}.form .full{grid-column:1/-1}}
+@media(min-width:1000px){
+body{padding-bottom:40px;padding-left:var(--side)}
+.sidebar{display:flex}.bottom{display:none}
+.topbar{height:78px;padding:0 36px}.logo-m{display:none}.page-title{display:block}
+.wrap{padding:6px 36px 0}.pop{top:76px;right:34px}
+.users{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px){.wrap{padding:0 14px}.card{padding:16px;border-radius:20px}.pop{right:12px;top:66px}.user{padding:12px;gap:10px}.u-ava{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10.5 9-7.5 9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+<symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+</svg>
+
+<aside class="sidebar">
+  <a href="../home" class="logo"><img src="https://dynoticcollective.com/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+  <nav class="side-nav" aria-label="Main navigation">
+    <a href="../home"><svg class="i"><use href="#i-home"/></svg>Home</a>
+    <a href="../users" class="active"><svg class="i"><use href="#i-users"/></svg>Artists &amp; Accounts</a>
+    <a href="../releases"><svg class="i"><use href="#i-disc"/></svg>Release Submissions</a>
+    <a href="../message"><svg class="i"><use href="#i-chat"/></svg>Support Inbox</a>
+    <a href="../income"><svg class="i"><use href="#i-chart"/></svg>Royalty Management</a>
+  </nav>
+</aside>
+
+<header class="topbar" id="topbar">
+  <a href="../home" class="logo-m"><img src="https://dynoticcollective.com/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+  <h2 class="page-title">Artists &amp; Accounts</h2>
+  <div class="top-actions">
+    <button class="avatar-btn" id="profileBtn" type="button" aria-label="Menu admin" aria-expanded="false">A</button>
+  </div>
+</header>
+
+<div class="pop" id="profileMenu" role="menu">
+  <div class="pop-info"><div class="avatar">A</div><div><strong>Admin</strong><span id="adminEmail">-</span></div></div>
+  <hr>
+  <button class="opt logout" type="button" onclick="logout()" role="menuitem"><svg class="i"><use href="#i-logout"/></svg>Logout</button>
+</div>
+
+<main class="wrap">
+  <div class="head"><small>Dynotic Admin Panel</small><h1>Artists &amp; Accounts</h1></div>
+
+  <!-- ADD USER -->
+  <section class="card">
+    <div class="card-head">
+      <div><h3>Add User</h3><p class="desc">Buat akun artis baru secara manual.</p></div>
+      <button class="toggle-card" id="toggleForm" type="button"><svg class="i"><use href="#i-plus"/></svg>Baru</button>
+    </div>
+    <div class="form" id="addForm">
+      <input class="input" id="newEmail" type="email" placeholder="Email" autocomplete="off">
+      <input class="input" id="newName" placeholder="Name" autocomplete="off">
+      <input class="input" id="newPassword" placeholder="Password" type="password" autocomplete="new-password">
+      <input class="input" id="newBalance" placeholder="Balance" type="number" inputmode="numeric">
+      <select class="select full" id="newStatus">
+        <option value="active">Active</option>
+        <option value="non-active">Non-Active</option>
+      </select>
+      <button class="btn btn-dark full" type="button" onclick="addUser()">Add User</button>
+      <div id="msg" class="full"></div>
+    </div>
+  </section>
+
+  <!-- PENDING -->
+  <section class="card" id="pendingCard" style="display:none">
+    <div class="card-head">
+      <h3>Pending Activation</h3>
+      <span id="pendingCount" class="badge-count">0 Pending</span>
+    </div>
+    <p class="desc">Akun baru yang menunggu persetujuan aktivasi admin.</p>
+    <div id="pendingList"><div class="empty">Memuat data...</div></div>
+  </section>
+
+  <!-- USERS -->
+  <section class="card">
+    <h3>Users</h3>
+    <div class="search">
+      <svg class="i"><use href="#i-search"/></svg>
+      <input class="input" id="searchInput" placeholder="Cari nama atau email...">
+    </div>
+    <div class="users" id="userList"></div>
+    <div class="pager" id="pager">
+      <button class="btn btn-light" type="button" onclick="loadMembers('prev')">Prev</button>
+      <button class="btn btn-light" type="button" onclick="loadMembers('next')">Next</button>
+    </div>
+  </section>
+</main>
+
+<nav class="bottom" aria-label="Main navigation">
+  <a href="../home" class="b-item"><svg class="i"><use href="#i-home"/></svg>Home</a>
+  <a href="../users" class="b-item active"><svg class="i"><use href="#i-users"/></svg>Artists</a>
+  <a href="../releases" class="b-item"><svg class="i"><use href="#i-disc"/></svg>Releases</a>
+  <a href="../message" class="b-item"><svg class="i"><use href="#i-chat"/></svg>Inbox</a>
+  <a href="../income" class="b-item"><svg class="i"><use href="#i-chart"/></svg>Royalty</a>
+</nav>
+
+<!-- EDIT SALDO -->
+<div id="saldoModal" class="modal">
+  <div class="box">
+    <div class="m-title">Edit Saldo</div>
+    <div class="m-msg">Ubah saldo user</div>
+    <div class="m-info">Saldo saat ini<strong id="modalCurrentSaldo">Rp 0</strong></div>
+    <label for="saldoAction">Jenis perubahan</label>
+    <select class="select" id="saldoAction">
+      <option value="add">＋ Tambah Saldo</option>
+      <option value="subtract">－ Kurangi Saldo</option>
+    </select>
+    <label for="saldoAmount">Nominal</label>
+    <input class="input" id="saldoAmount" type="number" min="1" placeholder="Contoh: 100000">
+    <div class="m-btns">
+      <button class="btn btn-light" type="button" onclick="closeSaldoModal()">Batal</button>
+      <button class="btn btn-dark" type="button" onclick="saveSaldo()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ALERT -->
+<div id="customAlert" class="modal">
+  <div class="box">
+    <div id="alertIcon" class="m-icon">!</div>
+    <div id="alertTitle" class="m-title">Informasi</div>
+    <div id="alertMessage" class="m-msg"></div>
+    <div class="m-btns"><button id="alertActionButton" class="btn btn-dark" type="button" onclick="closeCustomAlert()">OK</button></div>
+  </div>
+</div>
+
+<!-- CONFIRM -->
+<div id="customConfirm" class="modal">
+  <div class="box">
+    <div id="confirmIcon" class="m-icon">?</div>
+    <div id="confirmTitle" class="m-title">Konfirmasi</div>
+    <div id="confirmMessage" class="m-msg"></div>
+    <div class="m-btns">
+      <button class="btn btn-light" type="button" onclick="closeCustomConfirm(false)">Batal</button>
+      <button id="confirmActionButton" class="btn btn-dark" type="button" onclick="closeCustomConfirm(true)">Lanjutkan</button>
+    </div>
+  </div>
+</div>
+
+<!-- EMAIL -->
+<div id="emailModal" class="modal">
+  <div class="box">
+    <div class="m-icon">@</div>
+    <div class="m-title">Ganti Email</div>
+    <div class="m-msg">Masukkan email baru untuk user ini.</div>
+    <div class="m-info">Email sekarang<strong id="currentEmailDisplay" style="font-size:14px">-</strong></div>
+    <input id="newEmailModal" class="input" style="margin-top:12px" type="email" placeholder="Masukkan email baru" autocomplete="off">
+    <div class="m-btns">
+      <button class="btn btn-light" type="button" onclick="closeEmailModal()">Batal</button>
+      <button class="btn btn-dark" type="button" onclick="submitEmailChange()">Lanjutkan</button>
+    </div>
+  </div>
+</div>
+
+<div class="loading" id="customLoading"><div class="loader-box">Memproses...</div></div>
+
+<script>
+firebase.initializeApp({
+  apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain: "dynopay-2513c.firebaseapp.com",
+  databaseURL: "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+});
+const auth = firebase.auth(), db = firebase.database();
+const secondaryApp = firebase.initializeApp(firebase.app().options, "Secondary");
+const secondaryAuth = secondaryApp.auth();
+const $ = id => document.getElementById(id);
+
+const LOGIN_URL = "../login";
+const DETAIL_URL = "/user-details";
+
+let isRegistering = false;
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rupiah = n => "Rp " + Number(n || 0).toLocaleString("id-ID");
+
+/* ---------- MODAL SYSTEM ---------- */
+function showAlert(message, title = "Informasi", icon = "!"){
+  $("alertTitle").textContent = title;
+  $("alertMessage").textContent = message;
+  $("alertIcon").textContent = icon;
+  const b = $("alertActionButton");
+  b.textContent = "OK";
+  b.onclick = closeCustomAlert;
+  $("customAlert").classList.add("show");
+}
+function closeCustomAlert(){ $("customAlert").classList.remove("show"); }
+
+let confirmResolver = null;
+function showConfirm(message, title = "Konfirmasi", icon = "?", buttonText = "Lanjutkan", danger = false){
+  return new Promise(resolve => {
+    confirmResolver = resolve;
+    $("confirmTitle").textContent = title;
+    $("confirmMessage").textContent = message;
+    $("confirmIcon").textContent = icon;
+    const b = $("confirmActionButton");
+    b.textContent = buttonText;
+    b.className = "btn " + (danger ? "btn-danger" : "btn-dark");
+    $("customConfirm").classList.add("show");
+  });
+}
+function closeCustomConfirm(result){
+  $("customConfirm").classList.remove("show");
+  if(confirmResolver){ const r = confirmResolver; confirmResolver = null; r(result); }
+}
+function showLoading(text = "Memproses..."){
+  document.querySelector("#customLoading .loader-box").textContent = text;
+  $("customLoading").classList.add("show");
+}
+function hideLoading(){ $("customLoading").classList.remove("show"); }
+
+document.addEventListener("click", e => {
+  if(e.target.id === "customAlert") closeCustomAlert();
+  if(e.target.id === "customConfirm") closeCustomConfirm(false);
+  if(e.target.id === "emailModal") closeEmailModal();
+  if(e.target.id === "saldoModal") closeSaldoModal();
+});
+
+/* ---------- PROFIL & LOGOUT ---------- */
+const menu = $("profileMenu"), pbtn = $("profileBtn");
+function setMenu(o){ menu.classList.toggle("show", o); pbtn.setAttribute("aria-expanded", String(o)); }
+pbtn.addEventListener("click", e => { e.stopPropagation(); setMenu(!menu.classList.contains("show")); });
+document.addEventListener("click", e => { if(!menu.contains(e.target) && !pbtn.contains(e.target)) setMenu(false); });
+document.addEventListener("keydown", e => { if(e.key === "Escape") setMenu(false); });
+function logout(){
+  if(confirm("Logout dari admin panel?")) auth.signOut().then(() => { location.href = LOGIN_URL; });
+}
+
+/* ---------- TOPBAR ---------- */
+const topbar = $("topbar");
+const onScroll = () => topbar.classList.toggle("scrolled", scrollY > 6);
+onScroll(); addEventListener("scroll", onScroll, { passive:true });
+
+/* ---------- FORM TOGGLE ---------- */
+$("toggleForm").addEventListener("click", () => {
+  const open = $("addForm").classList.toggle("show");
+  $("toggleForm").classList.toggle("open", open);
+});
+
+/* ---------- AUTH CHECK ---------- */
+auth.onAuthStateChanged(user => {
+  if(isRegistering) return;
+  if(!user){ location.href = LOGIN_URL; return; }
+  $("adminEmail").textContent = user.email || "-";
+  db.ref("admins/" + user.uid).once("value").then(snap => {
+    if(!snap.exists()){
+      showAlert("Akun ini tidak memiliki akses sebagai admin.", "Akses Ditolak", "!");
+      auth.signOut().then(() => location.href = LOGIN_URL);
+    } else {
+      listenPendingUsers();
+      loadMembers();
+    }
+  }).catch(err => {
+    console.error(err);
+    auth.signOut().then(() => location.href = LOGIN_URL);
+  });
+});
+
+/* ---------- PENDING ---------- */
+let pendingListenerAttached = false;
+function listenPendingUsers(){
+  if(pendingListenerAttached) return;
+  pendingListenerAttached = true;
+  db.ref("users").on("value", snapshot => {
+    const list = [];
+    snapshot.forEach(s => {
+      const d = s.val();
+      if(d && d.status === "unverified") list.push({ uid:s.key, nama:d.nama || "Unknown User", email:d.email || "-" });
+    });
+    renderPendingUsers(list);
+  }, err => console.error("Pending users listener:", err));
+}
+
+function renderPendingUsers(users){
+  $("pendingCard").style.display = "block";
+  $("pendingCount").textContent = users.length + " Pending";
+  const list = $("pendingList");
+  list.innerHTML = "";
+  if(!users.length){
+    list.innerHTML = '<div class="empty">Tidak ada akun yang menunggu aktivasi.</div>';
+    return;
+  }
+  users.forEach(u => {
+    const item = document.createElement("div");
+    item.className = "pending-item";
+    item.innerHTML = '<div class="u-info"><div class="u-name">' + esc(u.nama) + '</div><div class="u-email">' + esc(u.email) + '</div></div>';
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "btn btn-dark btn-sm";
+    b.textContent = "Activate";
+    b.addEventListener("click", () => toggleStatus(u.uid, "unverified"));
+    item.appendChild(b);
+    list.appendChild(item);
+  });
+}
+
+/* ---------- ADD USER ---------- */
+function addUser(){
+  if(isRegistering) return;
+  const email = $("newEmail").value.trim();
+  const name = $("newName").value.trim();
+  const password = $("newPassword").value.trim();
+  const rawBal = $("newBalance").value.trim();
+  const balance = Number(rawBal);
+  const status = $("newStatus").value;
+  const msg = $("msg");
+
+  if(!email || !name || !password || rawBal === "" || isNaN(balance)){
+    msg.style.color = "#d13a3a";
+    msg.textContent = "⚠ Semua field harus diisi dengan benar!";
+    return;
+  }
+
+  isRegistering = true;
+
+  secondaryAuth.createUserWithEmailAndPassword(email, password)
+    .then(res => {
+      const uid = res.user.uid;
+      return res.user.sendEmailVerification()
+        .catch(err => console.error("Verification email error:", err))
+        .then(() => db.ref("users/" + uid).set({ email, nama:name, saldo:balance, status, createdAt:Date.now() }));
+    })
+    .then(() => {
+      msg.style.color = "#15803d";
+      msg.textContent = "✔ User berhasil dibuat dan email verifikasi terkirim!";
+      ["newEmail","newName","newPassword","newBalance"].forEach(id => $(id).value = "");
+      $("newStatus").value = "active";
+      secondaryAuth.signOut();
+      loadMembers();
+      isRegistering = false;
+    })
+    .catch(err => {
+      msg.style.color = "#d13a3a";
+      msg.textContent = "❌ " + err.message;
+      isRegistering = false;
+    });
+}
+
+/* ---------- PAGINATION & SEARCH ---------- */
+const pageSize = 50;
+let firstKey = null, lastKey = null, pageStack = [], searchTerm = "";
+
+let searchTimer;
+$("searchInput").addEventListener("input", e => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    searchTerm = e.target.value.trim().toLowerCase();
+    firstKey = null; lastKey = null; pageStack = [];
+    loadMembers();
+  }, 250);
+});
+
+function statusBadge(s){
+  if(s === "active") return '<span class="status st-active">Active</span>';
+  if(s === "unverified") return '<span class="status st-pending">Pending</span>';
+  return '<span class="status st-off">Non-Active</span>';
+}
+
+function userRow(key, d){
+  const el = document.createElement("div");
+  el.className = "user";
+  const nama = d.nama || "-";
+  el.innerHTML =
+    '<div class="u-ava">' + esc(nama.charAt(0).toUpperCase()) + '</div>' +
+    '<div class="u-info">' +
+      '<div class="u-name">' + esc(nama) + '</div>' +
+      '<div class="u-email">' + esc(d.email || "-") + '</div>' +
+      '<div class="u-meta"><span class="u-bal">' + rupiah(d.saldo) + '</span>' + statusBadge(d.status) + '</div>' +
+    '</div>' +
+    '<div class="u-actions">' +
+      '<a class="detail-btn" href="' + DETAIL_URL + '?uid=' + encodeURIComponent(key) + '">Detail</a>' +
+      '<div class="menu-wrap">' +
+        '<button class="menu-btn" type="button" aria-label="Menu">⋮</button>' +
+        '<div class="menu-dropdown">' +
+          '<button type="button" data-a="status">' + (d.status === "active" ? "Disable" : "Activate") + '</button>' +
+          '<button type="button" data-a="saldo">Edit Saldo</button>' +
+          '<button type="button" data-a="email">Ganti Email</button>' +
+          '<button type="button" data-a="delete" class="danger">Hapus</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  const dd = el.querySelector(".menu-dropdown");
+  el.querySelector(".menu-btn").addEventListener("click", e => {
+    e.stopPropagation();
+    const wasOpen = dd.classList.contains("show");
+    closeMenus();
+    dd.classList.toggle("show", !wasOpen);
+  });
+  dd.querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
+    closeMenus();
+    const a = b.dataset.a;
+    if(a === "status") toggleStatus(key, d.status);
+    if(a === "saldo") editSaldo(key);
+    if(a === "email") changeEmail(key, d.email || "");
+    if(a === "delete") deleteMember(key);
+  }));
+  return el;
+}
+
+function closeMenus(){ document.querySelectorAll(".menu-dropdown.show").forEach(m => m.classList.remove("show")); }
+document.addEventListener("click", closeMenus);
+
+function loadMembers(direction = "init"){
+  const list = $("userList");
+  list.innerHTML = "";
+
+  if(searchTerm){
+    $("pager").style.display = "none";
+    db.ref("users").once("value").then(snap => {
+      let found = false;
+      snap.forEach(u => {
+        const d = u.val() || {};
+        if(String(d.nama || "").toLowerCase().includes(searchTerm) || String(d.email || "").toLowerCase().includes(searchTerm)){
+          found = true;
+          list.appendChild(userRow(u.key, d));
+        }
+      });
+      if(!found){
+        const e = document.createElement("div");
+        e.className = "empty";
+        e.style.gridColumn = "1/-1";
+        e.textContent = 'User "' + searchTerm + '" tidak ditemukan';
+        list.appendChild(e);
+      }
+    }).catch(err => {
+      console.error(err);
+      list.innerHTML = '<div class="empty" style="color:#d13a3a;grid-column:1/-1">Gagal mencari user</div>';
+    });
+    return;
+  }
+
+  $("pager").style.display = "flex";
+  let ref = db.ref("users").orderByKey().limitToFirst(pageSize);
+
+  if(direction === "next" && lastKey){
+    pageStack.push(firstKey);
+    ref = db.ref("users").orderByKey().startAfter(lastKey).limitToFirst(pageSize);
+  }
+  if(direction === "prev" && pageStack.length){
+    const prevKey = pageStack.pop();
+    ref = db.ref("users").orderByKey().startAt(prevKey).limitToFirst(pageSize);
+  }
+
+  ref.once("value").then(snap => {
+    if(!snap.exists()){
+      list.innerHTML = '<div class="empty" style="grid-column:1/-1">Tidak ada user</div>';
+      return;
+    }
+    const keys = [];
+    snap.forEach(u => { keys.push(u.key); list.appendChild(userRow(u.key, u.val() || {})); });
+    firstKey = keys[0];
+    lastKey = keys[keys.length - 1];
+  }).catch(err => {
+    console.error(err);
+    list.innerHTML = '<div class="empty" style="color:#d13a3a;grid-column:1/-1">Gagal memuat user</div>';
+  });
+}
+
+/* ---------- EDIT SALDO ---------- */
+let saldoEditingUid = null, saldoCurrentValue = 0;
+
+function editSaldo(uid){
+  db.ref("users/" + uid + "/saldo").once("value").then(snap => {
+    saldoEditingUid = uid;
+    saldoCurrentValue = Number(snap.val() || 0);
+    $("modalCurrentSaldo").textContent = rupiah(saldoCurrentValue);
+    $("saldoAction").value = "add";
+    $("saldoAmount").value = "";
+    $("saldoModal").classList.add("show");
+    setTimeout(() => $("saldoAmount").focus(), 100);
+  }).catch(err => {
+    console.error("Edit saldo error:", err);
+    showAlert("Gagal mengambil saldo user.\n\n" + err.message, "Gagal Mengambil Saldo", "!");
+  });
+}
+function closeSaldoModal(){
+  $("saldoModal").classList.remove("show");
+  saldoEditingUid = null; saldoCurrentValue = 0;
+}
+
+async function saveSaldo(){
+  if(!saldoEditingUid){ showAlert("User tidak ditemukan.", "User Tidak Ditemukan", "!"); return; }
+
+  const action = $("saldoAction").value;
+  const amount = Number($("saldoAmount").value);
+  if(!amount || amount <= 0){ showAlert("Nominal harus lebih dari 0.", "Nominal Tidak Valid", "!"); return; }
+
+  const newSaldo = action === "add" ? saldoCurrentValue + amount : saldoCurrentValue - amount;
+  if(newSaldo < 0){ showAlert("Saldo tidak boleh menjadi negatif.", "Saldo Tidak Valid", "!"); return; }
+
+  const ok = await showConfirm(
+    "Saldo saat ini: " + rupiah(saldoCurrentValue) + "\n\n" +
+    (action === "add" ? "Tambah: " : "Kurangi: ") + rupiah(amount) +
+    "\n\nSaldo setelah perubahan: " + rupiah(newSaldo),
+    "Konfirmasi Perubahan Saldo", "Rp", "Simpan"
+  );
+  if(!ok) return;
+
+  showLoading("Menyimpan saldo...");
+  db.ref("users/" + saldoEditingUid + "/saldo").set(newSaldo).then(() => {
+    closeSaldoModal();
+    hideLoading();
+    showAlert("Saldo baru: " + rupiah(newSaldo), "Saldo Berhasil Diperbarui", "✓");
+    loadMembers();
+  }).catch(err => {
+    hideLoading();
+    console.error("Save saldo error:", err);
+    showAlert("Gagal memperbarui saldo.\n\n" + err.message, "Gagal Memperbarui Saldo", "!");
+  });
+}
+
+/* ---------- TOGGLE STATUS + EMAIL AKTIVASI ---------- */
+async function toggleStatus(uid, currentStatus){
+  const isActivation = currentStatus === "unverified";
+  const newStatus = currentStatus === "active" ? "non-active" : "active";
+  const text = newStatus === "active" ? "mengaktifkan" : "menonaktifkan";
+
+  const ok = await showConfirm(
+    isActivation
+      ? "Akun ini akan diaktifkan. Setelah berhasil, aplikasi email akan terbuka dengan pesan pemberitahuan yang sudah disiapkan."
+      : "Yakin ingin " + text + " user ini?",
+    newStatus === "active" ? "Aktifkan User" : "Nonaktifkan User",
+    newStatus === "active" ? "✓" : "!",
+    newStatus === "active" ? "Aktifkan" : "Disable",
+    newStatus !== "active"
+  );
+  if(!ok) return;
+
+  showLoading(newStatus === "active" ? "Mengaktifkan user..." : "Menonaktifkan user...");
+
+  try{
+    const snap = await db.ref("users/" + uid).once("value");
+    if(!snap.exists()) throw new Error("Data user tidak ditemukan.");
+    const userData = snap.val();
+
+    await db.ref("users/" + uid + "/status").set(newStatus);
+    hideLoading();
+    loadMembers();
+
+    if(isActivation){
+      const email = String(userData.email || "").trim();
+      const nama = String(userData.nama || "Artist").trim();
+
+      if(!email || email === "-"){
+        showAlert("Akun berhasil diaktifkan, tetapi alamat email user tidak tersedia.", "Aktivasi Berhasil", "!");
+        return;
+      }
+
+      const subject = "Akun Dynotic Distribution Telah Diaktifkan";
+      const body =
+`Halo ${nama},
+
+Kami ingin menginformasikan bahwa akun Dynotic Distribution kamu telah berhasil diaktifkan oleh admin.
+
+Sekarang kamu sudah dapat login dan menggunakan layanan Dynotic Distribution.
+
+Terima kasih telah bergabung bersama Dynotic Collective.
+
+Salam,
+Dynotic Distribution
+Support Team`;
+
+      const mailto = "mailto:" + encodeURIComponent(email) + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+
+      showAlert(
+        "Akun berhasil diaktifkan.\n\nAplikasi email akan dibuka dengan pesan pemberitahuan yang sudah disiapkan. Silakan periksa dan tekan Kirim.",
+        "User Berhasil Diaktifkan", "✓"
+      );
+      $("alertActionButton").onclick = () => { closeCustomAlert(); window.location.href = mailto; };
+      return;
+    }
+
+    showAlert(
+      newStatus === "active" ? "User berhasil diaktifkan." : "User berhasil dinonaktifkan.",
+      newStatus === "active" ? "User Diaktifkan" : "User Dinonaktifkan",
+      newStatus === "active" ? "✓" : "!"
+    );
+  }catch(err){
+    hideLoading();
+    console.error("Toggle status error:", err);
+    showAlert("Gagal mengubah status user.\n\n" + err.message, "Gagal Mengubah Status", "!");
+  }
+}
+
+/* ---------- DELETE ---------- */
+async function deleteMember(uid){
+  const ok = await showConfirm(
+    "Apakah yakin ingin menghapus data user ini dari database?\n\nTindakan ini tidak dapat dibatalkan.",
+    "Hapus User", "!", "Hapus", true
+  );
+  if(!ok) return;
+
+  showLoading("Menghapus data user...");
+  db.ref("users/" + uid).remove().then(() => {
+    hideLoading();
+    showAlert("Data user berhasil dihapus dari database.", "User Dihapus", "✓");
+    loadMembers();
+  }).catch(err => {
+    hideLoading();
+    console.error("Delete user error:", err);
+    showAlert("Gagal menghapus user.\n\n" + err.message, "Gagal Menghapus User", "!");
+  });
+}
+
+/* ---------- GANTI EMAIL ---------- */
+let emailEditingUid = null, emailCurrentEmail = "";
+
+function changeEmail(uid, currentEmail){
+  emailEditingUid = uid;
+  emailCurrentEmail = currentEmail || "";
+  $("currentEmailDisplay").textContent = currentEmail || "-";
+  $("newEmailModal").value = "";
+  $("emailModal").classList.add("show");
+  setTimeout(() => $("newEmailModal").focus(), 100);
+}
+function closeEmailModal(){
+  $("emailModal").classList.remove("show");
+  emailEditingUid = null; emailCurrentEmail = "";
+}
+
+async function submitEmailChange(){
+  const uid = String(emailEditingUid || "").trim();
+  const currentEmail = String(emailCurrentEmail || "").trim();
+
+  if(!uid){ showAlert("UID user tidak ditemukan.", "UID Tidak Ditemukan", "!"); return; }
+
+  const input = $("newEmailModal");
+  const newEmail = input.value.trim().toLowerCase();
+
+  if(!newEmail){ showAlert("Email baru wajib diisi.", "Email Kosong", "!"); input.focus(); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)){ showAlert("Format email tidak valid.", "Email Tidak Valid", "!"); input.focus(); return; }
+  if(newEmail === currentEmail.toLowerCase()){ showAlert("Email baru sama dengan email yang sekarang.", "Email Tidak Berubah", "!"); return; }
+
+  const ok = await showConfirm(
+    "Dari:\n" + (currentEmail || "-") + "\n\nMenjadi:\n" + newEmail + "\n\nPassword user tidak akan berubah.",
+    "Konfirmasi Ganti Email", "@", "Ganti Email"
+  );
+  if(!ok) return;
+
+  try{
+    const adminUser = auth.currentUser;
+    if(!adminUser){
+      showAlert("Sesi admin tidak ditemukan.\n\nSilakan login kembali.", "Sesi Admin Tidak Ditemukan", "!");
+      return;
+    }
+
+    showLoading("Mengubah email...");
+    const idToken = await adminUser.getIdToken(true);
+
+    const response = await fetch("https://dynotic-auth-admin.dynotic-bot.workers.dev", {
+      method: "POST",
+      headers: { "Content-Type":"application/json", "Authorization":"Bearer " + idToken },
+      body: JSON.stringify({ uid, newEmail })
+    });
+
+    const responseText = await response.text();
+    let data;
+    try{ data = JSON.parse(responseText); }
+    catch(parseError){
+      console.error("Worker response bukan JSON:", parseError);
+      data = { success:false, error:"Worker mengirim response yang bukan JSON.", detail:responseText };
+    }
+
+    hideLoading();
+
+    if(!response.ok || !data.success){
+      let errorMessage = (data.error || "Unknown error") + "\n\nHTTP Status: " + response.status;
+      if(data.status) errorMessage += "\nWorker Status: " + data.status;
+      if(data.detail){
+        let detail;
+        if(typeof data.detail === "string") detail = data.detail;
+        else { try{ detail = JSON.stringify(data.detail, null, 2); }catch{ detail = String(data.detail); } }
+        errorMessage += "\n\nDetail:\n" + detail;
+      }
+      showAlert(errorMessage, "Gagal Mengubah Email", "!");
+      return;
+    }
+
+    closeEmailModal();
+
+    if(data.warning){
+      showAlert(
+        "Email Firebase Auth berhasil diubah.\n\nEmail baru:\n" + (data.email || newEmail) + "\n\nPeringatan:\n" + data.warning,
+        "Email Auth Berhasil", "!"
+      );
+    } else {
+      showAlert(
+        "Email baru:\n" + (data.email || newEmail) + "\n\nPassword user tidak berubah. User dapat menggunakan Forgot Password pada email baru untuk membuat password baru.",
+        "Email Berhasil Diubah", "✓"
+      );
+    }
+    loadMembers();
+
+  }catch(error){
+    hideLoading();
+    console.error("changeEmail error:", error);
+    showAlert(error.message || String(error), "Error Script / Network", "!");
+  }
+}
+</script>
+</body>
+</html>
