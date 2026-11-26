@@ -389,9 +389,8 @@ function setMenu(o){menu.classList.toggle("show",o);pbtn.setAttribute("aria-expa
 pbtn.addEventListener("click",e=>{e.stopPropagation();setMenu(!menu.classList.contains("show"))});
 document.addEventListener("click",e=>{if(!menu.contains(e.target)&&!pbtn.contains(e.target))setMenu(false)});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")setMenu(false)});
-async function logout(){
-  setMenu(false);
-  if(await showConfirm("Logout dari admin panel?","Logout","!","Logout",true)) auth.signOut().then(()=>{location.href=LOGIN_URL});
+function logout(){
+  if(confirm("Logout dari admin panel?")) auth.signOut().then(()=>{location.href=LOGIN_URL});
 }
 
 /* ---------- TOPBAR ---------- */
@@ -411,11 +410,9 @@ auth.onAuthStateChanged(user=>{
   if(!user){location.href=LOGIN_URL;return}
   $("adminEmail").textContent=user.email||"-";
   db.ref("admins/"+user.uid).once("value").then(snap=>{
-    if(!snap.exists()){
-      showAlert("Akun ini tidak memiliki akses sebagai admin.","Akses Ditolak","!");
-      auth.signOut().then(()=>location.href=LOGIN_URL);
-    }else loadReleases();
-  }).catch(err=>{console.error(err);auth.signOut().then(()=>location.href=LOGIN_URL)});
+    if(!snap.exists()){alert("Anda bukan admin.");auth.signOut();return}
+    loadReleases();
+  }).catch(err=>console.error("Admin verification error:",err));
 });
 
 /* ---------- CARI AKUN ARTIST ---------- */
@@ -613,7 +610,7 @@ $("searchInput").addEventListener("input",()=>{
 function openPlatform(uid,rid){
   if(!uid||!rid)return showAlert("ID akun atau ID rilisan tidak ditemukan.","Data Tidak Lengkap","!");
   try{localStorage.setItem("lastPage",currentPage)}catch(e){}
-  location.href=`../admin-platform?uid=${encodeURIComponent(uid)}&rid=${encodeURIComponent(rid)}`;
+  location.href=`/release-details?uid=${encodeURIComponent(uid)}&rid=${encodeURIComponent(rid)}`;
 }
 
 /* ---------- STATUS ---------- */
