@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Platform Detail | Dynotic Distribution</title>
+<meta name="theme-color" content="#f3f3f8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="https://dynoticcollective.com/assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<style>
+:root{--bg:#f3f3f8;--paper:#fff;--ink:#14141a;--muted:#6f7280;--line:#e6e6ee;--soft:#f7f7fb;--dark:#0d0d12;--accent:#7772a8;--accent-2:#a9a3f2;--red:#e5484d;--green:#2f9e6b;--amber:#b7791f;--side:260px;--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);padding:0 0 calc(112px + env(safe-area-inset-bottom));-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input,select{font:inherit}
+button{border:0;background:none;color:inherit;cursor:pointer}
+a{color:var(--accent);font-weight:700;text-decoration:none;overflow-wrap:anywhere}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.wrap{max-width:780px;margin:0 auto;display:grid;gap:14px;padding:10px 14px 0}
+
+/* sidebar */
+.sidebar{display:none;position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--dark);color:#fff;padding:26px 18px 20px;flex-direction:column;z-index:60;overflow-y:auto}
+.sidebar .logo img{height:32px;max-width:180px;object-fit:contain;filter:brightness(0) invert(1);display:block;margin:0 8px 30px}
+.side-nav{display:flex;flex-direction:column;gap:4px}
+.side-nav a{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:14px;font-size:14px;font-weight:500;color:rgba(255,255,255,.62);transition:background .2s,color .2s}
+.side-nav a .i{width:19px;height:19px}
+.side-nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.side-nav a.active{background:rgba(255,255,255,.1);color:#fff;font-weight:700}
+.side-nav .lbl{padding:18px 14px 6px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+
+/* topbar */
+.topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 16px;display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
+.topbar.scrolled{border-bottom-color:var(--line)}
+.logo-m img{height:30px;max-width:170px;object-fit:contain;display:block}
+.page-title{display:none;font-size:20px;font-weight:800;letter-spacing:-.03em}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.avatar-btn{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line);transition:transform .2s var(--ease)}
+.avatar-btn:active{transform:scale(.93)}
+
+/* popup profil */
+.pop{position:fixed;top:70px;right:14px;width:230px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(20,20,40,.16);padding:10px;z-index:200;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top right;transition:all .22s var(--ease)}
+.pop.show{opacity:1;visibility:visible;transform:none}
+.pop-info{display:flex;align-items:center;gap:12px;padding:10px 10px 14px}
+.pop-info .avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.pop-info strong{display:block;font-size:14px;color:var(--ink)}
+.pop-info span{display:block;margin-top:2px;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px}
+.pop hr{border:0;height:1px;background:var(--line);margin:2px 4px 6px}
+.pop button.opt{display:flex;align-items:center;gap:12px;width:100%;padding:12px 10px;border-radius:12px;font-size:13px;font-weight:500;text-align:left}
+.pop button.opt:hover{background:var(--bg)}
+.pop .i{width:17px;height:17px;color:var(--muted)}
+.pop .logout,.pop .logout .i{color:#d83a3a}
+
+/* tombol kembali */
+.back{justify-self:start;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px 0 12px;border-radius:999px;background:var(--paper);border:1px solid var(--line);color:var(--ink);font-size:13px;font-weight:700;transition:border-color .2s,transform .2s var(--ease)}
+.back:hover{border-color:var(--ink)}
+.back:active{transform:scale(.97)}
+.back .i{width:17px;height:17px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;isolation:isolate;border-radius:26px;background:var(--dark);color:#fff;padding:20px;display:flex;gap:16px;align-items:center;animation:up .5s var(--ease) both}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(70px);z-index:-1;pointer-events:none}
+.hero::before{width:320px;height:320px;background:rgba(119,114,168,.6);top:-150px;right:-80px}
+.hero::after{width:260px;height:260px;background:rgba(79,70,160,.4);bottom:-150px;left:-80px}
+.hero .grid{position:absolute;inset:0;z-index:-1;opacity:.25;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:40px 40px;-webkit-mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 80% 20%,#000 10%,transparent 70%)}
+.cover{width:104px;height:104px;border-radius:20px;overflow:hidden;background:rgba(255,255,255,.1);flex-shrink:0;box-shadow:0 16px 36px rgba(0,0,0,.4)}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.hero .tx{min-width:0;flex:1}
+.hero small.k{font-size:12px;color:rgba(255,255,255,.55);font-weight:500}
+.hero h1{font-size:23px;font-weight:800;letter-spacing:-.035em;line-height:1.15;overflow-wrap:anywhere;margin-top:2px}
+.hero .ar{font-size:14px;color:rgba(255,255,255,.7);margin-top:4px;overflow-wrap:anywhere}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:999px;background:rgba(255,255,255,.12);font-size:11px;font-weight:600}
+.chip.ok{background:rgba(47,158,107,.32)}
+.chip.warn{background:rgba(229,168,50,.3)}
+.chip.bad{background:rgba(229,72,77,.34)}
+.h-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+.h-links a{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 13px;border-radius:999px;background:#fff;color:var(--ink);font-size:12px;font-weight:700;transition:transform .2s var(--ease)}
+.h-links a:active{transform:scale(.96)}
+.h-links a .i{width:12px;height:12px;opacity:.6}
+
+/* card / details */
+details.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;overflow:hidden;animation:up .5s var(--ease) both}
+summary{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;list-style:none;user-select:none}
+summary::-webkit-details-marker{display:none}
+.ic{width:42px;height:42px;border-radius:14px;background:#eeedf7;color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ic .i{width:20px;height:20px}
+.st{flex:1;min-width:0}
+.t{font-size:15px;font-weight:800;letter-spacing:-.015em}
+.s{display:block;font-size:12px;font-weight:400;color:var(--muted);margin-top:2px}
+.arrow{width:30px;height:30px;border-radius:10px;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .25s var(--ease)}
+.arrow .i{width:15px;height:15px}
+details[open] .arrow{transform:rotate(180deg)}
+.body{padding:16px 18px 18px;border-top:1px solid var(--line)}
+
+/* info grid */
+.g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.it{min-width:0;background:var(--soft);border-radius:13px;padding:11px 12px;overflow-wrap:anywhere}
+.it.full{grid-column:1/-1}
+.it span{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}
+.it b{font-size:13px;font-weight:600;white-space:pre-line}
+.it b.nil{color:#b5b7c1;font-weight:500}
+.sub{margin:18px 0 8px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.sub:first-child{margin-top:0}
+
+.lyrics{white-space:pre-wrap;font-size:13px;line-height:1.8;background:var(--soft);border-radius:14px;padding:14px;max-height:340px;overflow:auto;overflow-wrap:anywhere}
+
+/* files */
+.file{background:var(--soft);border-radius:16px;padding:14px;margin-bottom:10px}
+.file:last-child{margin-bottom:0}
+.file>span{display:block;font-size:11px;color:var(--muted);margin-bottom:8px;font-weight:600}
+.file audio{width:100%;height:42px;margin-bottom:8px}
+.file img{display:block;width:100%;max-width:280px;border-radius:14px;margin-bottom:8px}
+.storage-status{display:block;font-size:12px;color:var(--muted);margin-top:8px}
+.storage-actions{display:flex;gap:8px;margin-top:10px}
+
+/* buttons */
+.btn{width:100%;height:48px;border-radius:14px;background:var(--ink);color:#fff;font-size:14px;font-weight:700;transition:opacity .2s,transform .2s var(--ease),box-shadow .25s}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.light{background:#eeedf7;color:#4b4880;height:40px;font-size:12px}
+.storage-actions .btn{flex:1;height:40px;font-size:12px}
+.btn.del{background:#fff0f0;color:#c62828}
+
+/* templates */
+.tpl-t{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.tpls{display:grid;grid-template-columns:1fr;gap:8px}
+.tpl{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;border:1.5px solid var(--line);border-radius:16px;background:#fafafd;transition:border-color .2s,background .2s,box-shadow .2s,transform .2s var(--ease)}
+.tpl:active{transform:scale(.985)}
+.tpl .dot{width:22px;height:22px;border-radius:50%;border:2px solid #c4c3d6;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,border-color .2s}
+.tpl .dot .i{width:12px;height:12px;stroke-width:3.5;color:#fff;opacity:0}
+.tpl b{display:block;font-size:14px;font-weight:700}
+.tpl small{display:block;margin-top:2px;font-size:12px;color:var(--muted);line-height:1.45}
+.tpl.on{border-color:var(--ink);background:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.14)}
+.tpl.on .dot{background:var(--ink);border-color:var(--ink)}
+.tpl.on .dot .i{opacity:1}
+.tpl.reset{border-style:dashed}
+
+/* summary counters */
+.count{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0 4px}
+.count div{border-radius:14px;padding:10px 12px;background:var(--soft)}
+.count b{display:block;font-size:20px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.count span{font-size:11px;color:var(--muted);font-weight:600}
+.count .a b{color:var(--green)}
+.count .p b{color:var(--amber)}
+.count .u b{color:var(--red)}
+
+/* platforms (ringkas, bisa di-scroll) */
+.plats{margin-top:14px}
+.plist{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff}
+.plist .scroller{max-height:236px;overflow:hidden;transition:max-height .35s var(--ease)}
+.plist.open .scroller{max-height:min(420px,58dvh);overflow-y:auto;overscroll-behavior:contain}
+.plist:not(.open)::after{content:"";position:absolute;left:0;right:0;bottom:44px;height:40px;background:linear-gradient(180deg,rgba(255,255,255,0),#fff);pointer-events:none}
+.plat{display:flex;align-items:center;justify-content:space-between;gap:10px;height:59px;padding:0 12px 0 14px;border-bottom:1px solid var(--line)}
+.pn{display:flex;align-items:center;gap:11px;min-width:0}
+.pn img{width:30px;height:30px;object-fit:contain;border-radius:9px;background:var(--bg);flex-shrink:0}
+.pn div{min-width:0}
+.pn b{display:block;font-size:14px;font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pn em{display:block;margin-top:2px;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.02em;color:var(--muted)}
+.pn em.approved{color:var(--green)}
+.pn em.process{color:var(--amber)}
+.pn em.unavailable{color:var(--red)}
+.seg{display:flex;gap:3px;padding:3px;border-radius:12px;background:var(--bg);flex-shrink:0}
+.seg button{width:36px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#a3a5b0;transition:background .2s,color .2s,box-shadow .2s,transform .15s var(--ease)}
+.seg button:active{transform:scale(.9)}
+.seg button .i{width:16px;height:16px;stroke-width:2.4}
+.seg button.on.process{background:#fff4dc;color:#9a6700;box-shadow:0 1px 3px rgba(154,103,0,.2)}
+.seg button.on.approved{background:#e3f5ec;color:#1f7a50;box-shadow:0 1px 3px rgba(31,122,80,.2)}
+.seg button.on.unavailable{background:#fdeaea;color:#c62828;box-shadow:0 1px 3px rgba(198,40,40,.2)}
+.plist-more{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:44px;font-size:13px;font-weight:700;color:var(--accent);background:#fff;border-top:1px solid var(--line);transition:background .2s}
+.plist-more:hover{background:var(--soft)}
+.plist-more .i{width:15px;height:15px;transition:transform .25s var(--ease)}
+.plist.open .plist-more .i{transform:rotate(180deg)}
+
+/* form */
+label{display:block;font-size:12px;font-weight:600;color:#454852;margin-bottom:7px}
+input{width:100%;min-width:0;height:50px;padding:0 14px;border:1.5px solid var(--line);border-radius:14px;background:#fafafd;color:var(--ink);font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+input:focus{border-color:var(--ink);background:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.14)}
+input.err{border-color:var(--red);background:#fff8f8}
+.fg{margin-bottom:16px}
+.fg:last-child{margin-bottom:0}
+.fg small{display:block;margin-top:6px;font-size:11px;color:var(--muted);line-height:1.5}
+.fg small.er{color:var(--red);font-weight:600}
+.ean-row{position:relative}
+.ean-row button{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.ean-row button:hover{background:var(--bg)}
+.ean-row input{padding-right:50px}
+
+/* bar simpan */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:50;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:rgba(243,243,248,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line)}
+.bar-in{max-width:780px;margin:0 auto;display:grid;gap:8px}
+.dirty{display:none;align-items:center;justify-content:center;gap:8px;font-size:12px;font-weight:600;color:var(--amber)}
+.dirty::before{content:"";width:7px;height:7px;border-radius:50%;background:#e5a832}
+.dirty.show{display:flex}
+.bar .btn{height:54px;font-size:15px;border-radius:17px;background:radial-gradient(120% 170% at 90% -40%,rgba(169,163,242,.5),transparent 55%),linear-gradient(180deg,#2b2b36,#14141a);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 14px 28px -12px rgba(13,13,18,.6)}
+
+.toast{position:fixed;left:50%;bottom:calc(112px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:12px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:60;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%)}
+.loading{padding:60px 20px;text-align:center;color:var(--muted);font-size:14px}
+
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media(max-width:420px){.cover{width:78px;height:78px;border-radius:16px}.hero h1{font-size:19px}.hero{padding:16px}}
+@media(min-width:560px){.tpls{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:760px){.g{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{padding:26px;gap:22px}.cover{width:132px;height:132px}.hero h1{font-size:30px}}
+@media(min-width:1000px){
+body{padding-left:var(--side)}
+.sidebar{display:flex}
+.topbar{height:78px;padding:0 36px}.logo-m{display:none}.page-title{display:block}
+.wrap{padding:6px 36px 0}.pop{top:76px;right:34px}
+.bar{left:var(--side)}
+}
+@media(max-width:700px){.pop{right:12px;top:66px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+  <symbol id="i-text" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9M9 20v-6h6v6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10.5 9-7.5 9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v3M3 5v14a2 2 0 0 0 2 2h14a1 1 0 0 0 1-1v-3"/><path d="M21 12v4h-4a2 2 0 0 1 0-4z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+</svg>
+
+<aside class="sidebar">
+  <a href="../admin-home" class="logo"><img src="../assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+  <nav class="side-nav" aria-label="Main navigation">
+    <a href="../admin-home"><svg class="i"><use href="#i-home"/></svg>Home</a>
+    <a href="../admin-manage"><svg class="i"><use href="#i-grid"/></svg>Manage</a>
+    <a href="../admin-profile"><svg class="i"><use href="#i-user"/></svg>Profile</a>
+    <div class="lbl">Quick access</div>
+    <a href="../admin-users"><svg class="i"><use href="#i-users"/></svg>Artists &amp; Accounts</a>
+    <a href="../admin-releases" class="active"><svg class="i"><use href="#i-disc"/></svg>Release Submissions</a>
+    <a href="../admin-message"><svg class="i"><use href="#i-chat"/></svg>Support Inbox</a>
+    <a href="../admin-withdraw"><svg class="i"><use href="#i-wallet"/></svg>Payout Requests</a>
+    <a href="../admin-income"><svg class="i"><use href="#i-chart"/></svg>Royalty Management</a>
+  </nav>
+</aside>
+
+<header class="topbar" id="top">
+  <a href="../admin-home" class="logo-m"><img src="../assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+  <h2 class="page-title">Platform Detail</h2>
+  <div class="top-actions">
+    <button class="avatar-btn" id="profileBtn" type="button" aria-label="Menu admin" aria-expanded="false">A</button>
+  </div>
+</header>
+
+<div class="pop" id="profileMenu" role="menu">
+  <div class="pop-info"><div class="avatar">A</div><div><strong>Admin</strong><span id="adminEmail">-</span></div></div>
+  <hr>
+  <button class="opt" type="button" onclick="goProfile()" role="menuitem"><svg class="i"><use href="#i-user"/></svg>Profile</button>
+  <button class="opt logout" type="button" onclick="logout()" role="menuitem"><svg class="i"><use href="#i-logout"/></svg>Logout</button>
+</div>
+
+<div class="wrap" id="app">
+  <a class="back" href="https://admin.dynoticcollective.com/releases"><svg class="i"><use href="#i-left"/></svg>Kembali</a>
+
+  <div class="loading" id="loading">Memuat data rilisan…</div>
+
+  <section class="hero" id="hero" hidden>
+    <div class="grid"></div>
+    <div class="cover"><img id="heroCover" alt="Cover"></div>
+    <div class="tx">
+      <small class="k" id="heroType"></small>
+      <h1 id="title"></h1>
+      <div class="ar" id="artist"></div>
+      <div class="chips" id="chips"></div>
+      <div class="h-links" id="artistLinks"></div>
+    </div>
+  </section>
+
+  <!-- INFORMASI -->
+  <details class="card" id="secInfo" open hidden>
+    <summary>
+      <div class="ic"><svg class="i"><use href="#i-info"/></svg></div>
+      <div class="st"><div class="t">Informasi Rilisan</div><span class="s">Data dari user: rilis, audio, kredit, hak cipta</span></div>
+      <div class="arrow"><svg class="i"><use href="#i-chev"/></svg></div>
+    </summary>
+    <div class="body">
+      <div class="sub">Artis</div><div class="g" id="gArtist"></div>
+      <div class="sub">Rilisan</div><div class="g" id="gRelease"></div>
+      <div class="sub">Detail audio</div><div class="g" id="gAudio"></div>
+      <div class="sub">Kredit</div><div class="g" id="gCredit"></div>
+      <div class="sub">Pengajuan &amp; persetujuan</div><div class="g" id="gSubmit"></div>
+      <div id="otherWrap" hidden><div class="sub">Data lainnya</div><div class="g" id="gOther"></div></div>
+    </div>
+  </details>
+
+  <details class="card" id="secLyrics" hidden>
+    <summary>
+      <div class="ic"><svg class="i"><use href="#i-text"/></svg></div>
+      <div class="st"><div class="t">Lirik</div><span class="s" id="lyricsSub"></span></div>
+      <div class="arrow"><svg class="i"><use href="#i-chev"/></svg></div>
+    </summary>
+    <div class="body"><div class="lyrics" id="lyricsBox"></div><button class="btn light" id="copyLyrics" style="margin-top:10px" type="button">Salin lirik</button></div>
+  </details>
+
+  <details class="card" id="secFiles" hidden>
+    <summary>
+      <div class="ic"><svg class="i"><use href="#i-file"/></svg></div>
+      <div class="st"><div class="t">Audio &amp; Cover</div><span class="s">Preview dan kelola file di Cloudflare R2</span></div>
+      <div class="arrow"><svg class="i"><use href="#i-chev"/></svg></div>
+    </summary>
+    <div class="body" id="files"></div>
+  </details>
+
+  <!-- RELEASE INFORMATION -->
+  <details class="card" id="secRel" open hidden>
+    <summary>
+      <div class="ic"><svg class="i"><use href="#i-cal"/></svg></div>
+      <div class="st"><div class="t">Release Information</div><span class="s">UPC (EAN), tanggal rilis, dan Smartlink</span></div>
+      <div class="arrow"><svg class="i"><use href="#i-chev"/></svg></div>
+    </summary>
+    <div class="body">
+      <div class="fg">
+        <label for="ean">UPC (EAN)</label>
+        <div class="ean-row"><input type="text" id="ean" inputmode="numeric" placeholder="12 atau 13 angka" autocomplete="off"><button type="button" id="copyEan" aria-label="Salin kode"><svg class="i"><use href="#i-copy"/></svg></button></div>
+        <small id="eanMsg">Kode ini tampil sebagai UPC di halaman user.</small>
+      </div>
+      <div class="fg">
+        <label for="releaseDate">Release Date</label>
+        <input type="date" id="releaseDate">
+        <small id="reqDate"></small>
+      </div>
+      <div class="fg">
+        <label for="smartlink">Smartlink</label>
+        <input type="url" id="smartlink" inputmode="url" placeholder="https://..." autocomplete="off">
+        <small id="slMsg"></small>
+      </div>
+    </div>
+  </details>
+
+  <!-- PLATFORM -->
+  <details class="card" id="secPlat" open hidden>
+    <summary>
+      <div class="ic"><svg class="i"><use href="#i-store"/></svg></div>
+      <div class="st"><div class="t">Platform Distribution</div><span class="s">Atur status tiap platform atau pakai template</span></div>
+      <div class="arrow"><svg class="i"><use href="#i-chev"/></svg></div>
+    </summary>
+    <div class="body">
+      <div class="tpl-t">Template cepat</div>
+      <div class="tpls" id="tpls"></div>
+      <div class="count">
+        <div class="a"><b id="cApproved">0</b><span>Approved</span></div>
+        <div class="p"><b id="cProcess">0</b><span>Process</span></div>
+        <div class="u"><b id="cUnavail">0</b><span>Unavailable</span></div>
+      </div>
+      <div class="plats" id="platformWrap"></div>
+    </div>
+  </details>
+</div>
+
+<div class="bar" id="bar" hidden>
+  <div class="bar-in">
+    <div class="dirty" id="dirty">Ada perubahan yang belum disimpan</div>
+    <button class="btn" id="saveButton" type="button">SIMPAN PERUBAHAN</button>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+firebase.initializeApp({
+  apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain: "dynopay-2513c.firebaseapp.com",
+  databaseURL: "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+});
+const auth = firebase.auth(), db = firebase.database();
+const $ = id => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const uid = params.get("uid"), rid = params.get("rid");
+const ASSETS = "https://dynoticcollective.com/assets/";
+const STORAGE_WORKER = "https://upload-assets.dynotic-bot.workers.dev";
+const LOGIN_URL = "../admin";
+
+/* nama platform -> file ikon (sama seperti halaman user) */
+const PLATFORMS = {
+  "Spotify":"spotify.png","Tidal":"tidal.png","Amazon":"amazon.png","Apple Music":"apple.png",
+  "Tiktok":"tiktok.png","YouTube Music":"youtube.png","YouTube Content ID":"contentid.png",
+  "META":"meta.png","SoundCloud":"soundcloud.png","Tencent":"tencent.png"
+};
+const PLAT_NAMES = Object.keys(PLATFORMS);
+
+/* template: yang ada di daftar approve = approved, sisanya = unavailable */
+const TEMPLATES = [
+  { id:"ytaf",  label:"YTAF", desc:"YouTube Music & YT Content ID approved, sisanya unavailable",
+    approve:["YouTube Music","YouTube Content ID"] },
+  { id:"all",   label:"All Platform", desc:"Semua platform approved",
+    approve:PLAT_NAMES.slice() },
+  { id:"nocid", label:"Not Content ID", desc:"Approved kecuali YT Content ID, Tiktok & META",
+    approve:PLAT_NAMES.filter(p => !["YouTube Content ID","Tiktok","META"].includes(p)) }
+];
+
+const STATES = [["process","Process"],["approved","Approved"],["unavailable","Unavailable"]];
+
+let plat = {};          // status per platform (state kerja)
+let saved = "";         // snapshot terakhir yang tersimpan
+let lyricsText = "";
+let currentRelease = null;
+let artistsList = [];
+let ready = false;
+
+function toast(t){
+  const el = $("toast");
+  el.textContent = t; el.classList.add("show");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => el.classList.remove("show"), 2800);
+}
+
+/* ===== profil & logout ===== */
+const menu = $("profileMenu"), pbtn = $("profileBtn");
+function setMenu(o){ menu.classList.toggle("show", o); pbtn.setAttribute("aria-expanded", String(o)); }
+pbtn.addEventListener("click", e => { e.stopPropagation(); setMenu(!menu.classList.contains("show")); });
+document.addEventListener("click", e => { if(!menu.contains(e.target) && !pbtn.contains(e.target)) setMenu(false); });
+document.addEventListener("keydown", e => { if(e.key === "Escape") setMenu(false); });
+function goProfile(){ location.href = "../admin-profile"; }
+function logout(){
+  if(confirm("Logout dari admin panel?")) auth.signOut().then(() => { location.href = LOGIN_URL; });
+}
+
+/* ===== cek admin ===== */
+auth.onAuthStateChanged(user => {
+  if(!user){ location.href = LOGIN_URL; return; }
+  $("adminEmail").textContent = user.email || "-";
+  db.ref("admins/" + user.uid).once("value").then(s => {
+    if(!s.exists()){
+      alert("⚠ Bukan admin!");
+      auth.signOut().then(() => { location.href = LOGIN_URL; });
+    }else if(!uid || !rid){
+      $("loading").textContent = "Data rilisan tidak valid.";
+    }else loadRelease();
+  }).catch(e => { console.error(e); alert("Gagal memeriksa akses admin."); });
+});
+
+function loadRelease(){
+  Promise.all([
+    db.ref("releases/" + uid + "/" + rid).once("value"),
+    /* daftar artis milik user pemilik rilisan, untuk mencocokkan link Spotify & Apple Music */
+    db.ref("artists/" + uid).once("value").catch(e => { console.warn("Artists tidak terbaca:", e); return null; })
+  ]).then(([rs, as]) => {
+    const d = rs.val();
+    if(!d){ $("loading").textContent = "Rilisan tidak ditemukan."; return; }
+    artistsList = [];
+    if(as) as.forEach(i => { const a = i.val() || {}; a._key = i.key; artistsList.push(a); });
+    currentRelease = d;
+    render(d);
+  }).catch(e => { console.error(e); $("loading").textContent = "Gagal memuat data rilisan."; });
+}
+
+/* ===== format nilai ===== */
+const isEmpty = v => v === undefined || v === null || v === "" || (Array.isArray(v) && !v.length);
+const yn = v => v === true ? "Ya" : v === false ? "Tidak" : "";
+function fDate(v){
+  if(!v) return "";
+  const d = new Date(/^\d{4}-\d{2}-\d{2}$/.test(v) ? v + "T00:00:00" : v);
+  return isNaN(d) ? String(v) : d.toLocaleDateString("id-ID", { day:"numeric", month:"long", year:"numeric" });
+}
+function fTime(ms){
+  if(!ms) return "";
+  const d = new Date(ms);
+  return isNaN(d) ? "" : d.toLocaleString("id-ID", { day:"numeric", month:"long", year:"numeric", hour:"2-digit", minute:"2-digit" });
+}
+const fList = v => Array.isArray(v) ? v.join(", ") : (v || "");
+const fClock = s => typeof s === "number" ? String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0") : "";
+const safeUrl = u => /^https?:\/\//i.test(String(u || "").trim()) ? String(u).trim() : "";
+
+function addItem(box, label, value, opt){
+  opt = opt || {};
+  const div = document.createElement("div");
+  div.className = "it" + (opt.full ? " full" : "");
+  const sp = document.createElement("span");
+  sp.textContent = label;
+  div.appendChild(sp);
+  const empty = isEmpty(value);
+  if(!empty && opt.link && safeUrl(value)){
+    const a = document.createElement("a");
+    a.href = safeUrl(value); a.target = "_blank"; a.rel = "noopener noreferrer";
+    a.textContent = value;
+    div.appendChild(a);
+  }else{
+    const b = document.createElement("b");
+    b.textContent = empty ? "-" : String(value);
+    if(empty) b.className = "nil";
+    div.appendChild(b);
+  }
+  box.appendChild(div);
+}
+function fill(id, rows){
+  const box = $(id);
+  box.innerHTML = "";
+  rows.forEach(r => addItem(box, r[0], r[1], r[2]));
+}
+
+/* isrc & upc sengaja tetap ada di sini supaya tidak muncul di "Data lainnya" (sudah tidak dipakai) */
+const KNOWN = ["title","version","artist","artistId","artistKey","featuring","label","genre","genre2","type","releaseType","releaseDate","date","previouslyReleased","originalReleaseDate","explicit","instrumental","audioLanguage","titleLanguage","tiktokPreviewStart","composer","lyricist","fullname","producer","publisher","isrc","upc","pLine","cLine","spotifyUrl","appleUrl","appleId","status","time","termsAccepted","termsAcceptedAt","rightsConfirmed","lyrics","audio","cover","platformStatus","smartlink","ean"];
+
+/* ===== cocokkan artis ===== */
+function findArtist(d){
+  if(!artistsList.length) return null;
+  const key = d.artistId || d.artistKey;
+  if(key){
+    const k = artistsList.find(a => a._key === key);
+    if(k) return k;
+  }
+  const n = String(d.artist || "").trim().toLowerCase();
+  if(!n) return null;
+  return artistsList.find(a => String(a.name || "").trim().toLowerCase() === n) || null;
+}
+/* prioritas: data artis terdaftar, cadangan: URL yang tersimpan di rilisan */
+function artistLinks(d){
+  const a = findArtist(d);
+  return {
+    artist: a,
+    spotify: safeUrl(a && a.spotify) || safeUrl(d.spotifyUrl),
+    apple:   safeUrl(a && a.apple)   || safeUrl(d.appleUrl)
+  };
+}
+
+function extractDriveId(url){
+  const m = String(url || "").match(/\/d\/([^\/]+)/);
+  return m ? m[1] : "";
+}
+
+function render(d){
+  $("loading").hidden = true;
+  ["hero","secPlat","secRel","secInfo","secFiles","bar"].forEach(id => { $(id).hidden = false; });
+
+  /* hero */
+  $("title").textContent = d.title || "-";
+  $("artist").textContent = (d.artist || "-") + (d.featuring ? " feat. " + d.featuring : "") + (d.version ? " • " + d.version : "");
+  $("heroType").textContent = d.type === "cover" ? "Cover to Master" : "Original Asset";
+  const coverUrl = safeUrl(d.cover);
+  const driveId = extractDriveId(coverUrl);
+  const img = $("heroCover");
+  if(coverUrl) img.src = driveId ? "https://drive.google.com/thumbnail?id=" + encodeURIComponent(driveId) + "&sz=w400" : coverUrl;
+  else img.removeAttribute("src");
+
+  const chips = $("chips");
+  chips.innerHTML = "";
+  const chip = (t, c) => { const s = document.createElement("span"); s.className = "chip " + (c || ""); s.textContent = t; chips.appendChild(s); };
+  if(d.status){
+    const st = String(d.status).toLowerCase();
+    chip("Status: " + d.status, st === "rejected" ? "bad" : st === "proposal" ? "warn" : "ok");
+  }
+  if(d.releaseType) chip(d.releaseType);
+  if(d.explicit === true) chip("Explicit", "warn");
+  if(d.instrumental === true) chip("Instrumental");
+  if(d.releaseDate || d.date) chip("Rilis " + fDate(d.date || d.releaseDate));
+
+  /* link artis (Spotify / Apple Music) */
+  const L = artistLinks(d);
+  const box = $("artistLinks");
+  box.innerHTML = "";
+  [["Spotify", L.spotify], ["Apple Music", L.apple]].forEach(([n, u]) => {
+    if(!u) return;
+    const a = document.createElement("a");
+    a.href = u; a.target = "_blank"; a.rel = "noopener noreferrer";
+    a.appendChild(document.createTextNode(n));
+    const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    s.setAttribute("class", "i");
+    const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    use.setAttribute("href", "#i-ext");
+    s.appendChild(use); a.appendChild(s);
+    box.appendChild(a);
+  });
+  box.hidden = !box.children.length;
+
+  /* informasi */
+  fill("gArtist", [
+    ["Artis terdaftar", L.artist ? L.artist.name : "Tidak ditemukan di daftar artist user"],
+    ["Genre artis", L.artist ? [L.artist.genre, L.artist.subGenre].filter(Boolean).join(" · ") : ""],
+    ["Spotify", L.spotify, { full:true, link:true }],
+    ["Apple Music", L.apple, { full:true, link:true }]
+  ]);
+  fill("gRelease", [
+    ["Judul lagu", d.title], ["Versi", d.version], ["Artist", d.artist], ["Featuring", d.featuring],
+    ["Label", d.label], ["Genre utama", d.genre], ["Genre kedua", d.genre2],
+    ["Tipe rilis", d.releaseType], ["Tanggal rilis (permintaan user)", fDate(d.releaseDate)],
+    ["Sudah pernah dirilis", yn(d.previouslyReleased)],
+    ["Tanggal rilis asli", fDate(d.originalReleaseDate)]
+  ]);
+  fill("gAudio", [
+    ["Konten explicit", yn(d.explicit)],
+    ["Jenis audio", d.instrumental === true ? "Instrumental" : d.instrumental === false ? "Ada vokal" : ""],
+    ["Bahasa audio", d.audioLanguage], ["Bahasa judul", d.titleLanguage],
+    ["Preview TikTok mulai", fClock(d.tiktokPreviewStart)]
+  ]);
+  fill("gCredit", [
+    ["Composer", fList(d.composer)], ["Lyricist", fList(d.lyricist)],
+    ["Nama lengkap (gabungan)", fList(d.fullname)], ["Producer", d.producer], ["Publisher", d.publisher],
+    ["℗ (phonographic)", d.pLine], ["© (copyright)", d.cLine],
+    ["Apple Music ID", d.appleId]
+  ]);
+  fill("gSubmit", [
+    ["Status", d.status], ["Diajukan", fTime(d.time)],
+    ["Ketentuan disetujui", d.termsAccepted === true ? "Ya, " + fTime(d.termsAcceptedAt) : yn(d.termsAccepted)],
+    ["Deklarasi hak", d.rightsConfirmed === true ? "Dikonfirmasi: karya original" : yn(d.rightsConfirmed)],
+    ["ID rilisan", rid, { full:true }]
+  ]);
+
+  const others = Object.keys(d).filter(k => !KNOWN.includes(k) && !isEmpty(d[k]));
+  if(others.length){
+    $("otherWrap").hidden = false;
+    fill("gOther", others.map(k => {
+      let v = d[k];
+      if(typeof v === "boolean") v = yn(v);
+      else if(typeof v === "object") v = JSON.stringify(v);
+      return [k, v, { link: typeof v === "string" && /^https?:\/\//i.test(v), full: String(v).length > 40 }];
+    }));
+  }
+
+  if(d.lyrics){
+    lyricsText = String(d.lyrics);
+    $("secLyrics").hidden = false;
+    $("lyricsBox").textContent = lyricsText;
+    $("lyricsSub").textContent = lyricsText.split("\n").length + " baris";
+  }
+
+  renderFiles(d);
+
+  /* state platform + form */
+  const data = d.platformStatus || {};
+  PLAT_NAMES.forEach(p => { plat[p] = ["process","approved","unavailable"].includes(data[p]) ? data[p] : "process"; });
+  buildTemplates();
+  buildPlatforms();
+  refreshPlat();
+
+  $("releaseDate").value = d.date || d.releaseDate || "";
+  $("smartlink").value = d.smartlink || "";
+  $("ean").value = d.ean || "";
+  $("reqDate").textContent = d.releaseDate ? "Permintaan user: " + fDate(d.releaseDate) : "";
+
+  saved = snapshot();
+  ready = true;
+  updateDirty();
+}
+
+/* ===== template ===== */
+function templateState(t){
+  const s = {};
+  PLAT_NAMES.forEach(p => { s[p] = t.approve.includes(p) ? "approved" : "unavailable"; });
+  return s;
+}
+function buildTemplates(){
+  const wrap = $("tpls");
+  wrap.innerHTML = "";
+  TEMPLATES.forEach(t => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "tpl"; b.dataset.id = t.id;
+    b.innerHTML = '<span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span><b></b><small></small></span>';
+    b.querySelector("b").textContent = t.label;
+    b.querySelector("small").textContent = t.desc;
+    b.addEventListener("click", () => {
+      plat = Object.assign({}, templateState(t));
+      refreshPlat(); updateDirty();
+      toast("Template " + t.label + " diterapkan. Jangan lupa simpan.");
+    });
+    wrap.appendChild(b);
+  });
+  const r = document.createElement("button");
+  r.type = "button"; r.className = "tpl reset"; r.dataset.id = "reset";
+  r.innerHTML = '<span class="dot"><svg class="i"><use href="#i-check"/></svg></span><span><b>Reset ke Process</b><small>Kembalikan semua platform ke status Process</small></span>';
+  r.addEventListener("click", () => {
+    PLAT_NAMES.forEach(p => { plat[p] = "process"; });
+    refreshPlat(); updateDirty();
+    toast("Semua platform di-reset ke Process.");
+  });
+  wrap.appendChild(r);
+}
+
+/* ===== platform ===== */
+const STATE_ICON = { process:"i-clock", approved:"i-check", unavailable:"i-x" };
+const STATE_LABEL = { process:"Process", approved:"Approved", unavailable:"Unavailable" };
+const VISIBLE_ROWS = 4;
+
+function svgI(id){
+  const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  s.setAttribute("class", "i");
+  const u = document.createElementNS("http://www.w3.org/2000/svg", "use");
+  u.setAttribute("href", "#" + id);
+  s.appendChild(u);
+  return s;
+}
+
+function buildPlatforms(){
+  const wrap = $("platformWrap");
+  wrap.innerHTML = "";
+
+  const list = document.createElement("div");
+  list.className = "plist"; list.id = "plist";
+  const scroller = document.createElement("div");
+  scroller.className = "scroller";
+
+  PLAT_NAMES.forEach(p => {
+    const row = document.createElement("div");
+    row.className = "plat"; row.dataset.name = p;
+
+    const pn = document.createElement("div");
+    pn.className = "pn";
+    const im = document.createElement("img");
+    im.src = ASSETS + PLATFORMS[p]; im.alt = ""; im.loading = "lazy";
+    im.onerror = () => { im.style.visibility = "hidden"; };
+    const tx = document.createElement("div");
+    const nm = document.createElement("b"); nm.textContent = p;
+    const st = document.createElement("em"); st.className = "stt";
+    tx.appendChild(nm); tx.appendChild(st);
+    pn.appendChild(im); pn.appendChild(tx);
+
+    const seg = document.createElement("div");
+    seg.className = "seg"; seg.setAttribute("role", "group"); seg.setAttribute("aria-label", "Status " + p);
+    STATES.forEach(([v, l]) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.dataset.v = v; b.title = l; b.setAttribute("aria-label", l);
+      b.appendChild(svgI(STATE_ICON[v]));
+      b.addEventListener("click", () => { plat[p] = v; refreshPlat(); updateDirty(); });
+      seg.appendChild(b);
+    });
+
+    row.appendChild(pn); row.appendChild(seg);
+    scroller.appendChild(row);
+  });
+  list.appendChild(scroller);
+
+  if(PLAT_NAMES.length > VISIBLE_ROWS){
+    const more = document.createElement("button");
+    more.type = "button"; more.className = "plist-more";
+    const lbl = document.createElement("span");
+    const setLabel = () => { lbl.textContent = list.classList.contains("open") ? "Sembunyikan" : "Tampilkan semua (" + PLAT_NAMES.length + ")"; };
+    more.appendChild(lbl); more.appendChild(svgI("i-chev"));
+    setLabel();
+    more.addEventListener("click", () => {
+      list.classList.toggle("open");
+      if(!list.classList.contains("open")) scroller.scrollTop = 0;
+      setLabel();
+    });
+    list.appendChild(more);
+  }
+  wrap.appendChild(list);
+}
+
+function refreshPlat(){
+  document.querySelectorAll("#platformWrap .plat").forEach(row => {
+    const cur = plat[row.dataset.name];
+    row.querySelectorAll(".seg button").forEach(b => {
+      const on = b.dataset.v === cur;
+      b.className = on ? "on " + b.dataset.v : "";
+      b.setAttribute("aria-pressed", String(on));
+    });
+    const st = row.querySelector(".stt");
+    st.textContent = STATE_LABEL[cur];
+    st.className = "stt " + cur;
+  });
+  let a = 0, pr = 0, u = 0;
+  PLAT_NAMES.forEach(p => { if(plat[p] === "approved") a++; else if(plat[p] === "unavailable") u++; else pr++; });
+  $("cApproved").textContent = a; $("cProcess").textContent = pr; $("cUnavail").textContent = u;
+
+  /* tandai template yang cocok dengan kondisi sekarang */
+  const cur = JSON.stringify(PLAT_NAMES.map(p => plat[p]));
+  document.querySelectorAll("#tpls .tpl").forEach(b => {
+    let on = false;
+    if(b.dataset.id === "reset") on = PLAT_NAMES.every(p => plat[p] === "process");
+    else {
+      const t = TEMPLATES.find(x => x.id === b.dataset.id);
+      on = JSON.stringify(PLAT_NAMES.map(p => templateState(t)[p])) === cur;
+    }
+    b.classList.toggle("on", on);
+  });
+}
+
+/* ===== dirty state ===== */
+function snapshot(){
+  return JSON.stringify({
+    p: PLAT_NAMES.map(p => plat[p]),
+    d: $("releaseDate").value,
+    s: $("smartlink").value.trim(),
+    e: $("ean").value.trim()
+  });
+}
+function updateDirty(){
+  if(!ready) return;
+  $("dirty").classList.toggle("show", snapshot() !== saved);
+}
+["releaseDate","smartlink","ean"].forEach(id => $(id).addEventListener("input", () => {
+  $(id).classList.remove("err");
+  if(id === "ean"){ $("eanMsg").textContent = "Kode ini tampil sebagai UPC di halaman user."; $("eanMsg").className = ""; }
+  if(id === "smartlink"){ $("slMsg").textContent = ""; $("slMsg").className = ""; }
+  updateDirty();
+}));
+window.addEventListener("beforeunload", e => {
+  if(ready && snapshot() !== saved){ e.preventDefault(); e.returnValue = ""; }
+});
+
+$("copyEan").addEventListener("click", () => {
+  const v = $("ean").value.trim();
+  if(!v){ toast("Kode masih kosong."); return; }
+  if(navigator.clipboard) navigator.clipboard.writeText(v).then(() => toast("Kode disalin."), () => toast("Gagal menyalin."));
+});
+$("copyLyrics").addEventListener("click", () => {
+  if(navigator.clipboard) navigator.clipboard.writeText(lyricsText).then(() => toast("Lirik disalin."), () => toast("Gagal menyalin."));
+});
+
+/* ===== audio & cover + kontrol R2 ===== */
+async function storageRequest(action, url){
+  const r = await fetch(STORAGE_WORKER, {
+    method:"POST", headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({ action, url })
+  });
+  const result = await r.json();
+  if(!r.ok || !result.success) throw new Error(result.error || "Permintaan gagal");
+  return result;
+}
+
+function addStorageControls(box, type, url){
+  if(!url || !url.includes(".r2.dev/")) return;
+  const status = document.createElement("span");
+  status.className = "storage-status";
+  status.textContent = "Memeriksa file...";
+  const actions = document.createElement("div");
+  actions.className = "storage-actions";
+  const check = document.createElement("button");
+  check.type = "button"; check.className = "btn light"; check.textContent = "Cek File";
+  const del = document.createElement("button");
+  del.type = "button"; del.className = "btn del"; del.textContent = "Hapus File";
+
+  async function checkFile(){
+    check.disabled = true;
+    status.textContent = "Memeriksa file...";
+    try{
+      const r = await storageRequest("check", url);
+      status.textContent = r.exists ? "✓ File tersedia di Cloudflare R2" : "✕ File sudah tidak ditemukan";
+      status.style.color = r.exists ? "#16834a" : "#c62828";
+    }catch(e){
+      status.textContent = "Gagal memeriksa: " + e.message;
+      status.style.color = "#c62828";
+    }finally{ check.disabled = false; }
+  }
+  check.onclick = checkFile;
+  del.onclick = async () => {
+    if(!confirm("Yakin ingin menghapus file " + type + " ini dari Cloudflare R2?\n\nURL di Firebase tetap disimpan.")) return;
+    del.disabled = true; del.textContent = "MENGHAPUS...";
+    try{
+      const r = await storageRequest("delete", url);
+      status.textContent = r.deleted ? "✓ File berhasil dihapus dari R2" : "File memang sudah tidak tersedia";
+      status.style.color = "#c62828";
+    }catch(e){
+      status.textContent = "Gagal menghapus: " + e.message;
+      status.style.color = "#c62828";
+    }finally{ del.disabled = false; del.textContent = "Hapus File"; }
+  };
+  actions.appendChild(check); actions.appendChild(del);
+  box.appendChild(status); box.appendChild(actions);
+  checkFile();
+}
+
+function renderFiles(d){
+  const wrap = $("files");
+  wrap.innerHTML = "";
+
+  const a = document.createElement("div");
+  a.className = "file";
+  const al = document.createElement("span");
+  al.textContent = "Audio";
+  a.appendChild(al);
+  if(safeUrl(d.audio)){
+    const player = document.createElement("audio");
+    player.controls = true; player.preload = "none"; player.src = d.audio;
+    a.appendChild(player);
+    const link = document.createElement("a");
+    link.href = d.audio; link.target = "_blank"; link.rel = "noopener noreferrer";
+    link.textContent = "Buka file audio";
+    a.appendChild(link);
+    addStorageControls(a, "Audio", d.audio);
+  }else{
+    const b = document.createElement("i"); b.textContent = "Kosong"; a.appendChild(b);
+  }
+  wrap.appendChild(a);
+
+  const c = document.createElement("div");
+  c.className = "file";
+  const cl = document.createElement("span");
+  cl.textContent = "Cover";
+  c.appendChild(cl);
+  if(safeUrl(d.cover)){
+    const link = document.createElement("a");
+    link.href = d.cover; link.target = "_blank"; link.rel = "noopener noreferrer";
+    const im = document.createElement("img");
+    const id = extractDriveId(d.cover);
+    im.src = id ? "https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w800" : d.cover;
+    im.alt = "Cover rilisan";
+    link.appendChild(im);
+    c.appendChild(link);
+    const open = document.createElement("a");
+    open.href = d.cover; open.target = "_blank"; open.rel = "noopener noreferrer";
+    open.textContent = "Buka cover ukuran penuh";
+    c.appendChild(open);
+    addStorageControls(c, "Cover", d.cover);
+  }else{
+    const b = document.createElement("i"); b.textContent = "Kosong"; c.appendChild(b);
+  }
+  wrap.appendChild(c);
+}
+
+/* ===== simpan ===== */
+function fail(inputId, msgId, text){
+  $(inputId).classList.add("err");
+  const m = $(msgId);
+  m.textContent = text; m.className = "er";
+  $(inputId).scrollIntoView({ behavior:"smooth", block:"center" });
+  toast(text);
+}
+
+$("saveButton").addEventListener("click", () => {
+  const ean = $("ean").value.replace(/[\s-]/g, "");
+  const smart = $("smartlink").value.trim();
+
+  if(ean && !/^\d{12,13}$/.test(ean)){ fail("ean", "eanMsg", "UPC (EAN) harus 12 atau 13 angka."); return; }
+  if(smart && !/^https?:\/\//i.test(smart)){ fail("smartlink", "slMsg", "Smartlink harus diawali https://"); return; }
+
+  const result = {};
+  PLAT_NAMES.forEach(p => { result[p] = plat[p]; });
+
+  /* hanya 4 data ini yang disimpan; ISRC & UPC lama tidak disentuh */
+  const updates = {
+    platformStatus: result,
+    date: $("releaseDate").value || null,
+    smartlink: smart || null,
+    ean: ean || null
+  };
+
+  const btn = $("saveButton");
+  btn.disabled = true;
+  btn.textContent = "MENYIMPAN...";
+  db.ref("releases/" + uid + "/" + rid).update(updates)
+    .then(() => {
+      $("ean").value = ean;
+      saved = snapshot();
+      updateDirty();
+      toast("✔ Data berhasil diperbarui");
+    })
+    .catch(e => { console.error(e); toast("Gagal menyimpan: " + e.message); })
+    .finally(() => { btn.disabled = false; btn.textContent = "SIMPAN PERUBAHAN"; });
+});
+
+/* ===== topbar scroll ===== */
+const topEl = $("top");
+function onScroll(){ topEl.classList.toggle("scrolled", window.scrollY > 6); }
+onScroll();
+window.addEventListener("scroll", onScroll, { passive:true });
+</script>
+</body>
+</html>
