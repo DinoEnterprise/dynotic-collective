@@ -109,11 +109,21 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .menu-wrap{position:relative}
 .menu-btn{width:36px;height:36px;border-radius:11px;font-size:18px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
 .menu-btn:hover{background:var(--bg);color:var(--ink)}
-.menu-dropdown{display:none;position:absolute;right:0;top:40px;min-width:190px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(20,20,40,.16);padding:6px;z-index:90}
-.menu-dropdown.show{display:block}
-.menu-dropdown button{display:block;width:100%;padding:11px 12px;border-radius:10px;font-size:13px;font-weight:500;text-align:left}
+.menu-btn{background:var(--bg);transition:background .2s,transform .2s var(--ease)}
+.menu-btn:active{transform:scale(.92)}
+.menu-btn .i{width:18px;height:18px}
+.menu-dropdown{display:none;position:absolute;right:0;top:44px;width:248px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 28px 70px rgba(20,20,40,.22);padding:8px;z-index:90;transform-origin:top right}
+.menu-dropdown.up{top:auto;bottom:44px;transform-origin:bottom right}
+.menu-dropdown.show{display:block;animation:menu .22s var(--ease)}
+.menu-dropdown button{display:flex;align-items:center;gap:12px;width:100%;padding:9px 10px;border-radius:14px;text-align:left;transition:background .15s}
 .menu-dropdown button:hover{background:var(--bg)}
-.menu-dropdown .danger{color:#d83a3a;font-weight:700}
+.menu-dropdown .mi{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.menu-dropdown .mi .i{width:17px;height:17px}
+.menu-dropdown b{display:block;font-size:13px;font-weight:700}
+.menu-dropdown small{display:block;margin-top:1px;font-size:11px;color:var(--muted);font-weight:500}
+.menu-dropdown hr{border:0;height:1px;background:var(--line);margin:6px 8px}
+.menu-dropdown .danger b{color:#c02a2a}
+@keyframes menu{from{opacity:0;transform:translateY(-6px) scale(.96)}to{opacity:1;transform:none}}
 .pager{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px}
 .pager .btn{flex:1;height:44px}
 .pager span{font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap}
@@ -140,7 +150,23 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .modal.show{display:flex;animation:fade .2s ease}
 #customConfirm,#customAlert{z-index:330}
 .box{position:relative;width:100%;max-width:410px;max-height:92dvh;overflow-y:auto;background:#fff;border:1px solid rgba(255,255,255,.6);border-radius:28px;padding:26px;box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 30px 80px rgba(13,13,18,.32);animation:pop .3s var(--ease)}
-.box.wide{max-width:600px}
+.box.wide{max-width:620px}
+.box.wide.k-approve{background:linear-gradient(180deg,#eefaf3 0,#fff 170px)}
+.box.wide.k-reject{background:linear-gradient(180deg,#fff0f0 0,#fff 170px)}
+.mail{margin-top:16px;border:1.5px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;transition:border-color .2s,box-shadow .2s}
+.mail:focus-within{border-color:var(--ink);box-shadow:0 0 0 4px rgba(119,114,168,.14)}
+.mail-row{display:flex;gap:10px;align-items:center;padding:0 16px;min-height:48px;border-bottom:1px solid var(--line);background:#fcfcfe}
+.mail-row>label,.mail-row>span.k{font-size:12px;font-weight:600;color:var(--muted);width:54px;flex-shrink:0}
+.mail-row .to{font-size:13px;font-weight:600;overflow-wrap:anywhere;padding:12px 0}
+.mail-row input{flex:1;min-width:0;border:0;outline:0;background:none;height:48px;font-size:14px;font-weight:700;color:var(--ink)}
+.mail textarea{display:block;width:100%;border:0;outline:0;resize:vertical;min-height:230px;padding:16px;font-size:14px;line-height:1.7;color:var(--ink);background:#fff}
+.send-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.send-row .lbl{margin-right:2px}
+.seg{display:inline-flex;padding:3px;background:var(--bg);border-radius:12px}
+.seg button{height:34px;padding:0 14px;border-radius:9px;font-size:12px;font-weight:700;color:var(--muted);transition:all .2s}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(20,20,40,.1)}
+.send-row .copy{margin-left:auto;height:38px;padding:0 14px;font-size:12px;border-radius:12px}
+.mail-hint{margin-top:8px;font-size:11px;color:var(--muted)}
 .m-icon{width:54px;height:54px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;flex-shrink:0}
 .m-icon .i{width:25px;height:25px;stroke-width:2.2}
 .tone-info{background:linear-gradient(135deg,#efedfb,#dedbf3);color:#5b55a0}
@@ -159,12 +185,15 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .x-btn:hover{background:var(--bg);color:var(--ink)}
 .sec{margin:20px 0 8px;display:block}
 .tpls{display:flex;flex-direction:column;gap:8px}
-.tpl{display:flex;gap:12px;align-items:flex-start;width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:16px;text-align:left;transition:border-color .2s,background .2s,box-shadow .2s}
+.tpl{display:flex;gap:12px;align-items:center;width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:16px;text-align:left;transition:border-color .2s,background .2s,box-shadow .2s}
 .tpl:hover{border-color:#cfcde2}
 .tpl.sel{border-color:var(--ink);background:#faf9ff;box-shadow:0 0 0 4px rgba(119,114,168,.12)}
-.tpl .dot{width:20px;height:20px;border-radius:50%;border:2px solid #cfd0da;margin-top:1px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.tpl.sel .dot{border-color:var(--ink);background:var(--ink)}
-.tpl.sel .dot::after{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
+.tpl .ti{width:40px;height:40px;border-radius:13px;background:var(--bg);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.tpl.sel .ti{background:var(--ink);color:#fff}
+.tpl .tx{flex:1;min-width:0}
+.tpl .chk{width:20px;height:20px;border-radius:50%;border:2px solid #d3d4de;flex-shrink:0;transition:all .2s}
+.tpl.sel .chk{border-color:var(--ink);background:radial-gradient(var(--ink) 0 42%,#fff 48%)}
+.tpl .dot{display:none;width:20px;height:20px;border-radius:50%;border:2px solid #cfd0da;margin-top:1px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .tpl b{display:block;font-size:14px;font-weight:700}
 .tpl span.d{display:block;margin-top:2px;font-size:12px;color:var(--muted);line-height:1.5}
 .cmp-fields{display:flex;flex-direction:column;gap:12px;margin-top:16px}
@@ -217,6 +246,7 @@ body{padding-bottom:40px;padding-left:var(--side)}
 <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
 <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+<symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></symbol>
 <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
 <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></symbol>
 <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></symbol>
@@ -374,8 +404,20 @@ body{padding-bottom:40px;padding-left:var(--side)}
       <label for="cmpPublisher">Publisher</label>
       <select class="select" id="cmpPublisher"></select>
     </div>
-    <div class="field"><label for="cmpSubject">Subjek</label><input class="input" id="cmpSubject" autocomplete="off"></div>
-    <div class="field"><label for="cmpBody">Isi email <small>(bisa diedit sebelum dikirim)</small></label><textarea class="input textarea" id="cmpBody" rows="11"></textarea></div>
+  </div>
+  <div class="mail">
+    <div class="mail-row"><span class="k">Kepada</span><span class="to" id="cmpTo"></span></div>
+    <div class="mail-row"><label for="cmpSubject">Subjek</label><input id="cmpSubject" autocomplete="off"></div>
+    <textarea id="cmpBody" rows="11" aria-label="Isi email"></textarea>
+  </div>
+  <div class="mail-hint">Isi email bisa diedit sebelum dikirim.</div>
+  <div class="send-row">
+    <span class="lbl">Format kirim</span>
+    <div class="seg" id="cmpMode" role="group" aria-label="Format kirim">
+      <button type="button" data-m="std">Standar</button>
+      <button type="button" data-m="zoho">Zoho</button>
+    </div>
+    <button class="btn btn-light copy" type="button" id="cmpCopy">Salin email</button>
   </div>
   <div class="notice" id="cmpNote" hidden></div>
   <div class="m-btns stack">
@@ -660,19 +702,21 @@ function releaseRow(d){
       '<div class="u-email">'+esc(d.artist||"-")+' · '+esc(d.email||"-")+'</div>'+
       '<div class="u-meta">'+statusBadge(d.status)+'</div></div>'+
     '<div class="u-actions"><button class="detail-btn" type="button" data-a="detail">Detail</button>'+
-      '<div class="menu-wrap"><button class="menu-btn" type="button" aria-label="Menu">⋮</button>'+
+      '<div class="menu-wrap"><button class="menu-btn" type="button" aria-label="Menu aksi"><svg class="i"><use href="#i-dots"/></svg></button>'+
       '<div class="menu-dropdown">'+
-        '<button type="button" data-a="process">Proses</button>'+
-        '<button type="button" data-a="approve">Approve</button>'+
-        '<button type="button" data-a="schedule">Schedule</button>'+
-        '<button type="button" data-a="reject">Reject</button>'+
-        '<button type="button" data-a="account">Ganti Akun Artist</button>'+
-        '<button type="button" data-a="delete" class="danger">Delete</button>'+
+        '<button type="button" data-a="process"><i class="mi tone-info"><svg class="i"><use href="#i-clock"/></svg></i><span><b>Proses</b><small>Tandai sedang diproses</small></span></button>'+
+        '<button type="button" data-a="approve"><i class="mi tone-success"><svg class="i"><use href="#i-check"/></svg></i><span><b>Approve</b><small>Pilih template dan kirim email</small></span></button>'+
+        '<button type="button" data-a="schedule"><i class="mi tone-info"><svg class="i"><use href="#i-cal"/></svg></i><span><b>Schedule</b><small>Tunggu jadwal rilis</small></span></button>'+
+        '<button type="button" data-a="reject"><i class="mi tone-danger"><svg class="i"><use href="#i-xc"/></svg></i><span><b>Reject</b><small>Pilih alasan dan kirim email</small></span></button>'+
+        '<hr>'+
+        '<button type="button" data-a="account"><i class="mi tone-warn"><svg class="i"><use href="#i-swap"/></svg></i><span><b>Ganti Akun Artist</b><small>Pindahkan ke akun lain</small></span></button>'+
+        '<button type="button" data-a="delete" class="danger"><i class="mi tone-danger"><svg class="i"><use href="#i-trash"/></svg></i><span><b>Delete</b><small>Hapus permanen</small></span></button>'+
       '</div></div></div>';
   const dd=el.querySelector(".menu-dropdown");
   el.querySelector(".detail-btn").addEventListener("click",()=>openPlatform(d.uid,d.rid));
   el.querySelector(".menu-btn").addEventListener("click",e=>{
-    e.stopPropagation();const was=dd.classList.contains("show");closeMenus();dd.classList.toggle("show",!was);
+    e.stopPropagation();const was=dd.classList.contains("show");closeMenus();dd.classList.remove("up");dd.classList.toggle("show",!was);
+    if(!was&&dd.getBoundingClientRect().bottom>innerHeight-90)dd.classList.add("up");
   });
   dd.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
     closeMenus();const a=b.dataset.a;
@@ -733,32 +777,35 @@ function fmtDate(s){
   return isNaN(d)?s:d.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
 }
 function detailsBlock(c){
-  return `Detail Rilisan\nJudul         : ${c.title}\nArtis         : ${c.artist}\nTanggal Rilis : ${c.date}\nUPC           : ${c.upc}`;
+  return `Detail Rilisan\nJudul : ${c.title}\nArtis : ${c.artist}\nTanggal Rilis : ${c.date}\nUPC : ${c.upc}`;
 }
 function getTemplates(kind,c){
   const d=detailsBlock(c);
   if(kind==="approve")return[
-    {id:"original",name:"Original",desc:"Approve standar. Rilisan diproses untuk distribusi.",
+    {id:"original",ic:"check",name:"Original",desc:"Approve standar. Rilisan diproses untuk distribusi.",
      subject:`Rilisan Disetujui - ${c.title}`,
      body:`Halo,\n\nKabar baik! Rilisan Anda telah disetujui dan diproses untuk distribusi.\n\n${d}\n\nMohon menunggu selagi rilisan diproses oleh partner distribusi kami.\n\nJika ada pertanyaan, silakan hubungi tim support kami.\n\nSalam hormat,\n${SIGN_DEFAULT}`},
-    {id:"rescheduled",name:"Dijadwalkan Ulang",desc:"Approve dengan tanggal rilis yang diubah oleh partner distribusi.",
+    {id:"rescheduled",ic:"cal",name:"Dijadwalkan Ulang",desc:"Approve dengan tanggal rilis yang diubah oleh partner distribusi.",
      subject:`Pembaruan Jadwal Rilis - ${c.title}`,
      body:`Halo,\n\nRilisan Anda telah disetujui, dengan jadwal rilis yang diperbarui oleh partner distribusi kami.\n\n${d}\n\nTanggal rilis di atas mengikuti jadwal terbaru yang tercatat di sistem kami.\n\nKami mohon maaf atas ketidaknyamanan ini dan terima kasih atas pengertian Anda.\n\nJika ada pertanyaan, silakan hubungi tim support kami.\n\nSalam hormat,\n${SIGN_DEFAULT}`},
-    {id:"publisher",name:"Publisher (Cover to Master)",desc:"Pengajuan lagu disetujui oleh publisher yang dipilih.",pub:true,
+    {id:"publisher",ic:"info",name:"Publisher (Cover to Master)",desc:"Pengajuan lagu disetujui oleh publisher yang dipilih.",pub:true,
      subject:`Cover to Master Approval – ${c.title}`,
      body:`Salam Dynotic Collective,\n\nKami informasikan bahwa pengajuan penggunaan lagu dengan judul "${c.title}" telah disetujui oleh publisher ${c.publisher}.\n\nUntuk informasi mengenai jadwal rilis, akan kami informasikan melalui email setelah proses penjadwalan selesai dilakukan.\n\nJika ada pertanyaan, silakan hubungi kami melalui email:\nadmin@dynotic.web.id\n\nSalam hormat,\n${SIGN_C2M}`}
   ];
   return[
-    {id:"license",name:"Lagu tidak ada di daftar Song License",desc:"Lagu belum terdaftar di daftar Song License kami (Cover to Master).",
-     subject:`Rilisan Ditolak - Lagu Tidak Tersedia di Daftar Song License - ${c.title}`,
-     body:`Halo,\n\nMohon maaf, pengajuan rilisan Anda belum dapat kami setujui karena lagu yang diajukan tidak tersedia di daftar Song License kami.\n\n${d}\n\nHarap mengecek daftar Song License melalui link di bawah ini:\n${SONG_LICENSE_URL}\n\nAnda dapat mengajukan kembali setelah memastikan lagu tersebut tersedia di daftar tersebut.\n\nJika ada pertanyaan, silakan hubungi tim support kami.\n\nSalam hormat,\n${SIGN_C2M}`},
-    {id:"composer",name:"Komposer tidak tersedia",desc:"Komposer tidak tersedia atau sudah tidak bekerja sama lagi (Cover to Master).",
+    {id:"license",ic:"disc",name:"Lagu tidak ada di daftar Songs Licensed",desc:"Lagu belum terdaftar di daftar Songs Licensed kami (Cover to Master).",
+     subject:`Rilisan Ditolak - Lagu Tidak Tersedia di Daftar Songs Licensed - ${c.title}`,
+     body:`Halo,\n\nMohon maaf, pengajuan rilisan Anda belum dapat kami setujui karena lagu yang diajukan tidak tersedia di daftar Songs Licensed kami.\n\n${d}\n\nHarap mengecek daftar Songs Licensed melalui link di bawah ini:\n${SONG_LICENSE_URL}\n\nAnda dapat mengajukan kembali setelah memastikan lagu tersebut tersedia di daftar tersebut.\n\nJika ada pertanyaan, silakan hubungi tim support kami.\n\nSalam hormat,\n${SIGN_C2M}`},
+    {id:"samename",ic:"info",name:"Judul sama, lagu berbeda",desc:"Judul ada di daftar Songs Licensed, tetapi itu lagu yang berbeda (Cover to Master).",
+     subject:`Rilisan Ditolak - Judul Sama, Lagu Berbeda - ${c.title}`,
+     body:`Halo,\n\nMohon maaf, pengajuan rilisan Anda belum dapat kami setujui. Judul lagu yang diajukan memang ada di daftar Songs Licensed kami, tetapi lagu tersebut berbeda dengan lagu yang Anda ajukan (komposer dan versinya tidak sama). Dengan begitu, lagu yang Anda ajukan belum terdaftar di daftar Songs Licensed kami.\n\n${detailsBlock(c)}\n\nMohon periksa kembali daftar Songs Licensed melalui link di bawah ini, dan pastikan judul serta komposer lagunya sesuai dengan lagu yang Anda maksud:\n${SONG_LICENSE_URL}\n\nAnda dapat mengajukan kembali setelah memastikan lagu yang dimaksud tersedia di daftar tersebut.\n\nJika ada pertanyaan, silakan hubungi tim support kami.\n\nSalam hormat,\n${SIGN_C2M}`},
+    {id:"composer",ic:"users",name:"Komposer tidak tersedia",desc:"Komposer tidak tersedia atau sudah tidak bekerja sama lagi (Cover to Master).",
      subject:`Rilisan Ditolak - Komposer Tidak Tersedia - ${c.title}`,
      body:`Halo,\n\nMohon maaf, pengajuan rilisan Anda belum dapat kami setujui karena komposer dari lagu yang diajukan tidak tersedia, atau sudah tidak bekerja sama lagi dengan kami.\n\n${d}\n\nSilakan memilih lagu lain dari komposer yang masih bekerja sama dengan kami, lalu ajukan kembali.\n\nJika ada pertanyaan, silakan hubungi tim support kami.\n\nSalam hormat,\n${SIGN_C2M}`},
-    {id:"copyright",name:"Hak cipta / lisensi",desc:"Reject umum karena potensi pelanggaran hak cipta atau masalah lisensi.",
+    {id:"copyright",ic:"alert",name:"Hak cipta / lisensi",desc:"Reject umum karena potensi pelanggaran hak cipta atau masalah lisensi.",
      subject:`Rilisan Ditolak - ${c.title}`,
      body:`Halo,\n\nMohon maaf, rilisan Anda tidak dapat kami setujui karena berpotensi melanggar hak cipta atau terdapat masalah lisensi.\n\n${d}\n\nSilakan tinjau kembali rilisan Anda dan hubungi tim support kami jika membutuhkan penjelasan lebih lanjut.\n\nSalam hormat,\n${SIGN_DEFAULT}`},
-    {id:"other",name:"Alasan lain (tulis sendiri)",desc:"Template kosong, isi alasan penolakan secara manual.",
+    {id:"other",ic:"chat",name:"Alasan lain (tulis sendiri)",desc:"Template kosong, isi alasan penolakan secara manual.",
      subject:`Rilisan Ditolak - ${c.title}`,
      body:`Halo,\n\nMohon maaf, rilisan Anda belum dapat kami setujui dengan alasan berikut:\n\n[Tulis alasan penolakan di sini]\n\n${d}\n\nJika ada pertanyaan, silakan hubungi tim support kami.\n\nSalam hormat,\n${SIGN_DEFAULT}`}
   ];
@@ -779,7 +826,9 @@ async function openComposer(kind,uid,rid){
   const ok=kind==="approve";
   setIcon($("cmpIcon"),ok?"success":"danger",ok?"check":"xc");
   $("cmpTitle").textContent=ok?"Approve Rilisan":"Reject Rilisan";
-  $("cmpSub").textContent=ctx.title+" · "+ctx.artist+"\nKepada: "+(C.email&&C.email!=="-"?C.email:"email artis tidak ditemukan");
+  $("cmpSub").textContent=ctx.title+" · "+ctx.artist;
+  $("cmpTo").textContent=C.email&&C.email!=="-"?C.email:"Email artis tidak ditemukan";
+  const bx=$("composerModal").querySelector(".box");bx.classList.toggle("k-approve",ok);bx.classList.toggle("k-reject",!ok);
   const send=$("cmpSend");
   send.textContent=ok?"Approve & Buka Email":"Reject & Buka Email";
   send.className="btn btn-main "+(ok?"btn-success":"btn-danger");
@@ -796,7 +845,7 @@ function selectTemplate(i){
   C.tpls.forEach((x,n)=>{
     const b=document.createElement("button");b.type="button";b.className="tpl"+(n===i?" sel":"");
     b.setAttribute("aria-pressed",String(n===i));
-    b.innerHTML='<span class="dot"></span><span><b>'+esc(x.name)+'</b><span class="d">'+esc(x.desc)+'</span></span>';
+    b.innerHTML='<span class="ti"><svg class="i"><use href="#i-'+x.ic+'"/></svg></span><span class="tx"><b>'+esc(x.name)+'</b><span class="d">'+esc(x.desc)+'</span></span><span class="chk"></span>';
     b.addEventListener("click",()=>selectTemplate(n));
     $("cmpTpls").appendChild(b);
   });
@@ -810,7 +859,7 @@ $("cmpPublisher").addEventListener("change",()=>{
 function emailOk(){return /^\S+@\S+\.\S+$/.test(C.email||"")}
 function pendingPlaceholder(){
   const b=$("cmpBody").value;
-  if(b.includes("GANTI-DENGAN-LINK"))return "Link Song License belum diisi. Ganti nilai SONG_LICENSE_URL di kode, atau edit langsung teks di atas.";
+  if(b.includes("GANTI-DENGAN-LINK"))return "Link Songs Licensed belum diisi. Ganti nilai SONG_LICENSE_URL di kode, atau edit langsung teks di atas.";
   if(b.includes("[Tulis alasan"))return "Alasan penolakan belum ditulis. Ganti teks dalam tanda kurung siku.";
   return "";
 }
@@ -844,9 +893,34 @@ async function submitComposer(sendMail){
   try{
     await applyStatus(uid,rid,ok?"approved":"rejected");
     hideLoading();closeComposer();
-    if(sendMail)location.href=`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body.replace(/\r?\n/g,"\r\n"))}`;
+    if(sendMail)openMail(email,subject,body);
   }catch(e){hideLoading();statusError(e)}
 }
+let mailMode="std";
+try{mailMode=localStorage.getItem("mailMode")==="zoho"?"zoho":"std"}catch(e){}
+function paintMode(){document.querySelectorAll("#cmpMode button").forEach(b=>b.classList.toggle("on",b.dataset.m===mailMode))}
+document.querySelectorAll("#cmpMode button").forEach(b=>b.addEventListener("click",()=>{
+  mailMode=b.dataset.m;try{localStorage.setItem("mailMode",mailMode)}catch(e){}paintMode();
+}));
+paintMode();
+function openMail(email,subject,body){
+  const b=mailMode==="zoho"?body.replace(/\r?\n/g,"<br>"):body.replace(/\r?\n/g,"\r\n");
+  location.href=`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(b)}`;
+}
+function bodyToHtml(body){
+  return body.split(/\n{2,}/).map(par=>'<p style="margin:0 0 14px">'+esc(par).replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1">$1</a>').replace(/\n/g,"<br>")+"</p>").join("");
+}
+$("cmpCopy").addEventListener("click",async()=>{
+  const body=$("cmpBody").value,btn=$("cmpCopy");
+  let ok=false;
+  try{
+    if(window.ClipboardItem&&navigator.clipboard.write){
+      await navigator.clipboard.write([new ClipboardItem({"text/html":new Blob([bodyToHtml(body)],{type:"text/html"}),"text/plain":new Blob([body],{type:"text/plain"})})]);ok=true;
+    }else{await navigator.clipboard.writeText(body);ok=true}
+  }catch(e){try{await navigator.clipboard.writeText(body);ok=true}catch(e2){}}
+  btn.textContent=ok?"Tersalin ✓":"Gagal menyalin";
+  setTimeout(()=>{btn.textContent="Salin email"},1800);
+});
 $("cmpSend").addEventListener("click",()=>submitComposer(true));
 $("cmpStatusOnly").addEventListener("click",()=>submitComposer(false));
 
