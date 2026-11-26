@@ -18,11 +18,12 @@
 <style>
 :root{--bg:#f3f3f8;--paper:#fff;--ink:#14141a;--muted:#6f7280;--line:#e6e6ee;--dark:#0d0d12;--accent:#7772a8;--accent-2:#a9a3f2;--side:260px;--ease:cubic-bezier(.16,1,.3,1)}
 *{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{background:var(--bg);color:var(--ink);min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:110px}
 a{color:inherit;text-decoration:none}
 button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
-a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .sidebar{display:none;position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--dark);color:#fff;padding:26px 18px 20px;flex-direction:column;z-index:60;overflow-y:auto}
 .sidebar .logo img{height:32px;max-width:180px;object-fit:contain;filter:brightness(0) invert(1);display:block;margin:0 8px 30px}
@@ -53,16 +54,22 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 .form.show{display:grid}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field>label,.lbl{font-size:12px;font-weight:600;color:#3b3d49}
+.field>label small{font-weight:500;color:var(--muted)}
 .help{font-size:11px;color:var(--muted);line-height:1.5}
 .input,.select{width:100%;height:50px;padding:0 16px;border-radius:14px;border:1.5px solid var(--line);background:#fff;font-size:15px;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
 .input::placeholder{color:#b3b5c0}
 .input:focus,.select:focus{border-color:var(--ink);box-shadow:0 0 0 4px rgba(119,114,168,.16)}
-.btn{height:50px;padding:0 20px;border-radius:14px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;transition:transform .2s var(--ease),opacity .2s}
+.textarea{height:auto;min-height:220px;padding:14px 16px;line-height:1.6;resize:vertical;font-size:14px}
+.btn{height:50px;padding:0 20px;border-radius:14px;font-size:14px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .2s var(--ease),opacity .2s,background .2s}
 .btn:active{transform:scale(.97)}
 .btn-dark{background:var(--ink);color:#fff}
 .btn-dark:hover{background:#000}
 .btn-light{background:var(--bg);color:var(--ink)}
-.btn-danger{background:#e04848;color:#fff}
+.btn-light:hover{background:#e9e9f1}
+.btn-danger{background:#d63c3c;color:#fff}
+.btn-danger:hover{background:#bf2f2f}
+.btn-success{background:#15803d;color:#fff}
+.btn-success:hover{background:#116a32}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 #msg{margin-top:4px;font-size:13px;font-weight:600;min-height:18px}
 .yt-preview{display:flex;gap:12px;align-items:center;background:var(--bg);border-radius:16px;padding:10px}
@@ -102,7 +109,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 .menu-wrap{position:relative}
 .menu-btn{width:36px;height:36px;border-radius:11px;font-size:18px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
 .menu-btn:hover{background:var(--bg);color:var(--ink)}
-.menu-dropdown{display:none;position:absolute;right:0;top:40px;min-width:170px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(20,20,40,.16);padding:6px;z-index:90}
+.menu-dropdown{display:none;position:absolute;right:0;top:40px;min-width:190px;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(20,20,40,.16);padding:6px;z-index:90}
 .menu-dropdown.show{display:block}
 .menu-dropdown button{display:block;width:100%;padding:11px 12px;border-radius:10px;font-size:13px;font-weight:500;text-align:left}
 .menu-dropdown button:hover{background:var(--bg)}
@@ -127,20 +134,60 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 .pop button.opt:hover{background:var(--bg)}
 .pop .i{width:17px;height:17px;color:var(--muted)}
 .pop .logout,.pop .logout .i{color:#d83a3a}
-.modal{display:none;position:fixed;inset:0;background:rgba(13,13,18,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:300;align-items:center;justify-content:center;padding:20px}
-.modal.show{display:flex}
-.box{width:100%;max-width:390px;max-height:92dvh;overflow-y:auto;background:#fff;border-radius:24px;padding:22px;box-shadow:0 24px 60px rgba(13,13,18,.25);animation:pop .22s var(--ease)}
-.m-icon{width:44px;height:44px;border-radius:14px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;margin-bottom:12px}
-.m-title{font-size:18px;font-weight:800;letter-spacing:-.02em}
-.m-msg{margin-top:6px;font-size:13px;line-height:1.6;color:var(--muted);white-space:pre-line;overflow-wrap:anywhere}
-.m-btns{display:flex;gap:8px;margin-top:20px}
-.m-btns .btn{flex:1;height:48px}
-.choice{display:flex;flex-direction:column;gap:8px;margin-top:14px}
-.choice .btn{height:46px;justify-content:flex-start;text-align:left}
+
+/* ---------- MODAL ---------- */
+.modal{display:none;position:fixed;inset:0;background:rgba(13,13,18,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex;animation:fade .2s ease}
+#customConfirm,#customAlert{z-index:330}
+.box{position:relative;width:100%;max-width:410px;max-height:92dvh;overflow-y:auto;background:#fff;border:1px solid rgba(255,255,255,.6);border-radius:28px;padding:26px;box-shadow:0 1px 0 rgba(255,255,255,.8) inset,0 30px 80px rgba(13,13,18,.32);animation:pop .3s var(--ease)}
+.box.wide{max-width:600px}
+.m-icon{width:54px;height:54px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;flex-shrink:0}
+.m-icon .i{width:25px;height:25px;stroke-width:2.2}
+.tone-info{background:linear-gradient(135deg,#efedfb,#dedbf3);color:#5b55a0}
+.tone-success{background:linear-gradient(135deg,#e2f8ec,#c4efd6);color:#15803d}
+.tone-warn{background:linear-gradient(135deg,#fff4dc,#fde5b3);color:#b7791f}
+.tone-danger{background:linear-gradient(135deg,#fee8e8,#fbcfcf);color:#c02a2a}
+.m-title{font-size:20px;font-weight:800;letter-spacing:-.025em;line-height:1.2}
+.m-msg{margin-top:8px;font-size:14px;line-height:1.65;color:var(--muted);white-space:pre-line;overflow-wrap:anywhere}
+.m-btns{display:flex;gap:10px;margin-top:24px}
+.m-btns .btn{flex:1;height:50px}
+.m-top{display:flex;gap:14px;align-items:flex-start}
+.m-top .m-icon{margin-bottom:0}
+.m-top-t{flex:1;min-width:0}
+.m-top-t .m-msg{margin-top:4px;font-size:13px}
+.x-btn{width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.x-btn:hover{background:var(--bg);color:var(--ink)}
+.sec{margin:20px 0 8px;display:block}
+.tpls{display:flex;flex-direction:column;gap:8px}
+.tpl{display:flex;gap:12px;align-items:flex-start;width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:16px;text-align:left;transition:border-color .2s,background .2s,box-shadow .2s}
+.tpl:hover{border-color:#cfcde2}
+.tpl.sel{border-color:var(--ink);background:#faf9ff;box-shadow:0 0 0 4px rgba(119,114,168,.12)}
+.tpl .dot{width:20px;height:20px;border-radius:50%;border:2px solid #cfd0da;margin-top:1px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.tpl.sel .dot{border-color:var(--ink);background:var(--ink)}
+.tpl.sel .dot::after{content:"";width:6px;height:6px;border-radius:50%;background:#fff}
+.tpl b{display:block;font-size:14px;font-weight:700}
+.tpl span.d{display:block;margin-top:2px;font-size:12px;color:var(--muted);line-height:1.5}
+.cmp-fields{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.notice{margin-top:12px;padding:11px 14px;border-radius:14px;font-size:12px;line-height:1.6;font-weight:500;background:#fff4dc;color:#8a5a0c}
+.notice.err{background:#fee8e8;color:#9d2020}
+.m-btns.stack{flex-wrap:wrap}
+.m-btns.stack .btn-main{flex:1 1 100%;order:-1}
+.rel-chip{display:flex;gap:12px;align-items:center;margin-top:16px;padding:10px;background:var(--bg);border-radius:16px}
+.rel-chip .u-ava{width:42px;height:42px;border-radius:12px}
+.rel-chip b{display:block;font-size:13px;overflow-wrap:anywhere}
+.rel-chip span{display:block;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.acc-list{margin-top:10px;max-height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+.acc-list .a-item{border:1.5px solid var(--line);border-radius:14px}
+.acc-list .a-item.sel{border-color:var(--ink);background:#faf9ff}
+.acc-list .a-item:disabled{opacity:.45;cursor:not-allowed}
 .loading{position:fixed;inset:0;background:rgba(243,243,248,.8);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:500}
 .loading.show{display:flex}
-.loader-box{background:#fff;border:1px solid var(--line);padding:16px 22px;border-radius:16px;font-size:14px;font-weight:600}
-@keyframes pop{from{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:none}}
+.loader-box{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);padding:16px 22px;border-radius:18px;font-size:14px;font-weight:600;box-shadow:0 20px 50px rgba(20,20,40,.14)}
+.loader-box::before{content:"";width:18px;height:18px;border-radius:50%;border:2.5px solid var(--line);border-top-color:var(--ink);animation:spin .7s linear infinite}
+@keyframes pop{from{opacity:0;transform:scale(.95) translateY(12px)}to{opacity:1;transform:none}}
+@keyframes sheet{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
 @media(min-width:700px){.form{grid-template-columns:1fr 1fr}.form .full{grid-column:1/-1}}
 @media(min-width:1000px){
 body{padding-bottom:40px;padding-left:var(--side)}
@@ -149,7 +196,13 @@ body{padding-bottom:40px;padding-left:var(--side)}
 .wrap{padding:6px 36px 0}.pop{top:76px;right:34px}
 .users{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media(max-width:700px){.wrap{padding:0 14px}.card{padding:16px;border-radius:20px}.pop{right:12px;top:66px}.user{padding:12px;gap:10px}.u-ava{display:none}}
+@media(max-width:700px){
+.wrap{padding:0 14px}.card{padding:16px;border-radius:20px}.pop{right:12px;top:66px}.user{padding:12px;gap:10px}.u-ava{display:none}
+.modal{align-items:flex-end;padding:0}
+.box,.box.wide{max-width:none;max-height:94dvh;border-radius:28px 28px 0 0;padding:14px 20px calc(22px + env(safe-area-inset-bottom));animation:sheet .35s var(--ease)}
+.box::before{content:"";display:block;width:40px;height:4px;border-radius:4px;background:#d9dae3;margin:0 auto 16px}
+.rel-chip .u-ava{display:flex}
+}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -164,6 +217,17 @@ body{padding-bottom:40px;padding-left:var(--side)}
 <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
 <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
 <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></symbol>
+<symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+<symbol id="i-swap" viewBox="0 0 24 24"><path d="M17 3l4 4-4 4M21 7H8M7 21l-4-4 4-4M3 17h13"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+<symbol id="i-xc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
 </svg>
 
 <aside class="sidebar">
@@ -278,34 +342,65 @@ body{padding-bottom:40px;padding-left:var(--side)}
 </nav>
 
 <!-- ALERT -->
-<div id="customAlert" class="modal"><div class="box">
-  <div id="alertIcon" class="m-icon">!</div><div id="alertTitle" class="m-title">Informasi</div><div id="alertMessage" class="m-msg"></div>
-  <div class="m-btns"><button class="btn btn-dark" type="button" onclick="closeCustomAlert()">OK</button></div>
+<div id="customAlert" class="modal" role="dialog" aria-modal="true" aria-labelledby="alertTitle"><div class="box">
+  <div id="alertIcon" class="m-icon"></div>
+  <div id="alertTitle" class="m-title"></div>
+  <div id="alertMessage" class="m-msg"></div>
+  <div class="m-btns"><button class="btn btn-dark" type="button" onclick="closeCustomAlert()">Mengerti</button></div>
 </div></div>
 
 <!-- CONFIRM -->
-<div id="customConfirm" class="modal"><div class="box">
-  <div id="confirmIcon" class="m-icon">?</div><div id="confirmTitle" class="m-title">Konfirmasi</div><div id="confirmMessage" class="m-msg"></div>
+<div id="customConfirm" class="modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle"><div class="box">
+  <div id="confirmIcon" class="m-icon"></div>
+  <div id="confirmTitle" class="m-title"></div>
+  <div id="confirmMessage" class="m-msg"></div>
   <div class="m-btns">
     <button class="btn btn-light" type="button" onclick="closeCustomConfirm(false)">Batal</button>
     <button id="confirmActionButton" class="btn btn-dark" type="button" onclick="closeCustomConfirm(true)">Lanjutkan</button>
   </div>
 </div></div>
 
-<!-- CHOICE -->
-<div id="choiceModal" class="modal"><div class="box">
-  <div id="choiceTitle" class="m-title"></div><div id="choiceMsg" class="m-msg"></div>
-  <div class="choice" id="choiceList"></div>
-  <div class="m-btns"><button class="btn btn-light" type="button" onclick="closeChoice(null)">Batal</button></div>
+<!-- EMAIL COMPOSER (APPROVE / REJECT) -->
+<div id="composerModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="cmpTitle"><div class="box wide">
+  <div class="m-top">
+    <div id="cmpIcon" class="m-icon"></div>
+    <div class="m-top-t"><div id="cmpTitle" class="m-title"></div><div id="cmpSub" class="m-msg"></div></div>
+    <button class="x-btn" type="button" onclick="closeComposer()" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button>
+  </div>
+  <span class="lbl sec">Pilih template email</span>
+  <div class="tpls" id="cmpTpls"></div>
+  <div class="cmp-fields">
+    <div class="field" id="cmpPubWrap" hidden>
+      <label for="cmpPublisher">Publisher</label>
+      <select class="select" id="cmpPublisher"></select>
+    </div>
+    <div class="field"><label for="cmpSubject">Subjek</label><input class="input" id="cmpSubject" autocomplete="off"></div>
+    <div class="field"><label for="cmpBody">Isi email <small>(bisa diedit sebelum dikirim)</small></label><textarea class="input textarea" id="cmpBody" rows="11"></textarea></div>
+  </div>
+  <div class="notice" id="cmpNote" hidden></div>
+  <div class="m-btns stack">
+    <button class="btn btn-light" type="button" onclick="closeComposer()">Batal</button>
+    <button class="btn btn-light" type="button" id="cmpStatusOnly">Ubah status saja</button>
+    <button class="btn btn-main btn-dark" type="button" id="cmpSend"></button>
+  </div>
 </div></div>
 
-<!-- PROMPT -->
-<div id="promptModal" class="modal"><div class="box">
-  <div id="promptTitle" class="m-title"></div><div id="promptMsg" class="m-msg"></div>
-  <input id="promptInput" class="input" style="margin-top:12px" autocomplete="off">
+<!-- ACCOUNT PICKER -->
+<div id="accountModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="accTitle"><div class="box">
+  <div class="m-top">
+    <div class="m-icon tone-info"><svg class="i"><use href="#i-swap"/></svg></div>
+    <div class="m-top-t"><div id="accTitle" class="m-title">Ganti Akun Artist</div><div class="m-msg">Pilih akun tujuan. Rilisan akan dipindahkan dari akun lama.</div></div>
+    <button class="x-btn" type="button" onclick="closeAccountPicker()" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="rel-chip" id="accChip"></div>
+  <div class="search" style="margin:16px 0 0">
+    <svg class="i"><use href="#i-search"/></svg>
+    <input class="input" id="accSearch" placeholder="Cari email atau nama artist..." autocomplete="off">
+  </div>
+  <div class="acc-list" id="accList"></div>
   <div class="m-btns">
-    <button class="btn btn-light" type="button" onclick="closePrompt(null)">Batal</button>
-    <button class="btn btn-dark" type="button" onclick="closePrompt($('promptInput').value)">Lanjutkan</button>
+    <button class="btn btn-light" type="button" onclick="closeAccountPicker()">Batal</button>
+    <button class="btn btn-dark" type="button" id="accNext" disabled>Lanjutkan</button>
   </div>
 </div></div>
 
@@ -324,18 +419,37 @@ const perPage=10;
 let releasesData=[], filteredData=[], currentPage=1;
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
-/* ---------- MODAL SYSTEM ---------- */
-function showAlert(message,title="Informasi",icon="!"){
-  $("alertTitle").textContent=title;$("alertMessage").textContent=message;$("alertIcon").textContent=icon;
-  $("customAlert").classList.add("show");
+/* ---------- PENGATURAN TEMPLATE EMAIL ---------- */
+const SONG_LICENSE_URL="https://app.dynoticcollective.com/catalog/releases/licensed-songs/";
+const SIGN_DEFAULT="Nazwa Patricia";
+const SIGN_C2M="Risna Wati\nCover to Master Team";
+const PUBLISHERS=["MAHAR PUSTAKA NUSANTARA","Pragita Prabawa Pustaka","Nadaku Musik","Royal Publikasi Indo","Alfa Pustaka Nada","Pustaka Jeka","Pustaka Cipta Kreasi","Star Cipta Musikindo","Sora Music Publisher","Proaktif Digital Kreasi","18 Musik","Sony Music Publishing Indonesia","NAGASWARA"];
+
+/* ---------- SISTEM MODAL ---------- */
+const TONES={info:"info",success:"check",warn:"alert",danger:"alert"};
+function setIcon(el,tone,icon){
+  el.className="m-icon tone-"+tone;
+  el.innerHTML='<svg class="i"><use href="#i-'+(icon||TONES[tone]||"info")+'"/></svg>';
 }
-function closeCustomAlert(){$("customAlert").classList.remove("show")}
+let alertResolver=null;
+function showAlert(message,title="Informasi",tone="info"){
+  return new Promise(resolve=>{
+    alertResolver=resolve;
+    $("alertTitle").textContent=title;$("alertMessage").textContent=message;setIcon($("alertIcon"),tone);
+    $("customAlert").classList.add("show");
+  });
+}
+function closeCustomAlert(){
+  $("customAlert").classList.remove("show");
+  if(alertResolver){const f=alertResolver;alertResolver=null;f()}
+}
 let confirmResolver=null;
-function showConfirm(message,title="Konfirmasi",icon="?",buttonText="Lanjutkan",danger=false){
+function showConfirm(message,title="Konfirmasi",o={}){
+  const {tone="info",icon="help",ok="Lanjutkan",danger=false}=o;
   return new Promise(resolve=>{
     confirmResolver=resolve;
-    $("confirmTitle").textContent=title;$("confirmMessage").textContent=message;$("confirmIcon").textContent=icon;
-    const b=$("confirmActionButton");b.textContent=buttonText;b.className="btn "+(danger?"btn-danger":"btn-dark");
+    $("confirmTitle").textContent=title;$("confirmMessage").textContent=message;setIcon($("confirmIcon"),tone,icon);
+    const b=$("confirmActionButton");b.textContent=ok;b.className="btn "+(danger?"btn-danger":"btn-dark");
     $("customConfirm").classList.add("show");
   });
 }
@@ -343,44 +457,20 @@ function closeCustomConfirm(r){
   $("customConfirm").classList.remove("show");
   if(confirmResolver){const f=confirmResolver;confirmResolver=null;f(r)}
 }
-let choiceResolver=null;
-function showChoice(title,message,options){
-  return new Promise(resolve=>{
-    choiceResolver=resolve;
-    $("choiceTitle").textContent=title;$("choiceMsg").textContent=message||"";
-    const list=$("choiceList");list.innerHTML="";
-    options.forEach((o,i)=>{
-      const b=document.createElement("button");b.type="button";b.className="btn btn-light";b.textContent=o;
-      b.addEventListener("click",()=>closeChoice(i));list.appendChild(b);
-    });
-    $("choiceModal").classList.add("show");
-  });
-}
-function closeChoice(v){
-  $("choiceModal").classList.remove("show");
-  if(choiceResolver){const f=choiceResolver;choiceResolver=null;f(v)}
-}
-let promptResolver=null;
-function showPrompt(title,message,placeholder){
-  return new Promise(resolve=>{
-    promptResolver=resolve;
-    $("promptTitle").textContent=title;$("promptMsg").textContent=message||"";
-    $("promptInput").value="";$("promptInput").placeholder=placeholder||"";
-    $("promptModal").classList.add("show");
-    setTimeout(()=>$("promptInput").focus(),100);
-  });
-}
-function closePrompt(v){
-  $("promptModal").classList.remove("show");
-  if(promptResolver){const f=promptResolver;promptResolver=null;f(v)}
-}
 function showLoading(t="Memproses..."){document.querySelector("#customLoading .loader-box").textContent=t;$("customLoading").classList.add("show")}
 function hideLoading(){$("customLoading").classList.remove("show")}
 document.addEventListener("click",e=>{
   if(e.target.id==="customAlert")closeCustomAlert();
   if(e.target.id==="customConfirm")closeCustomConfirm(false);
-  if(e.target.id==="choiceModal")closeChoice(null);
-  if(e.target.id==="promptModal")closePrompt(null);
+  if(e.target.id==="composerModal")closeComposer();
+  if(e.target.id==="accountModal")closeAccountPicker();
+});
+document.addEventListener("keydown",e=>{
+  if(e.key!=="Escape")return;
+  if($("customAlert").classList.contains("show"))return closeCustomAlert();
+  if($("customConfirm").classList.contains("show"))return closeCustomConfirm(false);
+  if($("composerModal").classList.contains("show"))return closeComposer();
+  if($("accountModal").classList.contains("show"))return closeAccountPicker();
 });
 
 /* ---------- PROFIL & LOGOUT ---------- */
@@ -389,8 +479,10 @@ function setMenu(o){menu.classList.toggle("show",o);pbtn.setAttribute("aria-expa
 pbtn.addEventListener("click",e=>{e.stopPropagation();setMenu(!menu.classList.contains("show"))});
 document.addEventListener("click",e=>{if(!menu.contains(e.target)&&!pbtn.contains(e.target))setMenu(false)});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")setMenu(false)});
-function logout(){
-  if(confirm("Logout dari admin panel?")) auth.signOut().then(()=>{location.href=LOGIN_URL});
+async function logout(){
+  setMenu(false);
+  if(await showConfirm("Sesi admin akan diakhiri dan Anda perlu login kembali.","Keluar dari Admin Panel?",{tone:"warn",icon:"logout",ok:"Logout"}))
+    auth.signOut().then(()=>{location.href=LOGIN_URL});
 }
 
 /* ---------- TOPBAR ---------- */
@@ -409,13 +501,16 @@ $("toggleForm").addEventListener("click",()=>{
 auth.onAuthStateChanged(user=>{
   if(!user){location.href=LOGIN_URL;return}
   $("adminEmail").textContent=user.email||"-";
-  db.ref("admins/"+user.uid).once("value").then(snap=>{
-    if(!snap.exists()){alert("Anda bukan admin.");auth.signOut();return}
+  db.ref("admins/"+user.uid).once("value").then(async snap=>{
+    if(!snap.exists()){
+      await showAlert("Akun ini tidak terdaftar sebagai admin.","Akses Ditolak","danger");
+      auth.signOut();return;
+    }
     loadReleases();
   }).catch(err=>console.error("Admin verification error:",err));
 });
 
-/* ---------- CARI AKUN ARTIST ---------- */
+/* ---------- CARI AKUN ARTIST (FORM MANUAL) ---------- */
 let artistOptions=[],selectedArtist=null;
 function loadArtistOptions(){
   const input=$("manualEmail");
@@ -498,9 +593,9 @@ $("saveBtn").addEventListener("click",async()=>{
   const uid=selectedArtist?selectedArtist.uid:"",email=selectedArtist?selectedArtist.email:"";
   const youtube=$("manualYoutube").value.trim(),videoId=parseYouTubeId(youtube);
   const title=$("manualTitle").value.trim(),artist=$("manualArtist").value.trim(),date=$("manualDate").value;
-  if(!uid)return showAlert("Pilih email akun artist terlebih dahulu.","Akun Belum Dipilih","!");
-  if(!videoId)return showAlert("Link YouTube tidak valid. Gunakan link video YouTube yang benar.","Link Tidak Valid","!");
-  if(!title||!artist||!date)return showAlert("Judul, artis, dan tanggal rilis wajib diisi.","Data Belum Lengkap","!");
+  if(!uid)return showAlert("Pilih email akun artist terlebih dahulu.","Akun Belum Dipilih","warn");
+  if(!videoId)return showAlert("Link YouTube tidak valid. Gunakan link video YouTube yang benar.","Link Tidak Valid","warn");
+  if(!title||!artist||!date)return showAlert("Judul, artis, dan tanggal rilis wajib diisi.","Data Belum Lengkap","warn");
   const platforms=[...document.querySelectorAll("#platformGrid input:checked")].map(e=>e.value);
   const release={
     title,artist,cover:`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,date,
@@ -581,11 +676,11 @@ function releaseRow(d){
   });
   dd.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
     closeMenus();const a=b.dataset.a;
-    if(a==="process")confirmRelease(d.uid,d.rid,"proses");
-    if(a==="approve")openApproveOptions(d.uid,d.rid);
+    if(a==="process")processRelease(d.uid,d.rid);
+    if(a==="approve")openComposer("approve",d.uid,d.rid);
     if(a==="schedule")scheduleRelease(d.uid,d.rid);
-    if(a==="reject")confirmRelease(d.uid,d.rid,"rejected");
-    if(a==="account")changeReleaseAccount(d.uid,d.rid);
+    if(a==="reject")openComposer("reject",d.uid,d.rid);
+    if(a==="account")openAccountPicker(d.uid,d.rid);
     if(a==="delete")deleteRelease(d.uid,d.rid);
   }));
   return el;
@@ -608,134 +703,226 @@ $("searchInput").addEventListener("input",()=>{
   searchTimer=setTimeout(()=>{applyFilter();renderPage(1)},250);
 });
 function openPlatform(uid,rid){
-  if(!uid||!rid)return showAlert("ID akun atau ID rilisan tidak ditemukan.","Data Tidak Lengkap","!");
+  if(!uid||!rid)return showAlert("ID akun atau ID rilisan tidak ditemukan.","Data Tidak Lengkap","warn");
   try{localStorage.setItem("lastPage",currentPage)}catch(e){}
-  location.href=`/releases/release-details?uid=${encodeURIComponent(uid)}&rid=${encodeURIComponent(rid)}`;
+  location.href=`/release-details?uid=${encodeURIComponent(uid)}&rid=${encodeURIComponent(rid)}`;
 }
 
 /* ---------- STATUS ---------- */
-async function scheduleRelease(uid,rid){
-  const ok=await showConfirm("Rilisan sudah disetujui, tetapi masih menunggu jadwal rilis.","Tetapkan ke SCHEDULE?","!","Schedule");
-  if(ok)setReleaseStatus(uid,rid,"schedule");
-}
-async function confirmRelease(uid,rid,status,approvalType="normal"){
-  let text,title,btn,danger=false;
-  if(status==="approved"){
-    title="Approve Rilisan";btn="Approve";
-    text=approvalType==="rescheduled"
-      ?"Konfirmasi approval dengan jadwal rilis yang dijadwalkan ulang?\n\nEmail akan menginformasikan bahwa tanggal rilis berubah dari pihak pusat."
-      :"Yakin APPROVE rilis ini?";
-  }else if(status==="rejected"){
-    title="Reject Rilisan";btn="Reject";danger=true;text="Yakin REJECT rilis ini?\nAksi ini tidak bisa dibatalkan!";
-  }else{title="Proses Rilisan";btn="Proses";text="Tandai rilisan ini sebagai PROSES?"}
-  if(await showConfirm(text,title,"!",btn,danger))setReleaseStatus(uid,rid,status,approvalType);
-}
-function setReleaseStatus(uid,rid,status,approvalType="normal"){
-  db.ref(`releases/${uid}/${rid}/status`).set(status).then(()=>{
-    const item=releasesData.find(r=>r.uid===uid&&r.rid===rid);
-    if(item){
-      item.status=status;
-      if(status==="approved"||status==="rejected")openEmailDraft(item.email||"",item.artist||"-",item.title||"-",status,approvalType,uid,rid);
-    }
+function applyStatus(uid,rid,status){
+  return db.ref(`releases/${uid}/${rid}/status`).set(status).then(()=>{
+    const item=releasesData.find(r=>r.uid===uid&&r.rid===rid);if(item)item.status=status;
     const f=filteredData.find(r=>r.uid===uid&&r.rid===rid);if(f)f.status=status;
     renderPage(currentPage);
-  }).catch(e=>showAlert("Gagal memperbarui status.\n\n"+e.message,"Gagal Memperbarui Status","!"));
+  });
 }
-async function openApproveOptions(uid,rid){
-  const t=await showChoice("Tipe Approval","Pilih tipe approval:",["Original","Publisher","Approve Biasa","Approve · Dijadwalkan Ulang"]);
-  if(t===null)return;
-  if(t===0)confirmRelease(uid,rid,"approved");
-  else if(t===2)confirmRelease(uid,rid,"approved","normal");
-  else if(t===3)confirmRelease(uid,rid,"approved","rescheduled");
-  else{
-    const publishers=["MAHAR PUSTAKA NUSANTARA","Pragita Prabawa Pustaka","Nadaku Musik","Royal Publikasi Indo","Alfa Pustaka Nada","Pustaka Jeka","Pustaka Cipta Kreasi","Star Cipta Musikindo","Sora Music Publisher","Proaktif Digital Kreasi","18 Musik","Sony Music Publishing Indonesia","NAGASWARA"];
-    const c=await showChoice("Pilih Publisher","",publishers);
-    if(c===null)return;
-    confirmPublisherRelease(uid,rid,publishers[c]);
-  }
+function statusError(e){return showAlert("Status rilisan tidak bisa diperbarui.\n\n"+e.message,"Gagal Memperbarui Status","danger")}
+async function processRelease(uid,rid){
+  if(await showConfirm("Rilisan akan ditandai sedang diproses.","Tandai sebagai Proses?",{tone:"info",icon:"clock",ok:"Tandai Proses"}))
+    applyStatus(uid,rid,"proses").catch(statusError);
 }
-async function confirmPublisherRelease(uid,rid,publisher){
-  if(!await showConfirm("Publisher: "+publisher,"Approve sebagai Publisher?","✓","Approve"))return;
-  db.ref(`releases/${uid}/${rid}/status`).set("approved").then(()=>{
-    const item=releasesData.find(r=>r.uid===uid&&r.rid===rid);
-    if(item){item.status="approved";openPublisherEmail(item.email||"",item.title||"-",publisher)}
-    const f=filteredData.find(r=>r.uid===uid&&r.rid===rid);if(f)f.status="approved";
-    renderPage(currentPage);
-  }).catch(e=>showAlert("Gagal memperbarui status.\n\n"+e.message,"Gagal Memperbarui Status","!"));
+async function scheduleRelease(uid,rid){
+  if(await showConfirm("Rilisan sudah disetujui, tetapi masih menunggu jadwal rilis.","Tetapkan ke Schedule?",{tone:"info",icon:"cal",ok:"Schedule"}))
+    applyStatus(uid,rid,"schedule").catch(statusError);
 }
 
-/* ---------- EMAIL DRAFT ---------- */
-function openPublisherEmail(email,title,publisher){
-  const subject=`Cover to Master Approval – ${title}`;
-  const body=`Salam Dynotic Collective,\n\nKami informasikan bahwa pengajuan penggunaan lagu dengan judul "${title}" telah disetujui oleh publisher ${publisher}.\n\nUntuk informasi mengenai jadwal rilis, akan kami informasikan melalui email setelah proses penjadwalan selesai dilakukan.\n\nJika ada pertanyaan, silakan hubungi kami melalui email:\nadmin@dynotic.web.id\n\nBest regards,\nRisna Wati\nCover to Master Team`;
-  location.href=`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body.replace(/\n/g,"\r\n"))}`;
+/* ---------- TEMPLATE EMAIL ---------- */
+function fmtDate(s){
+  if(!s||s==="-")return "-";
+  const d=new Date(s+"T00:00:00");
+  return isNaN(d)?s:d.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
 }
-async function openEmailDraft(email,artist,title,status,approvalType="normal",uid=null,rid=null){
-  let releaseDate="-",upc="-";
+function detailsBlock(c){
+  return `Detail Rilisan\nJudul         : ${c.title}\nArtis         : ${c.artist}\nTanggal Rilis : ${c.date}\nUPC           : ${c.upc}`;
+}
+function getTemplates(kind,c){
+  const d=detailsBlock(c);
+  if(kind==="approve")return[
+    {id:"original",name:"Original",desc:"Approve standar. Rilisan diproses untuk distribusi.",
+     subject:`Rilisan Disetujui - ${c.title}`,
+     body:`Halo,\n\nKabar baik! Rilisan Anda telah disetujui dan diproses untuk distribusi.\n\n${d}\n\nMohon menunggu selagi rilisan diproses oleh partner distribusi kami.\n\nJika ada pertanyaan, silakan hubungi tim support kami.\n\nSalam hormat,\n${SIGN_DEFAULT}`},
+    {id:"rescheduled",name:"Dijadwalkan Ulang",desc:"Approve dengan tanggal rilis yang diubah oleh partner distribusi.",
+     subject:`Pembaruan Jadwal Rilis - ${c.title}`,
+     body:`Halo,\n\nRilisan Anda telah disetujui, dengan jadwal rilis yang diperbarui oleh partner distribusi kami.\n\n${d}\n\nTanggal rilis di atas mengikuti jadwal terbaru yang tercatat di sistem kami.\n\nKami mohon maaf atas ketidaknyamanan ini dan terima kasih atas pengertian Anda.\n\nJika ada pertanyaan, silakan hubungi tim support kami.\n\nSalam hormat,\n${SIGN_DEFAULT}`},
+    {id:"publisher",name:"Publisher (Cover to Master)",desc:"Pengajuan lagu disetujui oleh publisher yang dipilih.",pub:true,
+     subject:`Cover to Master Approval – ${c.title}`,
+     body:`Salam Dynotic Collective,\n\nKami informasikan bahwa pengajuan penggunaan lagu dengan judul "${c.title}" telah disetujui oleh publisher ${c.publisher}.\n\nUntuk informasi mengenai jadwal rilis, akan kami informasikan melalui email setelah proses penjadwalan selesai dilakukan.\n\nJika ada pertanyaan, silakan hubungi kami melalui email:\nadmin@dynotic.web.id\n\nSalam hormat,\n${SIGN_C2M}`}
+  ];
+  return[
+    {id:"license",name:"Lagu tidak ada di daftar Song License",desc:"Lagu belum terdaftar di daftar Song License kami (Cover to Master).",
+     subject:`Rilisan Ditolak - Lagu Tidak Tersedia di Daftar Song License - ${c.title}`,
+     body:`Halo,\n\nMohon maaf, pengajuan rilisan Anda belum dapat kami setujui karena lagu yang diajukan tidak tersedia di daftar Song License kami.\n\n${d}\n\nHarap mengecek daftar Song License melalui link di bawah ini:\n${SONG_LICENSE_URL}\n\nAnda dapat mengajukan kembali setelah memastikan lagu tersebut tersedia di daftar tersebut.\n\nJika ada pertanyaan, silakan hubungi tim support kami.\n\nSalam hormat,\n${SIGN_C2M}`},
+    {id:"composer",name:"Komposer tidak tersedia",desc:"Komposer tidak tersedia atau sudah tidak bekerja sama lagi (Cover to Master).",
+     subject:`Rilisan Ditolak - Komposer Tidak Tersedia - ${c.title}`,
+     body:`Halo,\n\nMohon maaf, pengajuan rilisan Anda belum dapat kami setujui karena komposer dari lagu yang diajukan tidak tersedia, atau sudah tidak bekerja sama lagi dengan kami.\n\n${d}\n\nSilakan memilih lagu lain dari komposer yang masih bekerja sama dengan kami, lalu ajukan kembali.\n\nJika ada pertanyaan, silakan hubungi tim support kami.\n\nSalam hormat,\n${SIGN_C2M}`},
+    {id:"copyright",name:"Hak cipta / lisensi",desc:"Reject umum karena potensi pelanggaran hak cipta atau masalah lisensi.",
+     subject:`Rilisan Ditolak - ${c.title}`,
+     body:`Halo,\n\nMohon maaf, rilisan Anda tidak dapat kami setujui karena berpotensi melanggar hak cipta atau terdapat masalah lisensi.\n\n${d}\n\nSilakan tinjau kembali rilisan Anda dan hubungi tim support kami jika membutuhkan penjelasan lebih lanjut.\n\nSalam hormat,\n${SIGN_DEFAULT}`},
+    {id:"other",name:"Alasan lain (tulis sendiri)",desc:"Template kosong, isi alasan penolakan secara manual.",
+     subject:`Rilisan Ditolak - ${c.title}`,
+     body:`Halo,\n\nMohon maaf, rilisan Anda belum dapat kami setujui dengan alasan berikut:\n\n[Tulis alasan penolakan di sini]\n\n${d}\n\nJika ada pertanyaan, silakan hubungi tim support kami.\n\nSalam hormat,\n${SIGN_DEFAULT}`}
+  ];
+}
+
+/* ---------- COMPOSER (APPROVE / REJECT) ---------- */
+let C=null;
+async function openComposer(kind,uid,rid){
+  const item=releasesData.find(r=>r.uid===uid&&r.rid===rid);
+  if(!item)return showAlert("Rilisan tidak ditemukan. Muat ulang halaman.","Rilisan Tidak Ditemukan","warn");
+  showLoading("Menyiapkan template...");
+  let rel=item;
+  try{rel=(await db.ref(`releases/${uid}/${rid}`).once("value")).val()||item}
+  catch(err){console.error(err);hideLoading();return showAlert("Tanggal rilis dan UPC tidak bisa diambil. Periksa koneksi lalu coba lagi.","Gagal Membuka Template","danger")}
+  hideLoading();
+  const ctx={title:rel.title||"-",artist:rel.artist||"-",date:fmtDate(rel.date),upc:String(rel.ean||rel.upc||"").trim()||"-",publisher:PUBLISHERS[0]};
+  C={kind,uid,rid,ctx,email:item.email||"",idx:0,tpls:[]};
+  const ok=kind==="approve";
+  setIcon($("cmpIcon"),ok?"success":"danger",ok?"check":"xc");
+  $("cmpTitle").textContent=ok?"Approve Rilisan":"Reject Rilisan";
+  $("cmpSub").textContent=ctx.title+" · "+ctx.artist+"\nKepada: "+(C.email&&C.email!=="-"?C.email:"email artis tidak ditemukan");
+  const send=$("cmpSend");
+  send.textContent=ok?"Approve & Buka Email":"Reject & Buka Email";
+  send.className="btn btn-main "+(ok?"btn-success":"btn-danger");
+  const sel=$("cmpPublisher");
+  sel.innerHTML=PUBLISHERS.map(p=>'<option value="'+esc(p)+'">'+esc(p)+'</option>').join("");
+  C.tpls=getTemplates(kind,ctx);
+  selectTemplate(0);
+  $("composerModal").classList.add("show");
+}
+function selectTemplate(i){
+  C.idx=i;C.tpls=getTemplates(C.kind,C.ctx);
+  const t=C.tpls[i];
+  $("cmpTpls").innerHTML="";
+  C.tpls.forEach((x,n)=>{
+    const b=document.createElement("button");b.type="button";b.className="tpl"+(n===i?" sel":"");
+    b.setAttribute("aria-pressed",String(n===i));
+    b.innerHTML='<span class="dot"></span><span><b>'+esc(x.name)+'</b><span class="d">'+esc(x.desc)+'</span></span>';
+    b.addEventListener("click",()=>selectTemplate(n));
+    $("cmpTpls").appendChild(b);
+  });
+  $("cmpPubWrap").hidden=!t.pub;
+  $("cmpSubject").value=t.subject;$("cmpBody").value=t.body;
+  updateNote();
+}
+$("cmpPublisher").addEventListener("change",()=>{
+  if(!C)return;C.ctx.publisher=$("cmpPublisher").value;selectTemplate(C.idx);
+});
+function emailOk(){return /^\S+@\S+\.\S+$/.test(C.email||"")}
+function pendingPlaceholder(){
+  const b=$("cmpBody").value;
+  if(b.includes("GANTI-DENGAN-LINK"))return "Link Song License belum diisi. Ganti nilai SONG_LICENSE_URL di kode, atau edit langsung teks di atas.";
+  if(b.includes("[Tulis alasan"))return "Alasan penolakan belum ditulis. Ganti teks dalam tanda kurung siku.";
+  return "";
+}
+function updateNote(){
+  const n=$("cmpNote"),p=pendingPlaceholder();
+  let msg="",err=false;
+  if(!emailOk()){msg="Email artis tidak valid atau tidak ditemukan, jadi email tidak bisa dibuka. Anda tetap bisa mengubah status saja.";err=true}
+  else if(p)msg=p;
+  n.hidden=!msg;n.textContent=msg;n.className="notice"+(err?" err":"");
+  $("cmpSend").disabled=!emailOk();
+}
+$("cmpBody").addEventListener("input",updateNote);
+function closeComposer(){$("composerModal").classList.remove("show");C=null}
+async function submitComposer(sendMail){
+  if(!C)return;
+  const subject=$("cmpSubject").value.trim(),body=$("cmpBody").value;
+  if(sendMail){
+    const p=pendingPlaceholder();
+    if(p)return showAlert(p,"Template Belum Lengkap","warn");
+    if(!subject||!body.trim())return showAlert("Subjek dan isi email tidak boleh kosong.","Email Belum Lengkap","warn");
+  }
+  const {kind,uid,rid,email}=C;
+  const ok=kind==="approve";
+  const proceed=await showConfirm(
+    ok?"Status rilisan akan diubah menjadi Approved"+(sendMail?" dan draft email dibuka di aplikasi email Anda.":".")
+      :"Status rilisan akan diubah menjadi Rejected"+(sendMail?" dan draft email dibuka di aplikasi email Anda.":".")+"\n\nTindakan ini tidak bisa dibatalkan.",
+    ok?"Approve rilisan ini?":"Reject rilisan ini?",
+    {tone:ok?"success":"danger",icon:ok?"check":"xc",ok:ok?"Ya, Approve":"Ya, Reject",danger:!ok});
+  if(!proceed)return;
+  showLoading("Memperbarui status...");
   try{
-    if(uid&&rid){
-      const rel=(await db.ref(`releases/${uid}/${rid}`).once("value")).val()||{};
-      releaseDate=rel.date||"-";
-      upc=String(rel.ean||rel.upc||"").trim()||"-";
+    await applyStatus(uid,rid,ok?"approved":"rejected");
+    hideLoading();closeComposer();
+    if(sendMail)location.href=`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body.replace(/\r?\n/g,"\r\n"))}`;
+  }catch(e){hideLoading();statusError(e)}
+}
+$("cmpSend").addEventListener("click",()=>submitComposer(true));
+$("cmpStatusOnly").addEventListener("click",()=>submitComposer(false));
+
+/* ---------- GANTI AKUN ARTIST ---------- */
+let accUsers=null,accSel=null,accCtx=null;
+function renderAccList(){
+  const q=$("accSearch").value.trim().toLowerCase(),list=$("accList");
+  list.innerHTML="";
+  if(!accUsers){list.innerHTML='<div class="a-empty">Memuat daftar akun...</div>';return}
+  const m=accUsers.filter(u=>!q||u.email.toLowerCase().includes(q)||u.name.toLowerCase().includes(q)).slice(0,30);
+  if(!m.length){list.innerHTML='<div class="a-empty">Akun tidak ditemukan.</div>';return}
+  m.forEach(u=>{
+    const cur=u.uid===accCtx.uid;
+    const b=document.createElement("button");b.type="button";
+    b.className="a-item"+(accSel&&accSel.uid===u.uid?" sel":"");b.disabled=cur;
+    b.innerHTML="<b>"+esc(u.email)+"</b><span>"+esc(cur?"Akun saat ini":(u.name||"Nama artist tidak tersedia"))+"</span>";
+    b.addEventListener("click",()=>{accSel=u;$("accNext").disabled=false;renderAccList()});
+    list.appendChild(b);
+  });
+}
+async function openAccountPicker(uid,rid){
+  const item=releasesData.find(r=>r.uid===uid&&r.rid===rid);
+  if(!item)return showAlert("Rilisan tidak ditemukan. Muat ulang halaman.","Rilisan Tidak Ditemukan","warn");
+  accCtx={uid,rid};accSel=null;$("accNext").disabled=true;$("accSearch").value="";
+  const ava=item.cover?'<img src="'+esc(item.cover)+'" alt="">':esc((item.title||"-").charAt(0).toUpperCase());
+  $("accChip").innerHTML='<div class="u-ava">'+ava+'</div><div style="min-width:0"><b>'+esc(item.title||"-")+'</b><span>'+esc(item.artist||"-")+' · '+esc(item.email||"-")+'</span></div>';
+  $("accountModal").classList.add("show");
+  if(!accUsers){
+    renderAccList();
+    try{
+      const us=await db.ref("users").once("value");
+      accUsers=[];
+      us.forEach(c=>{const d=c.val()||{};if(d.email)accUsers.push({uid:c.key,email:d.email,name:d.nama||d.name||d.displayName||d.artist||""})});
+      accUsers.sort((a,b)=>a.email.localeCompare(b.email));
+    }catch(err){
+      console.error(err);closeAccountPicker();
+      return showAlert("Daftar akun tidak bisa dimuat. Periksa koneksi dan izin Firebase.","Gagal Memuat Akun","danger");
     }
-  }catch(error){
-    console.error(error);
-    return showAlert("Gagal mengambil tanggal rilis dan UPC. Email belum dibuka.","Gagal Membuka Email","!");
   }
-  const details=`Release Details\nTitle        : ${title}\nArtist       : ${artist}\nRelease Date : ${releaseDate}\nUPC          : ${upc}`;
-  let subject,body;
-  if(status==="approved"&&approvalType==="rescheduled"){
-    subject=`Release Schedule Update - ${title}`;
-    body=`Hello,\n\nWe would like to inform you that your release has been approved, with its release schedule updated by our distribution partner.\n\n${details}\n\nThe release date listed above follows the latest schedule recorded in our system.\n\nWe apologize for any inconvenience and appreciate your understanding.\n\nIf you have any questions, please contact our support team.\n\nBest regards,\nNazwa Patricia`;
-  }else if(status==="approved"){
-    subject=`Release Approved - ${title}`;
-    body=`Hello,\n\nGood news! Your release has been approved and processed for distribution.\n\n${details}\n\nPlease wait while the release is processed by our distribution partner.\n\nIf you have any questions, please contact our support team.\n\nBest regards,\nNazwa Patricia`;
-  }else if(status==="rejected"){
-    subject=`Release Rejected - ${title}`;
-    body=`Hello,\n\nUnfortunately, your release has been rejected due to potential infringement or licensing issues.\n\n${details}\n\nPlease review the release and contact our support team if you need further clarification.\n\nBest regards,\nNazwa Patricia`;
-  }else return;
-  location.href=`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  renderAccList();
+  setTimeout(()=>$("accSearch").focus(),150);
 }
-
-/* ---------- GANTI AKUN & HAPUS ---------- */
-async function changeReleaseAccount(uid,rid){
-  const input=await showPrompt("Ganti Akun Artist","Masukkan email akun artist tujuan. Rilisan akan dipindahkan ke akun tersebut.","email@artist.com");
-  if(input===null)return;
-  const q=input.trim().toLowerCase();
-  if(!q)return showAlert("Email akun tujuan wajib diisi.","Email Kosong","!");
+function closeAccountPicker(){$("accountModal").classList.remove("show")}
+$("accSearch").addEventListener("input",renderAccList);
+$("accNext").addEventListener("click",async()=>{
+  if(!accSel||!accCtx)return;
+  const {uid,rid}=accCtx,target=accSel;
+  closeAccountPicker();
   try{
-    showLoading("Mencari akun...");
-    const us=await db.ref("users").once("value");
-    const matches=[];
-    us.forEach(c=>{const d=c.val()||{};if(String(d.email||"").trim().toLowerCase()===q)matches.push({uid:c.key,email:d.email})});
-    if(!matches.length){hideLoading();return showAlert("Akun dengan email tersebut tidak ditemukan.","Akun Tidak Ditemukan","!")}
-    if(matches.length>1){hideLoading();return showAlert("Ditemukan beberapa akun dengan email tersebut. Pemindahan dibatalkan.","Akun Ganda","!")}
-    const target=matches[0];
-    if(target.uid===uid){hideLoading();return showAlert("Rilisan ini sudah berada di akun tersebut.","Akun Sama","!")}
+    showLoading("Memeriksa rilisan...");
     const snap=await db.ref(`releases/${uid}/${rid}`).once("value");
     hideLoading();
-    if(!snap.exists())return showAlert("Rilisan lama tidak ditemukan. Muat ulang halaman.","Rilisan Tidak Ditemukan","!");
+    if(!snap.exists())return showAlert("Rilisan lama tidak ditemukan. Muat ulang halaman.","Rilisan Tidak Ditemukan","warn");
     const release=snap.val()||{};
-    const ok=await showConfirm("Judul: "+(release.title||"-")+"\nArtis: "+(release.artist||"-")+"\nKe akun: "+target.email+"\n\nData rilisan akan dipindahkan dari akun lama ke akun tujuan.","Pindahkan Rilisan","@","Pindahkan");
+    const ok=await showConfirm("Judul: "+(release.title||"-")+"\nArtis: "+(release.artist||"-")+"\nKe akun: "+target.email+"\n\nData rilisan akan dipindahkan dari akun lama ke akun tujuan.","Pindahkan Rilisan?",{tone:"info",icon:"swap",ok:"Pindahkan"});
     if(!ok)return;
     showLoading("Memindahkan rilisan...");
     const newKey=db.ref(`releases/${target.uid}`).push().key;
     release.email=target.email;
     await db.ref().update({[`releases/${target.uid}/${newKey}`]:release,[`releases/${uid}/${rid}`]:null});
     hideLoading();
-    showAlert("Rilisan berhasil dipindahkan ke akun "+target.email+".","Rilisan Dipindahkan","✓");
+    showAlert("Rilisan berhasil dipindahkan ke akun "+target.email+".","Rilisan Dipindahkan","success");
     loadReleases();
   }catch(err){
     hideLoading();console.error("Gagal memindahkan rilisan:",err);
-    showAlert("Gagal memindahkan rilisan. Periksa koneksi dan izin Firebase.\n\n"+err.message,"Gagal Memindahkan","!");
+    showAlert("Rilisan tidak bisa dipindahkan. Periksa koneksi dan izin Firebase.\n\n"+err.message,"Gagal Memindahkan","danger");
   }
-}
+});
+
+/* ---------- HAPUS ---------- */
 async function deleteRelease(uid,rid){
-  if(!await showConfirm("Apakah yakin ingin menghapus rilisan ini?\n\nTindakan ini tidak dapat dibatalkan.","Hapus Rilisan","!","Hapus",true))return;
+  if(!await showConfirm("Rilisan akan dihapus permanen dan tidak bisa dikembalikan.","Hapus rilisan ini?",{tone:"danger",icon:"trash",ok:"Hapus",danger:true}))return;
   showLoading("Menghapus rilisan...");
   db.ref(`releases/${uid}/${rid}`).remove().then(()=>{
-    hideLoading();showAlert("Rilisan berhasil dihapus.","Rilisan Dihapus","✓");loadReleases();
-  }).catch(e=>{hideLoading();showAlert("Gagal menghapus.\n\n"+e.message,"Gagal Menghapus","!")});
+    hideLoading();showAlert("Rilisan berhasil dihapus.","Rilisan Dihapus","success");loadReleases();
+  }).catch(e=>{hideLoading();showAlert("Rilisan tidak bisa dihapus.\n\n"+e.message,"Gagal Menghapus","danger")});
 }
 </script>
 </body>
