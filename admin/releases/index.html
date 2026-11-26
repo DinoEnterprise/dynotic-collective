@@ -610,7 +610,7 @@ $("searchInput").addEventListener("input",()=>{
 function openPlatform(uid,rid){
   if(!uid||!rid)return showAlert("ID akun atau ID rilisan tidak ditemukan.","Data Tidak Lengkap","!");
   try{localStorage.setItem("lastPage",currentPage)}catch(e){}
-  location.href=`/release-details?uid=${encodeURIComponent(uid)}&rid=${encodeURIComponent(rid)}`;
+  location.href=`/releases/release-details?uid=${encodeURIComponent(uid)}&rid=${encodeURIComponent(rid)}`;
 }
 
 /* ---------- STATUS ---------- */
