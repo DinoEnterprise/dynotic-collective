@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Royalty Management | Dynotic Admin</title>
+<link rel="icon" type="image/png" href="https://dynoticcollective.com/assets/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://dynoticcollective.com/assets/favicon-android.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://dynoticcollective.com/assets/favicon-iphone.png">
+<meta name="theme-color" content="#f3f3f8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f3f8;--paper:#fff;--ink:#14141a;--muted:#6f7280;--line:#e6e6ee;--dark:#0d0d12;--accent:#7772a8;--accent-2:#a9a3f2;--red:#dc2626;--side:260px;--ease:cubic-bezier(.16,1,.3,1)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Outfit",system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:90px}
+body{background:var(--bg);color:var(--ink);min-height:100dvh;-webkit-font-smoothing:antialiased;padding-bottom:110px}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;border:0;background:none;color:inherit;cursor:pointer}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:10px}
+.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+/* sidebar */
+.sidebar{display:none;position:fixed;inset:0 auto 0 0;width:var(--side);background:var(--dark);color:#fff;padding:26px 18px 20px;flex-direction:column;z-index:60;overflow-y:auto}
+.sidebar .logo img{height:32px;max-width:180px;object-fit:contain;filter:brightness(0) invert(1);display:block;margin:0 8px 30px}
+.side-nav{display:flex;flex-direction:column;gap:4px}
+.side-nav a{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:14px;font-size:14px;font-weight:500;color:rgba(255,255,255,.62);transition:background .2s,color .2s}
+.side-nav a .i{width:19px;height:19px}
+.side-nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+.side-nav a.active{background:rgba(255,255,255,.1);color:#fff;font-weight:700}
+/* topbar */
+.topbar{position:sticky;top:0;z-index:50;height:68px;padding:0 16px;display:flex;align-items:center;gap:12px;background:rgba(243,243,248,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .2s}
+.topbar.scrolled{border-bottom-color:var(--line)}
+.logo-m img{height:30px;max-width:170px;object-fit:contain;display:block}
+.page-title{display:none;font-size:20px;font-weight:800;letter-spacing:-.03em}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.avatar-btn{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line);transition:transform .2s var(--ease)}
+.avatar-btn:active{transform:scale(.93)}
+/* layout */
+.wrap{width:100%;max-width:900px;margin:0 auto;padding:6px 16px 0}
+.head{padding:10px 2px 18px}
+.head small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.head h1{margin-top:2px;font-size:clamp(26px,5vw,36px);font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:clamp(16px,2.4vw,24px);margin-bottom:14px}
+.card h2{font-size:16px;font-weight:800;letter-spacing:-.02em}
+.sub{margin-top:3px;font-size:12px;line-height:1.7;color:var(--muted)}
+label.lb{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+input,select{width:100%;height:48px;padding:0 14px;border-radius:14px;border:1.5px solid var(--line);background:#fafafd;font-size:15px;font-weight:500;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+input:focus{border-color:var(--ink);background:#fff;box-shadow:0 0 0 4px rgba(119,114,168,.14)}
+input:disabled{opacity:.55;cursor:not-allowed}
+input[type=file]{height:auto;padding:12px 14px}
+input[type=checkbox]{width:18px;height:18px;height:18px;padding:0;accent-color:var(--ink)}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:46px;padding:0 22px;border-radius:999px;font-size:13px;font-weight:700;background:var(--ink);color:#fff;margin-top:16px;transition:transform .25s var(--ease),box-shadow .25s,opacity .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(20,20,26,.2)}
+.btn:disabled{opacity:.45;cursor:default;transform:none;box-shadow:none}
+.btn .i{width:15px;height:15px}
+.btn.line{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.btn.line:hover{box-shadow:none;border-color:#cfcfdb}
+.btn.sm{height:34px;padding:0 13px;margin:0;font-size:12px}
+.btn.sm:hover{box-shadow:none;transform:none}
+.btn.red{background:#fef2f2;color:var(--red);border:1.5px solid #fecaca}
+.btn.dng{background:var(--red)}
+.btn.soft{background:#eeedf7;color:var(--accent)}
+/* picker */
+.picker{position:relative}
+.dd{display:none;position:absolute;left:0;right:0;top:100%;margin-top:6px;max-height:260px;overflow-y:auto;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 40px rgba(20,20,40,.14);z-index:50;padding:6px}
+.dd.show{display:block}
+.opt{display:block;width:100%;text-align:left;padding:10px 12px;border-radius:11px}
+.opt:hover{background:var(--bg)}
+.opt b{display:block;font-size:14px}
+.opt span{font-size:12px;color:var(--muted)}
+.chip{display:inline-flex;margin-top:12px;padding:7px 14px;border-radius:999px;background:#eeedf7;color:var(--accent);font-size:13px;font-weight:700;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* tabs */
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:4px;margin-bottom:14px;background:#e9e9f1;border-radius:18px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1 0 auto;height:42px;padding:0 18px;border-radius:14px;font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap;transition:background .2s,color .2s}
+.tab:hover{color:var(--ink)}
+.tab.on{background:var(--ink);color:#fff;box-shadow:0 6px 16px rgba(20,20,26,.2)}
+.pane{display:none}.pane.on{display:block}
+/* form artis */
+.arow{padding:14px 0;border-bottom:1px solid var(--line)}
+.arow:last-child{border-bottom:0}
+.ah{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.arow .n{font-weight:700;font-size:14px;overflow-wrap:anywhere}
+.arow .h{font-size:12px;color:var(--muted);margin-top:3px;line-height:1.6}
+.arow .h.ok{color:#166534}.arow .h.warn{color:#b45309}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.cb{display:flex;gap:12px;align-items:flex-start;cursor:pointer}
+.cb input{margin-top:3px;flex-shrink:0}
+/* list item */
+.item{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:14px;border:1px solid var(--line);border-radius:18px;margin-top:10px;background:#fff}
+.item:first-of-type{margin-top:14px}
+.ib{flex:1 1 220px;min-width:0}
+.it{font-size:15px;font-weight:700;letter-spacing:-.01em;line-height:1.35;overflow-wrap:anywhere}
+.is{margin-top:3px;font-size:12px;line-height:1.6;color:var(--muted);overflow-wrap:anywhere}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--c);background:color-mix(in srgb,var(--c) 11%,#fff);border:1px solid color-mix(in srgb,var(--c) 28%,#fff);white-space:nowrap;vertical-align:middle}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--c)}
+.empty{padding:26px 12px;text-align:center;color:var(--muted);font-size:13px;line-height:1.7}
+.opt em{display:block;margin-top:2px;font-style:normal;font-size:12px;font-weight:600;color:var(--accent)}
+.ent{margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;background:#fafafd}
+.eh{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;font-weight:700}
+.tot{font-size:12px;font-weight:700;color:var(--accent);white-space:nowrap}
+.newl{margin-top:12px;font-size:12px;font-weight:700;color:var(--muted)}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.pager .btn{margin-top:0}
+.pager span{font-size:12px;line-height:1.5;color:var(--muted);text-align:center}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+.sumbox{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.sumbox>div{padding:12px 14px;border-radius:16px;background:#f6f6fb;border:1px solid var(--line);min-width:0}
+.sumbox small{display:block;font-size:11px;font-weight:600;color:var(--muted)}
+.sumbox b{display:block;margin-top:2px;font-size:15px;font-weight:800;letter-spacing:-.02em;overflow-wrap:anywhere}
+.brk{margin-top:12px;padding:4px 0}
+.brk .bt{font-size:12px;font-weight:700;color:var(--muted);margin-bottom:4px}
+.brk div.r{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:13px}
+.brk div.r:last-child{border-bottom:0}
+.brk div.r span:last-child{font-weight:700;white-space:nowrap}
+@media(min-width:700px){.fgrid{grid-template-columns:repeat(4,1fr)}.sumbox{grid-template-columns:repeat(4,1fr)}}
+/* bottom nav */
+.bottom{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);width:calc(100% - 28px);max-width:540px;height:70px;padding:0 8px;background:rgba(13,13,18,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:26px;box-shadow:0 18px 40px rgba(13,13,18,.3);display:flex;align-items:center;justify-content:space-around;z-index:70}
+.b-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:100%;font-size:10px;font-weight:500;color:rgba(255,255,255,.5);transition:color .2s,transform .15s}
+.b-item .i{width:20px;height:20px}
+.b-item:active{transform:scale(.92)}
+.b-item.active{color:#fff;font-weight:700}
+.b-item.active .i{color:var(--accent-2)}
+/* popup */
+.pop{position:fixed;top:70px;right:14px;width:230px;background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 50px rgba(20,20,40,.16);padding:10px;z-index:200;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top right;transition:all .22s var(--ease)}
+.pop.show{opacity:1;visibility:visible;transform:none}
+.pop-info{display:flex;align-items:center;gap:12px;padding:10px 10px 14px}
+.pop-info .avatar{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0}
+.pop-info strong{display:block;font-size:14px}
+.pop-info span{display:block;margin-top:2px;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px}
+.pop hr{border:0;height:1px;background:var(--line);margin:2px 4px 6px}
+.pop button.opt2{display:flex;align-items:center;gap:12px;width:100%;padding:12px 10px;border-radius:12px;font-size:13px;font-weight:500;text-align:left}
+.pop button.opt2:hover{background:var(--bg)}
+.pop .i{width:17px;height:17px;color:var(--muted)}
+.pop .logout,.pop .logout .i{color:#d83a3a}
+/* modal */
+.modal{position:fixed;inset:0;z-index:400;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(13,13,18,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.modal.show{display:flex}
+.sheet{width:100%;max-width:440px;max-height:90dvh;overflow-y:auto;background:var(--paper);border-radius:26px;padding:22px;animation:up .3s var(--ease)}
+.sh-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.sh-head h3{font-size:20px;font-weight:800;letter-spacing:-.03em}
+.d-x{width:38px;height:38px;border-radius:12px;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.d-x .i{width:17px;height:17px}
+.dp{font-size:14px;line-height:1.7;color:#3b3d49;white-space:pre-line}
+.sh-acts{display:flex;gap:10px;margin-top:20px}
+.sh-acts .btn{flex:1;margin-top:0}
+.err{display:none;margin-top:12px;padding:11px 13px;border-radius:12px;background:#fef2f2;color:#dc2626;font-size:12px;line-height:1.6}
+.err.show{display:block}
+.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;font-size:13px;font-weight:500;padding:11px 18px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s var(--ease);z-index:500;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media(min-width:1000px){
+body{padding-bottom:40px;padding-left:var(--side)}
+.sidebar{display:flex}.bottom{display:none}
+.topbar{height:78px;padding:0 36px}.logo-m{display:none}.page-title{display:block}
+.wrap{padding:6px 36px 0}.pop{top:76px;right:34px}.toast{bottom:30px}
+}
+@media(max-width:700px){
+.wrap{padding:0 14px}.card{border-radius:22px}
+.pair{grid-template-columns:1fr}
+.modal{align-items:flex-end;padding:0}.sheet{max-width:none;border-radius:26px 26px 0 0}
+.pop{right:12px;top:66px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10.5 9-7.5 9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+<symbol id="i-disc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 14l4-4 3 3 5-6"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M12 3v12m0 0 5-5m-5 5-5-5M4 21h16"/></symbol>
+</svg>
+
+<aside class="sidebar">
+  <a href="../home" class="logo"><img src="https://dynoticcollective.com/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+  <nav class="side-nav" aria-label="Main navigation">
+    <a href="../home"><svg class="i"><use href="#i-home"/></svg>Home</a>
+    <a href="../users"><svg class="i"><use href="#i-users"/></svg>Artists &amp; Accounts</a>
+    <a href="../releases"><svg class="i"><use href="#i-disc"/></svg>Release Submissions</a>
+    <a href="../message"><svg class="i"><use href="#i-chat"/></svg>Support Inbox</a>
+    <a href="../income" class="active"><svg class="i"><use href="#i-chart"/></svg>Royalty Management</a>
+  </nav>
+</aside>
+
+<header class="topbar" id="topbar">
+  <a href="../home" class="logo-m"><img src="https://dynoticcollective.com/assets/dynotic-distribution.png" alt="Dynotic Distribution"></a>
+  <h2 class="page-title">Royalty Management</h2>
+  <div class="top-actions">
+    <button class="avatar-btn" id="profileBtn" type="button" aria-label="Menu admin" aria-expanded="false">A</button>
+  </div>
+</header>
+
+<div class="pop" id="profileMenu" role="menu">
+  <div class="pop-info"><div class="avatar">A</div><div><strong>Admin</strong><span id="adminEmail">-</span></div></div>
+  <hr>
+  <button class="opt2 logout" type="button" id="logoutBtn" role="menuitem"><svg class="i"><use href="#i-logout"/></svg>Logout</button>
+</div>
+
+<main class="wrap">
+  <div class="head"><small>Dynotic Admin</small><h1>Royalty Management</h1></div>
+
+  <div class="card">
+    <h2>Akun member</h2>
+    <p class="sub">Pilih member dulu (bisa dicari lewat email, nama, atau nama artis). Berlaku untuk Artist Earnings, Revenue Recap, dan Payment.</p>
+    <div class="picker" id="picker" style="margin-top:12px">
+      <input type="text" id="mSearch" placeholder="Cari email, nama, atau nama artis..." autocomplete="off" aria-label="Cari member">
+      <div class="dd" id="mDd"></div>
+    </div>
+    <span class="chip" id="mChip" style="display:none"></span>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab on" role="tab" data-t="earn">Artist Earnings</button>
+    <button class="tab" role="tab" data-t="recap">Revenue Recap</button>
+    <button class="tab" role="tab" data-t="pay">Payment</button>
+  </div>
+
+  <!-- ARTIST EARNINGS -->
+  <section class="pane on" id="p-earn">
+    <div class="card">
+      <h2>Input royalty artis</h2>
+      <p class="sub">Isi nominal final hak artis (setelah bagi hasil), bukan pendapatan kotor. Ketik angka saja, titik ribuan otomatis. Satu artis boleh punya beberapa entri di periode yang sama (misalnya dari agregator berbeda): isi kolom &quot;Tambah entri baru&quot; dan entri lama tidak berubah. Entri yang terkunci di pembayaran Pending tidak bisa diubah.</p>
+      <label class="lb" for="pk">Periode royalty</label>
+      <input type="month" id="pk">
+      <label class="lb" for="aSearch">Cari artis</label>
+      <input type="text" id="aSearch" placeholder="Ketik nama artis..." autocomplete="off">
+      <div id="artistForm"><div class="empty">Pilih member untuk menampilkan artisnya.</div></div>
+      <div id="pager"></div>
+      <button class="btn" id="saveEarn" type="button" disabled>Simpan semua</button>
+    </div>
+    <div class="card">
+      <h2>Filter &amp; rekap royalty</h2>
+      <p class="sub">Lihat artis siapa dapat berapa, di bulan apa. Setiap laporan ditampilkan sendiri dengan statusnya masing-masing, tidak digabung.</p>
+      <div class="fgrid">
+        <div><label class="lb" for="fArt">Artis</label><select id="fArt"></select></div>
+        <div><label class="lb" for="fMon">Bulan periode</label><select id="fMon"></select></div>
+        <div><label class="lb" for="fIn">Waktu input</label><select id="fIn"><option value="0">Semua</option><option value="7">7 hari terakhir</option><option value="30">30 hari terakhir</option><option value="90">90 hari terakhir</option><option value="180">6 bulan terakhir</option><option value="365">1 tahun terakhir</option></select></div>
+        <div><label class="lb" for="fSt">Status</label><select id="fSt"><option value="">Semua status</option><option value="open">Belum dibayar</option><option value="lock">Terkunci (Pending)</option><option value="paid">Dibayar</option></select></div>
+      </div>
+      <div id="fSum"></div>
+      <div id="fList"><div class="empty">Pilih member.</div></div>
+    </div>
+    <div class="card">
+      <h2>Riwayat input per periode</h2>
+      <p class="sub">Edit memuat periode ke form di atas. Hapus menghapus semua data periode itu (kecuali yang terkunci di pembayaran Pending).</p>
+      <div id="hist"><div class="empty">Pilih member.</div></div>
+    </div>
+  </section>
+
+  <!-- REVENUE RECAP -->
+  <section class="pane" id="p-recap">
+    <div class="card">
+      <h2>Tambah rekap</h2>
+      <p class="sub">Pilih file rekap dari perangkat kamu. Format: xlsx, xls, csv, zip, rar, 7z, atau pdf. Maksimal 25 MB. File otomatis dikirim ke folder report di GitHub. Link aktif setelah deploy selesai (biasanya 1-2 menit).</p>
+      <label class="lb" for="rcTitle">Judul / keterangan</label>
+      <input type="text" id="rcTitle" placeholder="Contoh: Rekap pendapatan Juli 2026" maxlength="120">
+      <label class="lb" for="rcPk">Periode laporan</label>
+      <input type="month" id="rcPk">
+      <label class="lb" for="rcFile">File rekap</label>
+      <input type="file" id="rcFile" accept=".xlsx,.xls,.csv,.zip,.rar,.7z,.pdf">
+      <p class="sub" id="rcPreview" style="overflow-wrap:anywhere"></p>
+      <button class="btn" id="saveRecap" type="button" disabled>Simpan rekap</button>
+    </div>
+    <div class="card">
+      <h2>Daftar rekap member ini</h2>
+      <div id="recapList"><div class="empty">Pilih member.</div></div>
+    </div>
+  </section>
+
+  <!-- PAYMENT -->
+  <section class="pane" id="p-pay">
+    <div class="card">
+      <h2>Minimum payout</h2>
+      <p class="sub">Berlaku untuk semua akun.</p>
+      <label class="lb" for="minPay">Nominal minimum (IDR)</label>
+      <input type="number" id="minPay" min="0" step="1000">
+      <button class="btn" id="saveMin" type="button">Simpan minimum</button>
+    </div>
+    <div class="card">
+      <h2>Buat pembayaran</h2>
+      <p class="sub" id="payHint">Pilih member di atas.</p>
+      <div id="payList"></div>
+      <button class="btn" id="mkPay" type="button" disabled>Buat pembayaran</button>
+    </div>
+    <div class="card">
+      <h2>Riwayat pembayaran</h2>
+      <p class="sub">Pembayaran berstatus Berhasil tidak bisa diubah atau dihapus. Hapus hanya untuk Pending dan Gagal.</p>
+      <div id="payHist"><div class="empty">Pilih member.</div></div>
+    </div>
+  </section>
+</main>
+
+<nav class="bottom" aria-label="Main navigation">
+  <a href="../home" class="b-item"><svg class="i"><use href="#i-home"/></svg>Home</a>
+  <a href="../users" class="b-item"><svg class="i"><use href="#i-users"/></svg>Artists</a>
+  <a href="../releases" class="b-item"><svg class="i"><use href="#i-disc"/></svg>Releases</a>
+  <a href="../message" class="b-item"><svg class="i"><use href="#i-chat"/></svg>Inbox</a>
+  <a href="../income" class="b-item active"><svg class="i"><use href="#i-chart"/></svg>Royalty</a>
+</nav>
+
+<div class="modal" id="dlg"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dlgT">
+  <div class="sh-head"><h3 id="dlgT"></h3><button class="d-x" type="button" id="dlgX" aria-label="Tutup"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div id="dlgB"></div>
+  <div class="sh-acts" id="dlgA"></div>
+</div></div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+const BASE = "https://app.dynoticcollective.com/report/";
+const COMPANY = "Dynotic Distribution";
+firebase.initializeApp({
+  apiKey: "AIzaSyBRSkmZXbTPNupefSmjXvlKLDNsaeQ2zag",
+  authDomain: "dynopay-2513c.firebaseapp.com",
+  databaseURL: "https://dynopay-2513c-default-rtdb.asia-southeast1.firebasedatabase.app"
+});
+const db = firebase.database(), TS = firebase.database.ServerValue.TIMESTAMP;
+const $ = id => document.getElementById(id);
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+const rp = v => "Rp" + Number(v || 0).toLocaleString("id-ID");
+const fdate = t => t ? new Date(t).toLocaleString("id-ID", {day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}) : "-";
+const plabel = pk => /^\d{4}-\d{2}$/.test(pk) ? new Date(pk + "-01T00:00:00").toLocaleDateString("id-ID", {month:"long", year:"numeric"}) : (pk || "-");
+const ic = n => '<svg class="i"><use href="#i-' + n + '"/></svg>';
+const pill = (t, c) => '<span class="pill" style="--c:' + c + '">' + esc(t) + '</span>';
+function toast(t){ const e = $("toast"); e.textContent = t; e.classList.add("show"); clearTimeout(toast._t); toast._t = setTimeout(() => e.classList.remove("show"), 2600); }
+function slug(s){
+  const x = String(s).toLowerCase().normalize("NFKD").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  if(x) return x;
+  let h = 0; for(const c of String(s)) h = (h * 31 + c.charCodeAt(0)) | 0;
+  return "a" + Math.abs(h).toString(36);
+}
+
+let me = null, members = [], cur = null, artists = [], earn = {}, recaps = [], payRows = [], minPay = 100000;
+let earnRef = null, recapRef = null, payRef = null, firstEarn = true;
+
+/* ---------- dialog ---------- */
+let dlgCancel = null;
+function openDlg(){ $("dlg").classList.add("show"); document.body.classList.add("lock"); }
+function closeDlg(){ $("dlg").classList.remove("show"); document.body.classList.remove("lock"); }
+function dismiss(){ const f = dlgCancel; dlgCancel = null; closeDlg(); if(f) f(); }
+$("dlgX").addEventListener("click", dismiss);
+$("dlg").addEventListener("click", e => { if(e.target === $("dlg")) dismiss(); });
+
+function ask(title, text, okText, danger){
+  return new Promise(res => {
+    $("dlgT").textContent = title;
+    $("dlgB").innerHTML = '<p class="dp">' + esc(text) + '</p>';
+    $("dlgA").innerHTML = '<button class="btn line" id="dNo" type="button">Batal</button><button class="btn' + (danger ? " dng" : "") + '" id="dYes" type="button">' + esc(okText || "Lanjutkan") + '</button>';
+    const done = v => { dlgCancel = null; closeDlg(); res(v); };
+    dlgCancel = () => res(false);
+    $("dNo").onclick = () => done(false);
+    $("dYes").onclick = () => done(true);
+    openDlg(); $("dYes").focus();
+  });
+}
+
+/* ---------- auth + cek admin ---------- */
+firebase.auth().onAuthStateChanged(async u => {
+  if(!u){ location.href = "../login"; return; }
+  if(me && me.uid === u.uid) return;
+  me = u; $("adminEmail").textContent = u.email || "-";
+  $("profileBtn").textContent = (u.email || "A").charAt(0).toUpperCase();
+  try {
+    const s = await db.ref("admins/" + u.uid).once("value");
+    if(!s.exists()) throw new Error("bukan admin");
+  } catch(e){
+    document.body.innerHTML = '<p style="padding:100px 20px;text-align:center;font-family:Outfit,sans-serif">Halaman ini khusus admin.</p>';
+    return;
+  }
+  loadMembers();
+  db.ref("royalty_settings/minPayout").on("value", s => {
+    if(s.val() != null) minPay = Number(s.val());
+    $("minPay").value = minPay; renderPay();
+  });
+});
+const who = () => ({ uid: me.uid, email: me.email || "" });
+
+/* ---------- member picker ---------- */
+let memArt = {};
+function loadMembers(){
+  db.ref("users").once("value").then(sn => {
+    const u = sn.val() || {};
+    members = Object.keys(u).map(id => ({ uid:id, nama:u[id].nama || "Tanpa nama", email:u[id].email || "" }));
+  }).catch(() => toast("Daftar member gagal dimuat."));
+  db.ref("releases").once("value").then(sn => {
+    const m = {};
+    sn.forEach(u => {
+      const set = {};
+      u.forEach(r => { const n = String((r.val() || {}).artist || "").trim(); if(n) set[slug(n)] = n; });
+      const l = Object.values(set).sort((x, y) => x.localeCompare(y));
+      if(l.length) m[u.key] = l;
+    });
+    memArt = m;
+  }).catch(() => {});
+}
+function showMembers(q){
+  q = (q || "").toLowerCase().trim();
+  const r = [];
+  members.forEach(m => {
+    const arts = memArt[m.uid] || [];
+    const hit = q ? arts.filter(n => n.toLowerCase().includes(q)) : [];
+    if(!q || m.nama.toLowerCase().includes(q) || m.email.toLowerCase().includes(q) || hit.length) r.push({ m, arts, hit });
+  });
+  $("mDd").innerHTML = r.length
+    ? r.slice(0, 100).map(x => {
+        const shown = x.hit.length ? x.hit : x.arts.slice(0, 3);
+        const more = x.hit.length ? "" : (x.arts.length > 3 ? " +" + (x.arts.length - 3) : "");
+        return '<button type="button" class="opt" data-uid="' + esc(x.m.uid) + '"><b>' + esc(x.m.nama) + '</b><span>' + esc(x.m.email) + '</span>' +
+          (shown.length ? '<em>Artis: ' + esc(shown.join(", ")) + more + '</em>' : '') + '</button>';
+      }).join("")
+    : '<div class="empty">Member tidak ditemukan</div>';
+  $("mDd").classList.add("show");
+}
+$("mSearch").addEventListener("focus", e => showMembers(e.target.value));
+$("mSearch").addEventListener("input", e => showMembers(e.target.value));
+$("mDd").addEventListener("click", e => {
+  const b = e.target.closest(".opt"); if(!b) return;
+  const m = members.find(x => x.uid === b.dataset.uid); if(!m) return;
+  $("mDd").classList.remove("show"); $("mSearch").value = "";
+  setMember(m);
+});
+document.addEventListener("click", e => { if(!$("picker").contains(e.target)) $("mDd").classList.remove("show"); });
+
+async function setMember(m){
+  cur = m;
+  if(earnRef) earnRef.off(); if(recapRef) recapRef.off(); if(payRef) payRef.off();
+  earn = {}; artists = []; recaps = []; payRows = []; firstEarn = true;
+  draft = {}; page = 0; aq = ""; $("aSearch").value = ""; fLimit = 20; $("fArt").value = ""; $("fMon").value = ""; renderFilter();
+  $("mChip").style.display = "inline-flex";
+  $("mChip").textContent = m.nama + " \u2022 " + m.email;
+  $("saveRecap").disabled = false;
+  $("artistForm").innerHTML = '<div class="empty">Memuat artis...</div>';
+  try {
+    const s = await db.ref("releases/" + m.uid).once("value");
+    const map = {};
+    s.forEach(c => {
+      const name = String((c.val() || {}).artist || "").trim();
+      if(name && !map[slug(name)]) map[slug(name)] = name;
+    });
+    artists = Object.keys(map).map(id => ({ id, name: map[id] })).sort((a, b) => a.name.localeCompare(b.name));
+  } catch(e){ toast("Artis gagal dimuat."); }
+
+  earnRef = db.ref("royalty_earnings/" + m.uid);
+  earnRef.on("value", s => {
+    earn = s.val() || {};
+    renderHist(); renderPay(); renderFilter();
+    if(firstEarn){ firstEarn = false; renderForm(); }
+  }, () => toast("Data royalty gagal dimuat."));
+
+  recapRef = db.ref("royalty_recaps/" + m.uid);
+  recapRef.on("value", s => {
+    recaps = []; s.forEach(c => { const r = c.val(); if(r) recaps.push({ ...r, k:c.key }); });
+    recaps.sort((a, b) => (b.uploadedAt || 0) - (a.uploadedAt || 0)); renderRecaps();
+  }, () => toast("Data rekap gagal dimuat."));
+
+  payRef = db.ref("royalty_payments").orderByChild("uid").equalTo(m.uid);
+  payRef.on("value", s => {
+    payRows = []; s.forEach(c => { const p = c.val(); if(p) payRows.push({ ...p, k:c.key }); });
+    payRows.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0)); renderPayHist(); renderFilter();
+  }, () => toast("Riwayat pembayaran gagal dimuat."));
+}
+
+/* =====================================================
+   ARTIST EARNINGS
+   Satu artis boleh punya banyak entri per periode.
+   Kunci entri: "YYYY-MM" (entri pertama / data lama) atau "YYYY-MM_xxxxx".
+   ===================================================== */
+const lockTx = k => { const p = payRows.find(x => x.k === k); return p ? p.txNo : "lain"; };
+const digits = s => String(s).replace(/\D/g, "");
+const fmtNum = s => digits(s).replace(/^0+(?=\d)/, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+const periodOf = k => String(k).slice(0, 7);
+const isEntry = (k, v) => /^\d{4}-\d{2}(_\w+)?$/.test(k) && !!v && typeof v === "object";
+const byMonth = per => { const o = {}; Object.keys(per || {}).forEach(k => { o[periodOf(k)] = (o[periodOf(k)] || 0) + Number(per[k] || 0); }); return o; };
+const entLabel = (k, note) => plabel(periodOf(k)) + (note ? " \u2022 " + note : String(k).length > 7 ? " \u2022 entri tambahan" : "");
+function entriesOf(aid, pk){
+  const m = earn[aid] || {};
+  return Object.keys(m).filter(k => periodOf(k) === pk && isEntry(k, m[k]))
+    .sort((x, y) => (m[x].createdAt || 0) - (m[y].createdAt || 0) || x.localeCompare(y))
+    .map(k => ({ ...m[k], key:k }));
+}
+
+let draft = {}, page = 0, aq = "";
+const dget = (id, f, def) => (draft[id] && draft[id][f] !== undefined) ? draft[id][f] : def;
+const mqDesk = window.matchMedia("(min-width:1000px)");
+const perPage = () => mqDesk.matches ? 10 : 5;
+mqDesk.addEventListener("change", () => renderForm());
+
+function artistRow(a, pk){
+  const ents = pk ? entriesOf(a.id, pk) : [];
+  const total = ents.reduce((s, e) => s + Number(e.amount || 0), 0);
+  const eh = ents.map((e, i) => {
+    const st = e.paymentId ? "paid" : e.lock ? "lock" : "open";
+    const dis = st === "lock" ? " disabled" : "";
+    const id = a.id + "::" + e.key;
+    const hint = st === "paid" ? '<div class="h ok">Sudah dibayar (' + esc(lockTx(e.paymentId)) + '). Perubahan di sini tidak mengubah statement pembayaran yang sudah dibuat.</div>'
+      : st === "lock" ? '<div class="h warn">Terkunci di pembayaran ' + esc(lockTx(e.lock)) + '. Batalkan atau hapus pembayarannya dulu untuk mengubah.</div>'
+      : '<div class="h">Terakhir diperbarui ' + esc(fdate(e.updatedAt)) + '</div>';
+    const del = st === "lock" ? "" : '<button type="button" class="btn sm red" data-delent="' + esc(id) + '">' + ic("trash") + 'Hapus</button>';
+    return '<div class="ent"><div class="eh"><span>Entri ' + (i + 1) + '</span>' + del + '</div>' + hint +
+      '<div class="pair"><input type="text" inputmode="numeric" autocomplete="off" class="amt" data-d="' + esc(id) + '" data-f="amt" placeholder="Nominal (IDR)" aria-label="Nominal entri ' + (i + 1) + ' ' + esc(a.name) + '"' + dis + ' value="' + esc(dget(id, "amt", Number(e.amount).toLocaleString("id-ID"))) + '">' +
+      '<input type="text" class="note" data-d="' + esc(id) + '" data-f="note" placeholder="Sumber / catatan" aria-label="Catatan entri ' + (i + 1) + ' ' + esc(a.name) + '"' + dis + ' value="' + esc(dget(id, "note", e.note || "")) + '"></div></div>';
+  }).join("");
+  const nid = a.id + "::new";
+  return '<div class="arow" data-id="' + esc(a.id) + '"><div class="ah"><div class="n">' + esc(a.name) + '</div>' + (ents.length ? '<span class="tot">Total ' + rp(total) + '</span>' : '') + '</div>' + eh +
+    '<div class="newl">' + (ents.length ? "Tambah entri baru (misalnya agregator lain)" : "Nominal") + '</div>' +
+    '<div class="pair"><input type="text" inputmode="numeric" autocomplete="off" class="amt" data-d="' + esc(nid) + '" data-f="amt" placeholder="Nominal (IDR)" aria-label="Nominal baru ' + esc(a.name) + '" value="' + esc(dget(nid, "amt", "")) + '">' +
+    '<input type="text" class="note" data-d="' + esc(nid) + '" data-f="note" placeholder="Sumber / catatan (opsional)" aria-label="Catatan baru ' + esc(a.name) + '" value="' + esc(dget(nid, "note", "")) + '"></div></div>';
+}
+
+function renderForm(){
+  const box = $("artistForm"), pg = $("pager"), pk = $("pk").value;
+  $("saveEarn").disabled = true; pg.innerHTML = "";
+  if(!cur){ box.innerHTML = '<div class="empty">Pilih member untuk menampilkan artisnya.</div>'; return; }
+  if(!artists.length){ box.innerHTML = '<div class="empty">Member ini belum punya artis di data rilisan.</div>'; return; }
+  const list = artists.filter(a => !aq || a.name.toLowerCase().includes(aq));
+  if(!list.length){ box.innerHTML = '<div class="empty">Artis tidak ditemukan.</div>'; $("saveEarn").disabled = !pk; return; }
+  const per = perPage(), pages = Math.ceil(list.length / per);
+  if(page >= pages) page = pages - 1;
+  if(page < 0) page = 0;
+  box.innerHTML = list.slice(page * per, page * per + per).map(a => artistRow(a, pk)).join("");
+  if(pages > 1){
+    pg.innerHTML = '<div class="pager"><button type="button" class="btn sm line" data-pg="-1"' + (page === 0 ? " disabled" : "") + '>\u2039 Sebelumnya</button>' +
+      '<span>Halaman ' + (page + 1) + ' dari ' + pages + '<br>' + list.length + ' artis</span>' +
+      '<button type="button" class="btn sm line" data-pg="1"' + (page >= pages - 1 ? " disabled" : "") + '>Berikutnya \u203A</button></div>';
+  }
+  $("saveEarn").disabled = !pk;
+}
+const resetPeriod = () => { draft = {}; page = 0; renderForm(); };
+$("pk").addEventListener("change", resetPeriod);
+$("aSearch").addEventListener("input", e => { aq = e.target.value.toLowerCase().trim(); page = 0; renderForm(); });
+$("pager").addEventListener("click", e => {
+  const b = e.target.closest("[data-pg]"); if(!b) return;
+  page += Number(b.dataset.pg); renderForm();
+  $("artistForm").scrollIntoView({ behavior:"smooth", block:"start" });
+});
+
+/* simpan ketikan (termasuk di halaman lain) + format titik otomatis */
+$("artistForm").addEventListener("input", e => {
+  const el = e.target, id = el.dataset.d; if(!id) return;
+  if(el.dataset.f === "amt"){
+    const fromEnd = el.value.length - el.selectionStart;
+    el.value = fmtNum(el.value);
+    const p = Math.max(0, el.value.length - fromEnd);
+    el.setSelectionRange(p, p);
+  }
+  (draft[id] = draft[id] || {})[el.dataset.f] = el.value;
+});
+
+const newKey = (aid, pk) => (earn[aid] && earn[aid][pk]) ? pk + "_" + Array.from(crypto.getRandomValues(new Uint8Array(5)), b => (b % 36).toString(36)).join("") : pk;
+
+$("saveEarn").addEventListener("click", async () => {
+  const pk = $("pk").value;
+  if(!cur) return toast("Pilih member dulu.");
+  if(!/^\d{4}-\d{2}$/.test(pk)) return toast("Pilih periode royalty.");
+
+  const upd = {}, over = [], adds = [];
+  let bad = "", cnt = 0;
+  artists.forEach(a => {
+    entriesOf(a.id, pk).forEach(e => {
+      const d = draft[a.id + "::" + e.key];
+      if(!d || e.lock) return;
+      const amtStr = d.amt !== undefined ? d.amt : String(e.amount);
+      const raw = digits(amtStr);
+      if(!raw){ bad = "Nominal entri " + a.name + " kosong. Pakai tombol Hapus untuk menghapus entri."; return; }
+      const amount = Number(raw);
+      if(!Number.isSafeInteger(amount)){ bad = "Nominal terlalu besar."; return; }
+      const note = (d.note !== undefined ? d.note : (e.note || "")).trim().slice(0, 200);
+      if(amount === Number(e.amount) && note === (e.note || "")) return;
+      if(amount !== Number(e.amount)) over.push(a.name + ": " + rp(e.amount) + " \u2192 " + rp(amount) + (e.paymentId ? " (sudah dibayar)" : ""));
+      const rec = { artistName:a.name, periodKey:pk, periodLabel:plabel(pk), amount,
+        createdAt: e.createdAt || TS, updatedAt: TS, updatedBy: who(), createdBy: e.createdBy || who() };
+      if(note) rec.note = note;
+      if(e.paymentId) rec.paymentId = e.paymentId;
+      upd["royalty_earnings/" + cur.uid + "/" + a.id + "/" + e.key] = rec; cnt++;
+    });
+    const nd = draft[a.id + "::new"];
+    if(nd && digits(nd.amt || "")){
+      const amount = Number(digits(nd.amt));
+      if(!Number.isSafeInteger(amount)){ bad = "Nominal terlalu besar."; return; }
+      const note = (nd.note || "").trim().slice(0, 200);
+      const rec = { artistName:a.name, periodKey:pk, periodLabel:plabel(pk), amount,
+        createdAt: TS, updatedAt: TS, updatedBy: who(), createdBy: who() };
+      if(note) rec.note = note;
+      upd["royalty_earnings/" + cur.uid + "/" + a.id + "/" + newKey(a.id, pk)] = rec; cnt++;
+      adds.push(a.name + ": +" + rp(amount));
+    }
+  });
+  if(bad) return toast(bad);
+  if(!cnt) return toast("Belum ada nominal baru atau perubahan.");
+  const lines = [].concat(adds.length ? ["Entri baru:"].concat(adds) : [], over.length ? ["Nominal diubah:"].concat(over) : []);
+  if(over.length && !await ask("Simpan perubahan " + plabel(pk) + "?", lines.join("\n"), "Simpan")) return;
+
+  const btn = $("saveEarn"); btn.disabled = true; btn.textContent = "Menyimpan...";
+  try {
+    await db.ref().update(upd);
+    draft = {};
+    toast("Tersimpan: " + cnt + " entri.");
+  } catch(e){
+    console.error(e); toast("Gagal menyimpan. Periksa Security Rules.");
+  } finally {
+    btn.textContent = "Simpan semua"; renderForm();
+  }
+});
+
+/* hapus satu entri */
+async function delEntry(aid, key){
+  const ex = earn[aid] ? earn[aid][key] : null;
+  if(!cur || !ex) return;
+  if(ex.lock) return toast("Data ini terkunci di pembayaran Pending.");
+  if(!await ask("Hapus entri royalty?", (ex.artistName || "") + " \u2022 " + plabel(periodOf(key)) + " \u2022 " + rp(ex.amount) + (ex.note ? " \u2022 " + ex.note : "") + (ex.paymentId ? "\n\nEntri ini sudah berstatus dibayar. Statement pembayaran yang sudah dibuat tidak ikut berubah." : "") + "\n\nTindakan ini tidak bisa dibatalkan.", "Hapus", true)) return;
+  try {
+    await db.ref("royalty_earnings/" + cur.uid + "/" + aid + "/" + key).remove();
+    delete draft[aid + "::" + key]; toast("Entri dihapus."); renderForm();
+  } catch(err){ console.error(err); toast("Gagal menghapus. Periksa Security Rules."); }
+}
+$("artistForm").addEventListener("click", e => {
+  const b = e.target.closest("[data-delent]"); if(!b) return;
+  const p = b.dataset.delent.split("::"); delEntry(p[0], p[1]);
+});
+
+/* riwayat per periode */
+function renderHist(){
+  const g = {};
+  Object.keys(earn).forEach(aid => Object.keys(earn[aid] || {}).forEach(k => {
+    const e = earn[aid][k]; if(!isEntry(k, e)) return;
+    const pk = periodOf(k);
+    const x = g[pk] = g[pk] || { arts:{}, n:0, pn:0, total:0, paid:0, lock:0, up:0 };
+    x.arts[aid] = 1; x.n++; x.total += Number(e.amount || 0);
+    if(e.paymentId){ x.paid += Number(e.amount || 0); x.pn++; } else if(e.lock) x.lock++;
+    x.up = Math.max(x.up, Number(e.updatedAt || 0));
+  }));
+  const keys = Object.keys(g).sort().reverse();
+  $("hist").innerHTML = keys.length ? keys.map(pk => {
+    const x = g[pk], full = x.paid === x.total && x.total > 0, na = Object.keys(x.arts).length;
+    return '<div class="item"><div class="ib"><div class="it">' + esc(plabel(pk)) + ' ' + (full ? pill("LUNAS", "#22c55e") : (x.pn ? pill("SEBAGIAN", "#3b82f6") : "") + (x.lock ? pill("TERKUNCI", "#f59e0b") : "")) + '</div><div class="is">' +
+      na + ' artis \u2022 ' + x.n + ' entri (' + x.pn + ' dibayar) \u2022 Total ' + rp(x.total) + ' \u2022 Dibayar ' + rp(x.paid) + ' \u2022 Diperbarui ' + esc(fdate(x.up)) + '</div></div>' +
+      '<div class="acts"><button class="btn sm soft" type="button" data-edit="' + esc(pk) + '">' + ic("edit") + 'Edit</button>' +
+      '<button class="btn sm red" type="button" data-delp="' + esc(pk) + '">' + ic("trash") + 'Hapus</button></div></div>';
+  }).join("") : '<div class="empty">Belum ada data.</div>';
+}
+$("hist").addEventListener("click", async e => {
+  const ed = e.target.closest("[data-edit]"), dp = e.target.closest("[data-delp]");
+  if(ed){
+    $("pk").value = ed.dataset.edit; resetPeriod();
+    $("pk").scrollIntoView({ behavior:"smooth", block:"center" });
+    toast("Periode " + plabel(ed.dataset.edit) + " dimuat di form.");
+    return;
+  }
+  if(!dp || !cur) return;
+  const pk = dp.dataset.delp, upd = {}; let n = 0, skip = 0, paidN = 0;
+  Object.keys(earn).forEach(aid => Object.keys(earn[aid] || {}).forEach(k => {
+    const x = earn[aid][k]; if(!isEntry(k, x) || periodOf(k) !== pk) return;
+    if(x.lock){ skip++; return; }
+    if(x.paymentId) paidN++;
+    upd["royalty_earnings/" + cur.uid + "/" + aid + "/" + k] = null; n++;
+  }));
+  if(!n) return toast("Semua data periode ini terkunci di pembayaran Pending.");
+  if(!await ask("Hapus data " + plabel(pk) + "?", n + " entri akan dihapus" + (skip ? ". " + skip + " entri dilewati karena terkunci di pembayaran Pending" : "") + (paidN ? ". " + paidN + " di antaranya sudah berstatus dibayar (statement pembayaran tidak ikut berubah)" : "") + ".\n\nTindakan ini tidak bisa dibatalkan.", "Hapus", true)) return;
+  try { await db.ref().update(upd); draft = {}; toast("Data periode dihapus."); renderForm(); }
+  catch(err){ console.error(err); toast("Gagal menghapus. Periksa Security Rules."); }
+});
+
+/* =====================================================
+   FILTER & REKAP (setiap entri ditampilkan sendiri)
+   ===================================================== */
+let fLimit = 20;
+const ST = { open:["BELUM DIBAYAR", "#6f7280"], lock:["TERKUNCI", "#f59e0b"], paid:["DIBAYAR", "#16a34a"] };
+const stOf = e => e.paymentId ? "paid" : e.lock ? "lock" : "open";
+function fillSel(el, opts){
+  const v = el.value;
+  el.innerHTML = opts.map(o => '<option value="' + esc(o[0]) + '">' + esc(o[1]) + '</option>').join("");
+  el.value = opts.some(o => o[0] === v) ? v : opts[0][0];
+}
+function renderFilter(){
+  const all = [];
+  Object.keys(earn).forEach(aid => Object.keys(earn[aid] || {}).forEach(k => {
+    const e = earn[aid][k]; if(isEntry(k, e)) all.push({ ...e, aid, key:k, pk:periodOf(k) });
+  }));
+  const names = {}, mons = {};
+  all.forEach(e => { names[e.aid] = e.artistName || e.aid; mons[e.pk] = 1; });
+  fillSel($("fArt"), [["", "Semua artis"]].concat(Object.keys(names).sort((x, y) => names[x].localeCompare(names[y])).map(id => [id, names[id]])));
+  fillSel($("fMon"), [["", "Semua bulan"]].concat(Object.keys(mons).sort().reverse().map(mm => [mm, plabel(mm)])));
+  const fa = $("fArt").value, fm = $("fMon").value, days = Number($("fIn").value), fs = $("fSt").value, now = Date.now();
+
+  const grp = {};
+  all.forEach(e => { const g = e.aid + "|" + e.pk; (grp[g] = grp[g] || []).push(e); });
+  Object.keys(grp).forEach(g => {
+    grp[g].sort((x, y) => (x.createdAt || 0) - (y.createdAt || 0) || x.key.localeCompare(y.key));
+    grp[g].forEach((e, i) => { e.idx = i + 1; e.of = grp[g].length; });
+  });
+  const rows = all.filter(e => (!fa || e.aid === fa) && (!fm || e.pk === fm) &&
+      (!days || now - Number(e.createdAt || e.updatedAt || 0) <= days * 86400000) && (fs === "" || stOf(e) === fs))
+    .sort((x, y) => (x.artistName || "").localeCompare(y.artistName || "") || y.pk.localeCompare(x.pk) || x.idx - y.idx);
+
+  if(!cur){ $("fSum").innerHTML = ""; $("fList").innerHTML = '<div class="empty">Pilih member.</div>'; return; }
+  let total = 0, paid = 0, open = 0, pend = 0;
+  const brk = {};
+  rows.forEach(e => {
+    const v = Number(e.amount || 0), st = stOf(e); total += v;
+    if(st === "paid") paid += v; else { open += v; if(st === "lock") pend += v; }
+    const bk = fa ? e.pk : e.aid, b = brk[bk] = brk[bk] || { n:0, t:0 };
+    b.n++; b.t += v;
+  });
+  $("fSum").innerHTML = '<div class="sumbox">' +
+    '<div><small>Total</small><b>' + rp(total) + '</b></div>' +
+    '<div><small>Dibayar</small><b>' + rp(paid) + '</b></div>' +
+    '<div><small>Belum dibayar' + (pend ? ' (termasuk Pending ' + esc(rp(pend)) + ')' : '') + '</small><b>' + rp(open) + '</b></div>' +
+    '<div><small>Jumlah entri</small><b>' + rows.length + '</b></div></div>' +
+    (Object.keys(brk).length > 1 ? '<div class="brk"><div class="bt">' + (fa ? "Rincian per bulan" : "Rincian per artis") + '</div>' +
+      Object.keys(brk).sort((x, y) => fa ? y.localeCompare(x) : (names[x] || "").localeCompare(names[y] || "")).map(k =>
+        '<div class="r"><span>' + esc(fa ? plabel(k) : names[k]) + ' <span style="color:var(--muted);font-weight:500">(' + brk[k].n + ' entri)</span></span><span>' + rp(brk[k].t) + '</span></div>').join("") + '</div>' : '');
+
+  if(!rows.length){ $("fList").innerHTML = '<div class="empty">Tidak ada data untuk filter ini.</div>'; return; }
+  $("fList").innerHTML = rows.slice(0, fLimit).map(e => {
+    const st = stOf(e), tx = st === "paid" ? (payRows.find(x => x.k === e.paymentId) || {}).txNo : st === "lock" ? (payRows.find(x => x.k === e.lock) || {}).txNo : "";
+    const id = esc(e.aid + "::" + e.key);
+    return '<div class="item"><div class="ib"><div class="it">' + esc(e.artistName || "-") + ' \u2022 ' + rp(e.amount) + ' ' + pill(ST[st][0], ST[st][1]) + '</div><div class="is">' +
+      'Periode ' + esc(plabel(e.pk)) + (e.of > 1 ? ' \u2022 Entri ' + e.idx + ' dari ' + e.of : '') + (e.note ? ' \u2022 ' + esc(e.note) : '') +
+      '<br>Diinput ' + esc(fdate(e.createdAt)) + (tx ? ' \u2022 Pembayaran ' + esc(tx) : '') + '</div></div>' +
+      '<div class="acts"><button class="btn sm soft" type="button" data-fedit="' + id + '">' + ic("edit") + 'Edit</button>' +
+      (st === "lock" ? '' : '<button class="btn sm red" type="button" data-fdel="' + id + '">' + ic("trash") + 'Hapus</button>') + '</div></div>';
+  }).join("") + (rows.length > fLimit ? '<div style="text-align:center"><button class="btn line" type="button" data-fmore="1">Tampilkan lebih banyak (' + (rows.length - fLimit) + ' lagi)</button></div>' : '');
+}
+["fArt", "fMon", "fIn", "fSt"].forEach(id => $(id).addEventListener("change", () => { fLimit = 20; renderFilter(); }));
+$("fList").addEventListener("click", e => {
+  const more = e.target.closest("[data-fmore]"), ed = e.target.closest("[data-fedit]"), dl = e.target.closest("[data-fdel]");
+  if(more){ fLimit += 20; renderFilter(); return; }
+  if(ed){
+    const p = ed.dataset.fedit.split("::"), x = earn[p[0]] && earn[p[0]][p[1]]; if(!x) return;
+    $("pk").value = periodOf(p[1]); aq = String(x.artistName || "").toLowerCase(); $("aSearch").value = x.artistName || "";
+    draft = {}; page = 0; renderForm();
+    $("pk").scrollIntoView({ behavior:"smooth", block:"center" });
+    toast("Dimuat di form: " + (x.artistName || "") + " \u2022 " + plabel(periodOf(p[1])));
+    return;
+  }
+  if(dl){ const p = dl.dataset.fdel.split("::"); delEntry(p[0], p[1]); }
+});
+
+/* =====================================================
+   REVENUE RECAP (upload otomatis ke GitHub)
+   ===================================================== */
+const MAXMB = 25;
+const fileOk = f => !!f && /\.(xlsx|xls|csv|zip|rar|7z|pdf)$/i.test(f.name) && f.size <= MAXMB * 1048576;
+const FILE_HINT = "File harus .xlsx, .xls, .csv, .zip, .rar, .7z, atau .pdf, maksimal " + MAXMB + " MB.";
+const toB64 = f => new Promise((ok, no) => {
+  const r = new FileReader();
+  r.onload = () => ok(String(r.result).split(",")[1]);
+  r.onerror = no; r.readAsDataURL(f);
+});
+
+let gh = null;
+async function getGh(){
+  if(gh) return gh;
+  const s = await db.ref("admin_secrets/github").once("value");
+  const v = s.val();
+  if(!v || !v.token || !v.owner || !v.repo) throw new Error("Token GitHub belum diatur di admin_secrets/github.");
+  return gh = { branch:"main", folder:"report", ...v };
+}
+const ghUrl = (g, name) => "https://api.github.com/repos/" + g.owner + "/" + g.repo + "/contents/" + g.folder.replace(/^\/+|\/+$/g, "") + "/" + encodeURIComponent(name);
+const ghHead = g => ({ Authorization:"Bearer " + g.token, Accept:"application/vnd.github+json", "Content-Type":"application/json" });
+
+function safeName(orig){
+  const m = orig.match(/^(.*?)(\.[^.]+)$/), base = (m ? m[1] : orig), ext = (m ? m[2] : "").toLowerCase();
+  const rnd = Array.from(crypto.getRandomValues(new Uint8Array(5)), b => (b % 36).toString(36)).join("");
+  return (base.replace(/[^\w\-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 60) || "rekap") + "-" + rnd + ext;
+}
+async function ghUpload(f, name){
+  const g = await getGh();
+  const r = await fetch(ghUrl(g, name), {
+    method:"PUT", headers:ghHead(g),
+    body: JSON.stringify({ message:"Upload rekap " + name, content: await toB64(f), branch:g.branch })
+  });
+  if(!r.ok){ const t = await r.json().catch(() => ({})); throw new Error(t.message || ("GitHub " + r.status)); }
+}
+async function ghDelete(name){
+  const g = await getGh();
+  const r = await fetch(ghUrl(g, name) + "?ref=" + encodeURIComponent(g.branch), { headers:ghHead(g) });
+  if(r.status === 404) return;
+  if(!r.ok) throw new Error("GitHub " + r.status);
+  const sha = (await r.json()).sha;
+  const d = await fetch(ghUrl(g, name), {
+    method:"DELETE", headers:ghHead(g),
+    body: JSON.stringify({ message:"Hapus rekap " + name, sha, branch:g.branch })
+  });
+  if(!d.ok) throw new Error("GitHub " + d.status);
+}
+
+$("rcFile").addEventListener("change", () => {
+  const f = $("rcFile").files[0];
+  $("rcPreview").textContent = f ? (fileOk(f) ? f.name + " \u2022 " + (f.size / 1048576).toFixed(2) + " MB" : FILE_HINT) : "";
+});
+
+$("saveRecap").addEventListener("click", async () => {
+  if(!cur) return toast("Pilih member dulu.");
+  const title = $("rcTitle").value.trim(), pk = $("rcPk").value, f = $("rcFile").files[0];
+  if(!title) return toast("Isi judul rekap.");
+  if(!/^\d{4}-\d{2}$/.test(pk)) return toast("Pilih periode laporan.");
+  if(!fileOk(f)) return toast(FILE_HINT);
+
+  const btn = $("saveRecap"); btn.disabled = true; btn.textContent = "Mengunggah...";
+  const name = safeName(f.name), url = BASE + encodeURIComponent(name);
+  try {
+    await ghUpload(f, name);
+    try {
+      const key = db.ref("royalty_recaps/" + cur.uid).push().key;
+      await db.ref("royalty_recaps/" + cur.uid + "/" + key).set({
+        title: title.slice(0, 120), periodKey: pk, periodLabel: plabel(pk),
+        fileName: name, url, size: f.size, uploadedAt: TS, uploadedBy: who()
+      });
+    } catch(e){ await ghDelete(name).catch(() => {}); throw e; }
+    toast("Rekap tersimpan. Link aktif setelah deploy selesai.");
+    $("rcTitle").value = ""; $("rcFile").value = ""; $("rcPreview").textContent = "";
+  } catch(e){
+    console.error(e); toast("Gagal mengunggah: " + (e.message || "periksa pengaturan"));
+  } finally {
+    btn.textContent = "Simpan rekap"; btn.disabled = !cur;
+  }
+});
+
+function renderRecaps(){
+  $("recapList").innerHTML = recaps.length ? recaps.map(r =>
+    '<div class="item"><div class="ib"><div class="it">' + esc(r.title) + '</div><div class="is">' + esc(r.periodLabel || plabel(r.periodKey)) + ' \u2022 ' + esc(r.fileName) +
+    (r.size ? ' \u2022 ' + (r.size / 1048576).toFixed(2) + ' MB' : '') +
+    '<br>Diunggah ' + esc(fdate(r.uploadedAt)) + ' oleh ' + esc((r.uploadedBy || {}).email || "-") + (r.updatedAt ? ' \u2022 Diedit ' + esc(fdate(r.updatedAt)) : '') + '</div></div>' +
+    '<div class="acts"><a class="btn sm line" href="' + esc(r.url) + '" target="_blank" rel="noopener noreferrer">' + ic("down") + 'Unduh</a>' +
+    '<button class="btn sm soft" type="button" data-rcedit="' + esc(r.k) + '">' + ic("edit") + 'Edit</button>' +
+    '<button class="btn sm red" type="button" data-rcdel="' + esc(r.k) + '">' + ic("trash") + 'Hapus</button></div></div>').join("")
+    : '<div class="empty">' + (cur ? "Belum ada rekap untuk member ini." : "Pilih member.") + '</div>';
+}
+
+$("recapList").addEventListener("click", async e => {
+  const ed = e.target.closest("[data-rcedit]"), dl = e.target.closest("[data-rcdel]");
+  if(!cur || (!ed && !dl)) return;
+  if(ed){ const r = recaps.find(x => x.k === ed.dataset.rcedit); if(r) editRecap(r); return; }
+  const r = recaps.find(x => x.k === dl.dataset.rcdel); if(!r) return;
+  if(!await ask("Hapus rekap?", r.title + " \u2022 " + (r.periodLabel || plabel(r.periodKey)) + "\n\nFile juga dihapus dari folder report di GitHub.", "Hapus", true)) return;
+  let ghOk = true;
+  try { await ghDelete(r.fileName); } catch(err){ console.error(err); ghOk = false; }
+  try {
+    await db.ref("royalty_recaps/" + cur.uid + "/" + r.k).remove();
+    toast(ghOk ? "Rekap dihapus." : "Rekap dihapus, tapi file di GitHub gagal dihapus. Hapus manual.");
+  } catch(err){ console.error(err); toast("Gagal menghapus. Periksa Security Rules."); }
+});
+
+function editRecap(r){
+  $("dlgT").textContent = "Edit rekap";
+  $("dlgB").innerHTML =
+    '<label class="lb" for="eT">Judul / keterangan</label><input id="eT" type="text" maxlength="120" value="' + esc(r.title) + '">' +
+    '<label class="lb" for="ePk">Periode laporan</label><input id="ePk" type="month" value="' + esc(r.periodKey || "") + '">' +
+    '<p class="sub">Untuk mengganti file, hapus rekap ini lalu upload ulang.</p>' +
+    '<div class="err" id="eErr"></div>';
+  $("dlgA").innerHTML = '<button class="btn line" id="dCancel" type="button">Batal</button><button class="btn" id="dSave" type="button">Simpan</button>';
+  dlgCancel = null; openDlg();
+  const err = m => { $("eErr").textContent = m; $("eErr").classList.add("show"); };
+  $("dCancel").onclick = dismiss;
+  $("dSave").onclick = async () => {
+    const title = $("eT").value.trim(), pk = $("ePk").value;
+    if(!title) return err("Isi judul rekap.");
+    if(!/^\d{4}-\d{2}$/.test(pk)) return err("Pilih periode laporan.");
+    $("dSave").disabled = true;
+    try {
+      await db.ref("royalty_recaps/" + cur.uid + "/" + r.k).update({
+        title: title.slice(0, 120), periodKey: pk, periodLabel: plabel(pk), updatedAt: TS, updatedBy: who()
+      });
+      closeDlg(); toast("Rekap diperbarui.");
+    } catch(e){ console.error(e); err("Gagal menyimpan. Periksa Security Rules."); $("dSave").disabled = false; }
+  };
+}
+
+/* =====================================================
+   PAYMENT
+   ===================================================== */
+$("saveMin").addEventListener("click", async () => {
+  const v = Number($("minPay").value);
+  if(!Number.isInteger(v) || v < 0) return toast("Minimum harus angka bulat.");
+  try { await db.ref("royalty_settings/minPayout").set(v); toast("Minimum payout disimpan."); }
+  catch(e){ console.error(e); toast("Gagal menyimpan."); }
+});
+
+function unpaid(){
+  const out = [];
+  Object.keys(earn || {}).forEach(aid => {
+    let name = "", t = 0; const per = {}, notes = {};
+    Object.keys(earn[aid] || {}).forEach(k => {
+      const e = earn[aid][k]; if(!isEntry(k, e)) return;
+      name = e.artistName;
+      if(!e.paymentId && !e.lock){ per[k] = Number(e.amount || 0); t += per[k]; if(e.note) notes[k] = e.note; }
+    });
+    if(t > 0) out.push({ aid, name, per, notes, total:t });
+  });
+  return out.sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function renderPay(){
+  if(!cur){ $("payList").innerHTML = ""; $("mkPay").disabled = true; return; }
+  const rows = unpaid(), sum = rows.reduce((s, r) => s + r.total, 0);
+  const keep = new Set([...document.querySelectorAll("#payList .pk:checked")].map(x => x.dataset.aid));
+  $("payHint").textContent = rows.length ? "Belum dibayar: " + rp(sum) + ". Minimum payout " + rp(minPay) + "." : "Tidak ada royalty yang belum dibayar.";
+  $("payList").innerHTML = rows.map(r =>
+    '<label class="arow cb"><input type="checkbox" class="pk" data-aid="' + esc(r.aid) + '"' + (keep.has(r.aid) ? " checked" : "") + '><div><div class="n">' + esc(r.name) + ' \u2022 ' + rp(r.total) + '</div><div class="h">' +
+    Object.keys(r.per).sort().map(k => esc(entLabel(k, r.notes[k])) + " " + rp(r.per[k])).join("<br>") + (r.total < minPay ? " (di bawah minimum)" : "") + '</div></div></label>').join("");
+  $("mkPay").disabled = !rows.length;
+}
+
+$("mkPay").addEventListener("click", async () => {
+  const chosen = [...document.querySelectorAll("#payList .pk:checked")].map(x => x.dataset.aid);
+  if(!chosen.length) return toast("Pilih minimal satu artis.");
+  const src = unpaid().filter(r => chosen.includes(r.aid));
+  if(src.some(r => r.total < minPay) && !await ask("Di bawah minimum payout", "Ada artis dengan total di bawah " + rp(minPay) + ". Tetap buat pembayaran?", "Tetap buat")) return;
+  const pid = db.ref("royalty_payments").push().key, upd = {}, items = {}; let total = 0, pks = [];
+  src.forEach(r => {
+    items[r.aid] = { artistName:r.name, total:r.total, periods:r.per }; if(Object.keys(r.notes).length) items[r.aid].notes = r.notes; total += r.total;
+    Object.keys(r.per).forEach(pk => { pks.push(periodOf(pk)); upd["royalty_earnings/" + cur.uid + "/" + r.aid + "/" + pk + "/lock"] = pid; });
+  });
+  pks.sort();
+  const d = new Date(), ymd = d.getFullYear() + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0");
+  upd["royalty_payments/" + pid] = {
+    uid:cur.uid, memberName:cur.nama, memberEmail:cur.email, status:"PENDING", company:COMPANY,
+    txNo:"RP-" + ymd + "-" + pid.slice(-5).toUpperCase(), createdAt:TS, createdBy:who(), updatedAt:TS,
+    total, periodFrom:pks[0], periodTo:pks[pks.length - 1], items
+  };
+  try { await db.ref().update(upd); toast("Pembayaran dibuat (PENDING)."); renderForm(); }
+  catch(e){ console.error(e); toast("Gagal. Mungkin ada royalty yang sudah masuk pembayaran lain."); }
+});
+
+const COL = { PENDING:"#f59e0b", PROCESSING:"#3b82f6", SUCCESS:"#16a34a", FAILED:"#dc2626" };
+function renderPayHist(){
+  $("payHist").innerHTML = payRows.length ? payRows.map(p => {
+    const b = (a, t, c, i) => '<button class="btn sm' + (c ? " " + c : "") + '" type="button" data-pa="' + a + '" data-k="' + esc(p.k) + '">' + (i ? ic(i) : "") + t + '</button>';
+    const acts = p.status === "PENDING" ? b("PROCESSING", "Proses") + b("FAILED", "Batalkan", "line") + b("DEL", "Hapus", "red", "trash")
+      : p.status === "PROCESSING" ? b("SUCCESS", "Konfirmasi berhasil") + b("FAILED", "Gagal", "red")
+      : p.status === "SUCCESS" ? b("PDF", "Download PDF", "line", "down")
+      : p.status === "FAILED" ? b("DEL", "Hapus", "red", "trash") : "";
+    return '<div class="item"><div class="ib"><div class="it">' + esc(p.txNo) + ' \u2022 ' + rp(p.total) + ' ' + pill(p.status, COL[p.status] || "#858891") + '</div><div class="is">' +
+      Object.keys(p.items || {}).length + ' artis \u2022 ' + esc(fdate(p.paidAt || p.createdAt)) + '</div></div><div class="acts">' + acts + '</div></div>';
+  }).join("") : '<div class="empty">' + (cur ? "Belum ada pembayaran." : "Pilih member.") + '</div>';
+}
+
+$("payHist").addEventListener("click", async e => {
+  const b = e.target.closest("[data-pa]"); if(!b) return;
+  const p = payRows.find(x => x.k === b.dataset.k), to = b.dataset.pa; if(!p) return;
+  if(to === "PDF"){ try { await statementPdf(p); } catch(err){ console.error(err); toast("PDF gagal dibuat."); } return; }
+
+  const unlock = u => Object.keys(p.items || {}).forEach(aid => Object.keys(p.items[aid].periods).forEach(pk => {
+    u["royalty_earnings/" + p.uid + "/" + aid + "/" + pk + "/lock"] = null;
+  }));
+
+  if(to === "DEL"){
+    if(p.status !== "PENDING" && p.status !== "FAILED") return toast("Hanya pembayaran Pending atau Gagal yang bisa dihapus.");
+    const txt = p.status === "PENDING" ? "Pembayaran dihapus dan royalty di dalamnya kembali menjadi belum dibayar." : "Catatan pembayaran gagal ini dihapus permanen.";
+    if(!await ask("Hapus " + p.txNo + "?", txt, "Hapus", true)) return;
+    const u = {}; u["royalty_payments/" + p.k] = null;
+    if(p.status === "PENDING") unlock(u);
+    try { await db.ref().update(u); toast("Pembayaran dihapus."); renderForm(); }
+    catch(err){ console.error(err); toast("Gagal menghapus. Periksa Security Rules."); }
+    return;
+  }
+
+  if(to === "SUCCESS" && !await ask("Konfirmasi berhasil?", "Pastikan transaksi " + p.txNo + " benar-benar berhasil dikirim. Setelah SUCCESS tidak bisa diubah.", "Ya, berhasil")) return;
+  if(to === "FAILED" && !await ask("Batalkan pembayaran?", "Royalty di " + p.txNo + " akan kembali menjadi belum dibayar.", "Batalkan pembayaran", true)) return;
+  b.disabled = true;
+  const base = "royalty_payments/" + p.k + "/", u = {};
+  u[base + "status"] = to; u[base + "updatedAt"] = TS; u[base + "updatedBy"] = who();
+  if(to === "SUCCESS"){ u[base + "paidAt"] = TS; u[base + "processedBy"] = who(); }
+  if(to === "FAILED") unlock(u);
+  if(to === "SUCCESS") Object.keys(p.items || {}).forEach(aid => Object.keys(p.items[aid].periods).forEach(pk => {
+    u["royalty_earnings/" + p.uid + "/" + aid + "/" + pk + "/paymentId"] = p.k;
+  }));
+  try { await db.ref().update(u); toast("Status: " + to); renderForm(); }
+  catch(err){ console.error(err); toast("Gagal mengubah status. Mungkin sudah diproses."); b.disabled = false; }
+});
+
+/* ---------- PDF dari snapshot pembayaran ---------- */
+function pdfLib(){
+  return window.jspdf ? Promise.resolve() : new Promise((ok, no) => {
+    const s = document.createElement("script");
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"; s.onload = ok; s.onerror = no; document.head.appendChild(s);
+  });
+}
+async function statementPdf(p){
+  await pdfLib();
+  const d = new window.jspdf.jsPDF({ unit:"mm", format:"a4" }), M = 18, R = 192; let y = 22;
+  const money = v => "Rp" + Number(v || 0).toLocaleString("id-ID");
+  const lab = pk => new Date(pk + "-01T00:00:00").toLocaleDateString("id-ID", { month:"long", year:"numeric" });
+  const day = t => new Date(t).toLocaleDateString("id-ID", { day:"numeric", month:"long", year:"numeric" });
+  d.setFont("helvetica", "bold"); d.setFontSize(18); d.text("Royalty Payment Statement", M, y);
+  d.setFont("helvetica", "normal"); d.setFontSize(10); d.setTextColor(110); d.text(p.company || COMPANY, R, y, { align:"right" });
+  y += 6; d.setDrawColor(20); d.setLineWidth(.6); d.line(M, y, R, y); y += 9;
+  [["Akun member", p.memberName], ["Nomor transaksi", p.txNo], ["Tanggal pembayaran", day(p.paidAt)],
+   ["Periode pembayaran", lab(p.periodFrom) + (p.periodFrom === p.periodTo ? "" : " - " + lab(p.periodTo))],
+   ["Status pembayaran", "SUCCESS"], ["Total pembayaran", money(p.total)]].forEach(r => {
+    d.setFont("helvetica", "normal"); d.setTextColor(110); d.text(r[0], M, y);
+    d.setFont("helvetica", "bold"); d.setTextColor(20); d.text(String(r[1] || "-"), M + 55, y); y += 6.5;
+  });
+  y += 6;
+  Object.values(p.items || {}).forEach(a => {
+    const pk = Object.keys(a.periods).sort(), nt = a.notes || {};
+    if(y + 20 + pk.length * 6.5 > 275){ d.addPage(); y = 22; }
+    d.setFont("helvetica", "bold"); d.setFontSize(12); d.setTextColor(20); d.text(a.artistName, M, y); y += 3;
+    d.setDrawColor(210); d.setLineWidth(.2); d.line(M, y, R, y); y += 6.5; d.setFontSize(10);
+    d.setFont("helvetica", "normal");
+    pk.forEach(k => { const t = lab(periodOf(k)) + (nt[k] ? " - " + nt[k] : k.length > 7 ? " (entri tambahan)" : ""); d.text(t.slice(0, 75), M, y); d.text(money(a.periods[k]), R, y, { align:"right" }); y += 6.5; });
+    d.setFont("helvetica", "bold"); d.text("Total dibayarkan", M, y); d.text(money(a.total), R, y, { align:"right" }); y += 12;
+  });
+  d.setFont("helvetica", "normal"); d.setFontSize(8); d.setTextColor(130);
+  d.text("Dokumen dibuat " + day(Date.now()) + " dari data transaksi " + p.txNo + ". Nominal adalah hak final artis setelah pembagian royalty.", M, 288);
+  d.save("Royalty-Statement-" + p.txNo + ".pdf");
+}
+
+/* ---------- tabs ---------- */
+document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => {
+  document.querySelectorAll(".tab").forEach(x => { const on = x === t; x.classList.toggle("on", on); x.setAttribute("aria-selected", String(on)); });
+  document.querySelectorAll(".pane").forEach(p => p.classList.toggle("on", p.id === "p-" + t.dataset.t));
+  t.scrollIntoView({ inline:"center", block:"nearest", behavior:"smooth" });
+}));
+
+/* ---------- profil & topbar ---------- */
+const menu = $("profileMenu"), pbtn = $("profileBtn");
+function setMenu(o){ menu.classList.toggle("show", o); pbtn.setAttribute("aria-expanded", String(o)); }
+pbtn.addEventListener("click", e => { e.stopPropagation(); setMenu(!menu.classList.contains("show")); });
+document.addEventListener("click", e => { if(!menu.contains(e.target) && !pbtn.contains(e.target)) setMenu(false); });
+document.addEventListener("keydown", e => { if(e.key === "Escape"){ setMenu(false); if($("dlg").classList.contains("show")) dismiss(); } });
+$("logoutBtn").addEventListener("click", async () => {
+  if(await ask("Logout?", "Keluar dari admin panel.", "Logout", true)) firebase.auth().signOut().then(() => { location.href = "../login"; });
+});
+const topbar = $("topbar");
+const onScroll = () => topbar.classList.toggle("scrolled", scrollY > 6);
+onScroll(); addEventListener("scroll", onScroll, { passive:true });
+</script>
+</body>
+</html>
